@@ -1,15 +1,15 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import ScreenNames from '../Constants/ScreenNames';
-import {First} from '../Screens';
-import SplashScreen from '../Screens/SplashScreen';
-import AuthHome from '../Screens/auth/AuthHome';
-import AboutScreen from '../Screens/auth/AboutScreen';
-import LoginScreen from '../Screens/auth/LoginScreen';
-import RegisterScreen from '../Screens/auth/RegisterScreen';
-import ActiveAccount from '../Screens/auth/ActiveAccount';
-import ForgotPasswordScreen from '../Screens/auth/ForgotPasswordScreen';
-import Demo from '../Screens/Demo';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import ScreenNames from "../Constants/ScreenNames";
+import { First } from "../Screens";
+import SplashScreen from "../Screens/SplashScreen";
+import AuthHome from "../Screens/auth/AuthHome";
+import AboutScreen from "../Screens/auth/AboutScreen";
+import LoginScreen from "../Screens/auth/LoginScreen";
+import RegisterScreen from "../Screens/auth/RegisterScreen";
+import ActiveAccount from "../Screens/auth/ActiveAccount";
+import ForgotPasswordScreen from "../Screens/auth/ForgotPasswordScreen";
+import Demo from "../Screens/Demo";
 
 const Root = createStackNavigator();
 
@@ -17,8 +17,9 @@ const RootNavigator = () => {
   return (
     <NavigationContainer>
       <Root.Navigator
-        screenOptions={{headerShown: false, animationEnabled: false}}
-        initialRouteName={ScreenNames.DEMO}>
+        screenOptions={{ headerShown: false, animationEnabled: false }}
+        initialRouteName={ScreenNames.DEMO}
+      >
         {/*màn hình demo*/}
         <Root.Screen name={ScreenNames.DEMO} component={Demo} />
         {/*màn hình first*/}
