@@ -19,9 +19,6 @@ const App = () => {
       <ApplicationProvider {...eva} theme={eva.light}>
         <MenuProvider>
           <RootNavigator />
-          {/* <View>
-            <Text>Hello Firet</Text>
-          </View> */}
           <Toast />
         </MenuProvider>
       </ApplicationProvider>
