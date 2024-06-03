@@ -10,41 +10,40 @@ import RegisterScreen from "../Screens/auth/RegisterScreen";
 import ActiveAccount from "../Screens/auth/ActiveAccount";
 import ForgotPasswordScreen from "../Screens/auth/ForgotPasswordScreen";
 import Demo from "../Screens/Demo";
+import { BottomTabNavigator } from "./BottomTabNavigator";
 
-const Root = createStackNavigator();
+const MainStack = createStackNavigator();
 
 const RootNavigator = () => {
   return (
     <NavigationContainer>
-      <Root.Navigator
+      <MainStack.Navigator
         screenOptions={{ headerShown: false, animationEnabled: false }}
-        initialRouteName={ScreenNames.DEMO}
+        initialRouteName={ScreenNames.FIRST}
       >
-        {/*màn hình demo*/}
-        <Root.Screen name={ScreenNames.DEMO} component={Demo} />
-        {/*màn hình first*/}
-        <Root.Screen name={ScreenNames.FIRST} component={First} />
-        {/*màn hình mở đầu*/}
-        <Root.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
-        {/*Màn hình chính đăng nhập*/}
-        <Root.Screen name={ScreenNames.AUTH_HOME} component={AuthHome} />
-        {/*Màn hình giới thệu lúc bắt đầu trước khi đăng nhập*/}
-        <Root.Screen name={ScreenNames.ABOUT} component={AboutScreen} />
-        {/*màn hình đăng nhập*/}
-        <Root.Screen name={ScreenNames.LOGIN} component={LoginScreen} />
-        {/*Màn hình đăng ksy*/}
-        <Root.Screen name={ScreenNames.REGISTER} component={RegisterScreen} />
-        {/*Màn hình kích hoạt tòi khoản*/}
-        <Root.Screen
+        <MainStack.Screen name={ScreenNames.DEMO} component={Demo} />
+        <MainStack.Screen name={ScreenNames.FIRST} component={First} />
+        <MainStack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
+        <MainStack.Screen name={ScreenNames.AUTH_HOME} component={AuthHome} />
+        <MainStack.Screen name={ScreenNames.ABOUT} component={AboutScreen} />
+        <MainStack.Screen name={ScreenNames.LOGIN} component={LoginScreen} />
+        <MainStack.Screen
+          name={ScreenNames.REGISTER}
+          component={RegisterScreen}
+        />
+        <MainStack.Screen
           name={ScreenNames.ACTIVE_ACCOUNT}
           component={ActiveAccount}
         />
-        {/*Màn hình đổi ật khẩu*/}
-        <Root.Screen
+        <MainStack.Screen
           name={ScreenNames.FORGOT_PASSWORD}
           component={ForgotPasswordScreen}
         />
-      </Root.Navigator>
+        <MainStack.Screen
+          name={ScreenNames.MAIN_NAVIGATOR}
+          component={BottomTabNavigator}
+        />
+      </MainStack.Navigator>
     </NavigationContainer>
   );
 };
