@@ -19,7 +19,7 @@ const RootNavigator = () => {
     <NavigationContainer>
       <MainStack.Navigator
         screenOptions={{ headerShown: false, animationEnabled: false }}
-        initialRouteName={ScreenNames.DEMO}
+        initialRouteName={ScreenNames.FIRST}
       >
         <MainStack.Screen name={ScreenNames.DEMO} component={Demo} />
         <MainStack.Screen name={ScreenNames.FIRST} component={First} />
