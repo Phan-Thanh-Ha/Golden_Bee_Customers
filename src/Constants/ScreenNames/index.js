@@ -5,6 +5,10 @@ const ScreenNames = {
   // SPLASH
   SPLASH: "SPLASH",
   MAIN_NAVIGATOR: "MAIN_NAVIGATOR",
+  HOME: "HOME",
+  HISTORY: "HISTORY",
+  WELFARE: "WELFARE",
+  ACCOUNT: "ACCOUNT",
   // End Splash
 
   // Authentication

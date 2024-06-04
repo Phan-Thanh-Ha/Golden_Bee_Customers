@@ -1,16 +1,20 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import ScreenNames from "../Constants/ScreenNames";
-import { First } from "../Screens";
 import SplashScreen from "../Screens/SplashScreen";
-import AuthHome from "../Screens/auth/AuthHome";
-import AboutScreen from "../Screens/auth/AboutScreen";
-import LoginScreen from "../Screens/auth/LoginScreen";
-import RegisterScreen from "../Screens/auth/RegisterScreen";
-import ActiveAccount from "../Screens/auth/ActiveAccount";
-import ForgotPasswordScreen from "../Screens/auth/ForgotPasswordScreen";
+import AboutScreen from "../Screens/InforCustomers/AboutScreen";
+import LoginScreen from "../Screens/InforCustomers/LoginScreen";
+import RegisterScreen from "../Screens/InforCustomers/RegisterScreen";
+import ActiveAccount from "../Screens/InforCustomers/ActiveAccount";
+import ForgotPasswordScreen from "../Screens/InforCustomers/ForgotPasswordScreen";
 import Demo from "../Screens/Demo";
 import { BottomTabNavigator } from "./BottomTabNavigator";
+import First from "../Screens/First";
+import AuthHome from "../Screens/InforCustomers/AuthHome";
+import History from "../Screens/Home/History";
+import Welfare from "../Screens/Home/Welfare";
+import Account from "../Screens/Home/Account";
+import HomeScreen from "../Screens/Home/HomeScreen";
 
 const MainStack = createStackNavigator();
 
@@ -42,6 +46,19 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.MAIN_NAVIGATOR}
           component={BottomTabNavigator}
+        />
+        <MainStack.Screen name={ScreenNames.HOME} component={HomeScreen} />
+        <MainStack.Screen
+          name={ScreenNames.HISTORY} //Lịch sử
+          component={History}
+        />
+        <MainStack.Screen
+          name={ScreenNames.WELFARE} //Phúc lợi
+          component={Welfare}
+        />
+        <MainStack.Screen
+          name={ScreenNames.ACCOUNT} //Tài khoản
+          component={Account}
         />
       </MainStack.Navigator>
     </NavigationContainer>

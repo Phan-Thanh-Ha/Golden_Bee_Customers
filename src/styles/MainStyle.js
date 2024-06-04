@@ -181,5 +181,20 @@ const MainStyles = StyleSheet.create({
   contentContainerForgot: {
     paddingBottom: 20,
   },
+  subTitleUpdateProfile: {
+    textAlign: "center",
+    fontSize: 16,
+    marginHorizontal: 20,
+    margin: 40,
+    color: colors.MAIN_BLUE_CLIENT,
+  },
+  titleUpdateProfile: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginHorizontal: 20,
+    marginTop: 40,
+    color: colors.MAIN_BLUE_CLIENT,
+  },
 });
 export default MainStyles;

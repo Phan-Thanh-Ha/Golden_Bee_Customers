@@ -9,13 +9,11 @@ import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import Toast from "react-native-toast-message";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import SplashScreen from "react-native-splash-screen";
+LogBox.ignoreAllLogs();
 
 const App = () => {
   useEffect(() => {
-    if (Platform.OS === "android") {
-      SplashScreen.hide();
-    }
-    LogBox.ignoreAllLogs(true);
+    SplashScreen.hide();
   }, []);
   return (
     <Provider store={Store}>

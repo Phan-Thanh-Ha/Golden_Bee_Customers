@@ -13,8 +13,6 @@ const LoginScreen = ({ navigation }) => {
   const [dataLogin, setDataLogin] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
-  console.log(dataLogin);
-
   // useEffect(() => {
   //   if (isSubmit) {
   //     Toast.show({
@@ -23,12 +21,11 @@ const LoginScreen = ({ navigation }) => {
   //     });
   //   }
   // }, [dataLogin]);
-  const Login = async () => {};
 
   return (
     <>
-      <Header showBackButton={true} color={colors.WHITE} />
       <LayoutGradientBlue>
+        <Header showBackButton={true} color={colors.WHITE} />
         <KeyboardAwareScrollView
           contentContainerStyle={MainStyle.containerLogin}
           resetScrollToCoords={{ x: 0, y: 0 }}
