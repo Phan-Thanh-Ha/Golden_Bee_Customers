@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Ong Vàng</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">ikhP8HAJw1QZLe8Fg66QRqmgjWda7kFU-y2TH</string>
+
 </resources>
