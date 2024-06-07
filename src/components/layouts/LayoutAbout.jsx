@@ -3,7 +3,6 @@ import { SafeAreaView, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import MainStyle from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const LayoutAbout = ({ children }) => {
   return (

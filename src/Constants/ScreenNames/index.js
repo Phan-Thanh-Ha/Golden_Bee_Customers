@@ -19,6 +19,11 @@ const ScreenNames = {
   ACTIVE_ACCOUNT: "ACTIVE_ACCOUNT",
   FORGOT_PASSWORD: "FORGOT_PASSWORD",
   // End Authentication
+
+  // ===================== Services =====================
+  ADDRESS_SEARCH: "ADDRESS_SEARCH",
+
+  // ===================== End Services =================
 };
 
 export default ScreenNames;

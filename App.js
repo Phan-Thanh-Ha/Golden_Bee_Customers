@@ -9,6 +9,7 @@ import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import Toast from "react-native-toast-message";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import SplashScreen from "react-native-splash-screen";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 LogBox.ignoreAllLogs();
 
 const App = () => {
@@ -20,7 +21,9 @@ const App = () => {
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={eva.light}>
         <MenuProvider>
-          <RootNavigator />
+          <BottomSheetModalProvider>
+            <RootNavigator />
+          </BottomSheetModalProvider>
           <Toast />
         </MenuProvider>
       </ApplicationProvider>

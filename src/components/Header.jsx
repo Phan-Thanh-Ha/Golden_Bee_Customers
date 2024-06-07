@@ -1,40 +1,39 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { TopNavigation, TopNavigationAction } from "@ui-kitten/components";
+import { Icon } from "@ui-kitten/components";
 import { useNavigation } from "@react-navigation/native";
-import ArrowLeft from "./svg/ArrowLeft";
+import { View } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../styles/Colors";
 
-const Header = ({ title, showBackButton, color }) => {
-  const navigation = useNavigation();
+const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
+const Header = ({ navigation, title }) => {
+  const navi = useNavigation();
 
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
+  const BackAction = () => (
+    <TopNavigationAction icon={BackIcon} onPress={() => navi.goBack()} />
+  );
 
   return (
-    <View style={styles.header}>
-      {showBackButton && (
-        <TouchableOpacity onPress={handleGoBack}>
-          <ArrowLeft color={color} />
-        </TouchableOpacity>
-      )}
-      <Text>{title}</Text>
+    <View>
+      <LinearGradient
+        colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          height: "100%",
+        }}
+      />
+      <TopNavigation
+        title={title}
+        alignment="center"
+        accessoryLeft={BackAction}
+        style={{ backgroundColor: "transparent" }}
+      />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  header: {
-    position: "absolute",
-    top: 0,
-    width: "100%",
-    height: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-    zIndex: 999,
-  },
-});
 
 export default Header;

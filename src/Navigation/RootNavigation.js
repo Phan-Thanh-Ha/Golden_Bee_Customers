@@ -15,6 +15,7 @@ import History from "../Screens/Home/History";
 import Welfare from "../Screens/Home/Welfare";
 import Account from "../Screens/Home/Account";
 import HomeScreen from "../Screens/Home/HomeScreen";
+import AddressSearch from "../Screens/Service/AddressSearch";
 
 const MainStack = createStackNavigator();
 
@@ -23,7 +24,7 @@ const RootNavigator = () => {
     <NavigationContainer>
       <MainStack.Navigator
         screenOptions={{ headerShown: false, animationEnabled: false }}
-        initialRouteName={ScreenNames.MAIN_NAVIGATOR}
+        initialRouteName={ScreenNames.FIRST}
       >
         <MainStack.Screen name={ScreenNames.DEMO} component={Demo} />
         <MainStack.Screen name={ScreenNames.FIRST} component={First} />
@@ -59,6 +60,10 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.ACCOUNT} //Tài khoản
           component={Account}
+        />
+        <MainStack.Screen
+          name={ScreenNames.ADDRESS_SEARCH} //Tìm kiếm địa chỉ book dịch vụ
+          component={AddressSearch}
         />
       </MainStack.Navigator>
     </NavigationContainer>
