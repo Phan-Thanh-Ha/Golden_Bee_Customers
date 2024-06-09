@@ -16,15 +16,42 @@ import Welfare from "../Screens/Home/Welfare";
 import Account from "../Screens/Home/Account";
 import HomeScreen from "../Screens/Home/HomeScreen";
 import AddressSearch from "../Screens/Service/AddressSearch";
+import { getData } from "../Utils";
+import { StorageNames } from "../Constants";
 
 const MainStack = createStackNavigator();
+
+const updateLocation = async () => {
+  const profile = await getData(StorageNames.USER_PROFILE);
+  if (profile) {
+    const userProfile = JSON.parse(profile);
+    if (userProfile) {
+      const location = await Geolocation.getCurrentPosition(
+        (position) => {
+          if (position.coords) {
+            CPN_spOfficer_Update_LocationTime(
+              position?.coords?.latitude,
+              position?.coords?.longitude,
+              userProfile?.OfficerID
+            );
+          }
+        },
+        (error) => {
+          // See error code charts below.
+          // showMessage("Chưa lấy được vị trí vui lòng kiểm tra định vị");
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    }
+  }
+};
 
 const RootNavigator = () => {
   return (
     <NavigationContainer>
       <MainStack.Navigator
         screenOptions={{ headerShown: false, animationEnabled: false }}
-        initialRouteName={ScreenNames.FIRST}
+        initialRouteName={ScreenNames.DEMO}
       >
         <MainStack.Screen name={ScreenNames.DEMO} component={Demo} />
         <MainStack.Screen name={ScreenNames.FIRST} component={First} />

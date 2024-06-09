@@ -79,7 +79,8 @@ import org.apache.tools.ant.taskdefs.condition.Os
  */
 
 project.ext.react = [
-    enableHermes: false  // false nếu bạn không sử dụng Hermes
+    enableHermes: false,
+    deleteDebugFilesForVariant: { false }
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -141,6 +142,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        multiDexEnabled true
 
         if (isNewArchitectureEnabled()) {
             // We configure the CMake build only if you decide to opt-in for the New Architecture.
@@ -158,6 +160,9 @@ android {
                     abiFilters (*reactNativeArchitectures())
                 }
             }
+        }
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a', 'x86_64'
         }
     }
 
@@ -218,6 +223,7 @@ android {
             keyPassword 'android'
         }
     }
+    namespace 'com.golden_bee_customers'
     buildTypes {
         debug {
             signingConfig signingConfigs.debug

@@ -40,16 +40,16 @@ const First = ({ navigation }) => {
 
   useEffect(() => {
     // Xin quyền vị trí
-    RequestPermission().then((result) => {
-      console.log(result); // In kết quả ra console
-      // Tiếp tục xử lý dựa trên kết quả
-      if (result === RESULTS.GRANTED) {
-        // Quyền đã được cấp
-      } else {
-        console.log("Quyền bị từ chối hoặc không khả dụng");
-        // Quyền bị từ chối hoặc không khả dụng
-      }
-    });
+    // RequestPermission().then((result) => {
+    //   console.log(result); // In kết quả ra console
+    //   // Tiếp tục xử lý dựa trên kết quả
+    //   if (result === RESULTS.GRANTED) {
+    //     // Quyền đã được cấp
+    //   } else {
+    //     console.log("Quyền bị từ chối hoặc không khả dụng");
+    //     // Quyền bị từ chối hoặc không khả dụng
+    //   }
+    // });
   }, []);
 
   useEffect(() => {

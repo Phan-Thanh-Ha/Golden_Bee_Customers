@@ -12,7 +12,9 @@ import com.facebook.soloader.SoLoader;
 import com.golden_bee_customers.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
+import com.swmansion.rnscreens.RNScreensPackage;  // thêm dòng này
+import com.golden_bee_customers.BuildConfig;
+import org.devio.rn.splashscreen.SplashScreenReactPackage; 
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -35,7 +37,9 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+        
       };
+      
 
   private final ReactNativeHost mNewArchitectureNativeHost =
       new MainApplicationReactNativeHost(this);
