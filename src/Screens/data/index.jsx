@@ -1,16 +1,22 @@
 import {
+  ic_air_conditioner,
+  ic_clean_the_office,
   ic_cleanin,
+  ic_cleaning,
   ic_house_cleaning,
   ic_installing,
   ic_interior,
-  ic_repair,
+  ic_repair_electricity,
+  ic_repair_the_air_conditioning,
+  ic_repair_the_camera,
+  ic_the_machine,
 } from "../../assets";
 
 export const DataMenu = [
   {
     id: 1,
     name: "Giúp việc",
-    icon: ic_cleanin,
+    icon: ic_cleaning,
   },
   {
     id: 2,
@@ -20,27 +26,27 @@ export const DataMenu = [
   {
     id: 3,
     name: "Dọn dẹp văn phòng",
-    icon: ic_cleanin,
+    icon: ic_clean_the_office,
   },
   {
     id: 4,
     name: "Vệ sinh máy giặc",
-    icon: ic_repair,
+    icon: ic_the_machine,
   },
   {
     id: 5,
     name: "Vệ sinh máy lạnh",
-    icon: ic_cleanin,
+    icon: ic_air_conditioner,
   },
   {
     id: 6,
     name: "Sửa điện",
-    icon: ic_cleanin,
+    icon: ic_repair_electricity,
   },
   {
     id: 7,
     name: "Sửa máy lạnh",
-    icon: ic_cleanin,
+    icon: ic_repair_the_air_conditioning,
   },
   {
     id: 8,
@@ -50,7 +56,7 @@ export const DataMenu = [
   {
     id: 9,
     name: "Sửa camera",
-    icon: ic_cleanin,
+    icon: ic_repair_the_camera,
   },
   {
     id: 10,

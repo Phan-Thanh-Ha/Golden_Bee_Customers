@@ -10,6 +10,7 @@ import Toast from "react-native-toast-message";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import SplashScreen from "react-native-splash-screen";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { RequestPermission } from "./src/Permission/RequestPermission";
 
 LogBox.ignoreAllLogs();
 
@@ -33,6 +34,7 @@ const App = () => {
         <MenuProvider>
           <BottomSheetModalProvider>
             <RootNavigator />
+            <RequestPermission />
           </BottomSheetModalProvider>
           <Toast />
         </MenuProvider>

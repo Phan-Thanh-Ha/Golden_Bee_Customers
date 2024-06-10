@@ -30,7 +30,7 @@ const Header = ({ navigation, title }) => {
         title={title}
         alignment="center"
         accessoryLeft={BackAction}
-        style={{ backgroundColor: "transparent" }}
+        style={{ backgroundColor: "transparent", marginTop: 30 }}
       />
     </View>
   );

@@ -14,7 +14,6 @@ export const MenuPickup = ({ dataMenu }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log("item", item);
           navi.navigate(ScreenNames.ADDRESS_SEARCH);
         }}
       >
