@@ -21,3 +21,9 @@ export const ic_repair_the_camera = require("../assets/icons/ic_repair_the_camer
 
 // ========================= Images_Gif =========================
 export const ic_star = require("../assets/image_gif/star.gif");
+export const ic_location = require("../assets/icons/location.png");
+export const ic_placeholder = require("../assets/icons/placeholder.png");
+export const ic_premium = require("../assets/icons/premium-quality.png");
+
+// ========================= Images =========================
+export const ic_Loading = require("../assets/Image_Json/Loading.json");

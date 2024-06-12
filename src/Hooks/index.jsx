@@ -1,1 +1,1 @@
-export * from "./useInset";
+export * from "./UseInset";

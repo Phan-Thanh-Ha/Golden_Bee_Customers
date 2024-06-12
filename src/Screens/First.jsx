@@ -2,9 +2,15 @@ import { Image, SafeAreaView, View, StyleSheet } from "react-native";
 import LogoBee from "../components/LogoBee";
 import { colors } from "../styles/Colors";
 import { useEffect, useState } from "react";
-import { image_banner_1 } from "../assets";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScreenNames } from "../Constants";
+import { image_banner_1 } from "../assets";
+// import {
+//   RequestPermission,
+//   requestLocationPermission,
+//   requestLocationPermissionBackground,
+// } from "../Utils";
+// import { RESULTS } from "react-native-permissions";
 
 const First = ({ navigation }) => {
   const [initialRoute, setInitialRoute] = useState(null);

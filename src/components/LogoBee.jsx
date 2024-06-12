@@ -1,6 +1,6 @@
+import { logo_bee_blue } from "../assets";
 import MainStyle from "../styles/MainStyle";
 import { Image, Text, View } from "react-native";
-import { logo_bee_blue } from "../assets";
 
 const LogoBee = () => {
   return (

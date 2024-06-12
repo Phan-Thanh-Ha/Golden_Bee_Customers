@@ -1,3 +1,5 @@
 export default StorageNames = {
   USER_PROFILE: "USER_PROFILE",
+  LOCATION_TIME: "LOCATION_TIME",
+  ADDRESS_SEARCH: "ADDRESS_SEARCH",
 };

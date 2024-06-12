@@ -1,16 +1,70 @@
-import React from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import React, { useEffect } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { colors } from "../../styles/Colors";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import { Card } from "@ui-kitten/components";
-import { responsivescreen } from "../../Utils";
+import { responsivescreen, setData } from "../../Utils";
 import { MenuPickup } from "./Menu";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
 import ProductMust from "./Menu/ProductMust";
-import InputSearch from "../../components/InputSeach";
+import Geolocation from "@react-native-community/geolocation";
+import { OVG_spCustomer_Location_Update } from "../../Utils/getLocaltion";
+import { useDispatch } from "react-redux";
+import { mainAction } from "../../Redux/Action";
+import mainTypes from "../../Redux/Action/mainTypes";
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        if (position.coords) {
+          OVG_spCustomer_Location_Update(
+            position?.coords?.latitude,
+            position?.coords?.longitude
+          );
+        }
+      },
+      (error) => console.log(error),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  }, []);
+  const OVG_spCustomer_Location_Update = async (
+    latitude,
+    longitude,
+    CustomerId
+  ) => {
+    try {
+      const pr = {
+        CustomerId: 582,
+        Lat: latitude,
+        Lng: longitude,
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spCustomer_Location_Update",
+        API_key: "netcoAPIkey2020",
+      };
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      if (result) {
+        if (result.Status === "OK") {
+          dispatch({
+            type: mainTypes.LOCATION_TIME,
+            payload: result.Result,
+          });
+          setData("LOCATION_TIME", result.Result);
+        }
+      }
+    } catch (e) {}
+  };
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -27,12 +81,7 @@ const HomeScreen = () => {
         >
           <LogoBeeBox />
         </View>
-        <InputSearch
-          style={{
-            marginHorizontal: 25,
-            marginVertical: 15,
-          }}
-        />
+
         <ScrollView style={{ height: responsivescreen.height("55%") }}>
           <Card
             style={{

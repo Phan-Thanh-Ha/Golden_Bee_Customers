@@ -16,8 +16,14 @@ import Welfare from "../Screens/Home/Welfare";
 import Account from "../Screens/Home/Account";
 import HomeScreen from "../Screens/Home/HomeScreen";
 import AddressSearch from "../Screens/Service/AddressSearch";
-import { getData } from "../Utils";
-import { StorageNames } from "../Constants";
+import CheckForm from "../Screens/Service/CheckForm";
+import WorkInfomationScreen from "../Screens/Service/WorkInfomationScreen";
+import ServiceClearningScreen from "../Screens/Service/ServiceClearningScreen";
+import ServiceHouseClearningScreen from "../Screens/Service/ServiceHouseClearningScreen";
+import ServiceClearningOfficeScreen from "../Screens/Service/ServiceClearningOfficeScreen";
+import ServiceClearningMachineScreen from "../Screens/Service/ServiceClearningMachineScreen";
+import ServiceClearningAirScreen from "../Screens/Service/ServiceClearningAirScreen";
+import ServiceRepairAirScreen from "../Screens/Service/ServiceRepairAirScreen";
 
 const MainStack = createStackNavigator();
 
@@ -66,6 +72,36 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.ADDRESS_SEARCH} //Tìm kiếm địa chỉ book dịch vụ
           component={AddressSearch}
+        />
+        <MainStack.Screen name={ScreenNames.CHECK_FORM} component={CheckForm} />
+        <MainStack.Screen
+          name={ScreenNames.WORK_INFOMATION} //thoong tin coong vieejc
+          component={WorkInfomationScreen}
+        />
+
+        <MainStack.Screen
+          name={ScreenNames.FORM_CLEARNING} //giusp viec
+          component={ServiceClearningScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_HOUSE_CLEARING} //don nha
+          component={ServiceHouseClearningScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_OFFICE_CLEARING} //don van phong
+          component={ServiceClearningOfficeScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_MACHINE_CLEANING} //ve sinh may giat
+          component={ServiceClearningMachineScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_AIR_CONDITIONING} //ve sinh ddiieuf hòa
+          component={ServiceClearningAirScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_REPAIR_AIR_CONDITIONING} //ve sinh ddiieuf hòa
+          component={ServiceRepairAirScreen}
         />
       </MainStack.Navigator>
     </NavigationContainer>

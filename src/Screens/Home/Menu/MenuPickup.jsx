@@ -7,14 +7,21 @@ import { SCREEN_WIDTH } from "../../../styles/MainStyle";
 import { responsivescreen } from "../../../Utils";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../../Constants";
+import { useSelector } from "react-redux";
 
 export const MenuPickup = ({ dataMenu }) => {
   const navi = useNavigation();
+  const locationTime = useSelector((state) => state?.main?.locationTime);
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navi.navigate(ScreenNames.ADDRESS_SEARCH);
+          navi.navigate(ScreenNames.ADDRESS_SEARCH, {
+            data: {
+              id: item.id,
+              name: item.name,
+            },
+          });
         }}
       >
         <View

@@ -22,8 +22,20 @@ const ScreenNames = {
 
   // ===================== Services =====================
   ADDRESS_SEARCH: "ADDRESS_SEARCH",
+  SHOW_MAP: "SHOW_MAP",
 
   // ===================== End Services =================
+  CHECK_FORM: "CHECK_FORM",
+  WORK_INFOMATION: "WORK_INFOMATION", // thông tin công việc
+  FORM_CLEARNING: "FORM_CLEARNING", // giúp việc
+  FORM_HOUSE_CLEARING: "FORM_HOUSE_CLEARNING", // dọn nhà
+  FORM_OFFICE_CLEARING: "FORM_OFFICE_CLEARNING", // dọn văn phòng
+  FORM_MACHINE_CLEANING: "FORM_MACHINE_CLEARNING", // vê sinh máy giawtj
+  FORM_AIR_CONDITIONING: "FORM_AIR_CONDITIONING", // vê sinh máy lạnh
+  FORM_REPAIR_AIR_CONDITIONING: "FORM_REPAIR_AIR_CONDITIONING", // sửa máy lạnh
+  FORM_INSTALLING: "FORM_INSTALLING", // sửa ống nước
+  FORM_REPAIR_CAMERA: "FORM_REPAIR_CAMERA", // sửa camera
+  FORM_INTERIOR: "FORM_INTERIOR", // sửa nội thất
 };
 
 export default ScreenNames;

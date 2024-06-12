@@ -1,8 +1,7 @@
-import Geolocation from "react-native-geolocation-service";
-
+import Geolocation from "@react-native-community/geolocation";
+import { CheckOpenLocation } from "./checkOpenLocation";
 export const getLocation = async () => {
-  const RESULTS = await checkLocationPermission();
-  console.log("-----> 👿👿👿 <-----  RESULTS:", RESULTS);
+  const RESULTS = await CheckOpenLocation();
   return new Promise((resolve, reject) => {
     if (RESULTS === "granted") {
       Geolocation.getCurrentPosition(

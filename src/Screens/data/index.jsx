@@ -120,3 +120,220 @@ export const ProductLike = [
       "https://img.lazcdn.com/g/ff/kf/Sf9cfd015a1ee41a8a0bbecf07e9db977j.jpg_720x720q80.jpg_.webp",
   },
 ];
+
+export const dataSelectOption = [
+  {
+    name: "Trong 1 tháng",
+    id: 1,
+  },
+  {
+    name: "Trong 3 tháng",
+    id: 2,
+  },
+  {
+    name: "Trong 6 tháng",
+    id: 3,
+  },
+  {
+    name: "Trong 1 năm",
+    id: 4,
+  },
+];
+
+export const dataLocation = [
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  }, {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  }, {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+  {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  }, {
+    id: 1,
+    name: "Đà Nẵng TP. Hà Nội TP. Hà Nội TP. Hà Nội",
+    subName: "TP. Hà Nội TP. Hà Nội TP. Hà Nội TP. Hà NộiTP. Hà Nội",
+  },
+]
+
+export const checkBoxData = [
+  { name: "Check 1", id: 1 },
+  { name: "Check 2", id: 2 },
+  { name: "Check 3", id: 3 },
+];
+
+// dịch vụ thêm giúp việc
+export const dataOtherService1 = [
+  {
+    Id: 1,
+    Name: "Mang theo dụng cụ",
+  },
+  {
+    Id: 2,
+    Name: "Nấu ăn",
+  },
+  {
+    Id: 3,
+    Name: "Phơi + ủi đồ",
+  }, {
+    Id: 4,
+    Name: "Hóa chất tẩy rửa, nước lau kính",
+  },
+]
+// dịch vụ thêm dọn dẹp buồng pòng
+export const dataOtherService2 = [
+  {
+    Id: 1,
+    Name: "Mang theo dụng cụ cầm tay",
+  },
+  {
+    Id: 2,
+    Name: "Máy hut bụi",
+  },
+  {
+    Id: 3,
+    Name: "Máy chà sàn",
+  },
+  {
+    Id: 4,
+    Name: "Hóa chất tẩy rửa, nước lau kính",
+  },
+  {
+    Id: 5,
+    Name: "Giặt đồ",
+  },
+]
+
+// dịch vụ thêm dọn dẹp văn phòng
+export const dataOtherService3 = [
+  {
+    Id: 1,
+    Name: "Mang theo dụng cụ cầm tay",
+  },
+  {
+    Id: 2,
+    Name: "Máy hut bụi",
+  },
+  {
+    Id: 3,
+    Name: "Hóa chất tẩy rửa, nước lau kính",
+  },
+]
+
+export const typeMachine = [
+  {
+    Id: 1,
+    Name: "7 Kg",
+  },
+  {
+    Id: 2,
+    Name: "9 Kg",
+  },
+  {
+    Id: 3,
+    Name: "9 Kg trở lên",
+  }
+]
+
+export const otherServiceMc = [
+  {
+    Id: 1,
+    Name: "Giặt quần áo",
+  },
+  {
+    Id: 2,
+    Name: "Phơi / ủi đồ",
+  }
+]
+
+export const typeAir = [
+  {
+    Id: 1,
+    Name: "Dưới 2HP",
+  },
+  {
+    Id: 2,
+    Name: "Trên 2HP",
+  }
+]
+
+export const otherServiceAir = [
+  {
+    Id: 1,
+    Name: "Bơm Gas",
+  }
+]

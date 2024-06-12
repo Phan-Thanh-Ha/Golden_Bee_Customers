@@ -188,6 +188,14 @@ const MainStyles = StyleSheet.create({
     margin: 40,
     color: colors.MAIN_BLUE_CLIENT,
   },
+  screenTitle: {
+    fontSize: 27,
+    fontWeight: "bold",
+    color: colors.MAIN_BLUE_CLIENT,
+    textAlign: "center",
+    marginTop: 40,
+    marginBottom: 10,
+  },
   titleUpdateProfile: {
     textAlign: "center",
     fontSize: 20,
@@ -195,6 +203,30 @@ const MainStyles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 40,
     color: colors.MAIN_BLUE_CLIENT,
+  },
+  flexRowSpaceBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  flexRowFlexEnd: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  flexRowFlexStart: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  flexRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  flexRowCenter: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 export default MainStyles;

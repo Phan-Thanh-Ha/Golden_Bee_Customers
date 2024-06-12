@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111556183563",
+    "project_id": "goldenbee-c7404",
+    "storage_bucket": "goldenbee-c7404.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111556183563:android:10222ef10fde10077be90e",
+        "android_client_info": {
+          "package_name": "com.golden_bee_customers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD08OPgSK_6ZRWIeD5fKCt2eD5Y01Mldak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,7 +7,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../styles/Colors";
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
-const Header = ({ navigation, title }) => {
+const Header = ({ title }) => {
   const navi = useNavigation();
 
   const BackAction = () => (

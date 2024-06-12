@@ -1,73 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import RNPermissions, {
-  check,
-  PERMISSIONS,
-  RESULTS,
-  request,
-} from "react-native-permissions";
+import React, { useEffect } from "react";
+import { View, Platform } from "react-native";
+import { check, PERMISSIONS, RESULTS, request } from "react-native-permissions";
+
+const permissions = [
+  PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
+  PERMISSIONS.ANDROID.CAMERA,
+  PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+  PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+  PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION, // Add this line
+];
+
 export const RequestPermission = () => {
-  const androidWriteStorage = async () => {
-    const statusAndroid = await check(
-      PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE
-    );
-    if (statusAndroid !== RESULTS.GRANTED) {
-      request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE).then(() => {
-        androidCamera();
-      });
-    } else {
-      androidCamera();
+  const requestPermission = async (permission) => {
+    const status = await check(permission);
+    if (status !== RESULTS.GRANTED) {
+      return request(permission);
     }
   };
-  const androidCamera = async () => {
-    const statusAndroid = await check(PERMISSIONS.ANDROID.CAMERA);
-    if (statusAndroid !== RESULTS.GRANTED) {
-      request(PERMISSIONS.ANDROID.CAMERA).then(() => {
-        androidReadStorage();
-      });
-    } else {
-      androidReadStorage();
+
+  const requestAllPermissions = async () => {
+    for (let permission of permissions) {
+      await requestPermission(permission);
     }
-    const androidReadStorage = async () => {
-      const statusAndroid = await check(
-        PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
-      );
-      if (statusAndroid !== RESULTS.GRANTED) {
-        request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE).then(() => {
-          androidRecordAudio();
-        });
-      } else {
-        androidRecordAudio();
-      }
-    };
-    const androidRecordAudio = async () => {
-      const statusAndroid = await check(
-        PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
-      );
-      if (statusAndroid !== RESULTS.GRANTED) {
-        request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE).then(() => {
-          androidFineLocation();
-        });
-      } else {
-        androidFineLocation();
-      }
-    };
-    const androidFineLocation = async () => {
-      const statusAndroid = await check(
-        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-      );
-      if (statusAndroid !== RESULTS.GRANTED) {
-        request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION).then(() => {
-          // androidRecordVideo();
-        });
-      } else {
-        // androidRecordVideo();
-      }
-    };
   };
+
   useEffect(() => {
-    Platform.OS === "android" && androidWriteStorage();
-    // Platform.OS === "ios" && iosCamera();
+    if (Platform.OS === "android") {
+      requestAllPermissions();
+    }
+    // Add iOS permissions here
   }, []);
 
   return <View />;
