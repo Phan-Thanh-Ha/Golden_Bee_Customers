@@ -2,40 +2,44 @@ import React, { useRef, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { colors } from "../../styles/Colors";
 import LinearGradient from "react-native-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../components/BackButton";
 import MainStyles from "../../styles/MainStyle";
 import { UseInset } from "../../Hooks";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { CardLocation } from "../../components";
 import ButtonInfo from "../../components/buttons/ButtonInfo";
-import { FormatMoney, RoundUpNumber, priceClearning } from "../../Utils";
+import { priceRepairCamera } from "../../Utils";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
-import FormServiceClearning from "./FormServiceClearning";
-import ModalInformationDetail from "../../components/ModalInformationDetail";
+import { typeCamera } from "../data";
+import FormServiceRepairCamera from "./FormServiceRepairCamera";
 import CardPremiumInfomation from "../../components/CardPremiumInfomation";
-import { useRoute } from "@react-navigation/native";
+import ModalInformationDetail from "../../components/ModalInformationDetail";
 
-const ServiceClearningScreen = () => {
-  const route = useRoute();
-  const { service } = route.params;
-  const paramsLocation = "12, Đường Nguyễn Văn Lượng, Quận gò vấp, TP Hồ Chí Minh, Việt Nam";
-  const workingTime = 3;
-  const [time, setTime] = useState(workingTime);
+const ServiceRepairCameraScreen = () => {
+  const navigation = useNavigation();
   const inset = UseInset();
+  const [time, setTime] = useState(2);
   const formikSubmitRef = useRef(null);
-  const price = service.PriceService;
-  const [totalPrice, setTotalPrice] = useState(price);
+  const timeWorking = 2;
+  const price = 30000;
+  const [formData, setFormData] = useState({
+    typeMc: typeCamera[0],
+    people: 1,
+    premium: false,
+    otherService: [],
+    note: '',
+  });
   const [modalOpen, setModalOpen] = useState(false);
   const modalOnClose = () => {
     setModalOpen(false);
   }
   const handleFormChange = (values) => {
-    values.people ? setTime(workingTime / values.people) : setTime(workingTime);
-    setTotalPrice(FormatMoney(priceClearning(values, price, time)))
+    setFormData(values);
+    setTime(timeWorking / values.people)
     values.premium ? setModalOpen(true) : setModalOpen(false);
   };
-
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -44,14 +48,13 @@ const ServiceClearningScreen = () => {
       />
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
       <Text style={MainStyles.screenTitle}>Thông tin công việc</Text>
-      <CardLocation location={paramsLocation} />
+      <CardLocation location={"12, Đường Nguyễn Văn Lượng, Quận gò vấp, TP Hồ Chí Minh, Việt Nam"} />
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
-          <FormServiceClearning
+          <FormServiceRepairCamera
             onSubmit={formikSubmitRef}
             timeWorking={time}
             onChange={handleFormChange}
-            serviceDetails={service.Detail}
           />
         </KeyboardAwareScrollView>
       </ScrollView>
@@ -78,20 +81,14 @@ const ServiceClearningScreen = () => {
           onPress={() => formikSubmitRef.current && formikSubmitRef.current()}
         >
           <View style={[MainStyles.flexRowSpaceBetween, { backgroundColor: 'transparent' }]}>
-            <Text style={styles.btnTitle}>
-              {
-                totalPrice +
-                " VNĐ / " +
-                RoundUpNumber(time, 0) +
-                " giờ"
-              }
-            </Text>
+            <Text style={styles.btnTitle}>{priceRepairCamera(formData, price, time)}</Text>
             <View style={[MainStyles.flexRow, { alignItems: 'center' }]}>
               <Text style={[styles.btnTitle, { marginRight: 10 }]}>Tiếp theo</Text>
               <ArrowRight color={colors.WHITE} />
             </View>
           </View>
         </ButtonInfo>
+
       </View>
       <ModalInformationDetail
         isOpen={modalOpen}
@@ -120,4 +117,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ServiceClearningScreen;
+export default ServiceRepairCameraScreen;

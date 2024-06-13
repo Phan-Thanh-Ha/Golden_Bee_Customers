@@ -9,20 +9,19 @@ import { dataLocation } from "../data";
 const CheckForm = () => {
   const handlePress = () => {
     console.log("test");
-  }
+  };
   const prss = () => {
     console.log("test");
-  }
+  };
   return (
     <SafeAreaView style={styles.formContainer}>
       <FormRequirementInfomation />
-
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   formContainer: {
-    marginTop: 40
-  }
-})
+    marginTop: 40,
+  },
+});
 export default CheckForm;

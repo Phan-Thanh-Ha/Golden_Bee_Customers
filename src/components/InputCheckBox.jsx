@@ -7,13 +7,13 @@ const InputCheckBox = ({ data, selectedValues, onChange }) => {
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <CheckBox
-        key={item.Id}
-        checked={selectedValues.includes(item.Id)}
-        onChange={() => onChange(item.Id)}
+        key={item.ServiceDetailId}
+        checked={selectedValues.some((value) => value.ServiceDetailId === item.ServiceDetailId)}
+        onChange={() => onChange(item)}
         style={styles.checkbox}
         textStyle={styles.itemText}
       >
-        {item.Name}
+        {item.ServiceDetailName}
       </CheckBox>
     </View>
   );
@@ -23,7 +23,7 @@ const InputCheckBox = ({ data, selectedValues, onChange }) => {
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item) => item.Id.toString()}
+        keyExtractor={(item) => item?.ServiceDetailId}
         numColumns={2}
         columnWrapperStyle={styles.row}
       />

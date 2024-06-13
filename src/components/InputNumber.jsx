@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Icon } from '@ui-kitten/components';
 import { colors } from '../styles/Colors';
 
-const InputNumber = ({ style, bgColor = '#FFFFFF', textColor = '#000000', min = 1, value, setFieldValue, fieldName, ...props }) => {
+const InputNumber = ({ style, bgColor = '#FFFFFF', textColor = '#000000', min = 0, value, setFieldValue, fieldName, ...props }) => {
   const handleIncrease = () => {
     setFieldValue(fieldName, parseInt(value, 10) + 1);
   };
@@ -14,7 +14,9 @@ const InputNumber = ({ style, bgColor = '#FFFFFF', textColor = '#000000', min = 
 
   const handleChange = (text) => {
     const numericValue = parseInt(text, 10);
-    if (!isNaN(numericValue) && numericValue >= min) {
+    if (text === '') {
+      setFieldValue(fieldName, 0);
+    } else if (!isNaN(numericValue) && numericValue >= min) {
       setFieldValue(fieldName, numericValue);
     }
   };

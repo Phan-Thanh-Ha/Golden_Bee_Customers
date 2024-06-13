@@ -13,3 +13,5 @@ export * from "./InputCheckBox";
 export * from "./InputNumber";
 export * from "./CardLocation";
 export * from "./Loading";
+export * from "./CardPremiumInfomation";
+export * from "./ItemTitlePremiumDes";

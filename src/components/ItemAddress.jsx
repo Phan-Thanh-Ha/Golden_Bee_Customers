@@ -12,9 +12,12 @@ import { ic_location, ic_placeholder } from "../assets";
 import ArrowRight from "./svg/ArrowRight";
 import { TitleSlice } from "../Utils";
 
-const ItemAddress = ({ data = [], onPress }) => {
+const ItemAddress = ({ data = [], onPress = () => {} }) => {
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => onPress(item)} // Cập nhật ở đây
+    >
       <Image source={ic_placeholder} style={styles.iconLeft} />
       <View style={styles.containerContent}>
         <Text style={styles.title}>{item.name}</Text>

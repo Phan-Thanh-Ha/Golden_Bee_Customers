@@ -24,6 +24,11 @@ import ServiceClearningOfficeScreen from "../Screens/Service/ServiceClearningOff
 import ServiceClearningMachineScreen from "../Screens/Service/ServiceClearningMachineScreen";
 import ServiceClearningAirScreen from "../Screens/Service/ServiceClearningAirScreen";
 import ServiceRepairAirScreen from "../Screens/Service/ServiceRepairAirScreen";
+import ShowMap from "../Screens/Service/ShowMap";
+import ServiceRepairPipeScreen from "../Screens/Service/ServiceRepairPipeScreen";
+import ServiceRepairCameraScreen from "../Screens/Service/ServiceRepairCameraScreen";
+import ServiceRepairElectricityScreen from "../Screens/Service/ServiceRepairElectricityScreen";
+import ServiceRepairInteriorScreen from "../Screens/Service/ServiceRepairInteriorScreen";
 
 const MainStack = createStackNavigator();
 
@@ -96,12 +101,28 @@ const RootNavigator = () => {
           component={ServiceClearningMachineScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_AIR_CONDITIONING} //ve sinh ddiieuf hòa
+          name={ScreenNames.FORM_AIR_CONDITIONING} //ve sinh ddiieuf hòa ok
           component={ServiceClearningAirScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_REPAIR_AIR_CONDITIONING} //ve sinh ddiieuf hòa
+          name={ScreenNames.FORM_REPAIR_AIR_CONDITIONING} //sửa ddiieuf hòa ok
           component={ServiceRepairAirScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.SHOW_MAP} //ve sinh ddiieuf hòa
+          component={ShowMap}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_INSTALLING} //sửa oonsg nuocws ok
+          component={ServiceRepairPipeScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_REPAIR_CAMERA} //sửa camera ok
+          component={ServiceRepairCameraScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_INTERIOR} //sửa nooij thaats
+          component={ServiceRepairInteriorScreen}
         />
       </MainStack.Navigator>
     </NavigationContainer>

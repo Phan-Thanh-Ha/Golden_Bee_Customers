@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -9,20 +9,21 @@ import {
 import { colors } from "../../styles/Colors";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import { Card } from "@ui-kitten/components";
-import { responsivescreen, setData } from "../../Utils";
+import { responsivescreen } from "../../Utils";
 import { MenuPickup } from "./Menu";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
 import ProductMust from "./Menu/ProductMust";
-import Geolocation from "@react-native-community/geolocation";
-import { OVG_spCustomer_Location_Update } from "../../Utils/getLocaltion";
-import { useDispatch } from "react-redux";
+import InputSearch from "../../components/InputSeach";
+import { useNavigation } from "@react-navigation/native";
 import { mainAction } from "../../Redux/Action";
-import mainTypes from "../../Redux/Action/mainTypes";
+import { useDispatch } from "react-redux";
+import { ScreenNames } from "../../Constants";
+import Geolocation from "@react-native-community/geolocation";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-
+  const navi = useNavigation();
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -65,6 +66,7 @@ const HomeScreen = () => {
       }
     } catch (e) {}
   };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -81,6 +83,12 @@ const HomeScreen = () => {
         >
           <LogoBeeBox />
         </View>
+        <InputSearch
+          style={{
+            marginHorizontal: 25,
+            marginVertical: 15,
+          }}
+        />
 
         <ScrollView style={{ height: responsivescreen.height("55%") }}>
           <Card
@@ -92,11 +100,16 @@ const HomeScreen = () => {
               shadowRadius: 3.84,
               elevation: 5,
               borderRadius: 10,
+              borderWidth: 0,
               alignSelf: "center",
               width: responsivescreen.width("90%"),
             }}
           >
-            <MenuPickup />
+            <MenuPickup
+              onPress={(item) => {
+                navi.navigate(ScreenNames.ADDRESS_SEARCH, { item });
+              }}
+            />
           </Card>
           <View style={{ marginVertical: 20 }}>
             <CarouselItem />

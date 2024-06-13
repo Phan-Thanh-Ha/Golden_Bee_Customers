@@ -1,27 +1,23 @@
 import { StyleSheet, Text, View, FlatList, Dimensions } from "react-native";
 import React from "react";
-import { DataMenu } from "../../data";
+import { DataMenu, dataMenuApi } from "../../data";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
 import { SCREEN_WIDTH } from "../../../styles/MainStyle";
 import { responsivescreen } from "../../../Utils";
 import { useNavigation } from "@react-navigation/native";
-import { ScreenNames } from "../../../Constants";
-import { useSelector } from "react-redux";
+import { getRouterById } from "../../../Utils/RoutingService";
 
-export const MenuPickup = ({ dataMenu }) => {
+export const MenuPickup = ({ onPress = () => {} }) => {
   const navi = useNavigation();
-  const locationTime = useSelector((state) => state?.main?.locationTime);
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-            data: {
-              id: item.id,
-              name: item.name,
-            },
-          });
+          onPress(item);
+          // navi.navigate(getRouterById(item.ServiceId), {
+          //   service: item,
+          // });
         }}
       >
         <View
@@ -41,7 +37,7 @@ export const MenuPickup = ({ dataMenu }) => {
             }}
           >
             <Text style={{ textAlign: "center", flexWrap: "wrap" }}>
-              {item.name}
+              {item.ServiceName}
             </Text>
           </View>
         </View>
@@ -51,7 +47,7 @@ export const MenuPickup = ({ dataMenu }) => {
 
   return (
     <FlatList
-      data={DataMenu}
+      data={dataMenuApi}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       numColumns={5}

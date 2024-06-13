@@ -30,6 +30,7 @@ export const InputComponent = ({
   sizeInput = "large",
   colorText = colors.BLACK,
   KeyboardOpen = false,
+  txtWarning = "",
 }) => {
   return (
     <KeyboardAwareScrollView onPress={Keyboard.dismiss}>
@@ -41,7 +42,7 @@ export const InputComponent = ({
         editable={!disabled} // Không cho phép chỉnh sửa input
         size={sizeInput} // Kích thước của input
         status={inputStatus} // Trạng thái của input
-        caption={inputStatus === "danger" ? "Vui lòng nhập thông tin" : ""} // Cảnh báo nếu inputStatus là danger
+        caption={txtWarning !== "" ? inputStatus === "danger" : txtWarning} // Cảnh báo nếu inputStatus là danger
         onEndEditing={(e) => onFinishText(e.nativeEvent.text)}
         accessoryLeft={(props) => (
           <LeghtIcon {...props} onPress={onLeftIconPress} iconName={iconLeft} />

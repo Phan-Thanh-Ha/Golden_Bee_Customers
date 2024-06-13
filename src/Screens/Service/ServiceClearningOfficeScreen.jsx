@@ -13,6 +13,8 @@ import { FormatMoney } from "../../Utils";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
 import FormServiceClearningOffice from "./FormServiceClearningOffice";
+import ModalInformationDetail from "../../components/ModalInformationDetail";
+import CardPremiumInfomation from "../../components/CardPremiumInfomation";
 
 const ServiceClearningOfficeScreen = () => {
   const navigation = useNavigation();
@@ -27,8 +29,13 @@ const ServiceClearningOfficeScreen = () => {
     otherService: [],
     note: '',
   });
+  const [modalOpen, setModalOpen] = useState(false);
+  const modalOnClose = () => {
+    setModalOpen(false);
+  }
   const handleFormChange = (values) => {
     setFormData(values);
+    values.premium ? setModalOpen(true) : setModalOpen(false);
   };
   return (
     <View style={styles.container}>
@@ -80,6 +87,14 @@ const ServiceClearningOfficeScreen = () => {
         </ButtonInfo>
 
       </View>
+      <ModalInformationDetail
+        isOpen={modalOpen}
+        onClose={modalOnClose}
+        snapPoints={['40%', '60%', '80%']}
+        initialIndex={1}
+      >
+        <CardPremiumInfomation />
+      </ModalInformationDetail>
     </View>
   );
 };

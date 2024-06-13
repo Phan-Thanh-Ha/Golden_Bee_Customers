@@ -11,16 +11,22 @@ import { colors } from '../../styles/Colors';
 import MainStyles from '../../styles/MainStyle';
 import { ic_premium } from '../../assets';
 import { dataOtherService1 } from '../data';
+import { RoundUpNumber } from '../../Utils';
 
 const validationSchema = Yup.object().shape({
-  room: Yup.string().required('Vui lòng nhập số phòng'),
+  room: Yup.number()
+    .required('Vui lòng nhập số phòng')
+    .min(1, 'Vui lòng nhập số phòng'),
+  people: Yup.number()
+    .required('Vui lòng nhập số lượng nhân sự')
+    .min(1, 'Số lượng nhân sự phải lớn hơn 0'),
 });
 
-const FormServiceClearning = ({ onSubmit, onChange, timeWorking }) => (
+const FormServiceClearning = ({ onSubmit, onChange, timeWorking, serviceDetails }) => (
   <View style={styles.container}>
     <Formik
       initialValues={{
-        room: 1,
+        room: 0,
         people: 1,
         premium: false,
         otherService: [],
@@ -35,7 +41,7 @@ const FormServiceClearning = ({ onSubmit, onChange, timeWorking }) => (
       }}
     >
 
-      {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors }) => {
+      {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => {
         onSubmit.current = handleSubmit;
         if (onChange && typeof onChange === 'function') {
           onChange(values);
@@ -44,21 +50,27 @@ const FormServiceClearning = ({ onSubmit, onChange, timeWorking }) => (
           <View>
             <Label style={styles.title}>Số phòng</Label>
             <InputNumber
-              placeholder="Nhập số phòng"
               value={values.room}
               setFieldValue={setFieldValue}
               fieldName='room'
+              min={0}
             />
+            {errors.room && touched.room && (
+              <Text style={MainStyles.textErr}>{errors.room}</Text>
+            )}
             <Label style={styles.title}>Số lượng nhân sự</Label>
             <InputNumber
-              placeholder="Nhập số nhân sự"
               value={values.people}
               setFieldValue={setFieldValue}
               fieldName='people'
+              min={0}
             />
+            {errors.people && touched.people && (
+              <Text style={MainStyles.textErr}>{errors.people}</Text>
+            )}
             <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
               <Label style={[{ marginRight: 10 }, styles.title]}>Thời lượng :</Label>
-              <Text style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: 'bold' }}>Trong {timeWorking}H</Text>
+              <Text style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: 'bold' }}>Trong {RoundUpNumber(timeWorking, 0)} giờ</Text>
             </View>
             <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
               <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
@@ -75,13 +87,16 @@ const FormServiceClearning = ({ onSubmit, onChange, timeWorking }) => (
             </View>
             <Label style={styles.title}>Dịch vụ thêm</Label>
             <InputCheckBox
-              data={dataOtherService1}
+              data={serviceDetails}
               selectedValues={values.otherService}
-              onChange={(id) => {
-                const newSelectedValues = values.otherService.includes(id)
-                  ? values.otherService.filter((value) => value !== id)
-                  : [...values.otherService, id];
+              onChange={(item) => {
+                const newSelectedValues = values.otherService.some(value => value.ServiceDetailId === item.ServiceDetailId)
+                  ? values.otherService.filter(value => value.ServiceDetailId !== item.ServiceDetailId)
+                  : [...values.otherService, item];
                 setFieldValue('otherService', newSelectedValues);
+                if (onChange && typeof onChange === 'function') {
+                  onChange({ ...values, otherService: newSelectedValues });
+                }
               }}
             />
             <Label style={styles.title}>Ghi chú</Label>

@@ -88,8 +88,11 @@ const MainStyles = StyleSheet.create({
     alignItems: "center",
   },
   textErrFormActive: {
-    color: colors.ERROR,
+    color: colors.PRIMARY_RED,
     textAlign: "center",
+  },
+  textErr: {
+    color: colors.ERROR,
   },
   titleFormActive: {
     textAlign: "center",

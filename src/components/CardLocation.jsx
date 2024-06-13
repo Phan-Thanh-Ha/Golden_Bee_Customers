@@ -1,38 +1,38 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ic_location, ic_placeholder } from "../assets";
-import { TitleSlice } from "../Utils";
 import { colors } from "../styles/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 export const CardLocation = ({ location }) => {
+  const navi = useNavigation();
   return (
-    <View style={styles.container}>
-      <Image
-        source={ic_location}
-        style={styles.iconLeft}
-      />
+    <TouchableOpacity
+      onPress={() => {
+        navi.goBack();
+      }}
+      style={styles.container}
+    >
+      <Image source={ic_location} style={styles.iconLeft} />
       <View style={styles.containerContent}>
-        <Text style={styles.title}>
-          {location}
-        </Text>
+        <Text style={styles.title}>{location.address}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default CardLocation;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.WHITE,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 2,
     borderBottomColor: colors.GRAY,
     borderBottomWidth: 1,
     padding: 10,
     marginHorizontal: 10,
-    borderRadius: 5
+    borderRadius: 5,
   },
-  containerContent: {
-  },
+  containerContent: {},
   title: {
     color: colors.BLACK,
     paddingRight: 22,
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
-})
+});

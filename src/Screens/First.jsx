@@ -2,9 +2,11 @@ import { Image, SafeAreaView, View, StyleSheet } from "react-native";
 import LogoBee from "../components/LogoBee";
 import { colors } from "../styles/Colors";
 import { useEffect, useState } from "react";
+import { image_banner_1 } from "../assets/icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ScreenNames } from "../Constants";
-import { image_banner_1 } from "../assets";
+import { ScreenNames, StorageNames } from "../Constants";
+import { getData } from "../Utils";
+import { useNavigation } from "@react-navigation/native";
 // import {
 //   RequestPermission,
 //   requestLocationPermission,
@@ -12,57 +14,64 @@ import { image_banner_1 } from "../assets";
 // } from "../Utils";
 // import { RESULTS } from "react-native-permissions";
 
-const First = ({ navigation }) => {
+const First = () => {
+  const navi = useNavigation();
   const [initialRoute, setInitialRoute] = useState(null);
 
   useEffect(() => {
-    const checkPhoneNumber = async () => {
-      try {
-        const phoneNumber = await AsyncStorage.getItem("phoneNumber");
-        if (phoneNumber) {
-          console.log("Phone Number found:", phoneNumber);
-          setInitialRoute(ScreenNames.UPDATE_PROFILE);
-        } else {
-          console.log("No Phone Number found, navigating to Login");
-          setInitialRoute(ScreenNames.ABOUT);
-        }
-      } catch (error) {
-        console.error(
-          "Failed to fetch the phone number from AsyncStorage:",
-          error
-        );
-        setInitialRoute(ScreenNames.ABOUT);
-      }
-    };
-
-    checkPhoneNumber();
-  }, []);
-
-  useEffect(() => {
-    // Xin quyền vị trí
-    // RequestPermission().then((result) => {
+    // RequestPermission().then(result => {
     //   console.log(result); // In kết quả ra console
     //   // Tiếp tục xử lý dựa trên kết quả
     //   if (result === RESULTS.GRANTED) {
     //     // Quyền đã được cấp
     //   } else {
-    //     console.log("Quyền bị từ chối hoặc không khả dụng");
+    //     console.log('Quyền bị từ chối hoặc không khả dụng');
     //     // Quyền bị từ chối hoặc không khả dụng
     //   }
     // });
+    const getRouter = async () => {
+      try {
+        // Thông tin kiểm tra
+        const userLogin = await getData(StorageNames.USER_PROFILE);
+        // const userLogin = userString ? JSON.parse(userString) : null;
+        // console.log('User login', userLogin);
+        const initialAppGoldenBee = await getData(StorageNames.INITIAL_APP);
+        //
+        // console.log('User login', initialAppGoldenBee);
+        if (userLogin?.Phone !== null) {
+          navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+          return;
+        } else {
+          navi.navigate(ScreenNames.ABOUT);
+          return;
+        }
+        // if (initialAppGoldenBee === null || initialAppGoldenBee) {
+        //   setInitialRoute(ScreenNames.ABOUT);
+        // } else if (userLogin) {
+        //   setInitialRoute(ScreenNames.MAIN_NAVIGATOR);
+        // } else if (!userLogin) {
+        //   setInitialRoute(ScreenNames.AUTH_HOME);
+        // }
+      } catch (error) {
+        console.error("Failed to fetch the user from AsyncStorage:", error);
+        setInitialRoute(ScreenNames.ABOUT);
+      }
+    };
+
+    getRouter();
   }, []);
 
-  useEffect(() => {
-    if (initialRoute !== null) {
-      setTimeout(() => {
-        navigation.navigate(initialRoute);
-      }, 3000);
-    }
-  }, [initialRoute, navigation]);
+  // useEffect(() => {
+  //   if (initialRoute !== null) {
+  //     setTimeout(() => {
+  //       navi.navigate(initialRoute);
+  //     }, 3000);
+  //   }
+  // }, [initialRoute, navi]);
 
-  if (initialRoute === null) {
-    return null;
-  }
+  // if (initialRoute === null) {
+  //   return null;
+  // }
 
   return (
     <SafeAreaView style={styles.container}>

@@ -10,19 +10,19 @@ import Label from '../../components/Label';
 import { colors } from '../../styles/Colors';
 import MainStyles from '../../styles/MainStyle';
 import { ic_premium } from '../../assets';
-import { otherServiceAir, otherServiceMc, typeAir } from '../data';
+import { otherServiceRepairAir, otherServiceRepairElectricity, otherServiceRepairPipe, typeAir, typeElectricity, typePipe } from '../data';
 import SelectOption from '../../components/SelectOption';
+import { RoundUpNumber } from '../../Utils';
 
 const validationSchema = Yup.object().shape({
-  // room: Yup.string().required('Vui lòng nhập số phòng'),
 });
 
-const FormServiceClearingAir = ({ onSubmit, onChange, timeWorking }) => (
+const FormServiceRepairPipe = ({ onSubmit, onChange, timeWorking }) => (
   <View style={styles.container}>
     <Formik
       initialValues={{
-        typeMachine: typeAir[0].Name,
-        people: 0,
+        type: typePipe[0],
+        people: 1,
         premium: false,
         otherService: [],
         note: '',
@@ -35,7 +35,6 @@ const FormServiceClearingAir = ({ onSubmit, onChange, timeWorking }) => (
         }
       }}
     >
-
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors }) => {
         onSubmit.current = handleSubmit;
         if (onChange && typeof onChange === 'function') {
@@ -43,22 +42,21 @@ const FormServiceClearingAir = ({ onSubmit, onChange, timeWorking }) => (
         }
         return (
           <View>
-            <Label style={styles.title}>Loại máy điều hòa</Label>
+            <Label style={styles.title}>Loại dịch vụ</Label>
             <SelectOption
-              data={typeAir}
-              value={values.typeMachine}
-              onChange={(value) => setFieldValue('typeMachine', value)}
+              data={typePipe}
+              selectedValue={values.type}
+              onSelect={(item) => setFieldValue('type', item)}
             />
             <Label style={styles.title}>Số lượng nhân sự</Label>
             <InputNumber
-              placeholder="Nhập số nhân sự"
               value={values.people}
               setFieldValue={setFieldValue}
               fieldName='people'
             />
             <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
               <Label style={[{ marginRight: 10 }, styles.title]}>Thời lượng :</Label>
-              <Text style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: 'bold' }}>Trong {timeWorking}H</Text>
+              <Text style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: 'bold' }}>Trong {RoundUpNumber(timeWorking, 1)} giờ</Text>
             </View>
             <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
               <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
@@ -75,12 +73,12 @@ const FormServiceClearingAir = ({ onSubmit, onChange, timeWorking }) => (
             </View>
             <Label style={styles.title}>Dịch vụ thêm</Label>
             <InputCheckBox
-              data={otherServiceAir}
+              data={otherServiceRepairPipe}
               selectedValues={values.otherService}
-              onChange={(id) => {
-                const newSelectedValues = values.otherService.includes(id)
-                  ? values.otherService.filter((value) => value !== id)
-                  : [...values.otherService, id];
+              onChange={(item) => {
+                const newSelectedValues = values.otherService.some(value => value.Id === item.Id)
+                  ? values.otherService.filter(value => value.Id !== item.Id)
+                  : [...values.otherService, item];
                 setFieldValue('otherService', newSelectedValues);
               }}
             />
@@ -118,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FormServiceClearingAir;
+export default FormServiceRepairPipe;

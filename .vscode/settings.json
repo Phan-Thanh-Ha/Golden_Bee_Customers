@@ -1,3 +1,14 @@
 {
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Dracula",
+  "editor.fontFamily": "Cascadia Code, monospace",
+  "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'zero', 'onum'",
+  "editor.fontSize": 13,
+  "editor.fontWeight": "370",
+  "editor.lineHeight": 1.75,
+  "editor.linkedEditing": true,
+  "terminal.integrated.fontWeight": "370",
+  "terminal.integrated.lineHeight": 1.1,
+  "terminal.integrated.letterSpacing": 1,
+  "terminal.integrated.fontWeightBold": "600"
 }
