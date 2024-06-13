@@ -1,4 +1,4 @@
-import mainTypes from './mainTypes';
+import mainTypes from "./mainTypes";
 
 export function closeError(params, cb) {
   return {
@@ -15,5 +15,19 @@ export function API_spCallServer(params, dispatch) {
       resolve,
       reject,
     });
+  });
+}
+
+export function userLogin(user, dispatch) {
+  return dispatch({
+    type: mainTypes.USER_PROFILE,
+    payload: user,
+  });
+}
+
+export function userLogout(dispatch) {
+  return dispatch({
+    type: mainTypes.USER_PROFILE,
+    payload: {},
   });
 }

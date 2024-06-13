@@ -36,6 +36,7 @@ const ScreenNames = {
   FORM_INSTALLING: "FORM_INSTALLING", // sửa ống nước
   FORM_REPAIR_CAMERA: "FORM_REPAIR_CAMERA", // sửa camera
   FORM_INTERIOR: "FORM_INTERIOR", // sửa nội thất
+  CONFIRM_BOOKING: "CONFIRM_BOOKING", // xác nhận đặt dich vu
 };
 
 export default ScreenNames;

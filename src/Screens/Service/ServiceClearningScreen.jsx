@@ -8,17 +8,24 @@ import { UseInset } from "../../Hooks";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { CardLocation } from "../../components";
 import ButtonInfo from "../../components/buttons/ButtonInfo";
-import { FormatMoney, RoundUpNumber, priceClearning } from "../../Utils";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
 import FormServiceClearning from "./FormServiceClearning";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
 import CardPremiumInfomation from "../../components/CardPremiumInfomation";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { dataMenuApi } from "../data";
+import { FormatMoney } from "../../Utils";
+import { priceClearning } from "../../Utils/PriceService";
+import { RoundUpNumber } from "../../Utils/RoundUpNumber";
+import { ScreenNames } from "../../Constants";
 
 const ServiceClearningScreen = () => {
   const route = useRoute();
-  const { service } = route.params;
+  // const { service } = route.params ;
+  const service = dataMenuApi[0];
+  const navi = useNavigation();
+  console.log("service in service clearning", service);
   const paramsLocation = "12, Đường Nguyễn Văn Lượng, Quận gò vấp, TP Hồ Chí Minh, Việt Nam";
   const workingTime = 3;
   const [time, setTime] = useState(workingTime);
@@ -30,9 +37,12 @@ const ServiceClearningScreen = () => {
   const modalOnClose = () => {
     setModalOpen(false);
   }
+  const handleNext = () => {
+    formikSubmitRef.current && formikSubmitRef.current();
+  }
   const handleFormChange = (values) => {
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
-    setTotalPrice(FormatMoney(priceClearning(values, price, time)))
+    setTotalPrice(priceClearning(values, price, time))
     values.premium ? setModalOpen(true) : setModalOpen(false);
   };
 
@@ -51,7 +61,8 @@ const ServiceClearningScreen = () => {
             onSubmit={formikSubmitRef}
             timeWorking={time}
             onChange={handleFormChange}
-            serviceDetails={service.Detail}
+            Service={service}
+            TotalPrice={totalPrice}
           />
         </KeyboardAwareScrollView>
       </ScrollView>
@@ -75,12 +86,12 @@ const ServiceClearningScreen = () => {
             marginTop: 10,
             marginBottom: 10,
           }}
-          onPress={() => formikSubmitRef.current && formikSubmitRef.current()}
+          onPress={handleNext}
         >
           <View style={[MainStyles.flexRowSpaceBetween, { backgroundColor: 'transparent' }]}>
             <Text style={styles.btnTitle}>
               {
-                totalPrice +
+                FormatMoney(totalPrice) +
                 " VNĐ / " +
                 RoundUpNumber(time, 0) +
                 " giờ"
@@ -93,14 +104,18 @@ const ServiceClearningScreen = () => {
           </View>
         </ButtonInfo>
       </View>
-      <ModalInformationDetail
-        isOpen={modalOpen}
-        onClose={modalOnClose}
-        snapPoints={['40%', '60%', '80%']}
-        initialIndex={1}
-      >
-        <CardPremiumInfomation />
-      </ModalInformationDetail>
+      {
+        modalOpen && (
+          <ModalInformationDetail
+            isOpen={modalOpen}
+            onClose={modalOnClose}
+            snapPoints={['40%', '60%', '80%']}
+            initialIndex={1}
+          >
+            <CardPremiumInfomation />
+          </ModalInformationDetail>
+        )
+      }
     </View>
   );
 };

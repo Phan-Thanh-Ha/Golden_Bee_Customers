@@ -7,6 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScreenNames, StorageNames } from "../Constants";
 import { getData } from "../Utils";
 import { useNavigation } from "@react-navigation/native";
+import { mainAction } from "../Redux/Action";
+import { useDispatch } from "react-redux";
 // import {
 //   RequestPermission,
 //   requestLocationPermission,
@@ -16,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const First = () => {
   const navi = useNavigation();
-  const [initialRoute, setInitialRoute] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // RequestPermission().then(result => {
@@ -33,45 +35,21 @@ const First = () => {
       try {
         // Thông tin kiểm tra
         const userLogin = await getData(StorageNames.USER_PROFILE);
-        // const userLogin = userString ? JSON.parse(userString) : null;
-        // console.log('User login', userLogin);
-        const initialAppGoldenBee = await getData(StorageNames.INITIAL_APP);
-        //
-        // console.log('User login', initialAppGoldenBee);
-        if (userLogin?.Phone !== null) {
-          navi.navigate(ScreenNames.MAIN_NAVIGATOR);
-          return;
-        } else {
+        console.log("user open app:", userLogin);
+        mainAction.userLogin(userLogin, dispatch);
+        if (userLogin === null || userLogin?.Phone === "") {
           navi.navigate(ScreenNames.ABOUT);
           return;
+        } else {
+          navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+          return;
         }
-        // if (initialAppGoldenBee === null || initialAppGoldenBee) {
-        //   setInitialRoute(ScreenNames.ABOUT);
-        // } else if (userLogin) {
-        //   setInitialRoute(ScreenNames.MAIN_NAVIGATOR);
-        // } else if (!userLogin) {
-        //   setInitialRoute(ScreenNames.AUTH_HOME);
-        // }
       } catch (error) {
-        console.error("Failed to fetch the user from AsyncStorage:", error);
-        setInitialRoute(ScreenNames.ABOUT);
+        console.error('Failed to fetch the user from AsyncStorage:', error);
       }
     };
-
     getRouter();
   }, []);
-
-  // useEffect(() => {
-  //   if (initialRoute !== null) {
-  //     setTimeout(() => {
-  //       navi.navigate(initialRoute);
-  //     }, 3000);
-  //   }
-  // }, [initialRoute, navi]);
-
-  // if (initialRoute === null) {
-  //   return null;
-  // }
 
   return (
     <SafeAreaView style={styles.container}>

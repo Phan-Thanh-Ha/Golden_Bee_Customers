@@ -1048,3 +1048,108 @@ export const dataMenuApi = [
     ]
   }
 ]
+
+export const dataConfrirm = {
+  "Service": {
+    "ServiceId": 7,
+    "ServiceCode": "DV-05062405025764",
+    "ServiceName": "Giúp việc theo giờ",
+    "OfficerId": 7192,
+    "Note": "Test",
+    "GroupUserId": 1,
+    "TypeService": 0,
+    "PriceService": 30000,
+    "CreateName": "PHẠM TƠ BÍT",
+    "Creater": 7192,
+    "CreateTime": "2024-06-05T17:02:57.643",
+    "Editer": 4737,
+    "EditName": "PHAN THANH HÀ",
+    "EditTime": "2024-06-11T15:39:01.447",
+    "OfficerName": "PHẠM TƠ BÍT",
+    "icon": 7,
+    "Detail": [
+      {
+        "ServiceDetailId": 2,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServiceId": 7,
+        "PriceDetail": 30000,
+        "NoteDetail": "Mang theo dụng cụ",
+        "IsDelete": 0,
+        "GroupUserId": 1,
+        "CreateTime": "2024-06-03T16:50:45.990",
+        "Creater": 7192,
+        "CreateName": "PHẠM TƠ BÍT",
+        "EditTime": "2024-06-11T15:39:18.563",
+        "Editer": 4737,
+        "EditName": "PHAN THANH HÀ"
+      },
+      {
+        "ServiceDetailId": 3,
+        "ServiceDetailName": "Nấu ăn",
+        "ServiceId": 7,
+        "PriceDetail": 60000,
+        "NoteDetail": "Test",
+        "IsDelete": 0,
+        "GroupUserId": 1,
+        "CreateTime": "2024-06-06T10:42:21.030",
+        "Creater": 7192,
+        "CreateName": "PHẠM TƠ BÍT",
+        "EditTime": "2024-06-11T15:39:47.313",
+        "Editer": 4737,
+        "EditName": "PHAN THANH HÀ"
+      },
+      {
+        "ServiceDetailId": 4,
+        "ServiceDetailName": "Ủi + Phơi quần áo",
+        "ServiceId": 7,
+        "PriceDetail": 60000,
+        "NoteDetail": "1",
+        "IsDelete": 0,
+        "GroupUserId": 1,
+        "CreateTime": "2024-06-06T15:13:40.260",
+        "Creater": 7192,
+        "CreateName": "PHẠM TƠ BÍT",
+        "EditTime": "2024-06-11T15:40:31.247",
+        "Editer": 4737,
+        "EditName": "PHAN THANH HÀ"
+      },
+      {
+        "ServiceDetailId": 5,
+        "ServiceDetailName": "Mang theo hoá chất tẩy rửa, nước lau kính",
+        "ServiceId": 7,
+        "PriceDetail": 30000,
+        "NoteDetail": "",
+        "IsDelete": 0,
+        "GroupUserId": 1,
+        "CreateTime": "2024-06-11T15:55:19.090",
+        "Creater": 4737,
+        "CreateName": "PHAN THANH HÀ"
+      }
+    ]
+  },
+  "TotalPrice": 90000,
+  "workingTime": 3,
+  "room": 1,
+  "people": 1,
+  "premium": false,
+  "Address": "17 đường số 6",
+  "AddressDetail": "17, đường số 6, phường 10, Gò vấp, Thành phố hồ chí minh",
+  "otherService": [
+    {
+      "ServiceDetailId": 3,
+      "ServiceDetailName": "Nấu ăn",
+      "ServiceId": 7,
+      "PriceDetail": 60000,
+      "NoteDetail": "Test",
+      "IsDelete": 0,
+      "GroupUserId": 1,
+      "CreateTime": "2024-06-06T10:42:21.030",
+      "Creater": 7192,
+      "CreateName": "PHẠM TƠ BÍT",
+      "EditTime": "2024-06-11T15:39:47.313",
+      "Editer": 4737,
+      "EditName": "PHAN THANH HÀ"
+    }
+  ],
+  "note": ""
+}

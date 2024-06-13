@@ -231,5 +231,55 @@ const MainStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+  containerClient: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
+  },
+  textClieni: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  btnTitleClient: {
+    fontSize: 18,
+    color: colors.WHITE,
+  },
+  cardLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.MAIN_BLUE_CLIENT,
+  },
+  contentContainerClient: {
+    backgroundColor: colors.WHITE,
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+  },
+  cardConfirmContainer: {
+    backgroundColor: colors.WHITE,
+    borderRadius: 5,
+    margin: 5,
+    padding: 10,
+    borderColor: colors.GRAY,
+    borderWidth: 1,
+  },
+  cardLabelConfirm: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: colors.MAIN_BLUE_CLIENT,
+  },
+  cardSubLabelConfirm: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: colors.MAIN_BLUE_CLIENT,
+  },
+  cardTitleConfirm: {
+    fontSize: 16,
+    color: colors.BLACK,
+  },
+  cardSubTitleConfirm: {
+    fontSize: 16,
+    color: colors.BLACK,
+  },
 });
 export default MainStyles;

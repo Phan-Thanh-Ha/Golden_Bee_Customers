@@ -20,3 +20,11 @@ export const getData = async (key) => {
     console.log(e);
   }
 };
+
+export const removeData = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (error) {
+    console.error("Failed to set value:", error);
+  }
+};

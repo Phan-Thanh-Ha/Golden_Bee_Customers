@@ -1,11 +1,11 @@
 import mainTypes from "../Action/mainTypes";
-console.log("-----> 👿👿👿 <-----  mainTypes:", mainTypes);
 
 const initialState = {
   error: false,
   loading: false,
   language: "vn",
   locationTime: [],
+  userLogin: {},
 };
 export default function (state = initialState, action = {}) {
   switch (action.type) {
@@ -21,6 +21,14 @@ export default function (state = initialState, action = {}) {
       return {
         ...state,
         locationTime: action.payload,
+      };
+    case mainTypes.USER_PROFILE:
+      {
+        console.log("user in redux", action.payload);
+      }
+      return {
+        ...state,
+        userLogin: action.payload,
       };
     default:
       return state;

@@ -7,12 +7,20 @@ import CustomInput from "./CustomInput";
 import CustomLabel from "./CustomLabel";
 import CustomFormError from "./CustomFormError";
 import Button from "../buttons/Button";
-import { ScreenNames } from "../../Constants";
+import { ScreenNames, StorageNames } from "../../Constants";
 import LogoBeeBox from "../LogoBeeBox";
 import MainStyle from "../../styles/MainStyle";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { mainAction } from "../../Redux/Action";
+import { useDispatch } from "react-redux";
+import { AlertToaster } from "../../Utils/AlertToaster";
+import { setData } from "../../Utils";
+import { userLogin } from "../../Redux/Action/mainAction";
 
-const LoginForm = ({ setSubmit, navigation, setData }) => {
+const LoginForm = ({ setSubmit }) => {
+  const dispatch = useDispatch();
+  const navi = useNavigation();
+  const [loading, setLoading] = React.useState(false);
   const validationSchema = yup.object().shape({
     phoneNumber: yup
       .string()
@@ -26,20 +34,33 @@ const LoginForm = ({ setSubmit, navigation, setData }) => {
 
   const handleSubmit = async (values) => {
     try {
-      await AsyncStorage.setItem("phoneNumber", values.phoneNumber);
-      Toast.show({
-        type: "success",
-        text1: "Đăng nhập thành công !",
-        // text2: JSON.stringify(values),
-      });
-      navigation.navigate(ScreenNames.HOME);
+      setLoading(true);
+      const pr = {
+        UserName: '0943214791',
+        Password: '123456',
+        GroupUserId: 10060
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spCustomer_Login",
+      };
+
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      // console.log("result :", result.Result[0]);
+      if (result?.Status === "OK") {
+        // thông tin user đăng nhập thành công là result.Result[0]
+        mainAction.userLogin(result.Result[0], dispatch);
+        await setData(StorageNames.USER_PROFILE, result.Result[0]);
+        AlertToaster('success', 'Đăng nhập thành công !');
+        navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+        setLoading(false);
+      } else {
+        AlertToaster('error', result?.Result);
+        setLoading(false);
+      }
     } catch (error) {
-      console.error("Failed to save the phone number to AsyncStorage:", error);
-      Toast.show({
-        type: "error",
-        text1: "Lỗi đăng nhập ! liên hệ IT !",
-        // text2: JSON.stringify(values),
-      });
+      setLoading(false);
+      console.log(error);
     }
   };
 
@@ -85,16 +106,22 @@ const LoginForm = ({ setSubmit, navigation, setData }) => {
             </CustomFormError>
             <View style={MainStyle.viewSubLinkForm}>
               <Pressable
-                onPress={() => navigation.navigate(ScreenNames.FORGOT_PASSWORD)}
+                onPress={() => navi.navigate(ScreenNames.FORGOT_PASSWORD)}
               >
                 <Text style={MainStyle.subLinkForm}>Quên mật khẩu ?</Text>
               </Pressable>
             </View>
-            <Button onPress={handleSubmit}>{"Đăng nhập"}</Button>
+            <Button
+              onPress={handleSubmit}
+              isLoading={loading}
+              disable={loading}
+            >
+              {"Đăng nhập"}
+            </Button>
             <View style={MainStyle.regis}>
               <Text style={MainStyle.regisSub}>Bạn chưa có tài khoản ?</Text>
               <Pressable
-                onPress={() => navigation.navigate(ScreenNames.REGISTER)}
+                onPress={() => navi.navigate(ScreenNames.REGISTER)}
               >
                 <Text style={MainStyle.regisBtn}>Đăng ký</Text>
               </Pressable>

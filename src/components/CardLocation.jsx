@@ -14,7 +14,7 @@ export const CardLocation = ({ location }) => {
     >
       <Image source={ic_location} style={styles.iconLeft} />
       <View style={styles.containerContent}>
-        <Text style={styles.title}>{location.address}</Text>
+        <Text style={styles.title}>{location}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footerText: {
-    color: colors.RED,
+    color: colors.WHITE,
     fontSize: 11,
   },
 });

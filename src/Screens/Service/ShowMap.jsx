@@ -10,24 +10,40 @@ import {
 } from "react-native";
 import React, { useEffect } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Icon } from "@ui-kitten/components";
 import Button from "../../components/buttons/Button";
+import Box from "../../components/Box";
+import { UseInset } from "../../Hooks";
+import ArrowRight from "../../components/svg/ArrowRight";
+import { useSelector } from "react-redux";
+import { getRouterById } from "../../Utils/RoutingService";
 
 const ShowMap = () => {
+  const user = useSelector(state => state.main.userLogin);
+  console.log("user in show map", user);
   const route = useRoute();
-  const dataAddress =
-    route.params && route.params.data ? route.params.data : undefined;
-  const [dataAddressSearch, setDataAddressSearch] = React.useState("");
-  useEffect(() => {
-    if (dataAddress) {
-      console.log("dataAddress", dataAddress);
-      setDataAddressSearch(dataAddress);
-    }
-  });
+  const navi = useNavigation();
+  const { service } = route.params;
+  const inset = UseInset();
+  console.log("service in show map", service);
+  const AddressDetail = "17, đường số 6, phường 10, Gò vấp, Thành phố hồ chí minh";
+  const handleNext = () => {
+    navi.navigate(
+      getRouterById(service.ServiceId),
+      {
+        service: {
+          ...service,
+          AddressDatail: AddressDetail,
+          CustomerId: user.Id,
+          CustomerName: user.CustomerName
+        }
+      }
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -44,13 +60,13 @@ const ShowMap = () => {
             zoomEnabled={true}
           >
             {/* 10.8093, 106.6641 */}
-            {console.log("312312312", dataAddressSearch.address)}
+            {console.log("312312312", service.Address)}
             <Marker
               coordinate={{
                 latitude: 10.8093,
                 longitude: 106.6641,
               }}
-              title={dataAddressSearch.address}
+              title={service.Address}
             >
               <View style={styles.markerContainer}>
                 <Icon name="pin-outline" width={32} height={32} fill="#000" />
@@ -60,41 +76,43 @@ const ShowMap = () => {
           <View style={styles.topBar}>
             {/* <BackButton onPress={onClickBack} /> */}
             <Text>Back</Text>
-            <CardLocation location={dataAddressSearch} />
+            <CardLocation
+              onPress={() => navi.goBack()}
+              location={service.Address}
+            />
           </View>
         </View>
         <View style={styles.bodyContainer}>
           <View style={styles.deliveryContainer}>
-            <Text style={styles.deliverytext}>{dataAddressSearch.address}</Text>
-            <Text style={styles.toText}>Ong vàng</Text>
+            <Text style={styles.deliverytext}>{service.Address}</Text>
           </View>
-
           <View style={styles.detailContainer}>
             <View style={styles.detailTextContainer}>
-              <Text style={styles.detailTitle}>Delivered your order</Text>
-              <Text style={styles.detailSubTitle}>
-                We deliver your goods to you in the shortes possible time.
-              </Text>
+              <Text style={styles.detailTitle}>{user.CustomerName}</Text>
             </View>
           </View>
-          <View style={styles.bottomContainer}>
-            <Button>đâsdas</Button>
-            <View style={styles.driverContainer}>
-              {/* <Image
-                source={require("../../assets/images/driverDefault.png")}
-              /> */}
-              {/* <View style={{ marginStart: SCREEN_WIDTH / 31 }}>
-                <Text style={styles.driverText}>Johan Hawn</Text>
-                <Text style={styles.driverStatus}>Personal Courier</Text>
-              </View> */}
-            </View>
-            {/* <TouchableOpacity
-              style={styles.phoneContainer}
-            >
-            </TouchableOpacity> */}
-          </View>
+          <Box height={80} />
         </View>
       </ScrollView>
+      <View
+        style={{
+          position: "absolute",
+          bottom: inset.bottom,
+          zIndex: 10,
+          elevation: 10,
+          backgroundColor: colors.PRIMARY_GREEN,
+          width: "95%",
+          margin: 10,
+          borderRadius: 7,
+        }}
+      >
+        <Button
+          icon={() => <ArrowRight color={colors.WHITE} />}
+          onPress={handleNext}
+        >
+          Chọn vị trí này
+        </Button>
+      </View>
     </SafeAreaView>
   );
 };
@@ -220,4 +238,8 @@ const styles = StyleSheet.create({
     // right: SCREEN_WIDTH / 100,
     marginHorizontal: SCREEN_WIDTH / 110,
   },
+  btnTitle: {
+    fontSize: 18,
+    color: colors.WHITE
+  }
 });

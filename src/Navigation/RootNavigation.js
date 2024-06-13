@@ -29,6 +29,7 @@ import ServiceRepairPipeScreen from "../Screens/Service/ServiceRepairPipeScreen"
 import ServiceRepairCameraScreen from "../Screens/Service/ServiceRepairCameraScreen";
 import ServiceRepairElectricityScreen from "../Screens/Service/ServiceRepairElectricityScreen";
 import ServiceRepairInteriorScreen from "../Screens/Service/ServiceRepairInteriorScreen";
+import ConfirmBooking from "../Screens/Service/ConfirmBooking";
 
 const MainStack = createStackNavigator();
 
@@ -37,7 +38,7 @@ const RootNavigator = () => {
     <NavigationContainer>
       <MainStack.Navigator
         screenOptions={{ headerShown: false, animationEnabled: false }}
-        initialRouteName={ScreenNames.MAIN_NAVIGATOR}
+        initialRouteName={ScreenNames.FIRST}
       >
         <MainStack.Screen name={ScreenNames.DEMO} component={Demo} />
         <MainStack.Screen name={ScreenNames.FIRST} component={First} />
@@ -123,6 +124,10 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.FORM_INTERIOR} //sửa nooij thaats
           component={ServiceRepairInteriorScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.CONFIRM_BOOKING} //sửa xac nhan dat
+          component={ConfirmBooking}
         />
       </MainStack.Navigator>
     </NavigationContainer>

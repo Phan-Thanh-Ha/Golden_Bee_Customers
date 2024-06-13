@@ -16,6 +16,10 @@ const AddressSearch = () => {
   const API_URL =
     "https://maps.googleapis.com/maps/api/place/autocomplete/json";
   const route = useRoute();
+  const { service } = route.params;
+  // const servcie = route.params.service ? route.params.service : {};
+  console.log("servcie in select adress", service);
+  console.log("route", route);
   const [dataAddressSearch, setDataAddressSearch] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -108,7 +112,10 @@ const AddressSearch = () => {
             );
             // navi.navigate("ShowMap", { address: item.name });
             navi.navigate(ScreenNames.SHOW_MAP, {
-              data: { address: item.name },
+              service: {
+                ...service,
+                Address: item.name
+              },
             });
           }}
         />

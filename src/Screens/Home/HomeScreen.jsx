@@ -17,13 +17,14 @@ import ProductMust from "./Menu/ProductMust";
 import InputSearch from "../../components/InputSeach";
 import { useNavigation } from "@react-navigation/native";
 import { mainAction } from "../../Redux/Action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ScreenNames } from "../../Constants";
 import Geolocation from "@react-native-community/geolocation";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const navi = useNavigation();
+  const [dataMenu, setDataMenu] = useState({});
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -37,6 +38,7 @@ const HomeScreen = () => {
       (error) => console.log(error),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
+    OVG_spService_List_Menu();
   }, []);
   const OVG_spCustomer_Location_Update = async (
     latitude,
@@ -61,12 +63,55 @@ const HomeScreen = () => {
             type: mainTypes.LOCATION_TIME,
             payload: result.Result,
           });
-          setData("LOCATION_TIME", result.Result);
+          setDataMenu("LOCATION_TIME", result.Result);
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   };
+  const OVG_spService_List_Menu = async () => {
+    try {
+      const pr = {
+        ServiceId: 0,
+        GroupUserId: 0
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spService_List_Menu",
+      };
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      if (result.length > 0) {
+        setDataMenu(result);
+      } else {
+        AlertToaster('error', "Lỗi dữ liệu");
+      }
+    } catch (error) {
+    }
+  }
+  console.log("result :", dataMenu);
 
+  const OVG_spService_Detail = async () => {
+    try {
+      const pr = {
+        ServiceDetailId: 7,
+        GroupUserId: 1
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spService_Detail",
+      };
+      // console.log("params :", params);
+      // console.log("checking....");
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      // console.log("final....");
+      // console.log("result :", result);
+      if (result?.Status === "OK") {
+        // await setDataMenu(StorageNames.USER_PROFILE, result.Result[0]);
+      } else {
+        AlertToaster('error', "Lỗi dữ liệu");
+      }
+    } catch (error) {
+    }
+  }
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -107,7 +152,7 @@ const HomeScreen = () => {
           >
             <MenuPickup
               onPress={(item) => {
-                navi.navigate(ScreenNames.ADDRESS_SEARCH, { item });
+                navi.navigate(ScreenNames.ADDRESS_SEARCH, { service: item });
               }}
             />
           </Card>

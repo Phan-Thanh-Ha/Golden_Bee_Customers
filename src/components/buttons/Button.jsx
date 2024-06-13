@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Text } from '@ui-kitten/components';
+import { Spinner, Text } from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
-const Button = ({ bgColor, textColor = 'white', fontSize = 20, fontWeight = 'normal', icon: Icon, children = 'default', onPress, ...props }) => {
+const Button = ({ bgColor, textColor = 'white', fontSize = 20, fontWeight = 'normal', disable = false, isLoading = false, boderWidth = 0, icon: Icon, children = 'default', onPress, ...props }) => {
   const gradientColors = bgColor ? [bgColor, bgColor] : ['#4c669f', '#3b5998', '#192f6a'];
 
   return (
@@ -10,9 +10,14 @@ const Button = ({ bgColor, textColor = 'white', fontSize = 20, fontWeight = 'nor
       {...props}
       style={({ pressed }) => [
         styles.button,
+        {
+          borderWidth: boderWidth,
+          borderColor: bgColor,
+        },
         pressed && styles.pressed,
       ]}
       onPress={onPress}
+      disabled={disable}
     >
       <View style={styles.gradientWrapper}>
         <LinearGradient
@@ -21,12 +26,20 @@ const Button = ({ bgColor, textColor = 'white', fontSize = 20, fontWeight = 'nor
           end={{ x: 1, y: 0 }}
           style={styles.gradient}
         >
-          <View style={styles.content}>
-            <Text style={{ ...styles.text, color: textColor, fontSize: fontSize, fontWeight: fontWeight }}>
-              {children}
-            </Text>
-            {Icon && <Icon style={{ ...styles.icon }} />}
-          </View>
+          {
+            !isLoading ? (
+              <View style={styles.content}>
+                <Text style={{ ...styles.text, color: textColor, fontSize: fontSize, fontWeight: fontWeight }}>
+                  {children}
+                </Text>
+                {Icon && <Icon style={{ ...styles.icon }} />}
+              </View>
+            ) : (
+              <View style={styles.content}>
+                <Spinner status='warning' />
+              </View>
+            )
+          }
         </LinearGradient>
       </View>
     </TouchableOpacity>
