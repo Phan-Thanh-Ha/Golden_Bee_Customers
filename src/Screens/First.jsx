@@ -1,9 +1,8 @@
 import { Image, SafeAreaView, View, StyleSheet } from "react-native";
 import LogoBee from "../components/LogoBee";
 import { colors } from "../styles/Colors";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { image_banner_1 } from "../assets/icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScreenNames, StorageNames } from "../Constants";
 import { getData } from "../Utils";
 import { useNavigation } from "@react-navigation/native";
@@ -45,7 +44,7 @@ const First = () => {
           return;
         }
       } catch (error) {
-        console.error('Failed to fetch the user from AsyncStorage:', error);
+        console.error("Failed to fetch the user from AsyncStorage:", error);
       }
     };
     getRouter();

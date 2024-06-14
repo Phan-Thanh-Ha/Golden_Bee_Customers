@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { colors } from "../../styles/Colors";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import { Card } from "@ui-kitten/components";
@@ -66,13 +60,13 @@ const HomeScreen = () => {
           setDataMenu("LOCATION_TIME", result.Result);
         }
       }
-    } catch (e) { }
+    } catch (e) {}
   };
   const OVG_spService_List_Menu = async () => {
     try {
       const pr = {
         ServiceId: 0,
-        GroupUserId: 0
+        GroupUserId: 0,
       };
       const params = {
         Json: JSON.stringify(pr),
@@ -82,36 +76,12 @@ const HomeScreen = () => {
       if (result.length > 0) {
         setDataMenu(result);
       } else {
-        AlertToaster('error', "Lỗi dữ liệu");
+        AlertToaster("error", "Lỗi dữ liệu");
       }
-    } catch (error) {
-    }
-  }
+    } catch (error) {}
+  };
   console.log("result :", dataMenu);
 
-  const OVG_spService_Detail = async () => {
-    try {
-      const pr = {
-        ServiceDetailId: 7,
-        GroupUserId: 1
-      };
-      const params = {
-        Json: JSON.stringify(pr),
-        func: "OVG_spService_Detail",
-      };
-      // console.log("params :", params);
-      // console.log("checking....");
-      const result = await mainAction.API_spCallServer(params, dispatch);
-      // console.log("final....");
-      // console.log("result :", result);
-      if (result?.Status === "OK") {
-        // await setDataMenu(StorageNames.USER_PROFILE, result.Result[0]);
-      } else {
-        AlertToaster('error', "Lỗi dữ liệu");
-      }
-    } catch (error) {
-    }
-  }
   return (
     <View style={styles.container}>
       <LinearGradient
