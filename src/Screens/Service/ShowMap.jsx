@@ -7,10 +7,14 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  Platform,
 } from "react-native";
 import React, { useEffect } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -23,33 +27,29 @@ import { useSelector } from "react-redux";
 import { getRouterById } from "../../Utils/RoutingService";
 
 const ShowMap = () => {
-  const user = useSelector(state => state.main.userLogin);
+  const user = useSelector((state) => state.main.userLogin);
   console.log("user in show map", user);
   const route = useRoute();
   const navi = useNavigation();
-  const { service } = route.params;
+  const { service } = route.params || {};
   const inset = UseInset();
   console.log("service in show map", service);
-  const AddressDetail = "17, đường số 6, phường 10, Gò vấp, Thành phố hồ chí minh";
+  const AddressDetail =
+    "17, đường số 6, phường 10, Gò vấp, Thành phố hồ chí minh";
   const handleNext = () => {
-    navi.navigate(
-      getRouterById(service.ServiceId),
-      {
-        service: {
-          ...service,
-          AddressDatail: AddressDetail,
-          CustomerId: user.Id,
-          CustomerName: user.CustomerName
-        }
-      }
-    );
-  }
+    navi.navigate(getRouterById(service.ServiceId), {
+      service: {
+        ...service,
+        CustomerId: user.Id,
+        CustomerName: user.CustomerName,
+      },
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
           <MapView
-            provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
               latitude: 10.8093,
@@ -240,6 +240,6 @@ const styles = StyleSheet.create({
   },
   btnTitle: {
     fontSize: 18,
-    color: colors.WHITE
-  }
+    color: colors.WHITE,
+  },
 });

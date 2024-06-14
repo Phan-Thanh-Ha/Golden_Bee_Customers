@@ -10,94 +10,127 @@ import Label from '../../components/Label';
 import { colors } from '../../styles/Colors';
 import MainStyles from '../../styles/MainStyle';
 import { ic_premium } from '../../assets';
-import { dataOtherService1, dataOtherService3 } from '../data';
+import { RoundUpNumber } from '../../Utils/RoundUpNumber';
+import { useNavigation } from '@react-navigation/native';
+import { ScreenNames } from '../../Constants';
 
 const validationSchema = Yup.object().shape({
-  room: Yup.string().required('Vui lòng nhập số phòng'),
+  room: Yup.number()
+    .required('Vui lòng nhập số phòng')
+    .min(1, 'Vui lòng nhập số phòng'),
+  people: Yup.number()
+    .required('Vui lòng nhập số lượng nhân sự')
+    .min(1, 'Số lượng nhân sự phải lớn hơn 0'),
 });
 
-const FormServiceClearningOffice = ({ onSubmit, onChange, timeWorking }) => (
-  <View style={styles.container}>
-    <Formik
-      initialValues={{
-        room: 1,
-        people: 1,
-        premium: false,
-        otherService: [],
-        note: '',
-      }}
-      validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log('Form values:', values);
-        if (onSubmit && typeof onSubmit === 'function') {
-          onSubmit(values);
-        }
-      }}
-    >
+const FormServiceClearningOffice = ({
+  onSubmit,
+  onChange,
+  timeWorking,
+  Service,
+  TotalPrice,
+}) => {
+  const navi = useNavigation();
+  return (
+    <View style={styles.container}>
+      <Formik
+        initialValues={{
+          room: 1,
+          people: 1,
+          premium: false,
+          otherService: [],
+          note: '',
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          console.log('Form values:', values);
+          navi.navigate(ScreenNames.CONFIRM_BOOKING, {
+            dataConfirmService: {
+              ...Service,
+              TotalPrice: TotalPrice,
+              workingTime: timeWorking,
+              ...values
+            }
+          })
+          if (onSubmit && typeof onSubmit === 'function') {
+            onSubmit(values);
+          }
+        }}
+      >
 
-      {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors }) => {
-        onSubmit.current = handleSubmit;
-        if (onChange && typeof onChange === 'function') {
-          onChange(values);
-        }
-        return (
-          <View>
-            <Label style={styles.title}>Số phòng</Label>
-            <InputNumber
-              placeholder="Nhập số phòng"
-              value={values.room}
-              setFieldValue={setFieldValue}
-              fieldName='room'
-            />
-            <Label style={styles.title}>Số lượng nhân sự</Label>
-            <InputNumber
-              placeholder="Nhập số nhân sự"
-              value={values.people}
-              setFieldValue={setFieldValue}
-              fieldName='people'
-            />
-            <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
-              <Label style={[{ marginRight: 10 }, styles.title]}>Thời lượng :</Label>
-              <Text style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: 'bold' }}>Trong {timeWorking}H</Text>
-            </View>
-            <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
-              <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
-                <Image
-                  source={ic_premium}
-                  style={{ width: 40, height: 40, marginRight: 10 }}
-                />
-                <Label fontSize={18}>Dịch vụ Premium</Label>
-              </View>
-              <BtnToggle
-                value={values.premium}
-                onChange={(checked) => setFieldValue('premium', checked)}
+        {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => {
+          onSubmit.current = handleSubmit;
+          if (onChange && typeof onChange === 'function') {
+            onChange(values);
+          }
+          return (
+            <View>
+              <Label style={styles.title}>Số phòng</Label>
+              <InputNumber
+                value={values.room}
+                setFieldValue={setFieldValue}
+                fieldName='room'
+                min={0}
               />
-            </View>
-            <Label style={styles.title}>Dịch vụ thêm</Label>
-            <InputCheckBox
-              data={dataOtherService3}
-              selectedValues={values.otherService}
-              onChange={(id) => {
-                const newSelectedValues = values.otherService.includes(id)
-                  ? values.otherService.filter((value) => value !== id)
-                  : [...values.otherService, id];
-                setFieldValue('otherService', newSelectedValues);
-              }}
-            />
-            <Label style={styles.title}>Ghi chú</Label>
-            <TextArea
-              placeholder="Thêm ghi chú ở đây"
-              value={values.note}
-              onChangeText={handleChange('note')}
-              onBlur={handleBlur('note')}
-            />
+              {errors.room && touched.room && (
+                <Text style={MainStyles.textErr}>{errors.room}</Text>
+              )}
+              <Label style={styles.title}>Số lượng nhân sự</Label>
+              <InputNumber
+                value={values.people}
+                setFieldValue={setFieldValue}
+                fieldName='people'
+                min={0}
+              />
+              {errors.people && touched.people && (
+                <Text style={MainStyles.textErr}>{errors.people}</Text>
+              )}
+              <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
+                <Label style={[{ marginRight: 10 }, styles.title]}>Thời lượng :</Label>
+                <Text style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: 'bold' }}>Trong {RoundUpNumber(timeWorking, 0)} giờ </Text>
+              </View>
+              <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
+                <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
+                  <Image
+                    source={ic_premium}
+                    style={{ width: 40, height: 40, marginRight: 10 }}
+                  />
+                  <Label fontSize={18}>Dịch vụ Premium</Label>
+                </View>
+                <BtnToggle
+                  value={values.premium}
+                  onChange={(checked) => setFieldValue('premium', checked)}
+                />
+              </View>
+              <Label style={styles.title}>Dịch vụ thêm</Label>
+              <InputCheckBox
+                data={Service.ServiceDetail}
+                selectedValues={values.otherService}
+                onChange={(item) => {
+                  const newSelectedValues = values.otherService.some(value => value.ServiceDetailId === item.ServiceDetailId)
+                    ? values.otherService.filter(value => value.ServiceDetailId !== item.ServiceDetailId)
+                    : [...values.otherService, item];
+                  setFieldValue('otherService', newSelectedValues);
+                  if (onChange && typeof onChange === 'function') {
+                    onChange({ ...values, otherService: newSelectedValues });
+                  }
+                }}
+              />
+              <Label style={styles.title}>Ghi chú</Label>
+              <TextArea
+                placeholder="Thêm ghi chú ở đây"
+                value={values.note}
+                onChangeText={handleChange('note')}
+                onBlur={handleBlur('note')}
+              />
 
-          </View>
-        );
-      }}
-    </Formik>
-  </View>
-);
+            </View>
+          );
+        }}
+      </Formik>
+    </View>
+  )
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -117,4 +150,5 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
 export default FormServiceClearningOffice;

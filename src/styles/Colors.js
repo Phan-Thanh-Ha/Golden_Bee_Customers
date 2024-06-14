@@ -1,3 +1,5 @@
+export const gradientBlue = ["#4c669f", "#3b5998", "#192f6a"];
+
 export const colors = {
   SUCCESS: "#227c45",
   CANCEL: "#8092FF",

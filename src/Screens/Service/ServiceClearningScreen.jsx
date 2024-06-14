@@ -22,16 +22,16 @@ import { ScreenNames } from "../../Constants";
 
 const ServiceClearningScreen = () => {
   const route = useRoute();
-  // const { service } = route.params ;
-  const service = dataMenuApi[0];
+  const { service } = route.params || {};
+  // const service = dataMenuApi[0];
   const navi = useNavigation();
   console.log("service in service clearning", service);
+  const price = service.PriceService || 11;
+  const workingTime = service.WorkingTime || 11;
   const paramsLocation = "12, Đường Nguyễn Văn Lượng, Quận gò vấp, TP Hồ Chí Minh, Việt Nam";
-  const workingTime = 3;
   const [time, setTime] = useState(workingTime);
   const inset = UseInset();
   const formikSubmitRef = useRef(null);
-  const price = service.PriceService;
   const [totalPrice, setTotalPrice] = useState(price);
   const [modalOpen, setModalOpen] = useState(false);
   const modalOnClose = () => {
@@ -54,7 +54,7 @@ const ServiceClearningScreen = () => {
       />
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
       <Text style={MainStyles.screenTitle}>Thông tin công việc</Text>
-      <CardLocation location={paramsLocation} />
+      <CardLocation location={service.Address} />
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
           <FormServiceClearning

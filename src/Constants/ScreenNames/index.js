@@ -37,6 +37,7 @@ const ScreenNames = {
   FORM_REPAIR_CAMERA: "FORM_REPAIR_CAMERA", // sửa camera
   FORM_INTERIOR: "FORM_INTERIOR", // sửa nội thất
   CONFIRM_BOOKING: "CONFIRM_BOOKING", // xác nhận đặt dich vu
+  WAITING_STAFF: "WAITING_STAFF", // chờ nhân viên
 };
 
 export default ScreenNames;

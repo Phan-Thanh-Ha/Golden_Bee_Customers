@@ -35,7 +35,7 @@ const FormServiceClearning = ({
     <View style={styles.container}>
       <Formik
         initialValues={{
-          room: 0,
+          room: 1,
           people: 1,
           premium: false,
           otherService: [],
@@ -46,7 +46,7 @@ const FormServiceClearning = ({
           console.log('Form values:', values);
           navi.navigate(ScreenNames.CONFIRM_BOOKING, {
             dataConfirmService: {
-              Service: Service,
+              ...Service,
               TotalPrice: TotalPrice,
               workingTime: timeWorking,
               ...values
@@ -104,7 +104,7 @@ const FormServiceClearning = ({
               </View>
               <Label style={styles.title}>Dịch vụ thêm</Label>
               <InputCheckBox
-                data={Service.Detail}
+                data={Service.ServiceDetail}
                 selectedValues={values.otherService}
                 onChange={(item) => {
                   const newSelectedValues = values.otherService.some(value => value.ServiceDetailId === item.ServiceDetailId)
@@ -150,4 +150,5 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
 export default FormServiceClearning

@@ -281,5 +281,10 @@ const MainStyles = StyleSheet.create({
     fontSize: 16,
     color: colors.BLACK,
   },
+  txtTotalPrice: {
+    fontSize: 20,
+    color: colors.MAIN_BLUE_CLIENT,
+    fontWeight: "bold",
+  },
 });
 export default MainStyles;

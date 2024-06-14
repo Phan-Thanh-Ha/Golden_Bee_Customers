@@ -1132,8 +1132,7 @@ export const dataConfrirm = {
   "room": 1,
   "people": 1,
   "premium": false,
-  "Address": "17 đường số 6",
-  "AddressDetail": "17, đường số 6, phường 10, Gò vấp, Thành phố hồ chí minh",
+  "Address": "17, đường số 6, phường 10, Gò vấp, Thành phố hồ chí minh",
   "otherService": [
     {
       "ServiceDetailId": 3,
@@ -1153,3 +1152,59 @@ export const dataConfrirm = {
   ],
   "note": ""
 }
+
+
+export const dataBooing = [
+  {
+    "ServiceId": 7,
+    "ServiceName": "Giúp việc theo giờ",
+    "Address": "39B Truong Son Street, Phường 4, Tân Bình, Ho Chi Minh City, Vietnam",
+    "CustomerId": 582,
+    "CustomerName": " PhanHa",
+    "TotalPrice": 120022,
+    "workingTime": 5.5,
+    "room": 1, // số phòng 
+    "people": 2, // số người làm việc
+    "premium": false,
+    "otherService": [ // dịch vụ thêm
+      {
+        "ServiceDetailId": 3,
+        "ServiceDetailName": "Nấu ăn",
+        "PriceDetail": 60000,
+      },
+      {
+        "ServiceDetailId": 4,
+        "ServiceDetailName": "Ủi + Phơi quần áo",
+        "PriceDetail": 60000,
+      }
+    ],
+    "note": "Nhà có thú cưng",
+    "payment": true
+  },
+  {
+    "ServiceId": 2,
+    "ServiceName": "Giúp việc theo giờ",
+    "Address": "39B Truong Son Street, Phường 4, Tân Bình, Ho Chi Minh City, Vietnam",
+    "CustomerId": 582,
+    "CustomerName": " PhanHa",
+    "TotalPrice": 120022,
+    "workingTime": 5.5,
+    "room": 1, // số phòng 
+    "people": 2, // số người làm việc
+    "premium": false,
+    "otherService": [ // dịch vụ thêm
+      {
+        "ServiceDetailId": 3,
+        "ServiceDetailName": "Nấu ăn",
+        "PriceDetail": 60000,
+      },
+      {
+        "ServiceDetailId": 4,
+        "ServiceDetailName": "Ủi + Phơi quần áo",
+        "PriceDetail": 60000,
+      }
+    ],
+    "note": "Nhà có thú cưng",
+    "payment": true
+  }
+]

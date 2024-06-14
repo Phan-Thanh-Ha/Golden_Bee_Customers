@@ -6,6 +6,7 @@ const initialState = {
   language: "vn",
   locationTime: [],
   userLogin: {},
+  menuService: [],
 };
 export default function (state = initialState, action = {}) {
   switch (action.type) {
@@ -29,6 +30,12 @@ export default function (state = initialState, action = {}) {
       return {
         ...state,
         userLogin: action.payload,
+      };
+    case mainTypes.MENU_SERVICE:
+      console.log("menu in redux", action.payload);
+      return {
+        ...state,
+        menuService: action.payload,
       };
     default:
       return state;

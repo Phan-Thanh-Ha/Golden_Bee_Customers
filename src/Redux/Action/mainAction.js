@@ -31,3 +31,12 @@ export function userLogout(dispatch) {
     payload: {},
   });
 }
+
+export function menuService(data, dispatch) {
+  // Log để kiểm tra dữ liệu trước khi dispatch
+  console.log("Dispatching menuService action with data:", data);
+  return dispatch({
+    type: mainTypes.MENU_SERVICE,
+    payload: data,
+  });
+}

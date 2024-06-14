@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
-import Toast from "react-native-toast-message";
 import CustomInput from "./CustomInput";
 import CustomLabel from "./CustomLabel";
 import CustomFormError from "./CustomFormError";
@@ -15,7 +14,6 @@ import { mainAction } from "../../Redux/Action";
 import { useDispatch } from "react-redux";
 import { AlertToaster } from "../../Utils/AlertToaster";
 import { setData } from "../../Utils";
-import { userLogin } from "../../Redux/Action/mainAction";
 
 const LoginForm = ({ setSubmit }) => {
   const dispatch = useDispatch();
@@ -36,9 +34,9 @@ const LoginForm = ({ setSubmit }) => {
     try {
       setLoading(true);
       const pr = {
-        UserName: '0943214791',
-        Password: '123456',
-        GroupUserId: 10060
+        UserName: "0943214791",
+        Password: "123456",
+        GroupUserId: 10060,
       };
       const params = {
         Json: JSON.stringify(pr),
@@ -51,11 +49,11 @@ const LoginForm = ({ setSubmit }) => {
         // thông tin user đăng nhập thành công là result.Result[0]
         mainAction.userLogin(result.Result[0], dispatch);
         await setData(StorageNames.USER_PROFILE, result.Result[0]);
-        AlertToaster('success', 'Đăng nhập thành công !');
+        AlertToaster("success", "Đăng nhập thành công !");
         navi.navigate(ScreenNames.MAIN_NAVIGATOR);
         setLoading(false);
       } else {
-        AlertToaster('error', result?.Result);
+        AlertToaster("error", result?.Result);
         setLoading(false);
       }
     } catch (error) {
@@ -120,9 +118,7 @@ const LoginForm = ({ setSubmit }) => {
             </Button>
             <View style={MainStyle.regis}>
               <Text style={MainStyle.regisSub}>Bạn chưa có tài khoản ?</Text>
-              <Pressable
-                onPress={() => navi.navigate(ScreenNames.REGISTER)}
-              >
+              <Pressable onPress={() => navi.navigate(ScreenNames.REGISTER)}>
                 <Text style={MainStyle.regisBtn}>Đăng ký</Text>
               </Pressable>
             </View>

@@ -27,3 +27,4 @@ export const ic_premium = require("../assets/icons/premium-quality.png");
 
 // ========================= Images =========================
 export const ic_Loading = require("../assets/Image_Json/Loading.json");
+export const ic_coin = require("../assets/images/dollar.png");

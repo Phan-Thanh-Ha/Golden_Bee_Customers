@@ -24,3 +24,4 @@ export * from "./ServiceRepairElectricalScreen";
 export * from "./ServiceRepairCameraScreen";
 export * from "./ServiceRepairInteriorScreen";
 export * from "./ConfirmBooking";
+export * from "./WaitingStaffScreen";

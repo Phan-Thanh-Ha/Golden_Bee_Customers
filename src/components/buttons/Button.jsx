@@ -10,10 +10,7 @@ const Button = ({ bgColor, textColor = 'white', fontSize = 20, fontWeight = 'nor
       {...props}
       style={({ pressed }) => [
         styles.button,
-        {
-          borderWidth: boderWidth,
-          borderColor: bgColor,
-        },
+        {},
         pressed && styles.pressed,
       ]}
       onPress={onPress}

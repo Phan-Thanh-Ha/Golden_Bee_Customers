@@ -12,24 +12,16 @@ function calculateTotalPrice(otherService) {
 
 export const priceClearning = (values, price, time) => {
   const priceServiceDetail = calculateTotalPrice(values?.otherService);
-  return price * values?.people + priceServiceDetail;
+  return price * values?.people * values?.room + priceServiceDetail;
 };
-export const priceHourseClearning = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceHourseClearning = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  return price * values?.people * values?.room + priceServiceDetail;
 };
 
-export const priceOfficeClearning = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceOfficeClearning = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  return price * values?.people * values?.room + priceServiceDetail;
 };
 export const priceClearningMachine = (formData, price, time) => {
   return (

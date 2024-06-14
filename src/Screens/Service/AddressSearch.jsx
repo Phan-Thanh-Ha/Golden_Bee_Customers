@@ -77,31 +77,31 @@ const AddressSearch = () => {
     }
   };
   return (
-    <View style={{ flex: 1, backgroundColor: colors.WHITE }}>
+    <View style={{ backgroundColor: colors.WHITE }}>
       <Header title="Chọn vị trí làm việc" />
+      <InputComponent
+        placeholder={"Nhập địa chỉ"}
+        iconRight="map-outline"
+        inputStatus={statusAddressSearch}
+        txtWarning="Vui lòng nhập địa chỉ"
+        style={{
+          width: "98%",
+          alignSelf: "center",
+        }}
+        onRightIconPress={() => {
+          console.log(
+            "🚀 ~ file: ShowMap.jsx ~ line 55 ~ onIconPress ~ onIconPress"
+          );
+        }}
+        onChangeText={(e) => {
+          setStatusAddressSearch("basic");
+          setTxtWarning("");
+        }}
+        onFinishText={(e) => {
+          checkInputSearch(e);
+        }}
+      />
       <KeyboardAwareScrollView enableOnAndroid extraHeight={200}>
-        <InputComponent
-          placeholder={"Nhập địa chỉ"}
-          iconRight="map-outline"
-          inputStatus={statusAddressSearch}
-          txtWarning="Vui lòng nhập địa chỉ"
-          style={{
-            width: "98%",
-            alignSelf: "center",
-          }}
-          onRightIconPress={() => {
-            console.log(
-              "🚀 ~ file: ShowMap.jsx ~ line 55 ~ onIconPress ~ onIconPress"
-            );
-          }}
-          onChangeText={(e) => {
-            setStatusAddressSearch("basic");
-            setTxtWarning("");
-          }}
-          onFinishText={(e) => {
-            checkInputSearch(e);
-          }}
-        />
         {isLoading && <Loading />}
         <ItemAddress
           data={dataAddressSearch}
@@ -114,7 +114,7 @@ const AddressSearch = () => {
             navi.navigate(ScreenNames.SHOW_MAP, {
               service: {
                 ...service,
-                Address: item.name
+                Address: item.name,
               },
             });
           }}

@@ -30,6 +30,7 @@ import ServiceRepairCameraScreen from "../Screens/Service/ServiceRepairCameraScr
 import ServiceRepairElectricityScreen from "../Screens/Service/ServiceRepairElectricityScreen";
 import ServiceRepairInteriorScreen from "../Screens/Service/ServiceRepairInteriorScreen";
 import ConfirmBooking from "../Screens/Service/ConfirmBooking";
+import WaitingStaffScreen from "../Screens/Service/WaitingStaffScreen";
 
 const MainStack = createStackNavigator();
 
@@ -128,6 +129,10 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.CONFIRM_BOOKING} //sửa xac nhan dat
           component={ConfirmBooking}
+        />
+        <MainStack.Screen
+          name={ScreenNames.WAITING_STAFF} //sửa xac nhan dat
+          component={WaitingStaffScreen}
         />
       </MainStack.Navigator>
     </NavigationContainer>

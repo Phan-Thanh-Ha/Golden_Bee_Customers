@@ -1,4 +1,4 @@
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Image, Text, View } from "react-native"
 import MainStyles from "../../styles/MainStyle";
 import LinearGradient from "react-native-linear-gradient";
@@ -9,14 +9,31 @@ import Label from "../../components/Label";
 import { dataConfrirm } from "../data";
 import { ic_location } from "../../assets";
 import Box from "../../components/Box";
-import { TitleSlice } from "../../Utils";
+import { FormatMoney, TitleSlice } from "../../Utils";
 import Button from "../../components/buttons/Button";
+import { useState } from "react";
+import { UseInset } from "../../Hooks";
+import LayoutBottom from "../../components/layouts/LayoutBottom";
+import BtnPrimary from "../../components/buttons/BtnPrimary";
+import { RoundUpNumber } from "../../Utils/RoundUpNumber";
+import { ScreenNames } from "../../Constants";
 
 const ConfirmBooking = () => {
   const route = useRoute();
-  // const { dataConfirmService } = route.params || {};
-  const dataConfirmService = dataConfrirm;
+  const { dataConfirmService } = route.params || {};
+  const navi = useNavigation();
+  const [payment, setPayment] = useState(false);
+  const inset = UseInset();
+  // const dataConfirmService = dataConfrirm;
   console.log("dataConfirmService in confirm booking", dataConfirmService);
+  const handleNext = () => {
+    navi.navigate(ScreenNames.WAITING_STAFF, {
+      dataBooking: {
+        ...dataConfirmService,
+        payment: payment
+      }
+    })
+  }
   return (
     <View style={MainStyles.containerClient}>
       <LinearGradient
@@ -35,8 +52,7 @@ const ConfirmBooking = () => {
                 style={{ width: 20, height: 20 }}
               />
               <View>
-                <Text style={MainStyles.cardTitleConfirm}>{TitleSlice(dataConfirmService.Address, 60)}</Text>
-                <Text style={MainStyles.cardSubTitleConfirm}>{dataConfirmService.AddressDetail}</Text>
+                <Text style={MainStyles.cardTitleConfirm}>{dataConfirmService.Address}</Text>
               </View>
             </View>
           </View>
@@ -49,7 +65,7 @@ const ConfirmBooking = () => {
             </View>
             <View style={MainStyles.flexRowFlexStart}>
               <Text style={MainStyles.cardTitleConfirm}>Làm trong : </Text>
-              <Text style={MainStyles.cardTitleConfirm}>{dataConfirmService.workingTime} giờ</Text>
+              <Text style={MainStyles.cardTitleConfirm}>{RoundUpNumber(dataConfirmService.workingTime, 0)} giờ</Text>
             </View>
             <Box height={10} />
             <Text style={MainStyles.cardSubLabelConfirm}>Chi tiết công việc</Text>
@@ -71,17 +87,33 @@ const ConfirmBooking = () => {
           <Text style={MainStyles.cardLabelConfirm}>Phương thức thanh tóan</Text>
           <View style={MainStyles.cardConfirmContainer}>
             <View style={MainStyles.flexRowSpaceBetween}>
-              <Button bgColor={colors.WHITE} textColor={colors.MAIN_BLUE_CLIENT} boderWidth={1}>
+              <Button
+                bgColor={payment ? colors.WHITE : false}
+                textColor={payment ? colors.MAIN_BLUE_CLIENT : colors.WHITE}
+                onPress={() => setPayment(false)}
+              >
                 Tiền mặt
               </Button>
-              <Box width={10} />
-              <Button >
+              <Button
+                bgColor={payment ? false : colors.WHITE}
+                textColor={payment ? colors.WHITE : colors.MAIN_BLUE_CLIENT}
+                onPress={() => setPayment(true)}
+              >
                 Chuyển khoản
               </Button>
             </View>
           </View>
         </View>
       </ScrollView>
+      <LayoutBottom>
+        <View style={[MainStyles.flexRowSpaceBetween, { paddingHorizontal: 20 }]}>
+          <Text style={MainStyles.txtTotalPrice}>Tổng cộng</Text>
+          <Text style={MainStyles.txtTotalPrice}>{FormatMoney(dataConfirmService.TotalPrice)} VNĐ</Text>
+        </View>
+        <BtnPrimary onPress={handleNext}>
+          <Text>Đặt đơn</Text>
+        </BtnPrimary>
+      </LayoutBottom>
     </View>
   )
 }

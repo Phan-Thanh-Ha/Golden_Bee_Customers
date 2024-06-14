@@ -6,18 +6,24 @@ import FastImage from "react-native-fast-image";
 import { SCREEN_WIDTH } from "../../../styles/MainStyle";
 import { responsivescreen } from "../../../Utils";
 import { useNavigation } from "@react-navigation/native";
-import { getRouterById } from "../../../Utils/RoutingService";
+import { ScreenNames } from "../../../Constants";
 
-export const MenuPickup = ({ onPress = () => {} }) => {
+export const MenuPickup = ({ onPress = () => { } }, data) => {
   const navi = useNavigation();
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
         onPress={() => {
           onPress(item);
-          // navi.navigate(getRouterById(item.ServiceId), {
-          //   service: item,
-          // });
+          navi.navigate(ScreenNames.ADDRESS_SEARCH, {
+            service: {
+              ServiceCode: item?.ServiceCode,
+              ServiceId: item?.ServiceId,
+              ServiceName: item?.ServiceName,
+              ServiceDetail: item?.Detail,
+              ServiceType: item?.ServiceType,
+            },
+          });
         }}
       >
         <View
