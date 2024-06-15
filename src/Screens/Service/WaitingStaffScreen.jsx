@@ -1,65 +1,63 @@
+// ========================================
+// Màn hình booking đợi nhân viên xác nhận
+// ========================================
 import {
   StyleSheet,
   Text,
   View,
-  Linking,
   Image,
-  TouchableOpacity,
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import React, { useState } from "react";
+import MapView, { Marker } from "react-native-maps";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Icon } from "@ui-kitten/components";
-import Button from "../../components/buttons/Button";
 import Box from "../../components/Box";
 import { UseInset } from "../../Hooks";
-import ArrowRight from "../../components/svg/ArrowRight";
-import { useSelector } from "react-redux";
-import { getRouterById } from "../../Utils/RoutingService";
-import { dataBooing } from "../data";
-import { ic_location, logo_bee_blue } from "../../assets";
+import { ic_location, logo_bee_blue, pin_outline } from "../../assets";
 import Loading from "../../components/Loading";
-
 const WaitingStaffScreen = () => {
   const navi = useNavigation();
   const route = useRoute();
-  const inset = UseInset();
   const [confirm, setConfirm] = useState(false);
   const [staff, setStaff] = useState({});
   const { dataBooking } = route.params || {};
-  // const dataBooking = dataBooing;
-  console.log("dataBooking in waiting staff screen", dataBooking);
+  console.log("-----> 👿👿👿 <-----  dataBooking:", dataBooking);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
           <MapView
-            provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
-              latitude: 10.8093,
-              longitude: 106.6641,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
+              latitude: dataBooking.Latitude,
+              longitude: dataBooking.Longitude,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
             }}
             zoomEnabled={true}
           >
-            {/* 10.8093, 106.6641 */}
-            {console.log("312312312", dataBooking?.Address)}
             <Marker
               coordinate={{
-                latitude: 10.8093,
-                longitude: 106.6641,
+                latitude: dataBooking.Latitude,
+                longitude: dataBooking.Longitude,
               }}
               title={dataBooking?.Address}
             >
               <View style={styles.markerContainer}>
-                <Icon name="pin-outline" width={32} height={32} fill="#000" />
+                {/* <Icon name="pin-outline" width={32} height={32} fill="#000" /> */}
+                <Loading
+                  source={pin_outline}
+                  style={{ width: 64, height: 64 }}
+                />
               </View>
             </Marker>
           </MapView>
@@ -75,16 +73,17 @@ const WaitingStaffScreen = () => {
             <Text style={MainStyles.cardLabelConfirm}>Vị trí làm việc</Text>
             <View style={MainStyles.cardConfirmContainer}>
               <View style={MainStyles.flexRowFlexStart}>
-                <Image
-                  source={ic_location}
-                  style={{ width: 20, height: 20 }}
-                />
+                <Image source={ic_location} style={{ width: 20, height: 20 }} />
                 <View>
-                  <Text style={MainStyles.cardTitleConfirm}>{dataBooking?.Address}</Text>
+                  <Text style={MainStyles.cardTitleConfirm}>
+                    {dataBooking?.Address}
+                  </Text>
                 </View>
               </View>
             </View>
-            <Text style={MainStyles.cardSubLabelConfirm}>Thời gian làm việc</Text>
+            <Text style={MainStyles.cardSubLabelConfirm}>
+              Thời gian làm việc
+            </Text>
             <View style={MainStyles.cardConfirmContainer}>
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Ngày làm việc</Text>
@@ -93,65 +92,128 @@ const WaitingStaffScreen = () => {
               <Box height={10} />
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Loại dịch vụ</Text>
-                <Text style={MainStyles.cardTitleConfirm}>{dataBooking?.premium ? "Dịch vụ Premium" : "Dịch vụ thường"}</Text>
+                <Text style={MainStyles.cardTitleConfirm}>
+                  {dataBooking?.premium ? "Dịch vụ Premium" : "Dịch vụ thường"}
+                </Text>
               </View>
             </View>
             <Text style={MainStyles.cardSubLabelConfirm}>Nhân viên</Text>
-            {
-              !confirm ? (
-                <>
-                  <View style={[MainStyles.flexRowFlexStart, { alignContent: 'center' }, MainStyles.cardConfirmContainer]}>
-                    <Image
-                      source={logo_bee_blue}
-                      style={{
-                        width: 80,
-                        height: 80,
-                        resizeMode: 'contain',
-                        marginRight: 10,
-                      }}
-                    />
-                    <View>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15, width: 120 }}>Họ tên :</Text>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>{staff?.OfficerName || "Nhật Linh"}</Text>
-                      </View>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15, width: 120 }}>SĐT :</Text>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>{staff?.Phone || "0123456789"}</Text>
-                      </View>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15, width: 120 }}>CMND/CCCD :</Text>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>{staff?.PostOfficeId || "0123456789"}</Text>
-                      </View>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15, width: 120 }}>Mã nhân viên :</Text>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>{staff?.PostOfficeId || "0123456789"}</Text>
-                      </View>
+            {!confirm ? (
+              <>
+                <View
+                  style={[
+                    MainStyles.flexRowFlexStart,
+                    { alignContent: "center" },
+                    MainStyles.cardConfirmContainer,
+                  ]}
+                >
+                  <Image
+                    source={logo_bee_blue}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      resizeMode: "contain",
+                      marginRight: 10,
+                    }}
+                  />
+                  <View>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Text
+                        style={{
+                          color: colors.MAIN_BLUE_CLIENT,
+                          fontSize: 15,
+                          width: 120,
+                        }}
+                      >
+                        Họ tên :
+                      </Text>
+                      <Text
+                        style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
+                      >
+                        {staff?.OfficerName || "Nhật Linh"}
+                      </Text>
+                    </View>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Text
+                        style={{
+                          color: colors.MAIN_BLUE_CLIENT,
+                          fontSize: 15,
+                          width: 120,
+                        }}
+                      >
+                        SĐT :
+                      </Text>
+                      <Text
+                        style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
+                      >
+                        {staff?.Phone || "0123456789"}
+                      </Text>
+                    </View>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Text
+                        style={{
+                          color: colors.MAIN_BLUE_CLIENT,
+                          fontSize: 15,
+                          width: 120,
+                        }}
+                      >
+                        CMND/CCCD :
+                      </Text>
+                      <Text
+                        style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
+                      >
+                        {staff?.PostOfficeId || "0123456789"}
+                      </Text>
+                    </View>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Text
+                        style={{
+                          color: colors.MAIN_BLUE_CLIENT,
+                          fontSize: 15,
+                          width: 120,
+                        }}
+                      >
+                        Mã nhân viên :
+                      </Text>
+                      <Text
+                        style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
+                      >
+                        {staff?.PostOfficeId || "0123456789"}
+                      </Text>
                     </View>
                   </View>
-                  <View style={[MainStyles.flexRowCenter, { alignContent: 'center' }, MainStyles.cardConfirmContainer]}>
-                    <Image
-                      source={ic_location}
-                      style={{
-                        width: 20,
-                        height: 20,
-                        resizeMode: 'contain',
-                        marginRight: 10,
-                      }}
-                    />
-                    <Text>Nhân viên sẽ đến trong 5 phút</Text>
-                  </View>
-                </>
-              ) : (
-                <Loading />
-              )
-            }
+                </View>
+                <View
+                  style={[
+                    MainStyles.flexRowCenter,
+                    { alignContent: "center" },
+                    MainStyles.cardConfirmContainer,
+                  ]}
+                >
+                  <Image
+                    source={ic_location}
+                    style={{
+                      width: 20,
+                      height: 20,
+                      resizeMode: "contain",
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text>Nhân viên sẽ đến trong 5 phút</Text>
+                </View>
+              </>
+            ) : (
+              <Loading />
+            )}
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+console.log("SCREEN_HEIGHT", SCREEN_HEIGHT);
+console.log("SCREEN_WIDTH", SCREEN_WIDTH);
 
 const styles = StyleSheet.create({
   map: {
@@ -187,9 +249,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     marginTop: SCREEN_HEIGHT / 25,
   },
-  bodyContainer: {
-
-  },
+  bodyContainer: {},
   detailContainer: {
     borderWidth: 1,
     borderColor: colors.GRAY,
@@ -269,9 +329,8 @@ const styles = StyleSheet.create({
   },
   btnTitle: {
     fontSize: 18,
-    color: colors.WHITE
-  }
+    color: colors.WHITE,
+  },
 });
-
 
 export default WaitingStaffScreen;

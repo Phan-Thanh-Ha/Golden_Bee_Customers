@@ -4,11 +4,11 @@ import { DataMenu, dataMenuApi } from "../../data";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
 import { SCREEN_WIDTH } from "../../../styles/MainStyle";
-import { responsivescreen } from "../../../Utils";
+import { units } from "../../../Utils";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../../Constants";
 
-export const MenuPickup = ({ onPress = () => { } }, data) => {
+export const MenuPickup = ({ onPress = () => {} }, data) => {
   const navi = useNavigation();
   const renderItem = ({ item }) => {
     return (
@@ -28,7 +28,7 @@ export const MenuPickup = ({ onPress = () => { } }, data) => {
       >
         <View
           style={{
-            width: responsivescreen.width("16%"),
+            width: units.width("16%"),
           }}
         >
           <FastImage

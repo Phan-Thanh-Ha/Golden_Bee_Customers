@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import Header from "../../components/Header";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { InputComponent } from "../../components/Input";
 import { colors } from "../../styles/Colors";
-import { GOOGLE_API_KEY, getData, setData } from "../../Utils";
+import { GOOGLE_API_KEY, setData } from "../../Utils";
 import Label from "../../components/Label";
 import ItemAddress from "../../components/ItemAddress";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
@@ -17,18 +17,9 @@ const AddressSearch = () => {
     "https://maps.googleapis.com/maps/api/place/autocomplete/json";
   const route = useRoute();
   const { service } = route.params;
-  // const servcie = route.params.service ? route.params.service : {};
-  console.log("servcie in select adress", service);
-  console.log("route", route);
   const [dataAddressSearch, setDataAddressSearch] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-
-  const getDataAddressLocal = async () => {
-    const dataAddress = await getData("ADDRESS_SEARCH");
-    if (dataAddress) {
-      setDataAddressSearch(dataAddress);
-    }
-  };
+  const [statusAddressSearch, setStatusAddressSearch] = React.useState("basic");
 
   // Hàm nhập địa chỉ tìm kiếm từ Google
   const handleChangeText = async (text) => {
@@ -41,20 +32,13 @@ const AddressSearch = () => {
           components: "country:vn",
         },
       });
-
       const data = response.data;
-
       if (data.predictions.length > 0) {
         const dataSeachLocation = data.predictions.map((item) => ({
+          place_id: item.place_id,
           name: item.description,
         }));
-        console.log(
-          "-----> 👿👿👿 <-----  dataSeachLocation:",
-          dataSeachLocation
-        );
-
         setDataAddressSearch(dataSeachLocation);
-
         // LocalStore
         await setData("ADDRESS_SEARCH", dataSeachLocation);
         setIsLoading(false);
@@ -67,8 +51,6 @@ const AddressSearch = () => {
       setIsLoading(false);
     }
   };
-  const [statusAddressSearch, setStatusAddressSearch] = React.useState("basic");
-  const [txtWarning, setTxtWarning] = React.useState("");
   const checkInputSearch = (e) => {
     if (e !== "") {
       handleChangeText(e);
@@ -88,14 +70,9 @@ const AddressSearch = () => {
           width: "98%",
           alignSelf: "center",
         }}
-        onRightIconPress={() => {
-          console.log(
-            "🚀 ~ file: ShowMap.jsx ~ line 55 ~ onIconPress ~ onIconPress"
-          );
-        }}
+        onRightIconPress={() => {}}
         onChangeText={(e) => {
           setStatusAddressSearch("basic");
-          setTxtWarning("");
         }}
         onFinishText={(e) => {
           checkInputSearch(e);
@@ -106,15 +83,11 @@ const AddressSearch = () => {
         <ItemAddress
           data={dataAddressSearch}
           onPress={(item) => {
-            console.log(
-              "🚀 ~ file: AddressSearch.jsx ~ line 91 ~ AddressSearch ~ item",
-              item
-            );
-            // navi.navigate("ShowMap", { address: item.name });
             navi.navigate(ScreenNames.SHOW_MAP, {
               service: {
                 ...service,
                 Address: item.name,
+                place_id: item.place_id,
               },
             });
           }}
@@ -125,5 +98,3 @@ const AddressSearch = () => {
 };
 
 export default AddressSearch;
-
-const styles = StyleSheet.create({});

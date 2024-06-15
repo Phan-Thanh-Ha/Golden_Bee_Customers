@@ -1,14 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Linking,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  SafeAreaView,
-  Platform,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import React, { useEffect } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MainStyles, {
@@ -25,25 +15,57 @@ import { UseInset } from "../../Hooks";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { useSelector } from "react-redux";
 import { getRouterById } from "../../Utils/RoutingService";
+import { GOOGLE_API_KEY, GetUserProfile } from "../../Utils";
+import axios from "axios";
+import Loading from "../../components/Loading";
+import { pin_outline } from "../../assets";
 
 const ShowMap = () => {
   const user = useSelector((state) => state.main.userLogin);
-  console.log("user in show map", user);
   const route = useRoute();
   const navi = useNavigation();
   const { service } = route.params || {};
   const inset = UseInset();
-  console.log("service in show map", service);
-  const AddressDetail =
-    "17, đường số 6, phường 10, Gò vấp, Thành phố hồ chí minh";
+  const [userProfile, setUserProfile] = React.useState({
+    Latitude: 0,
+    Longitude: 0,
+  });
+
   const handleNext = () => {
     navi.navigate(getRouterById(service.ServiceId), {
       service: {
         ...service,
         CustomerId: user.Id,
         CustomerName: user.CustomerName,
+        Latitude: userProfile.Latitude,
+        Longitude: userProfile.Longitude,
       },
     });
+  };
+  useEffect(() => {
+    getLatLong(service.place_id);
+  }, []);
+
+  const getLatLong = async (place_id) => {
+    try {
+      const response = await axios.get(
+        "https://maps.googleapis.com/maps/api/place/details/json",
+        {
+          params: {
+            place_id: place_id,
+            fields: "geometry",
+            key: GOOGLE_API_KEY,
+          },
+        }
+      );
+      setUserProfile({
+        Latitude: response.data.result.geometry.location.lat,
+        Longitude: response.data.result.geometry.location.lng,
+      });
+    } catch (error) {
+      console.error("Error fetching place details:", error);
+      return null;
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -52,30 +74,29 @@ const ShowMap = () => {
           <MapView
             style={styles.map}
             region={{
-              latitude: 10.8093,
-              longitude: 106.6641,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
+              latitude: userProfile.Latitude,
+              longitude: userProfile.Longitude,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
             }}
             zoomEnabled={true}
           >
-            {/* 10.8093, 106.6641 */}
-            {console.log("312312312", service.Address)}
             <Marker
               coordinate={{
-                latitude: 10.8093,
-                longitude: 106.6641,
+                latitude: userProfile.Latitude,
+                longitude: userProfile.Longitude,
               }}
               title={service.Address}
             >
               <View style={styles.markerContainer}>
-                <Icon name="pin-outline" width={32} height={32} fill="#000" />
+                <Loading
+                  source={pin_outline}
+                  style={{ width: 64, height: 64 }}
+                />
               </View>
             </Marker>
           </MapView>
           <View style={styles.topBar}>
-            {/* <BackButton onPress={onClickBack} /> */}
-            <Text>Back</Text>
             <CardLocation
               onPress={() => navi.goBack()}
               location={service.Address}

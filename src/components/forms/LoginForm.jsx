@@ -44,9 +44,13 @@ const LoginForm = ({ setSubmit }) => {
       };
 
       const result = await mainAction.API_spCallServer(params, dispatch);
-      // console.log("result :", result.Result[0]);
       if (result?.Status === "OK") {
         // thông tin user đăng nhập thành công là result.Result[0]
+        console.log(
+          "-----> 👿👿👿 <-----  result.Result[0]:",
+          result.Result[0]
+        );
+
         mainAction.userLogin(result.Result[0], dispatch);
         await setData(StorageNames.USER_PROFILE, result.Result[0]);
         AlertToaster("success", "Đăng nhập thành công !");

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { colors } from "../../styles/Colors";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import { Card } from "@ui-kitten/components";
-import { responsivescreen } from "../../Utils";
+import { GetUserProfile, responsivescreen, units } from "../../Utils";
 import { MenuPickup } from "./Menu";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
@@ -19,7 +19,8 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const navi = useNavigation();
   const menuData = useSelector((state) => state.main.menuService);
-  console.log("menuService in home screen", menuData);
+
+  // Lấy vị trí của khách hàng
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -34,14 +35,12 @@ const HomeScreen = () => {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   }, []);
-  const OVG_spCustomer_Location_Update = async (
-    latitude,
-    longitude,
-    CustomerId
-  ) => {
+  // Hàm cập nhật vị trí của khách hàng
+  const OVG_spCustomer_Location_Update = async (latitude, longitude) => {
+    const userLogin = await GetUserProfile();
     try {
       const pr = {
-        CustomerId: 582,
+        CustomerId: userLogin.Id,
         Lat: latitude,
         Lng: longitude,
       };
@@ -52,13 +51,11 @@ const HomeScreen = () => {
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result) {
-        if (result.Status === "OK") {
-          dispatch({
-            type: mainTypes.LOCATION_TIME,
-            payload: result.Result,
-          });
-          // setDataMenu("LOCATION_TIME", result.Result);
-        }
+        dispatch({
+          type: mainTypes.LOCATION_TIME,
+          payload: result.Result,
+        });
+        // setDataMenu("LOCATION_TIME", result.Result);
       }
     } catch (e) {}
   };
@@ -85,7 +82,7 @@ const HomeScreen = () => {
           }}
         />
 
-        <ScrollView style={{ height: responsivescreen.height("55%") }}>
+        <ScrollView style={{ height: units.height("55%") }}>
           <Card
             style={{
               backgroundColor: colors.TEXT_WHITE_CLIENT,
@@ -97,7 +94,7 @@ const HomeScreen = () => {
               borderRadius: 10,
               borderWidth: 0,
               alignSelf: "center",
-              width: responsivescreen.width("90%"),
+              width: units.width("90%"),
             }}
           >
             <MenuPickup

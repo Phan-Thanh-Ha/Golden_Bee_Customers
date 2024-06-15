@@ -16,23 +16,16 @@ export default function (state = initialState, action = {}) {
         loading: action.payload,
       };
     case mainTypes.LOCATION_TIME:
-      {
-        console.log("action.payload", action.payload);
-      }
       return {
         ...state,
         locationTime: action.payload,
       };
     case mainTypes.USER_PROFILE:
-      {
-        console.log("user in redux", action.payload);
-      }
       return {
         ...state,
         userLogin: action.payload,
       };
     case mainTypes.MENU_SERVICE:
-      console.log("menu in redux", action.payload);
       return {
         ...state,
         menuService: action.payload,

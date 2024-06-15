@@ -3,7 +3,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-export const responsivescreen = {
+export const units = {
   width: (dpWidth) => wp(dpWidth),
   height: (dpHeight) => hp(dpHeight),
 };

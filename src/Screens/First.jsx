@@ -24,9 +24,7 @@ const First = () => {
     const getRouter = async () => {
       try {
         const userLogin = await getData(StorageNames.USER_PROFILE);
-        console.log("user open app:", userLogin);
         mainAction.userLogin(userLogin, dispatch);
-
         if (userLogin === null || userLogin?.Phone === "") {
           await ensureMenuData();
           navi.navigate(ScreenNames.ABOUT);
@@ -42,7 +40,6 @@ const First = () => {
     const ensureMenuData = async () => {
       const menuData = await getData(StorageNames.MENU_SERVICE);
       if (menuData) {
-        console.log("Menu data from AsyncStorage:", menuData);
         mainAction.menuService(menuData, dispatch);
       } else {
         await fetchMenuData();
@@ -53,7 +50,7 @@ const First = () => {
       try {
         const pr = {
           ServiceId: 0,
-          GroupUserId: 0
+          GroupUserId: 0,
         };
         const params = {
           Json: JSON.stringify(pr),
@@ -65,16 +62,15 @@ const First = () => {
           mainAction.menuService(result, dispatch);
           await setData(StorageNames.MENU_SERVICE, result);
         } else {
-          Alert.alert('Error', "Lỗi dữ liệu");
+          Alert.alert("Error", "Lỗi dữ liệu");
         }
       } catch (error) {
-        console.error('Failed to fetch menu data from API:', error);
+        console.error("Failed to fetch menu data from API:", error);
       }
     };
 
     getRouter();
   }, []);
-
 
   return (
     <SafeAreaView style={styles.container}>
