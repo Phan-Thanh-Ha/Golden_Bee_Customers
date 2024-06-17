@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import React, { useEffect } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import MainStyles, {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
@@ -8,7 +8,6 @@ import MainStyles, {
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Icon } from "@ui-kitten/components";
 import Button from "../../components/buttons/Button";
 import Box from "../../components/Box";
 import { UseInset } from "../../Hooks";
@@ -130,6 +129,7 @@ const ShowMap = () => {
         <Button
           icon={() => <ArrowRight color={colors.WHITE} />}
           onPress={handleNext}
+          bgColor={colors.PRIMARY_GREEN}
         >
           Chọn vị trí này
         </Button>

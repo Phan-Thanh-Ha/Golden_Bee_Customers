@@ -286,5 +286,16 @@ const MainStyles = StyleSheet.create({
     color: colors.MAIN_BLUE_CLIENT,
     fontWeight: "bold",
   },
+  contentContainer: {
+    backgroundColor: colors.WHITE,
+    margin: 10,
+    borderRadius: 10,
+    padding: 5,
+  },
+  labelTitle: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: colors.MAIN_BLUE_CLIENT,
+  },
 });
 export default MainStyles;

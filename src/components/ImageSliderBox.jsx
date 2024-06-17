@@ -1,10 +1,10 @@
-import React from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import React, { useState } from "react";
+import { View, Dimensions } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import FastImage from "react-native-fast-image";
-import { colors } from "../styles/Colors";
 
 const carouselItemComp = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
   const dataCarousel = [
     {
       id: 1,
@@ -49,43 +49,49 @@ const carouselItemComp = () => {
       ],
     },
   ];
+
   const width = Dimensions.get("window").width;
-  const _renderItem = ({ item, index }) => {
+
+  const _renderItem = ({ item }) => {
     return (
-      <View
-        style={{
-          // flexDirection: "row",
-          marginVertical: 14,
-          width: "100%",
-        }}
-      >
-        <FastImage source={{ uri: item.url[0] }} style={{ height: 130 }} />
+      <View style={{ width: "100%" }}>
+        <FastImage
+          source={{ uri: item.url[0] }}
+          style={{
+            height: 130,
+            borderRadius: 10,
+            width: "100%",
+          }}
+        />
       </View>
     );
   };
+
   return (
-    <View
-      style={{
-        borderWidth: 0.3,
-        // marginHorizontal: 18,
-        borderRadius: 10,
-        // borderColor: colors.DIM_GRAY,
-        // justifyContent: "center",
-        alignItems: "center",
-        width: "90%",
-        alignSelf: "center",
-      }}
-    >
+    <View style={{ alignItems: "center", width: "100%" }}>
       <Carousel
         data={dataCarousel}
         renderItem={_renderItem}
         loop={true}
         autoplay={true}
-        sliderWidth={380}
-        itemWidth={width - 10}
+        sliderWidth={width}
+        itemWidth={width - 20}
+        onSnapToItem={(index) => setActiveIndex(index)}
+        removeClippedSubviews
+      />
+      <Pagination
         dotsLength={dataCarousel.length}
-        activeDotIndex={0}
-        activeOpacity={0.9}
+        activeDotIndex={activeIndex}
+        containerStyle={{ paddingVertical: 0, marginVertical: 10 }}
+        dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 5,
+          marginHorizontal: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.92)',
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
       />
     </View>
   );

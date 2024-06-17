@@ -6,7 +6,7 @@ function calculateTotalPrice(otherService) {
     return 0;
   }
   return otherService.reduce((total, detail) => {
-    return total + (detail.PriceDetail || 0);
+    return total + (detail.ServicePriceDetail || 0);
   }, 0);
 }
 
@@ -23,13 +23,13 @@ export const priceOfficeClearning = (values, price, time) => {
   const priceServiceDetail = calculateTotalPrice(values?.otherService);
   return price * values?.people * values?.room + priceServiceDetail;
 };
-export const priceClearningMachine = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceClearningMachine = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  const total =
+    price +
+    values?.people * values?.serviceOption?.OptionePrice +
+    priceServiceDetail;
+  return total;
 };
 
 export const priceClearningAirConditioner = (formData, price, time) => {

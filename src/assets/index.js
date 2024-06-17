@@ -31,3 +31,4 @@ export const pin_outline = require("../assets/Image_Json/pin_outline.json");
 
 // ========================= Images =========================
 export const ic_coin = require("../assets/images/dollar.png");
+export const ic_gift = require("../assets/images/gift.png");

@@ -7,8 +7,11 @@ import { SCREEN_WIDTH } from "../../../styles/MainStyle";
 import { units } from "../../../Utils";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../../Constants";
+import { getIconById } from "../../../Utils/RoutingService";
+import { useSelector } from "react-redux";
 
-export const MenuPickup = ({ onPress = () => {} }, data) => {
+export const MenuPickup = ({ onPress = () => {} }) => {
+  const data = useSelector((state) => state.main.menuService);
   const navi = useNavigation();
   const renderItem = ({ item }) => {
     return (
@@ -16,13 +19,7 @@ export const MenuPickup = ({ onPress = () => {} }, data) => {
         onPress={() => {
           onPress(item);
           navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-            service: {
-              ServiceCode: item?.ServiceCode,
-              ServiceId: item?.ServiceId,
-              ServiceName: item?.ServiceName,
-              ServiceDetail: item?.Detail,
-              ServiceType: item?.ServiceType,
-            },
+            service: item,
           });
         }}
       >
@@ -33,7 +30,11 @@ export const MenuPickup = ({ onPress = () => {} }, data) => {
         >
           <FastImage
             style={{ width: 50, height: 50, alignSelf: "center" }}
-            source={item.icon ? item.icon : "https://picsum.photos/200"}
+            source={
+              getIconById(item.ServiceId)
+                ? getIconById(item.ServiceId)
+                : "https://picsum.photos/200"
+            }
           />
           <View
             style={{
@@ -53,7 +54,7 @@ export const MenuPickup = ({ onPress = () => {} }, data) => {
 
   return (
     <FlatList
-      data={dataMenuApi}
+      data={data}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       numColumns={5}

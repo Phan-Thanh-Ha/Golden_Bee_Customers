@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { colors } from "../../styles/Colors";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import { Card } from "@ui-kitten/components";
-import { GetUserProfile, responsivescreen, units } from "../../Utils";
+import { responsivescreen, units } from "../../Utils";
 import { MenuPickup } from "./Menu";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
@@ -14,13 +20,21 @@ import { mainAction } from "../../Redux/Action";
 import { useDispatch, useSelector } from "react-redux";
 import { ScreenNames } from "../../Constants";
 import Geolocation from "@react-native-community/geolocation";
+import Slider from "../../components/Slider";
+import Box from "../../components/Box";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
+import Label from "../../components/Label";
+import Right from "../../components/svg/Right";
+import ArrowRight from "../../components/svg/ArrowRight";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const navi = useNavigation();
   const menuData = useSelector((state) => state.main.menuService);
-
-  // Lấy vị trí của khách hàng
+  console.log("menuService in home screen", menuData);
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -35,12 +49,14 @@ const HomeScreen = () => {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   }, []);
-  // Hàm cập nhật vị trí của khách hàng
-  const OVG_spCustomer_Location_Update = async (latitude, longitude) => {
-    const userLogin = await GetUserProfile();
+  const OVG_spCustomer_Location_Update = async (
+    latitude,
+    longitude,
+    CustomerId
+  ) => {
     try {
       const pr = {
-        CustomerId: userLogin.Id,
+        CustomerId: 582,
         Lat: latitude,
         Lng: longitude,
       };
@@ -51,11 +67,13 @@ const HomeScreen = () => {
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result) {
-        dispatch({
-          type: mainTypes.LOCATION_TIME,
-          payload: result.Result,
-        });
-        // setDataMenu("LOCATION_TIME", result.Result);
+        if (result.Status === "OK") {
+          dispatch({
+            type: mainTypes.LOCATION_TIME,
+            payload: result.Result,
+          });
+          // setDataMenu("LOCATION_TIME", result.Result);
+        }
       }
     } catch (e) {}
   };
@@ -65,53 +83,56 @@ const HomeScreen = () => {
         colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
-      <View>
-        <View
+      <Box height={SCREEN_HEIGHT * 0.01} />
+      <LogoBeeBox
+        color={colors.WHITE}
+        sizeImage={SCREEN_WIDTH / 5}
+        sizeText={20}
+      />
+      <InputSearch
+        style={{
+          marginHorizontal: 25,
+          marginVertical: 15,
+        }}
+      />
+      <ScrollView style={{ height: units.height("70%") }}>
+        <Card
           style={{
-            margin: 15,
-            padding: 15,
+            backgroundColor: colors.TEXT_WHITE_CLIENT,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
             borderRadius: 10,
+            borderWidth: 0,
+            alignSelf: "center",
+            width: units.width("90%"),
           }}
         >
-          <LogoBeeBox />
-        </View>
-        <InputSearch
-          style={{
-            marginHorizontal: 25,
-            marginVertical: 15,
-          }}
-        />
-
-        <ScrollView style={{ height: units.height("55%") }}>
-          <Card
-            style={{
-              backgroundColor: colors.TEXT_WHITE_CLIENT,
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-              borderRadius: 10,
-              borderWidth: 0,
-              alignSelf: "center",
-              width: units.width("90%"),
+          <MenuPickup
+            onPress={(item) => {
+              navi.navigate(ScreenNames.ADDRESS_SEARCH, { service: item });
             }}
-          >
-            <MenuPickup
-              data={menuData}
-              onPress={(item) => {
-                navi.navigate(ScreenNames.ADDRESS_SEARCH, { service: item });
-              }}
-            />
-          </Card>
-          <View style={{ marginVertical: 20 }}>
-            <CarouselItem />
-          </View>
-          <View>
-            <ProductMust />
-          </View>
-        </ScrollView>
-      </View>
+          />
+        </Card>
+        <View style={{ marginTop: 10, borderRadius: 10 }}>
+          <CarouselItem />
+        </View>
+        <TouchableOpacity
+          style={[
+            MainStyles.flexRowFlexStart,
+            { paddingHorizontal: 20, paddingVertical: 10 },
+          ]}
+        >
+          <Label>Có thể bạn sẽ thích</Label>
+          <ArrowRight size={20} />
+        </TouchableOpacity>
+        <View>
+          <ProductMust />
+        </View>
+        <Box height={SCREEN_HEIGHT * 0.1} />
+      </ScrollView>
     </View>
   );
 };

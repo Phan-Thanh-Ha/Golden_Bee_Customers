@@ -27,7 +27,6 @@ import ServiceRepairAirScreen from "../Screens/Service/ServiceRepairAirScreen";
 import ShowMap from "../Screens/Service/ShowMap";
 import ServiceRepairPipeScreen from "../Screens/Service/ServiceRepairPipeScreen";
 import ServiceRepairCameraScreen from "../Screens/Service/ServiceRepairCameraScreen";
-import ServiceRepairElectricityScreen from "../Screens/Service/ServiceRepairElectricityScreen";
 import ServiceRepairInteriorScreen from "../Screens/Service/ServiceRepairInteriorScreen";
 import ConfirmBooking from "../Screens/Service/ConfirmBooking";
 import WaitingStaffScreen from "../Screens/Service/WaitingStaffScreen";

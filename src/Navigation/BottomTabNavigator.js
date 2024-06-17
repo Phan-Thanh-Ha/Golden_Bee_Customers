@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Animated,
   Image,
+  Platform,
 } from "react-native";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
 import { logo_bee_blue } from "../assets";
@@ -15,6 +16,7 @@ import Account from "../Screens/Home/Account";
 import { colors } from "../styles/Colors";
 import { Icon } from "@ui-kitten/components";
 import { ScreenNames } from "../Constants";
+import { screen } from "../Utils";
 
 export const BottomTabNavigator = () => {
   const _renderIcon = (routeName, selectedTab) => {
@@ -87,17 +89,14 @@ export const BottomTabNavigator = () => {
       type="DOWN"
       style={styles.bottomBar}
       shadowStyle={styles.shawdow}
-      height={55}
-      circleWidth={50}
+      height={Platform.OS === "android" ? 55 : 80} // Set height based on platform
+      circleWidth={Platform.OS === "android" ? 50 : 80} // Set circleWidth based on platform
       bgColor="white"
       initialRouteName={ScreenNames.HOME}
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <Animated.View style={styles.btnCircleUp}>
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => navigate(ScreenNames.HOME)}
-          >
+          <TouchableOpacity style={styles.button}>
             <Image source={logo_bee_blue} style={styles.circleIcon} />
           </TouchableOpacity>
         </Animated.View>

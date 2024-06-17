@@ -11,6 +11,7 @@ import HourGlass from './svg/HourGlass';
 import GroupPerson from './svg/GroupPerson';
 import { FormatMoney } from '../Utils';
 import Box from './Box';
+import Money from './svg/Money';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -49,8 +50,9 @@ const BookingCard = ({ data, onPress }) => {
         </View>
         <View style={styles.infoContainer}>
           <View style={styles.infoItem}>
-            <Image source={ic_coin} style={styles.icon} />
-            <Text style={styles.infoText}>{FormatMoney(data.TotalPrice)} NVĐ</Text>
+            {/* <Image source={ic_coin} style={styles.icon} /> */}
+            <Money color={colors.MAIN_COLOR_CLIENT} />
+            <Text style={styles.infoText}>{FormatMoney(data.TotalPrice)} vnđ</Text>
           </View>
           <View style={styles.infoItem}>
             <GroupPerson color={colors.MAIN_COLOR_CLIENT} />

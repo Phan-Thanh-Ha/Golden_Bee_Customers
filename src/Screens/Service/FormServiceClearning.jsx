@@ -31,6 +31,7 @@ const FormServiceClearning = ({
   TotalPrice,
 }) => {
   const navi = useNavigation();
+  console.log('service on form', Service);
   return (
     <View style={styles.container}>
       <Formik
@@ -102,9 +103,13 @@ const FormServiceClearning = ({
                   onChange={(checked) => setFieldValue('premium', checked)}
                 />
               </View>
-              <Label style={styles.title}>Dịch vụ thêm</Label>
+              {
+                Service?.Detail.length > 0 && (
+                  <Label style={styles.title}>Dịch vụ thêm</Label>
+                )
+              }
               <InputCheckBox
-                data={Service.ServiceDetail}
+                data={Service?.Detail}
                 selectedValues={values.otherService}
                 onChange={(item) => {
                   const newSelectedValues = values.otherService.some(value => value.ServiceDetailId === item.ServiceDetailId)

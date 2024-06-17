@@ -38,12 +38,15 @@ const First = () => {
     };
 
     const ensureMenuData = async () => {
-      const menuData = await getData(StorageNames.MENU_SERVICE);
-      if (menuData) {
-        mainAction.menuService(menuData, dispatch);
-      } else {
-        await fetchMenuData();
-      }
+      // const menuData = await getData(StorageNames.MENU_SERVICE);
+      await fetchMenuData();
+
+      // if (menuData) {
+      //   console.log("Menu data from AsyncStorage:", menuData);
+      //   mainAction.menuService(menuData, dispatch);
+      // } else {
+      //   await fetchMenuData();
+      // }
     };
 
     const fetchMenuData = async () => {
@@ -58,14 +61,13 @@ const First = () => {
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
         if (result.length > 0) {
-          console.log("Menu data from API:", result);
           mainAction.menuService(result, dispatch);
           await setData(StorageNames.MENU_SERVICE, result);
         } else {
           Alert.alert("Error", "Lỗi dữ liệu");
         }
       } catch (error) {
-        console.error("Failed to fetch menu data from API:", error);
+        // console.error("Failed to fetch menu data from API:", error);
       }
     };
 

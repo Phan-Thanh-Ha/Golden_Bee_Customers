@@ -1208,3 +1208,372 @@ export const dataBooing = [
     "payment": true
   }
 ]
+
+export const menuApi = [
+  {
+    "ServiceId": 7,
+    "ServiceCode": "DV-05062405025764",
+    "ServiceName": "Giúp việc theo giờ",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
+      {
+        "ServiceId": 7,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000
+      },
+      {
+        "ServiceId": 7,
+        "ServiceDetailName": "Nấu ăn",
+        "ServicePriceDetail": 60000
+      },
+      {
+        "ServiceId": 7,
+        "ServiceDetailName": "Ủi + Phơi quần áo",
+        "ServicePriceDetail": 60000
+      },
+      {
+        "ServiceId": 7,
+        "ServiceDetailName": "Mang theo hoá chất tẩy rửa, nước lau kính",
+        "ServicePriceDetail": 30000
+      }
+    ],
+    "ServiceOption": []
+  },
+  {
+    "ServiceId": 8,
+    "ServiceCode": "DV-06062403132645",
+    "ServiceName": "Dọn dẹp buồng phòng",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
+      {
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000
+      },
+      {
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo máy hút bụi",
+        "ServicePriceDetail": 60000
+      },
+      {
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo máy trà sàn",
+        "ServicePriceDetail": 90000
+      },
+      {
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo hoá chất tẩy rửa, nước lau kính",
+        "ServicePriceDetail": 30000
+      }
+    ],
+    "ServiceOption": []
+  },
+  {
+    "ServiceId": 9,
+    "ServiceCode": "DV-11062403162006",
+    "ServiceName": "Dọn dẹp văn phòng",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
+      {
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000
+      },
+      {
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo máy hút bụi",
+        "ServicePriceDetail": 30000
+      },
+      {
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo chất tẩy rửa",
+        "ServicePriceDetail": 30000
+      }
+    ],
+    "ServiceOption": []
+  },
+  {
+    "ServiceId": 10,
+    "ServiceCode": "DV-11062403163572",
+    "ServiceName": "Vệ sinh máy giặc",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
+      {
+        "ServiceId": 10,
+        "OptionName": "7 KG",
+        "OptionePrice": 10000
+      },
+      {
+        "ServiceId": 10,
+        "OptionName": "9 Kg",
+        "OptionePrice": 20000
+      },
+      {
+        "ServiceId": 10,
+        "OptionName": "9Kg >",
+        "OptionePrice": 30000
+      }
+    ]
+  },
+  {
+    "ServiceId": 11,
+    "ServiceCode": "DV-11062403165042",
+    "ServiceName": "Vệ sinh máy lạnh",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
+      {
+        "ServiceId": 11,
+        "OptionName": "1 HP",
+        "OptionePrice": 100000
+      },
+      {
+        "ServiceId": 11,
+        "OptionName": "2 HP",
+        "OptionePrice": 200000
+      },
+      {
+        "ServiceId": 11,
+        "OptionName": "2 HP >",
+        "OptionePrice": 300000
+      }
+    ]
+  },
+  {
+    "ServiceId": 12,
+    "ServiceCode": "DV-11062403174078",
+    "ServiceName": "Sửa điện",
+    "ServiceTime": 4,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
+      {
+        "ServiceId": 12,
+        "OptionName": "Thay bóng đèn",
+        "OptionePrice": 150000
+      },
+      {
+        "ServiceId": 12,
+        "OptionName": "Thay sabi",
+        "OptionePrice": 300000
+      },
+      {
+        "ServiceId": 12,
+        "OptionName": "Thay ổ điện",
+        "OptionePrice": 100000
+      },
+      {
+        "ServiceId": 12,
+        "OptionName": "Thay thế dụng cụ máy",
+        "OptionePrice": 50000
+      },
+      {
+        "ServiceId": 12,
+        "OptionName": "Đấu nối tủ điện",
+        "OptionePrice": 200000
+      },
+      {
+        "ServiceId": 12,
+        "OptionName": "Các công việc khác",
+        "OptionePrice": 500000
+      }
+    ]
+  },
+  {
+    "ServiceId": 13,
+    "ServiceCode": "DV-11062403175030",
+    "ServiceName": "Sửa máy lạnh",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
+      {
+        "ServiceId": 13,
+        "OptionName": "Thay lắp ống đồng",
+        "OptionePrice": 1000000
+      },
+      {
+        "ServiceId": 13,
+        "OptionName": "Lắp đặt máy",
+        "OptionePrice": 300000
+      },
+      {
+        "ServiceId": 13,
+        "OptionName": "Thay thế dụng cụ máy",
+        "OptionePrice": 200000
+      },
+      {
+        "ServiceId": 13,
+        "OptionName": "Sửa điện + Ống nước",
+        "OptionePrice": 250000
+      }
+    ]
+  },
+  {
+    "ServiceId": 14,
+    "ServiceCode": "DV-11062403180719",
+    "ServiceName": "Sửa ống nước",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
+      {
+        "ServiceId": 14,
+        "OptionName": "Thay van nước",
+        "OptionePrice": 400000
+      },
+      {
+        "ServiceId": 14,
+        "OptionName": "Sửa van nước",
+        "OptionePrice": 100000
+      },
+      {
+        "ServiceId": 14,
+        "OptionName": "Thay - Sửa ống nước",
+        "OptionePrice": 500000
+      },
+      {
+        "ServiceId": 14,
+        "OptionName": "Thay vòi nước",
+        "OptionePrice": 400000
+      },
+      {
+        "ServiceId": 14,
+        "OptionName": "Thay đồng hồ điện",
+        "OptionePrice": 300000
+      }
+    ]
+  },
+  {
+    "ServiceId": 15,
+    "ServiceCode": "DV-11062403182499",
+    "ServiceName": "Sửa camera",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
+      {
+        "ServiceId": 15,
+        "OptionName": "Thay ổ cứng",
+        "OptionePrice": 100000
+      },
+      {
+        "ServiceId": 15,
+        "OptionName": "Thay cam mới",
+        "OptionePrice": 300000
+      },
+      {
+        "ServiceId": 15,
+        "OptionName": "Đi lại dây camera",
+        "OptionePrice": 1000000
+      },
+      {
+        "ServiceId": 15,
+        "OptionName": "Cài lại phần mềm",
+        "OptionePrice": 500000
+      }
+    ]
+  },
+  {
+    "ServiceId": 16,
+    "ServiceCode": "DV-11062403183245",
+    "ServiceName": "Sửa nội thất",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
+      {
+        "ServiceId": 16,
+        "ServiceDetailName": "1",
+        "ServicePriceDetail": 1
+      },
+      {
+        "ServiceId": 16,
+        "ServiceDetailName": "1",
+        "ServicePriceDetail": 1
+      },
+      {
+        "ServiceId": 16,
+        "ServiceDetailName": "1",
+        "ServicePriceDetail": 1
+      },
+      {
+        "ServiceId": 16,
+        "ServiceDetailName": "1",
+        "ServicePriceDetail": 1
+      },
+      {
+        "ServiceId": 16,
+        "ServiceDetailName": "1",
+        "ServicePriceDetail": 11111
+      }
+    ],
+    "ServiceOption": [
+      {
+        "ServiceId": 16,
+        "OptionName": "Sửa chửa lắp đặt",
+        "OptionePrice": 200000
+      },
+      {
+        "ServiceId": 16,
+        "OptionName": "Sửa tủ áo",
+        "OptionePrice": 50000
+      },
+      {
+        "ServiceId": 16,
+        "OptionName": "Sửa giường",
+        "OptionePrice": 500000
+      }
+    ]
+  }
+]
+
+export const dataSlider = [
+  {
+    id: 1,
+    url: [
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+    ],
+  },
+  {
+    id: 2,
+    url: [
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+    ],
+  },
+  {
+    id: 3,
+    url: [
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+    ],
+  },
+  {
+    id: 4,
+    url: [
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+    ],
+  },
+  {
+    id: 5,
+    url: [
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fapi-crmcak.vps.vn%2Fupload%2F%2Fongvangvietnam.com%2F2024%2F062024%2F05%2F_2024-06-05-03-17-55_1.jpg&w=3840&q=100",
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fapi-crmcak.vps.vn%2Fupload%2F%2Fongvangvietnam.com%2F2024%2F062024%2F05%2F_2024-06-05-03-17-55_1.jpg&w=3840&q=100",
+    ],
+  },
+  {
+    id: 6,
+    url: [
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+      "https://ongvangvietnam.com/_next/image?url=https%3A%2F%2Fwww.btaskee.com%2Fwp-content%2Fuploads%2F2020%2F11%2Fhome-page-an-tam-voi-lua-chon-cua-ban.png&w=3840&q=100",
+    ],
+  },
+];

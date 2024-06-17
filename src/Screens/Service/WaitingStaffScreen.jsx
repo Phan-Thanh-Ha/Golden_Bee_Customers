@@ -18,11 +18,12 @@ import MainStyles, {
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Icon } from "@ui-kitten/components";
 import Box from "../../components/Box";
-import { UseInset } from "../../Hooks";
-import { ic_location, logo_bee_blue, pin_outline } from "../../assets";
+import { ic_coin, ic_location, logo_bee_blue, pin_outline } from "../../assets";
 import Loading from "../../components/Loading";
+import { FormatMoney } from "../../Utils";
+import LayoutPosition from "../../components/layouts/LayoutPosition";
+
 const WaitingStaffScreen = () => {
   const navi = useNavigation();
   const route = useRoute();
@@ -61,12 +62,18 @@ const WaitingStaffScreen = () => {
               </View>
             </Marker>
           </MapView>
-          <View style={styles.topBar}>
+          <LayoutPosition style={{ top: 10, left: 10, right: 10 }}>
             <CardLocation
               onPress={() => navi.goBack()}
               location={dataBooking?.Address}
             />
-          </View>
+          </LayoutPosition>
+          {/* <View style={styles.topBar}>
+            <CardLocation
+              onPress={() => navi.goBack()}
+              location={dataBooking?.Address}
+            />
+          </View> */}
         </View>
         <View style={styles.bodyContainer}>
           <View style={MainStyles.contentContainerClient}>
@@ -93,9 +100,30 @@ const WaitingStaffScreen = () => {
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Loại dịch vụ</Text>
                 <Text style={MainStyles.cardTitleConfirm}>
-                  {dataBooking?.premium ? "Dịch vụ Premium" : "Dịch vụ thường"}
+                  {dataBooking?.IsPremium
+                    ? "Dịch vụ Premium"
+                    : "Dịch vụ thường"}
                 </Text>
               </View>
+            </View>
+            <Text style={MainStyles.cardLabelConfirm}>Tổng tiền</Text>
+            <View
+              style={[
+                MainStyles.cardConfirmContainer,
+                MainStyles.flexRowCenter,
+              ]}
+            >
+              <Image source={ic_coin} style={{ width: 20, height: 20 }} />
+              <Text
+                style={{
+                  color: colors.MAIN_COLOR_CLIENT,
+                  marginLeft: 10,
+                  fontSize: 17,
+                  fontWeight: "700",
+                }}
+              >
+                {FormatMoney(dataBooking?.TotalPrice)} vnđ
+              </Text>
             </View>
             <Text style={MainStyles.cardSubLabelConfirm}>Nhân viên</Text>
             {!confirm ? (
@@ -217,7 +245,7 @@ console.log("SCREEN_WIDTH", SCREEN_WIDTH);
 
 const styles = StyleSheet.create({
   map: {
-    height: SCREEN_HEIGHT / 2,
+    height: SCREEN_HEIGHT * 0.4,
   },
   container: {
     flex: 1,

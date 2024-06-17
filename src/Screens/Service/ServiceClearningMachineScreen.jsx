@@ -1,60 +1,66 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { colors } from "../../styles/Colors";
 import LinearGradient from "react-native-linear-gradient";
-import { useNavigation } from "@react-navigation/native";
-import FormRequirementInfomation from "./FormRequirementInfomation";
-import Header from "../../components/Header";
+import BackButton from "../../components/BackButton";
 import MainStyles from "../../styles/MainStyle";
 import { UseInset } from "../../Hooks";
-import BtnPrimary from "../../components/buttons/BtnPrimary";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { CardLocation } from "../../components";
 import ButtonInfo from "../../components/buttons/ButtonInfo";
-import { FormatMoney } from "../../Utils";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
-import FormServiceMachine from "./FormServiceMachine";
-import { typeMachine } from "../data";
-import CardPremiumInfomation from "../../components/CardPremiumInfomation";
+import FormServiceClearning from "./FormServiceClearning";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
+import CardPremiumInfomation from "../../components/CardPremiumInfomation";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { FormatMoney } from "../../Utils";
+import { priceClearning, priceClearningMachine } from "../../Utils/PriceService";
+import { RoundUpNumber } from "../../Utils/RoundUpNumber";
+import FormServiceMachine from "./FormServiceMachine";
 
 const ServiceClearningMachineScreen = () => {
-  const navigation = useNavigation();
+  const route = useRoute();
+  const { service } = route.params || {};
+  // const service = dataMenuApi[0];
+  console.log("service in service clearning air", service);
+  const price = service.ServicePrice || 11;
+  const workingTime = service.ServiceTime || 11;
+  const [time, setTime] = useState(workingTime);
   const inset = UseInset();
   const formikSubmitRef = useRef(null);
-  const timeWorking = 2;
-  const price = 30000;
-  const [formData, setFormData] = useState({
-    typeMc: typeMachine[0],
-    people: 1,
-    premium: false,
-    otherService: [],
-    note: '',
-  });
+  const [totalPrice, setTotalPrice] = useState(price);
   const [modalOpen, setModalOpen] = useState(false);
   const modalOnClose = () => {
     setModalOpen(false);
   }
+  const handleNext = () => {
+    formikSubmitRef.current && formikSubmitRef.current();
+  }
   const handleFormChange = (values) => {
-    setFormData(values);
+    console.log("values change", values);
+    values.people ? setTime(workingTime / values.people) : setTime(workingTime);
+    setTotalPrice(priceClearningMachine(values, price, time))
     values.premium ? setModalOpen(true) : setModalOpen(false);
   };
+
   return (
     <View style={styles.container}>
       <LinearGradient
         colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
-      <Header color={colors.MAIN_BLUE_CLIENT} />
+      <BackButton color={colors.MAIN_BLUE_CLIENT} />
       <Text style={MainStyles.screenTitle}>Thông tin công việc</Text>
-      <CardLocation location={"12, Đường Nguyễn Văn Lượng, Quận gò vấp, TP Hồ Chí Minh, Việt Nam"} />
+      <CardLocation location={service.Address} />
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
           <FormServiceMachine
             onSubmit={formikSubmitRef}
-            timeWorking={timeWorking}
+            timeWorking={time}
             onChange={handleFormChange}
+            Service={service}
+            TotalPrice={totalPrice}
           />
         </KeyboardAwareScrollView>
       </ScrollView>
@@ -78,10 +84,17 @@ const ServiceClearningMachineScreen = () => {
             marginTop: 10,
             marginBottom: 10,
           }}
-          onPress={() => formikSubmitRef.current && formikSubmitRef.current()}
+          onPress={handleNext}
         >
           <View style={[MainStyles.flexRowSpaceBetween, { backgroundColor: 'transparent' }]}>
-            <Text style={styles.btnTitle}>{FormatMoney(price * timeWorking / parseInt(formData.people))} VND / {timeWorking}H</Text>
+            <Text style={styles.btnTitle}>
+              {
+                FormatMoney(totalPrice) +
+                " VNĐ / " +
+                RoundUpNumber(time, 0) +
+                " giờ"
+              }
+            </Text>
             <View style={[MainStyles.flexRow, { alignItems: 'center' }]}>
               <Text style={[styles.btnTitle, { marginRight: 10 }]}>Tiếp theo</Text>
               <ArrowRight color={colors.WHITE} />
@@ -89,14 +102,18 @@ const ServiceClearningMachineScreen = () => {
           </View>
         </ButtonInfo>
       </View>
-      <ModalInformationDetail
-        isOpen={modalOpen}
-        onClose={modalOnClose}
-        snapPoints={['40%', '60%', '80%']}
-        initialIndex={1}
-      >
-        <CardPremiumInfomation />
-      </ModalInformationDetail>
+      {
+        modalOpen && (
+          <ModalInformationDetail
+            isOpen={modalOpen}
+            onClose={modalOnClose}
+            snapPoints={['60%', '80%']}
+            initialIndex={1}
+          >
+            <CardPremiumInfomation />
+          </ModalInformationDetail>
+        )
+      }
     </View>
   );
 };

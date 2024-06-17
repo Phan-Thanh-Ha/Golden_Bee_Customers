@@ -27,9 +27,9 @@ const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initial
         onClose={onClose}
       >
         <View style={[styles.contentContainer]}>
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          {/* <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Icon name="close" fill="black" style={styles.icon} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <ScrollView>
             {children}
             <Box height={70} />

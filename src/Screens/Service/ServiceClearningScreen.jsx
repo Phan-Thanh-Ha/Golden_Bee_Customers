@@ -14,19 +14,16 @@ import FormServiceClearning from "./FormServiceClearning";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
 import CardPremiumInfomation from "../../components/CardPremiumInfomation";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { dataMenuApi } from "../data";
 import { FormatMoney } from "../../Utils";
 import { priceClearning } from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
-import { ScreenNames } from "../../Constants";
 
 const ServiceClearningScreen = () => {
   const route = useRoute();
   const { service } = route.params || {};
   console.log("-----> 👿👿👿 <-----  service:", service);
-  const navi = useNavigation();
-  const price = service.PriceService || 11;
-  const workingTime = service.WorkingTime || 11;
+  const price = service.ServicePrice || 11;
+  const workingTime = service.ServiceTime || 11;
   const [time, setTime] = useState(workingTime);
   const inset = UseInset();
   const formikSubmitRef = useRef(null);
@@ -39,6 +36,7 @@ const ServiceClearningScreen = () => {
     formikSubmitRef.current && formikSubmitRef.current();
   };
   const handleFormChange = (values) => {
+    console.log("values change", values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceClearning(values, price, time));
     values.premium ? setModalOpen(true) : setModalOpen(false);
@@ -111,7 +109,7 @@ const ServiceClearningScreen = () => {
         <ModalInformationDetail
           isOpen={modalOpen}
           onClose={modalOnClose}
-          snapPoints={["40%", "60%", "80%"]}
+          snapPoints={["60%", "80%"]}
           initialIndex={1}
         >
           <CardPremiumInfomation />

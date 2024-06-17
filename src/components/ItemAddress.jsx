@@ -12,7 +12,7 @@ import { ic_location, ic_placeholder } from "../assets";
 import ArrowRight from "./svg/ArrowRight";
 import { TitleSlice } from "../Utils";
 
-const ItemAddress = ({ data = [], onPress = () => {} }) => {
+const ItemAddress = ({ data = [], onPress = () => { } }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.container}
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     borderBottomColor: colors.GRAY,
     borderBottomWidth: 1,
-    // padding: 7,
+    padding: 12,
     borderRadius: 5,
     width: "98%",
   },
