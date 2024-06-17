@@ -30,6 +30,7 @@ import ServiceRepairCameraScreen from "../Screens/Service/ServiceRepairCameraScr
 import ServiceRepairInteriorScreen from "../Screens/Service/ServiceRepairInteriorScreen";
 import ConfirmBooking from "../Screens/Service/ConfirmBooking";
 import WaitingStaffScreen from "../Screens/Service/WaitingStaffScreen";
+import FireBaseRealtimeCheck from "../Screens/firebaseCheck/FireBaseRealtimeCheck";
 
 const MainStack = createStackNavigator();
 
@@ -132,6 +133,10 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.WAITING_STAFF} //sửa xac nhan dat
           component={WaitingStaffScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FIRE_STORE} //checking firestore
+          component={FireBaseRealtimeCheck}
         />
       </MainStack.Navigator>
     </NavigationContainer>

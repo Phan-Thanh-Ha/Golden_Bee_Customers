@@ -38,6 +38,9 @@ const ScreenNames = {
   FORM_INTERIOR: "FORM_INTERIOR", // sửa nội thất
   CONFIRM_BOOKING: "CONFIRM_BOOKING", // xác nhận đặt dich vu
   WAITING_STAFF: "WAITING_STAFF", // chờ nhân viên
+  // ===================== End Services =================
+  // check firestore
+  FIRE_STORE: "FIRE_STORE",
 };
 
 export default ScreenNames;

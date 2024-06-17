@@ -292,8 +292,14 @@ const Account = () => {
         >
           Xóa tài khoản
         </ButtonResize>
+        <ButtonResize
+          onPress={() => navi.navigate(ScreenNames.FIRE_STORE)}
+          textColor={colors.BLACK}
+          bgColor={colors.GRAY}
+          paddingVertical={5}
+        >FireStore check</ButtonResize>
+        <Box height={80} />
       </ScrollView>
-      <Box height={40} />
     </View>
   );
 };

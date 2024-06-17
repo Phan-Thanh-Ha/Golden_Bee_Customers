@@ -1577,3 +1577,9 @@ export const dataSlider = [
     ],
   },
 ];
+
+
+// check realtime database
+export const clientId = "client123"; // ID của khách hàng
+export const staffId = "staff123";   // ID của nhân viên
+export const orderId = "order123";   // ID của đơn hàng

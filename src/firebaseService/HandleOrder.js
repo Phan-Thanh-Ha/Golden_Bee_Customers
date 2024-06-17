@@ -1,0 +1,152 @@
+import { firebase } from "@react-native-firebase/database";
+import { removeData } from "../Utils";
+import { StorageNames } from "../Constants";
+
+export const databaseOrder = firebase
+  .app()
+  .database(
+    "https://golden-bee-651eb-default-rtdb.asia-southeast1.firebasedatabase.app"
+  )
+  .ref("/order");
+
+// Đặt đơn hàng
+export const placeOrder = async (clientId, orderId) => {
+  const newOrder = {
+    ClientId: clientId,
+    OrderId: orderId,
+    StaffId: "",
+    StaffName: "",
+    StaffPhone: "",
+    createAt: Date.now(),
+  };
+
+  try {
+    await databaseOrder.child(orderId).set(newOrder);
+    console.log("Order placed successfully:", newOrder);
+    return newOrder;
+  } catch (error) {
+    console.error("Error placing order: ", error);
+    return null;
+  }
+};
+
+// Lắng nghe thay đổi đơn hàng cho khách hàng
+export const listenForOrderUpdates = (clientId, setClientOrder) => {
+  console.log("Listening for order updates for client:", clientId);
+  databaseOrder
+    .orderByChild("ClientId")
+    .equalTo(clientId)
+    .on("value", (snapshot) => {
+      const orders = snapshot.val();
+      console.log("Orders snapshot received:", orders);
+      if (orders) {
+        Object.keys(orders).forEach((orderId) => {
+          const order = orders[orderId];
+          setClientOrder(order); // Cập nhật trạng thái đơn hàng cho khách hàng
+        });
+      } else {
+        setClientOrder(null); // Nếu không có đơn hàng nào
+      }
+    });
+
+  // Lắng nghe sự kiện xóa đơn hàng
+  databaseOrder
+    .orderByChild("ClientId")
+    .equalTo(clientId)
+    .on("child_removed", (snapshot) => {
+      console.log("Order removed:", snapshot.val());
+      setClientOrder(null); // Khi đơn hàng bị xóa, cập nhật trạng thái
+      removeData(StorageNames.ORDER_SERVICE);
+      // xóa dưới database
+    });
+};
+
+// Lắng nghe đơn hàng mới cho nhân viên
+export const listenForNewOrders = (setNewOrders) => {
+  console.log("Listening for new orders with StaffId equal to ''");
+  databaseOrder
+    .orderByChild("StaffId")
+    .equalTo("")
+    .on("value", (snapshot) => {
+      const orders = snapshot.val();
+      console.log("New orders snapshot received:", orders);
+      if (orders) {
+        const newOrders = [];
+        Object.keys(orders).forEach((orderId) => {
+          const order = orders[orderId];
+          newOrders.push(order);
+        });
+        setNewOrders(newOrders); // Cập nhật danh sách đơn hàng mới
+      } else {
+        setNewOrders([]); // Nếu không có đơn hàng nào mới
+      }
+    });
+};
+
+// Lắng nghe các đơn hàng mà nhân viên đã nhận
+export const listenForAcceptedOrders = (staffId, setAcceptedOrders) => {
+  console.log("Listening for accepted orders for staff:", staffId);
+  databaseOrder
+    .orderByChild("StaffId")
+    .equalTo(staffId)
+    .on("value", (snapshot) => {
+      const orders = snapshot.val();
+      console.log("Accepted orders snapshot received:", orders);
+      if (orders) {
+        const acceptedOrders = [];
+        Object.keys(orders).forEach((orderId) => {
+          const order = orders[orderId];
+          acceptedOrders.push(order);
+        });
+        setAcceptedOrders(acceptedOrders); // Cập nhật danh sách đơn hàng đã nhận
+      } else {
+        setAcceptedOrders([]); // Nếu không có đơn hàng nào đã nhận
+      }
+    });
+};
+
+// Nhận đơn hàng
+export const acceptOrder = async (orderId, staffId) => {
+  try {
+    await databaseOrder.child(orderId).update({ StaffId: staffId });
+    console.log("Order accepted successfully:", { orderId, staffId });
+  } catch (error) {
+    console.error("Error accepting order: ", error);
+  }
+};
+
+// Hoàn thành đơn hàng
+export const completeOrder = async (orderId) => {
+  try {
+    await databaseOrder.child(orderId).remove();
+    console.log("Order completed and removed successfully:", orderId);
+  } catch (error) {
+    console.error("Error completing order: ", error);
+  }
+};
+
+// Xóa đơn hàng sau 10 phút
+export const deleteOrderIfNotAccepted = (orderId, createAt) => {
+  const currentTime = Date.now();
+  if (currentTime - createAt > 10 * 60 * 1000) {
+    databaseOrder.child(orderId).remove();
+    console.log("Order deleted due to timeout:", orderId);
+  }
+};
+
+// Kiểm tra và xóa đơn hàng chưa nhận sau 10 phút
+export const checkAndDeleteExpiredOrders = () => {
+  console.log("Checking and deleting expired orders");
+  databaseOrder.on("value", (snapshot) => {
+    const orders = snapshot.val();
+    console.log("Orders snapshot received for deletion check:", orders);
+    if (orders) {
+      Object.keys(orders).forEach((orderId) => {
+        const order = orders[orderId];
+        if (order.StaffId === "") {
+          deleteOrderIfNotAccepted(orderId, order.createAt);
+        }
+      });
+    }
+  });
+};
