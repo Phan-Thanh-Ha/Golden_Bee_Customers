@@ -45,6 +45,7 @@ const ShowMap = () => {
     getLatLong(service.place_id);
   }, []);
 
+  console.log("LL", userProfile);
   const getLatLong = async (place_id) => {
     try {
       const response = await axios.get(

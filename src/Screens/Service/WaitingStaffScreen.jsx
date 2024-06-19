@@ -8,14 +8,17 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Icon } from "@ui-kitten/components";
 import Box from "../../components/Box";
 import { UseInset } from "../../Hooks";
-import { ic_coin, ic_location, logo_bee_blue } from "../../assets";
+import { ic_coin, ic_location, logo_bee_blue, pin_outline } from "../../assets";
 import Loading from "../../components/Loading";
 import { FormatMoney } from "../../Utils";
 import LayoutPosition from "../../components/layouts/LayoutPosition";
@@ -26,45 +29,45 @@ const WaitingStaffScreen = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const navi = useNavigation();
   const route = useRoute();
-  const inset = UseInset();
-  const [confirm, setConfirm] = useState(false);
-  const [staff, setStaff] = useState({});
   const { dataBooking } = route.params || {};
-  // const dataBooking = dataBooing;
-  console.log("dataBooking in waiting staff screen", dataBooking);
+  console.log(
+    "-----> 💀💀💀💀💀💀💀💀💀 <-----  dataBookingWatting:",
+    dataBooking
+  );
 
   // handle listen order change
   const [clientOrder, setClientOrder] = useState(null);
   useEffect(() => {
     listenForOrderUpdates(userLogin.Id, setClientOrder);
-  }, [])
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
           <MapView
-            provider={PROVIDER_GOOGLE}
+            // provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
-              latitude: 10.8093,
-              longitude: 106.6641,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
+              latitude: dataBooking.latitude,
+              longitude: dataBooking.longitude,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
             }}
             zoomEnabled={true}
           >
-            {/* 10.8093, 106.6641 */}
-            {console.log("312312312", dataBooking?.Address)}
             <Marker
               coordinate={{
-                latitude: 10.8093,
-                longitude: 106.6641,
+                latitude: dataBooking.latitude,
+                longitude: dataBooking.longitude,
               }}
               title={dataBooking?.Address}
             >
               <View style={styles.markerContainer}>
-                <Icon name="pin-outline" width={32} height={32} fill="#000" />
+                <Loading
+                  source={pin_outline}
+                  style={{ width: 64, height: 64 }}
+                />
               </View>
             </Marker>
           </MapView>
@@ -74,28 +77,23 @@ const WaitingStaffScreen = () => {
               location={dataBooking?.Address}
             />
           </LayoutPosition>
-          {/* <View style={styles.topBar}>
-            <CardLocation
-              onPress={() => navi.goBack()}
-              location={dataBooking?.Address}
-            />
-          </View> */}
         </View>
         <View style={styles.bodyContainer}>
           <View style={MainStyles.contentContainerClient}>
             <Text style={MainStyles.cardLabelConfirm}>Vị trí làm việc</Text>
             <View style={MainStyles.cardConfirmContainer}>
               <View style={MainStyles.flexRowFlexStart}>
-                <Image
-                  source={ic_location}
-                  style={{ width: 20, height: 20 }}
-                />
+                <Image source={ic_location} style={{ width: 20, height: 20 }} />
                 <View>
-                  <Text style={MainStyles.cardTitleConfirm}>{dataBooking?.Address}</Text>
+                  <Text style={MainStyles.cardTitleConfirm}>
+                    {dataBooking?.Address}
+                  </Text>
                 </View>
               </View>
             </View>
-            <Text style={MainStyles.cardSubLabelConfirm}>Thời gian làm việc</Text>
+            <Text style={MainStyles.cardSubLabelConfirm}>
+              Thời gian làm việc
+            </Text>
             <View style={MainStyles.cardConfirmContainer}>
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Ngày làm việc</Text>
@@ -104,77 +102,161 @@ const WaitingStaffScreen = () => {
               <Box height={10} />
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Loại dịch vụ</Text>
-                <Text style={MainStyles.cardTitleConfirm}>{dataBooking?.IsPremium ? "Dịch vụ Premium" : "Dịch vụ thường"}</Text>
+                <Text style={MainStyles.cardTitleConfirm}>
+                  {dataBooking?.IsPremium
+                    ? "Dịch vụ Premium"
+                    : "Dịch vụ thường"}
+                </Text>
               </View>
             </View>
             <Text style={MainStyles.cardLabelConfirm}>Tổng tiền</Text>
-            <View style={[MainStyles.cardConfirmContainer, MainStyles.flexRowCenter]}>
-              <Image
-                source={ic_coin}
-                style={{ width: 20, height: 20 }}
-              />
-              <Text style={
-                {
+            <View
+              style={[
+                MainStyles.cardConfirmContainer,
+                MainStyles.flexRowCenter,
+              ]}
+            >
+              <Image source={ic_coin} style={{ width: 20, height: 20 }} />
+              <Text
+                style={{
                   color: colors.MAIN_COLOR_CLIENT,
                   marginLeft: 10,
                   fontSize: 17,
-                  fontWeight: '700',
-                }
-              }>{FormatMoney(dataBooking?.TotalPrice)} vnđ</Text>
+                  fontWeight: "700",
+                }}
+              >
+                {FormatMoney(dataBooking?.TotalPrice)} vnđ
+              </Text>
             </View>
             <Text style={MainStyles.cardSubLabelConfirm}>Nhân viên</Text>
-            {
-              clientOrder && clientOrder?.StaffId !== "" ? (
-                <>
-                  <View style={[MainStyles.flexRowFlexStart, { alignContent: 'center' }, MainStyles.cardConfirmContainer]}>
-                    <Image
-                      source={logo_bee_blue}
-                      style={{
-                        width: 80,
-                        height: 80,
-                        resizeMode: 'contain',
-                        marginRight: 10,
-                      }}
-                    />
-                    <View>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15, width: 120 }}>Mã đơn dịch vụ :</Text>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>{clientOrder?.OrderId}</Text>
-                      </View>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15, width: 120 }}>Nhân viên :</Text>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>{clientOrder?.StaffName}</Text>
-                      </View>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15, width: 120 }}>SĐT :</Text>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>{clientOrder?.StaffPhone}</Text>
-                      </View>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15, width: 120 }}>Mã nhân viên :</Text>
-                        <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>{clientOrder?.StaffId}</Text>
-                      </View>
+            {clientOrder && clientOrder?.StaffId !== "" ? (
+              <>
+                <View
+                  style={[
+                    MainStyles.flexRowFlexStart,
+                    { alignContent: "center" },
+                    MainStyles.cardConfirmContainer,
+                  ]}
+                >
+                  <Image
+                    source={logo_bee_blue}
+                    style={{
+                      width: 80,
+                      height: 80,
+                      resizeMode: "contain",
+                      marginRight: 10,
+                    }}
+                  />
+                  <View>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Text
+                        style={{
+                          color: colors.MAIN_BLUE_CLIENT,
+                          fontSize: 15,
+                          width: 120,
+                        }}
+                      >
+                        Mã đơn dịch vụ :
+                      </Text>
+                      <Text
+                        style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
+                      >
+                        {clientOrder?.OrderId}
+                      </Text>
+                    </View>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Text
+                        style={{
+                          color: colors.MAIN_BLUE_CLIENT,
+                          fontSize: 15,
+                          width: 120,
+                        }}
+                      >
+                        Nhân viên :
+                      </Text>
+                      <Text
+                        style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
+                      >
+                        {clientOrder?.StaffName}
+                      </Text>
+                    </View>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Text
+                        style={{
+                          color: colors.MAIN_BLUE_CLIENT,
+                          fontSize: 15,
+                          width: 120,
+                        }}
+                      >
+                        SĐT :
+                      </Text>
+                      <Text
+                        style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
+                      >
+                        {clientOrder?.StaffPhone}
+                      </Text>
+                    </View>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Text
+                        style={{
+                          color: colors.MAIN_BLUE_CLIENT,
+                          fontSize: 15,
+                          width: 120,
+                        }}
+                      >
+                        Mã nhân viên :
+                      </Text>
+                      <Text
+                        style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
+                      >
+                        {clientOrder?.StaffId}
+                      </Text>
                     </View>
                   </View>
-                  <View style={[MainStyles.flexRowCenter, { alignContent: 'center' }, MainStyles.cardConfirmContainer]}>
-                    <Image
-                      source={ic_location}
-                      style={{
-                        width: 20,
-                        height: 20,
-                        resizeMode: 'contain',
-                        marginRight: 10,
-                      }}
-                    />
-                    <Text>{clientOrder?.StaffName} sẽ đến trong 5 phút</Text>
-                  </View>
-                </>
-              ) : (
-                <View style={[{ alignContent: 'center' }, MainStyles.cardConfirmContainer]}>
-                  <Text style={{ textAlign: 'center', color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>Đang đợi nhân viên nhận đơn</Text>
-                  <Loading />
                 </View>
-              )
-            }
+                <View
+                  style={[
+                    MainStyles.flexRowCenter,
+                    { alignContent: "center" },
+                    MainStyles.cardConfirmContainer,
+                  ]}
+                >
+                  <Image
+                    source={ic_location}
+                    style={{
+                      width: 20,
+                      height: 20,
+                      resizeMode: "contain",
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text>{clientOrder?.StaffName} sẽ đến trong 5 phút</Text>
+                </View>
+                {/* <LayoutBottom>
+                    <BtnPrimary onPress={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}>
+                      <Text>Về trang chính</Text>
+                    </BtnPrimary>
+                  </LayoutBottom> */}
+              </>
+            ) : (
+              <View
+                style={[
+                  { alignContent: "center" },
+                  MainStyles.cardConfirmContainer,
+                ]}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: colors.MAIN_BLUE_CLIENT,
+                    fontSize: 15,
+                  }}
+                >
+                  Đang đợi nhân viên nhận đơn
+                </Text>
+                <Loading />
+              </View>
+            )}
           </View>
         </View>
       </ScrollView>
@@ -184,7 +266,7 @@ const WaitingStaffScreen = () => {
 
 const styles = StyleSheet.create({
   map: {
-    height: SCREEN_HEIGHT * 0.4
+    height: SCREEN_HEIGHT * 0.4,
   },
   container: {
     flex: 1,
@@ -216,9 +298,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     marginTop: SCREEN_HEIGHT / 25,
   },
-  bodyContainer: {
-
-  },
+  bodyContainer: {},
   detailContainer: {
     borderWidth: 1,
     borderColor: colors.GRAY,
@@ -298,9 +378,8 @@ const styles = StyleSheet.create({
   },
   btnTitle: {
     fontSize: 18,
-    color: colors.WHITE
-  }
+    color: colors.WHITE,
+  },
 });
-
 
 export default WaitingStaffScreen;

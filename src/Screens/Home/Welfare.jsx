@@ -3,7 +3,10 @@ import React from "react";
 import { colors } from "../../styles/Colors";
 import Box from "../../components/Box";
 import LogoBeeBox from "../../components/LogoBeeBox";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
 import { ic_coin, ic_gift, ic_premium } from "../../assets";
 import { FormatMoney } from "../../Utils";
 import StepsBar from "../../components/StepsBar";
@@ -14,53 +17,66 @@ const Welfare = () => {
     <View style={styles.container}>
       <LinearGradient
         colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
-        style={{ position: 'absolute', width: '100%', height: '100%' }}
+        style={{ position: "absolute", width: "100%", height: "100%" }}
       />
       <Box height={SCREEN_HEIGHT * 0.01} />
-      <LogoBeeBox color={colors.WHITE} sizeImage={SCREEN_WIDTH / 5} sizeText={20} />
-      <ScrollView >
+      <LogoBeeBox
+        color={colors.WHITE}
+        sizeImage={SCREEN_WIDTH / 5}
+        sizeText={20}
+      />
+      <ScrollView>
         <View style={{ padding: 10 }}>
-          <View style={{
-            backgroundColor: colors.WHITE,
-            borderRadius: 8,
-            padding: 10
-          }}>
+          <View
+            style={{
+              backgroundColor: colors.WHITE,
+              borderRadius: 8,
+              padding: 10,
+            }}
+          >
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center'
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              <Text style={{
-                fontSize: 15,
-                fontWeight: '700',
-                color: colors.MAIN_BLUE_CLIENT
-              }}>Thưởng tháng</Text>
-              <View
+              <Text
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  fontSize: 15,
+                  fontWeight: "700",
+                  color: colors.MAIN_BLUE_CLIENT,
                 }}
               >
-                <Text style={{
-                  fontSize: 15,
-                  fontWeight: '700',
-                  color: colors.MAIN_BLUE_CLIENT
-                }}>Mức tiếp theo </Text>
-                <Image
-                  source={ic_coin}
-                  style={{ width: 20, height: 20 }}
-                />
-                <Text style={
-                  {
+                Thưởng tháng
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: "700",
+                    color: colors.MAIN_BLUE_CLIENT,
+                  }}
+                >
+                  Mức tiếp theo{" "}
+                </Text>
+                <Image source={ic_coin} style={{ width: 20, height: 20 }} />
+                <Text
+                  style={{
                     color: colors.MAIN_COLOR_CLIENT,
                     marginLeft: 10,
                     fontSize: 17,
-                    fontWeight: '700',
-                  }
-                }>{FormatMoney(400000)} đ</Text>
+                    fontWeight: "700",
+                  }}
+                >
+                  {FormatMoney(400000)} đ
+                </Text>
               </View>
             </View>
             <Box height={10} />
@@ -68,87 +84,98 @@ const Welfare = () => {
             <Text
               style={{
                 fontSize: 12,
-                textAlign: 'center',
-                color: colors.MAIN_BLUE_CLIENT
+                textAlign: "center",
+                color: colors.MAIN_BLUE_CLIENT,
               }}
-            >Cần thêm {59} giờ trong tuần này để đạt mức được thưởng tiếp theo trong tháng này</Text>
+            >
+              Cần thêm {59} giờ trong tuần này để đạt mức được thưởng tiếp theo
+              trong tháng này
+            </Text>
           </View>
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <View
               style={{
                 flex: 1,
-                justifyContent: 'center',
+                justifyContent: "center",
                 padding: 10,
                 backgroundColor: colors.WHITE,
                 marginTop: 10,
                 marginRight: 10,
                 borderRadius: 10,
-                alignItems: 'center'
+                alignItems: "center",
               }}
             >
               <Text
                 style={{
                   fontSize: 15,
-                  fontWeight: '700',
+                  fontWeight: "700",
                   color: colors.MAIN_BLUE_CLIENT,
-                  marginBottom: 15
+                  marginBottom: 15,
                 }}
-              >Quà tặng</Text>
+              >
+                Quà tặng
+              </Text>
               <Image
                 source={ic_gift}
                 style={{
                   width: 50,
-                  height: 50
+                  height: 50,
                 }}
               />
               <Text
                 style={{
                   color: colors.MAIN_BLUE_CLIENT,
                   marginTop: 10,
-                  textAlign: 'center'
+                  textAlign: "center",
                 }}
-              >Nhận vô vàn quà tặng khi tích điểm và đổi quà cùng Ong Vàng !</Text>
+              >
+                Nhận vô vàn quà tặng khi tích điểm và đổi quà cùng Ong Vàng !
+              </Text>
             </View>
             <View
               style={{
                 flex: 1,
-                justifyContent: 'center',
+                justifyContent: "center",
                 padding: 10,
                 backgroundColor: colors.WHITE,
                 marginTop: 10,
                 marginLeft: 10,
                 borderRadius: 10,
-                alignItems: 'center'
+                alignItems: "center",
               }}
             >
               <Text
                 style={{
                   fontSize: 15,
-                  fontWeight: '700',
+                  fontWeight: "700",
                   color: colors.MAIN_BLUE_CLIENT,
-                  marginBottom: 15
+                  marginBottom: 15,
                 }}
-              >Premium</Text>
+              >
+                Premium
+              </Text>
               <Image
                 source={ic_premium}
                 style={{
                   width: 50,
-                  height: 50
+                  height: 50,
                 }}
               />
               <Text
                 style={{
                   color: colors.MAIN_BLUE_CLIENT,
                   marginTop: 10,
-                  textAlign: 'center'
+                  textAlign: "center",
                 }}
-              >Hãy cùng phấn đấu để trở thành cộng tác viên cao cấp !</Text>
+              >
+                Hãy cùng phấn đấu để trở thành cộng tác viên cao cấp !
+              </Text>
             </View>
           </View>
         </View>
