@@ -7,7 +7,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import MainStyles, {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
@@ -18,12 +18,19 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Icon } from "@ui-kitten/components";
 import Box from "../../components/Box";
 import { UseInset } from "../../Hooks";
-import { ic_coin, ic_location, logo_bee_blue, pin_outline } from "../../assets";
+import {
+  delivery_Golden,
+  ic_coin,
+  ic_location,
+  logo_bee_blue,
+  pin_outline,
+} from "../../assets";
 import Loading from "../../components/Loading";
-import { FormatMoney } from "../../Utils";
+import { FormatMoney, GOOGLE_API_KEY, customRound } from "../../Utils";
 import LayoutPosition from "../../components/layouts/LayoutPosition";
 import { listenForOrderUpdates } from "../../firebaseService/HandleOrder";
 import { useSelector } from "react-redux";
+import MapViewDirections from "react-native-maps-directions";
 
 const WaitingStaffScreen = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -41,12 +48,15 @@ const WaitingStaffScreen = () => {
     listenForOrderUpdates(userLogin.Id, setClientOrder);
   }, []);
 
+  const [timeOut, setSetTImeOut] = useState({
+    distance: 0,
+    duration: 0,
+  });
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
           <MapView
-            // provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
               latitude: dataBooking.Latitude,
@@ -70,6 +80,38 @@ const WaitingStaffScreen = () => {
                 />
               </View>
             </Marker>
+            <Marker
+              coordinate={{
+                latitude: clientOrder?.LatitudeStaff,
+                longitude: clientOrder?.LongitudeStaff,
+              }}
+            >
+              <View style={styles.markerContainer}>
+                <Loading
+                  source={delivery_Golden}
+                  style={{ width: 64, height: 64 }}
+                />
+              </View>
+            </Marker>
+            <MapViewDirections
+              origin={{
+                latitude: clientOrder?.LatitudeStaff,
+                longitude: clientOrder?.LongitudeStaff,
+              }}
+              destination={{
+                latitude: dataBooking.Latitude,
+                longitude: dataBooking.Longitude,
+              }}
+              apikey={GOOGLE_API_KEY}
+              strokeWidth={3}
+              strokeColor={colors.SUCCESS}
+              onReady={(result) => {
+                setSetTImeOut({
+                  distance: result.distance,
+                  duration: result.duration,
+                });
+              }}
+            />
           </MapView>
           <LayoutPosition style={{ top: 10, left: 10, right: 10 }}>
             <CardLocation
@@ -141,8 +183,8 @@ const WaitingStaffScreen = () => {
                   <Image
                     source={logo_bee_blue}
                     style={{
-                      width: 80,
-                      height: 80,
+                      width: 40,
+                      height: 40,
                       resizeMode: "contain",
                       marginRight: 10,
                     }}
@@ -161,7 +203,7 @@ const WaitingStaffScreen = () => {
                       <Text
                         style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}
                       >
-                        {clientOrder?.OrderId}
+                        {clientOrder?.BookingCode}
                       </Text>
                     </View>
                     <View style={MainStyles.flexRowFlexStart}>
@@ -230,7 +272,10 @@ const WaitingStaffScreen = () => {
                       marginRight: 10,
                     }}
                   />
-                  <Text>{clientOrder?.StaffName} sẽ đến trong 5 phút</Text>
+                  <Text>
+                    {clientOrder?.StaffName} sẽ đến trong{" "}
+                    {customRound(timeOut.duration)} Phút
+                  </Text>
                 </View>
                 {/* <LayoutBottom>
                     <BtnPrimary onPress={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}>

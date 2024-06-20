@@ -15,7 +15,8 @@ export const placeOrder = async (
   orderId,
   dataBooking,
   latitudeCustomer,
-  longitudeCustomer
+  longitudeCustomer,
+  bookingCode
 ) => {
   const newOrder = {
     ClientId: clientId,
@@ -27,6 +28,7 @@ export const placeOrder = async (
     LatitudeCustomer: latitudeCustomer,
     LongitudeCustomer: longitudeCustomer,
     CreateAt: Date.now(),
+    BookingCode: bookingCode,
   };
   try {
     await databaseOrder.child(orderId).set(newOrder);
@@ -46,6 +48,7 @@ export const listenForOrderUpdates = (clientId, setClientOrder) => {
     .equalTo(clientId)
     .on("value", (snapshot) => {
       const orders = snapshot.val();
+      console.log("Orders snapshot received:", orders);
       if (orders) {
         Object.keys(orders).forEach((orderId) => {
           const order = orders[orderId];

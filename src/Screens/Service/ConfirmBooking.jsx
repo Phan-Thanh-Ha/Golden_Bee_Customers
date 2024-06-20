@@ -62,7 +62,7 @@ const ConfirmBooking = () => {
       console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
       if (result.Status === "OK") {
         if (result?.BookingId) {
-          await handleNext(result.BookingId);
+          await handleNext(result.BookingId, result.BookingCode);
         }
       }
     } catch (error) {
@@ -71,7 +71,8 @@ const ConfirmBooking = () => {
     }
   };
 
-  const handleNext = async (BookingId) => {
+  // Lưu bookingService lên firebase
+  const handleNext = async (BookingId, BookingCode) => {
     setLoading(true);
     // lưu dữ liệu booking
     const dataBooking = {
@@ -104,7 +105,8 @@ const ConfirmBooking = () => {
       BookingId + "", // BookingId
       dataBooking, // DataService
       dataConfirmService.Latitude, // Lat KH
-      dataConfirmService.Longitude //Lng KH
+      dataConfirmService.Longitude, //Lng KH
+      BookingCode
     );
     if (saveOnFirebase !== null) {
       setData(StorageNames.ORDER_SERVICE, saveOnFirebase);
