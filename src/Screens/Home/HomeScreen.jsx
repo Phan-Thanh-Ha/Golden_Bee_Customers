@@ -34,7 +34,6 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const navi = useNavigation();
   const menuData = useSelector((state) => state.main.menuService);
-  console.log("menuService in home screen", menuData);
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {

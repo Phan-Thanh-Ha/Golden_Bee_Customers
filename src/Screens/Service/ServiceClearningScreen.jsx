@@ -21,7 +21,6 @@ import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 const ServiceClearningScreen = () => {
   const route = useRoute();
   const { service } = route.params || {};
-  console.log("-----> 👿👿👿 <-----  service:", service);
   const price = service.ServicePrice || 11;
   const workingTime = service.ServiceTime || 11;
   const [time, setTime] = useState(workingTime);
@@ -36,7 +35,6 @@ const ServiceClearningScreen = () => {
     formikSubmitRef.current && formikSubmitRef.current();
   };
   const handleFormChange = (values) => {
-    console.log("values change", values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceClearning(values, price, time));
     values.premium ? setModalOpen(true) : setModalOpen(false);

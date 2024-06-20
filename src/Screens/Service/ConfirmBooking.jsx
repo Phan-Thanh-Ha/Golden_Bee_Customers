@@ -7,17 +7,15 @@ import BackButton from "../../components/BackButton";
 import { ScrollView } from "react-native-gesture-handler";
 import { ic_coin, ic_location } from "../../assets";
 import Box from "../../components/Box";
-import { FormatMoney, TitleSlice, setData } from "../../Utils";
+import { FormatMoney, GroupUserId, TitleSlice, setData } from "../../Utils";
 import Button from "../../components/buttons/Button";
 import { useState } from "react";
-import { UseInset } from "../../Hooks";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
-import { GroupUserId, ScreenNames, StorageNames } from "../../Constants";
+import { ScreenNames, StorageNames } from "../../Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
 import ArrowRight from "../../components/svg/ArrowRight";
-import { latiLogiGt5km } from "../data";
 import { placeOrder } from "../../firebaseService/HandleOrder";
 import { AlertToaster } from "../../Utils/AlertToaster";
 
@@ -33,25 +31,26 @@ const ConfirmBooking = () => {
   );
   const navi = useNavigation();
   const [payment, setPayment] = useState(false);
-  const inset = UseInset();
 
   // Lưu booking
   const OVG_spService_BookingService = async () => {
     try {
       const pr = {
-        CustomerId: dataConfirmService?.CustomerId,
-        CustomerName: userLogin?.CustomerName,
-        Lat: dataConfirmService?.Latitude,
-        Lng: dataConfirmService?.Longitude,
-        ServiceId: dataConfirmService?.ServiceId,
-        ServiceName: dataConfirmService?.ServiceName,
-        TotalMoney: dataConfirmService?.TotalPrice,
+        CustomerId: dataConfirmService?.CustomerId, // Id KH
+        CustomerName: userLogin?.CustomerName, // Tên KH
+        Lat: dataConfirmService?.Latitude, // Lat
+        Lng: dataConfirmService?.Longitude, // Lng
+        ServiceId: dataConfirmService?.ServiceId, // Id dịch vụ
+        ServiceName: dataConfirmService?.ServiceName, // Tên dịch vụ
+        TotalMoney: dataConfirmService?.TotalPrice, // Tổng tiền
         Payment: payment ? 1 : 0, // 1: chuyển khoản, 0: tiền mặt
-        StaffTotal: dataConfirmService?.people,
+        StaffTotal: dataConfirmService?.people, // Số nhân sự
+        RoomTotal: dataConfirmService?.room, // Số phòng
         Premium: dataConfirmService?.premium ? 1 : 0, // 1: premium, 0: normal
-        TimeService: dataConfirmService?.workingTime,
-        ServiceCode: dataConfirmService?.ServiceCode,
-        Note: dataConfirmService?.note,
+        TimeService: dataConfirmService?.workingTime, // Thời gian làm việc
+        ServiceCode: dataConfirmService?.ServiceCode, // Mã dịch vụ
+        Note: dataConfirmService?.note, // Ghi chú
+        ListServiceAdditional: dataConfirmService.otherService,
         GroupUserId: GroupUserId,
       };
       const params = {
@@ -67,15 +66,17 @@ const ConfirmBooking = () => {
         }
       }
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
       setLoading(false);
     }
   };
 
   const handleNext = async (BookingId) => {
     setLoading(true);
-    // Gửi đơn đặt lên firebase
+    // lưu dữ liệu booking
     const dataBooking = {
+      CustomerName: userLogin?.CustomerName, // Tên KH
+      CustomerPhone: userLogin?.Phone, // SĐT KH
       ServiceDetaiil: dataConfirmService.Detail,
       ServiceId: dataConfirmService.ServiceId,
       ServiceCode: dataConfirmService.ServiceCode,
@@ -91,25 +92,21 @@ const ConfirmBooking = () => {
       TotalStaff: dataConfirmService.people,
       IsPremium: dataConfirmService.premium,
       TotalRoom: dataConfirmService.room,
-      latitude: dataConfirmService.Latitude,
-      longitude: dataConfirmService.Longitude,
       TimeWorking: dataConfirmService.workingTime,
+      Latitude: dataConfirmService.Latitude,
+      Longitude: dataConfirmService.Longitude,
       Payment: payment,
     };
 
+    // Lưu đơn đặt lên firebase
     const saveOnFirebase = await placeOrder(
       userLogin.Id, // ClientId
       BookingId + "", // BookingId
       dataBooking, // DataService
-      dataConfirmService.Latitude,
-      dataConfirmService.Longitude
+      dataConfirmService.Latitude, // Lat KH
+      dataConfirmService.Longitude //Lng KH
     );
-
     if (saveOnFirebase !== null) {
-      console.log(
-        "-----> 💀💀💀💀💀💀💀💀💀 <-----  saveOnFirebase:",
-        saveOnFirebase
-      );
       setData(StorageNames.ORDER_SERVICE, saveOnFirebase);
       navi.navigate(ScreenNames.WAITING_STAFF, {
         dataBooking,

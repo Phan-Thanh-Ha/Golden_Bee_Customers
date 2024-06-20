@@ -1,24 +1,24 @@
-import React from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import InputNumber from '../../components/InputNumber';
-import BtnToggle from '../../components/BtnToggle';
-import InputCheckBox from '../../components/InputCheckBox';
-import TextArea from '../../components/TextArea';
-import Label from '../../components/Label';
-import { colors } from '../../styles/Colors';
-import MainStyles from '../../styles/MainStyle';
-import { ic_premium } from '../../assets';
-import { RoundUpNumber } from '../../Utils/RoundUpNumber';
-import { useNavigation } from '@react-navigation/native';
-import { ScreenNames } from '../../Constants';
-import SelectOption from '../../components/SelectOption';
+import React from "react";
+import { View, StyleSheet, Image, Text } from "react-native";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import InputNumber from "../../components/InputNumber";
+import BtnToggle from "../../components/BtnToggle";
+import InputCheckBox from "../../components/InputCheckBox";
+import TextArea from "../../components/TextArea";
+import Label from "../../components/Label";
+import { colors } from "../../styles/Colors";
+import MainStyles from "../../styles/MainStyle";
+import { ic_premium } from "../../assets";
+import { RoundUpNumber } from "../../Utils/RoundUpNumber";
+import { useNavigation } from "@react-navigation/native";
+import { ScreenNames } from "../../Constants";
+import SelectOption from "../../components/SelectOption";
 
 const validationSchema = Yup.object().shape({
   people: Yup.number()
-    .required('Vui lòng nhập số lượng nhân sự')
-    .min(1, 'Số lượng nhân sự phải lớn hơn 0'),
+    .required("Vui lòng nhập số lượng nhân sự")
+    .min(1, "Số lượng nhân sự phải lớn hơn 0"),
 });
 
 const FormServiceMachine = ({
@@ -29,7 +29,6 @@ const FormServiceMachine = ({
   TotalPrice,
 }) => {
   const navi = useNavigation();
-  console.log('service on form', Service);
   return (
     <View style={styles.container}>
       <Formik
@@ -38,27 +37,34 @@ const FormServiceMachine = ({
           people: 1,
           premium: false,
           otherService: [],
-          note: '',
+          note: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          console.log('Form values:', values);
           navi.navigate(ScreenNames.CONFIRM_BOOKING, {
             dataConfirmService: {
               ...Service,
               TotalPrice: TotalPrice,
               workingTime: timeWorking,
-              ...values
-            }
-          })
-          if (onSubmit && typeof onSubmit === 'function') {
+              ...values,
+            },
+          });
+          if (onSubmit && typeof onSubmit === "function") {
             onSubmit(values);
           }
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => {
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+          values,
+          errors,
+          touched,
+        }) => {
           onSubmit.current = handleSubmit;
-          if (onChange && typeof onChange === 'function') {
+          if (onChange && typeof onChange === "function") {
             onChange(values);
           }
           return (
@@ -68,8 +74,8 @@ const FormServiceMachine = ({
                 data={Service?.ServiceOption}
                 value={values.serviceOption}
                 onChange={(value) => {
-                  setFieldValue('serviceOption', value); // Cập nhật đối tượng đã chọn
-                  if (onChange && typeof onChange === 'function') {
+                  setFieldValue("serviceOption", value); // Cập nhật đối tượng đã chọn
+                  if (onChange && typeof onChange === "function") {
                     onChange({ ...values, serviceOption: value });
                   }
                 }}
@@ -78,18 +84,34 @@ const FormServiceMachine = ({
               <InputNumber
                 value={values.people}
                 setFieldValue={setFieldValue}
-                fieldName='people'
+                fieldName="people"
                 min={0}
               />
               {errors.people && touched.people && (
                 <Text style={MainStyles.textErr}>{errors.people}</Text>
               )}
-              <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
-                <Label style={[{ marginRight: 10 }, styles.title]}>Thời lượng :</Label>
-                <Text style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: 'bold' }}>Trong {RoundUpNumber(timeWorking, 0)} giờ </Text>
+              <View
+                style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
+              >
+                <Label style={[{ marginRight: 10 }, styles.title]}>
+                  Thời lượng :
+                </Label>
+                <Text
+                  style={{
+                    color: colors.MAIN_COLOR_CLIENT,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
+                </Text>
               </View>
               <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
-                <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
+                <View
+                  style={[
+                    MainStyles.flexRowFlexStart,
+                    { alignItems: "center" },
+                  ]}
+                >
                   <Image
                     source={ic_premium}
                     style={{ width: 40, height: 40, marginRight: 10 }}
@@ -98,23 +120,26 @@ const FormServiceMachine = ({
                 </View>
                 <BtnToggle
                   value={values.premium}
-                  onChange={(checked) => setFieldValue('premium', checked)}
+                  onChange={(checked) => setFieldValue("premium", checked)}
                 />
               </View>
-              {
-                Service?.Detail.length > 0 && (
-                  <Label style={styles.title}>Dịch vụ thêm</Label>
-                )
-              }
+              {Service?.Detail.length > 0 && (
+                <Label style={styles.title}>Dịch vụ thêm</Label>
+              )}
               <InputCheckBox
                 data={Service?.Detail}
                 selectedValues={values.otherService}
                 onChange={(item) => {
-                  const newSelectedValues = values.otherService.some(value => value.ServiceDetailId === item.ServiceDetailId)
-                    ? values.otherService.filter(value => value.ServiceDetailId !== item.ServiceDetailId)
+                  const newSelectedValues = values.otherService.some(
+                    (value) => value.ServiceDetailId === item.ServiceDetailId
+                  )
+                    ? values.otherService.filter(
+                        (value) =>
+                          value.ServiceDetailId !== item.ServiceDetailId
+                      )
                     : [...values.otherService, item];
-                  setFieldValue('otherService', newSelectedValues);
-                  if (onChange && typeof onChange === 'function') {
+                  setFieldValue("otherService", newSelectedValues);
+                  if (onChange && typeof onChange === "function") {
                     onChange({ ...values, otherService: newSelectedValues });
                   }
                 }}
@@ -123,8 +148,8 @@ const FormServiceMachine = ({
               <TextArea
                 placeholder="Thêm ghi chú ở đây"
                 value={values.note}
-                onChangeText={handleChange('note')}
-                onBlur={handleBlur('note')}
+                onChangeText={handleChange("note")}
+                onBlur={handleBlur("note")}
               />
             </View>
           );
@@ -142,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   premium: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 10,
     borderRadius: 10,
     borderColor: colors.GRAY,

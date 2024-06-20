@@ -49,8 +49,8 @@ const WaitingStaffScreen = () => {
             // provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
-              latitude: dataBooking.latitude,
-              longitude: dataBooking.longitude,
+              latitude: dataBooking.Latitude,
+              longitude: dataBooking.Longitude,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}
@@ -58,8 +58,8 @@ const WaitingStaffScreen = () => {
           >
             <Marker
               coordinate={{
-                latitude: dataBooking.latitude,
-                longitude: dataBooking.longitude,
+                latitude: dataBooking.Latitude,
+                longitude: dataBooking.Longitude,
               }}
               title={dataBooking?.Address}
             >

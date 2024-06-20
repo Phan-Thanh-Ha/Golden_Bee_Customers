@@ -1,19 +1,19 @@
-import React from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import InputNumber from '../../components/InputNumber';
-import BtnToggle from '../../components/BtnToggle';
-import InputCheckBox from '../../components/InputCheckBox';
-import TextArea from '../../components/TextArea';
-import Label from '../../components/Label';
-import { colors } from '../../styles/Colors';
-import MainStyles from '../../styles/MainStyle';
-import { ic_premium } from '../../assets';
-import { dataOtherService1 } from '../data';
+import React from "react";
+import { View, StyleSheet, Image, Text } from "react-native";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import InputNumber from "../../components/InputNumber";
+import BtnToggle from "../../components/BtnToggle";
+import InputCheckBox from "../../components/InputCheckBox";
+import TextArea from "../../components/TextArea";
+import Label from "../../components/Label";
+import { colors } from "../../styles/Colors";
+import MainStyles from "../../styles/MainStyle";
+import { ic_premium } from "../../assets";
+import { dataOtherService1 } from "../data";
 
 const validationSchema = Yup.object().shape({
-  room: Yup.string().required('Vui lòng nhập số phòng'),
+  room: Yup.string().required("Vui lòng nhập số phòng"),
 });
 
 const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
@@ -24,20 +24,26 @@ const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
         people: 1,
         premium: false,
         otherService: [],
-        note: '',
+        note: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        console.log('Form values:', values);
-        if (onSubmit && typeof onSubmit === 'function') {
+        console.log("Form values:", values);
+        if (onSubmit && typeof onSubmit === "function") {
           onSubmit(values);
         }
       }}
     >
-
-      {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors }) => {
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        setFieldValue,
+        values,
+        errors,
+      }) => {
         onSubmit.current = handleSubmit;
-        if (onChange && typeof onChange === 'function') {
+        if (onChange && typeof onChange === "function") {
           onChange(values);
         }
         return (
@@ -47,21 +53,31 @@ const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
               placeholder="Nhập số phòng"
               value={values.room}
               setFieldValue={setFieldValue}
-              fieldName='room'
+              fieldName="room"
             />
             <Label style={styles.title}>Số lượng nhân sự</Label>
             <InputNumber
               placeholder="Nhập số nhân sự"
               value={values.people}
               setFieldValue={setFieldValue}
-              fieldName='people'
+              fieldName="people"
             />
-            <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
-              <Label style={[{ marginRight: 10 }, styles.title]}>Thời lượng :</Label>
-              <Text style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: 'bold' }}>Trong {timeWorking}H</Text>
+            <View
+              style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
+            >
+              <Label style={[{ marginRight: 10 }, styles.title]}>
+                Thời lượng :
+              </Label>
+              <Text
+                style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: "bold" }}
+              >
+                Trong {timeWorking}H
+              </Text>
             </View>
             <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
-              <View style={[MainStyles.flexRowFlexStart, { alignItems: 'center' }]}>
+              <View
+                style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
+              >
                 <Image
                   source={ic_premium}
                   style={{ width: 40, height: 40, marginRight: 10 }}
@@ -70,7 +86,7 @@ const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
               </View>
               <BtnToggle
                 value={values.premium}
-                onChange={(checked) => setFieldValue('premium', checked)}
+                onChange={(checked) => setFieldValue("premium", checked)}
               />
             </View>
             <Label style={styles.title}>Dịch vụ thêm</Label>
@@ -81,17 +97,16 @@ const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
                 const newSelectedValues = values.otherService.includes(id)
                   ? values.otherService.filter((value) => value !== id)
                   : [...values.otherService, id];
-                setFieldValue('otherService', newSelectedValues);
+                setFieldValue("otherService", newSelectedValues);
               }}
             />
             <Label style={styles.title}>Ghi chú</Label>
             <TextArea
               placeholder="Thêm ghi chú ở đây"
               value={values.note}
-              onChangeText={handleChange('note')}
-              onBlur={handleBlur('note')}
+              onChangeText={handleChange("note")}
+              onBlur={handleBlur("note")}
             />
-
           </View>
         );
       }}
@@ -107,7 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   premium: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 10,
     borderRadius: 10,
     borderColor: colors.GRAY,

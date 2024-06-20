@@ -5,3 +5,4 @@ export * from "./TitleSlice";
 export * from "./FormatMoney";
 export * from "./CheckNewData";
 export * from "./UserProfile";
+export * from "./Utils";

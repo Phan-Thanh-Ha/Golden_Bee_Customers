@@ -9,17 +9,25 @@ export const databaseOrder = firebase
   )
   .ref("/order");
 
-// Đặt đơn hàng
-export const placeOrder = async (clientId, orderId) => {
+// Đặt đơn hàng truyền lên firebase
+export const placeOrder = async (
+  clientId,
+  orderId,
+  dataBooking,
+  latitudeCustomer,
+  longitudeCustomer
+) => {
   const newOrder = {
     ClientId: clientId,
     OrderId: orderId,
+    DataService: dataBooking,
     StaffId: "",
     StaffName: "",
     StaffPhone: "",
-    createAt: Date.now(),
+    LatitudeCustomer: latitudeCustomer,
+    LongitudeCustomer: longitudeCustomer,
+    CreateAt: Date.now(),
   };
-
   try {
     await databaseOrder.child(orderId).set(newOrder);
     console.log("Order placed successfully:", newOrder);
@@ -38,7 +46,6 @@ export const listenForOrderUpdates = (clientId, setClientOrder) => {
     .equalTo(clientId)
     .on("value", (snapshot) => {
       const orders = snapshot.val();
-      console.log("Orders snapshot received:", orders);
       if (orders) {
         Object.keys(orders).forEach((orderId) => {
           const order = orders[orderId];

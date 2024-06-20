@@ -1,10 +1,7 @@
 import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import React, { useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
-import MainStyles, {
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-} from "../../styles/MainStyle";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -14,7 +11,7 @@ import { UseInset } from "../../Hooks";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { useSelector } from "react-redux";
 import { getRouterById } from "../../Utils/RoutingService";
-import { GOOGLE_API_KEY, GetUserProfile } from "../../Utils";
+import { GOOGLE_API_KEY } from "../../Utils";
 import axios from "axios";
 import Loading from "../../components/Loading";
 import { pin_outline } from "../../assets";
@@ -45,7 +42,6 @@ const ShowMap = () => {
     getLatLong(service.place_id);
   }, []);
 
-  console.log("LL", userProfile);
   const getLatLong = async (place_id) => {
     try {
       const response = await axios.get(

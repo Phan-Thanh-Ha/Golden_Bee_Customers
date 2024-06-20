@@ -15,7 +15,10 @@ import ModalInformationDetail from "../../components/ModalInformationDetail";
 import CardPremiumInfomation from "../../components/CardPremiumInfomation";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FormatMoney } from "../../Utils";
-import { priceClearning, priceClearningMachine } from "../../Utils/PriceService";
+import {
+  priceClearning,
+  priceClearningMachine,
+} from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import FormServiceMachine from "./FormServiceMachine";
 
@@ -33,14 +36,13 @@ const ServiceClearningMachineScreen = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const modalOnClose = () => {
     setModalOpen(false);
-  }
+  };
   const handleNext = () => {
     formikSubmitRef.current && formikSubmitRef.current();
-  }
+  };
   const handleFormChange = (values) => {
-    console.log("values change", values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
-    setTotalPrice(priceClearningMachine(values, price, time))
+    setTotalPrice(priceClearningMachine(values, price, time));
     values.premium ? setModalOpen(true) : setModalOpen(false);
   };
 
@@ -86,34 +88,37 @@ const ServiceClearningMachineScreen = () => {
           }}
           onPress={handleNext}
         >
-          <View style={[MainStyles.flexRowSpaceBetween, { backgroundColor: 'transparent' }]}>
+          <View
+            style={[
+              MainStyles.flexRowSpaceBetween,
+              { backgroundColor: "transparent" },
+            ]}
+          >
             <Text style={styles.btnTitle}>
-              {
-                FormatMoney(totalPrice) +
+              {FormatMoney(totalPrice) +
                 " VNĐ / " +
                 RoundUpNumber(time, 0) +
-                " giờ"
-              }
+                " giờ"}
             </Text>
-            <View style={[MainStyles.flexRow, { alignItems: 'center' }]}>
-              <Text style={[styles.btnTitle, { marginRight: 10 }]}>Tiếp theo</Text>
+            <View style={[MainStyles.flexRow, { alignItems: "center" }]}>
+              <Text style={[styles.btnTitle, { marginRight: 10 }]}>
+                Tiếp theo
+              </Text>
               <ArrowRight color={colors.WHITE} />
             </View>
           </View>
         </ButtonInfo>
       </View>
-      {
-        modalOpen && (
-          <ModalInformationDetail
-            isOpen={modalOpen}
-            onClose={modalOnClose}
-            snapPoints={['60%', '80%']}
-            initialIndex={1}
-          >
-            <CardPremiumInfomation />
-          </ModalInformationDetail>
-        )
-      }
+      {modalOpen && (
+        <ModalInformationDetail
+          isOpen={modalOpen}
+          onClose={modalOnClose}
+          snapPoints={["60%", "80%"]}
+          initialIndex={1}
+        >
+          <CardPremiumInfomation />
+        </ModalInformationDetail>
+      )}
     </View>
   );
 };
@@ -129,8 +134,8 @@ const styles = StyleSheet.create({
   },
   btnTitle: {
     fontSize: 18,
-    color: colors.WHITE
-  }
+    color: colors.WHITE,
+  },
 });
 
 export default ServiceClearningMachineScreen;
