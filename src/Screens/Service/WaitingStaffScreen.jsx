@@ -55,7 +55,7 @@ const WaitingStaffScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View>
+        {/* <View>
           <MapView
             style={styles.map}
             region={{
@@ -119,7 +119,7 @@ const WaitingStaffScreen = () => {
               location={dataBooking?.Address}
             />
           </LayoutPosition>
-        </View>
+        </View> */}
         <View style={styles.bodyContainer}>
           <View style={MainStyles.contentContainerClient}>
             <Text style={MainStyles.cardLabelConfirm}>Vị trí làm việc</Text>
