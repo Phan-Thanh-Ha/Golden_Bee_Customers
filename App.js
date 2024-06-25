@@ -11,7 +11,7 @@ import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import SplashScreen from "react-native-splash-screen";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { RequestPermission } from "./src/Permission/RequestPermission";
-
+import { SetupNotification } from "./src/Firebase/SetupNotification";
 LogBox.ignoreAllLogs();
 
 const App = () => {
@@ -35,6 +35,7 @@ const App = () => {
           <BottomSheetModalProvider>
             <RootNavigator />
             <RequestPermission />
+            <SetupNotification />
           </BottomSheetModalProvider>
           <Toast />
         </MenuProvider>

@@ -27,7 +27,6 @@ import MainStyles, {
   SCREEN_WIDTH,
 } from "../../styles/MainStyle";
 import Label from "../../components/Label";
-import Right from "../../components/svg/Right";
 import ArrowRight from "../../components/svg/ArrowRight";
 
 const HomeScreen = () => {

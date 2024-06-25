@@ -37,14 +37,10 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>App muốn truy cập mở âm thanh của điện thoại</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>App yêu cầu quyền truy cập vào bluetooth để kết nối với máy in của bạn.</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>App muốn sử dụng Bluetooth để kết nối với các thiết bị ngoại vi.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>App muốn truy cập vào Camera của bạn để thực hiện quét mã bill , chụp ảnh, quay video và thay đổi hình đại diện.</string>
+	<string>App muốn truy cập vào Camera của bạn , chụp ảnh, quay video và thay đổi hình đại diện.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>App muốn gửi thông báo để bạn không bỏ lỡ thông tin quan trọng.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>App requires Face ID cho phép bạn truy cập nhanh chóng và an toàn vào tài khoản của mình.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -52,11 +48,11 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>App muốn sử dụng vị trí của bạn để cung cấp dịch vụ tốt nhất.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App sử dụng vị trí hiện tại của bạn sẽ được hiển thị trên bản đồ và hiển thị vị trí của bạn chính xác hơn để lấy phát hàng.</string>
+	<string>App sử dụng vị trí hiện tại của bạn sẽ được hiển thị trên bản đồ và hiển thị vị trí của bạn chính xác hơn.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App yêu cầu truy cập vào micro để bạn có thể sử dụng giọng nói của mình để tìm kiếm.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App muốn truy cập Album của bạn để thực hiện chức năng thay đổi avatar.</string>
+	<string>App muốn truy cập Album của bạn để thực hiện chức năng thay đổi avatar.</string>	
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

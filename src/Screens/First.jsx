@@ -9,13 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import { mainAction } from "../Redux/Action";
 import { useDispatch } from "react-redux";
 import CheckNewData from "../Utils/CheckNewData";
-// import {
-//   RequestPermission,
-//   requestLocationPermission,
-//   requestLocationPermissionBackground,
-// } from "../Utils";
-// import { RESULTS } from "react-native-permissions";
-
 const First = () => {
   const navi = useNavigation();
   const dispatch = useDispatch();

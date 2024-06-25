@@ -5,5 +5,6 @@ const mainTypes = {
   LOCATION_TIME: "LOCATION_TIME",
   USER_PROFILE: "USER_PROFILE",
   MENU_SERVICE: "MENU_SERVICE",
+  CHECK_PERMISSION: "CHECK_PERMISSION",
 };
 export default mainTypes;

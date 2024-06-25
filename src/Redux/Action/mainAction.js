@@ -39,3 +39,14 @@ export function menuService(data, dispatch) {
     payload: data,
   });
 }
+
+export function checkPermission(params, dispatch) {
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: mainTypes.CHECK_PERMISSION,
+      params,
+      resolve,
+      reject,
+    });
+  });
+}

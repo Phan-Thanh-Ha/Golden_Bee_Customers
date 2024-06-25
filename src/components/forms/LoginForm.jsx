@@ -20,11 +20,11 @@ const LoginForm = ({ setSubmit }) => {
   const navi = useNavigation();
   const [loading, setLoading] = React.useState(false);
   const validationSchema = yup.object().shape({
-    phoneNumber: yup
+    PhoneNumber: yup
       .string()
       .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ")
       .required("Thông tin bắt buộc"),
-    password: yup
+    Password: yup
       .string()
       .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
       .required("Thông tin bắt buộc"),
@@ -34,14 +34,15 @@ const LoginForm = ({ setSubmit }) => {
     try {
       setLoading(true);
       const pr = {
-        UserName: "0943214791",
-        Password: "123456",
+        UserName: values.PhoneNumber,
+        Password: values.Password,
         GroupUserId: 10060,
       };
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Login",
       };
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
 
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result?.Status === "OK") {
@@ -50,6 +51,9 @@ const LoginForm = ({ setSubmit }) => {
         AlertToaster("success", "Đăng nhập thành công !");
         navi.navigate(ScreenNames.MAIN_NAVIGATOR);
         setLoading(false);
+        const token = await mainAction.checkPermission(null, dispatch);
+        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  token:", token);
+        OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
       } else {
         AlertToaster("error", result?.Result);
         setLoading(false);
@@ -60,9 +64,33 @@ const LoginForm = ({ setSubmit }) => {
     }
   };
 
+  // Upload Token Customer
+  const OVG_spCustomer_TokenDevice_Save = async (token, CustomerLogin) => {
+    console.log(
+      "-----> 💀💀💀💀💀💀💀💀💀 <-----  CustomerLogin:",
+      CustomerLogin
+    );
+    try {
+      const pr = {
+        CustomerId: CustomerLogin.Id,
+        Token: token,
+        GroupUserId: 10060,
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spCustomer_TokenDevice_Save",
+      };
+
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Formik
-      initialValues={{ phoneNumber: "", password: "" }}
+      initialValues={{ PhoneNumber: "", Password: "" }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
@@ -81,28 +109,28 @@ const LoginForm = ({ setSubmit }) => {
             <CustomLabel>Số điện thoại:</CustomLabel>
             <CustomInput
               placeholder="Nhập số điện thoại"
-              onChangeText={handleChange("phoneNumber")}
-              onBlur={handleBlur("phoneNumber")}
-              value={values.phoneNumber}
+              onChangeText={handleChange("PhoneNumber")}
+              onBlur={handleBlur("PhoneNumber")}
+              value={values.PhoneNumber}
             />
             <CustomFormError>
-              {touched.phoneNumber && errors.phoneNumber}
+              {touched.PhoneNumber && errors.PhoneNumber}
             </CustomFormError>
 
             <CustomLabel>Mật khẩu:</CustomLabel>
             <CustomInput
               placeholder="Nhập mật khẩu"
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              value={values.password}
+              onChangeText={handleChange("Password")}
+              onBlur={handleBlur("Password")}
+              value={values.Password}
               secureTextEntry
             />
             <CustomFormError>
-              {touched.password && errors.password}
+              {touched.Password && errors.Password}
             </CustomFormError>
             <View style={MainStyle.viewSubLinkForm}>
               <Pressable
-                onPress={() => navi.navigate(ScreenNames.FORGOT_PASSWORD)}
+                onPress={() => navi.navigate(ScreenNames.FORGOT_Password)}
               >
                 <Text style={MainStyle.subLinkForm}>Quên mật khẩu ?</Text>
               </Pressable>
