@@ -69,7 +69,7 @@ const FormServiceRepairInterior = ({
           }
           return (
             <View>
-              <Label style={styles.title}>Loại máy giặt</Label>
+              <Label style={styles.title}>Dịch vụ cụ thể</Label>
               <SelectOption
                 data={Service?.ServiceOption}
                 value={values.serviceOption}

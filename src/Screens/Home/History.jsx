@@ -20,7 +20,9 @@ import LogoBeeBox from "../../components/LogoBeeBox";
 import Box from "../../components/Box";
 import { dataBooing } from "../data";
 import TopTabs from "../../components/TopTabs";
-import { Layout } from "@ui-kitten/components";
+import { LayoutComponent } from "../../components/history";
+
+// const bookingData = useSelector((state) => state.bookingData);
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -29,7 +31,7 @@ const History = () => {
   const tabs = [
     {
       title: "Đang diễn ra",
-      content: () => <Text category="h5">ORDERS CONTENT</Text>,
+      content: () => <LayoutComponent />,
     },
     {
       title: "Hoàn thành",
@@ -45,12 +47,10 @@ const History = () => {
       <Box height={SCREEN_HEIGHT * 0.01} />
       <LogoBeeBox
         color={colors.WHITE}
-        sizeImage={SCREEN_WIDTH / 5}
+        sizeImage={SCREEN_WIDTH / 10}
         sizeText={20}
       />
-      <Layout>
-        <TopTabs tabs={tabs} />
-      </Layout>
+      <TopTabs tabs={tabs} />
     </View>
   );
 };

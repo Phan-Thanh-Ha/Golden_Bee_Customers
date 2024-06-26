@@ -7,8 +7,12 @@ const initialState = {
   locationTime: [],
   userLogin: {},
   menuService: [],
+  SERVICELIST: [],
 };
 export default function (state = initialState, action = {}) {
+  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  initialState:", initialState);
+  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  action:", action);
+  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  state:", state);
   switch (action.type) {
     case mainTypes.LOADING:
       return {
@@ -29,6 +33,11 @@ export default function (state = initialState, action = {}) {
       return {
         ...state,
         menuService: action.payload,
+      };
+    case mainTypes.SERVICE_LIST: // Danh sách dịch vụ của khách hàng
+      return {
+        ...state,
+        SERVICELIST: action.payload,
       };
     default:
       return state;

@@ -6,5 +6,6 @@ const mainTypes = {
   USER_PROFILE: "USER_PROFILE",
   MENU_SERVICE: "MENU_SERVICE",
   CHECK_PERMISSION: "CHECK_PERMISSION",
+  SERVICE_LIST: "SERVICE_LIST",
 };
 export default mainTypes;

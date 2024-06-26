@@ -24,7 +24,7 @@ const Account = () => {
       await removeData(StorageNames.USER_PROFILE);
       mainAction.userLogout(dispatch);
       navi.navigate(ScreenNames.AUTH_HOME);
-    } catch (error) {}
+    } catch (error) { }
   };
   return (
     <View>

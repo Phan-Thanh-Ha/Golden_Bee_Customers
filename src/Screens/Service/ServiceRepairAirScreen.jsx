@@ -25,7 +25,6 @@ const ServiceRepairAirScreen = () => {
   const route = useRoute();
   const { service } = route.params || {};
   // const service = dataMenuApi[0];
-  console.log("service in service clearning air", service);
   const price = service.ServicePrice || 11;
   const workingTime = service.ServiceTime || 11;
   const [time, setTime] = useState(workingTime);

@@ -1,46 +1,51 @@
-import React, { useEffect, useRef, useState } from "react";
+
+import FormServiceRepairElectricity from "./FormServiceRepairElectricity";
+import FormServiceClearingAir from "./FormServiceClearingAir"; import React, { useRef, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { colors } from "../../styles/Colors";
 import LinearGradient from "react-native-linear-gradient";
-import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../components/BackButton";
 import MainStyles from "../../styles/MainStyle";
 import { UseInset } from "../../Hooks";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { CardLocation } from "../../components";
 import ButtonInfo from "../../components/buttons/ButtonInfo";
-import { priceRepairElectricity } from "../../Utils";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
-import { typeAir, typeElectricity } from "../data";
-import FormServiceRepairAir from "./FormServiceRepairAir";
-import FormServiceRepairElectricity from "./FormServiceRepairElectricity";
-import CardPremiumInfomation from "../../components/CardPremiumInfomation";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
+import CardPremiumInfomation from "../../components/CardPremiumInfomation";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { FormatMoney } from "../../Utils";
+import {
+  priceClearningAirConditioner,
+  priceRepairElectricity,
+} from "../../Utils/PriceService";
+import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 
 const ServiceRepairElectricityScreen = () => {
-  const navigation = useNavigation();
+  const route = useRoute();
+  const { service } = route.params || {};
+  // const service = dataMenuApi[0];
+  const price = service.ServicePrice || 11;
+  const workingTime = service.ServiceTime || 11;
+  const [time, setTime] = useState(workingTime);
   const inset = UseInset();
-  const [time, setTime] = useState(2);
   const formikSubmitRef = useRef(null);
-  const timeWorking = 2;
-  const price = 30000;
-  const [formData, setFormData] = useState({
-    typeMc: typeElectricity[0],
-    people: 1,
-    premium: false,
-    otherService: [],
-    note: "",
-  });
+  const [totalPrice, setTotalPrice] = useState(price);
   const [modalOpen, setModalOpen] = useState(false);
   const modalOnClose = () => {
     setModalOpen(false);
   };
+  const handleNext = () => {
+    formikSubmitRef.current && formikSubmitRef.current();
+  };
   const handleFormChange = (values) => {
-    setFormData(values);
-    setTime(timeWorking / values.people);
+    console.log(values);
+    values.people ? setTime(workingTime / values.people) : setTime(workingTime);
+    setTotalPrice(priceRepairElectricity(values, price, time));
     values.premium ? setModalOpen(true) : setModalOpen(false);
   };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -49,17 +54,15 @@ const ServiceRepairElectricityScreen = () => {
       />
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
       <Text style={MainStyles.screenTitle}>Thông tin công việc</Text>
-      <CardLocation
-        location={
-          "12, Đường Nguyễn Văn Lượng, Quận gò vấp, TP Hồ Chí Minh, Việt Nam"
-        }
-      />
+      <CardLocation location={service.Address} />
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
           <FormServiceRepairElectricity
             onSubmit={formikSubmitRef}
             timeWorking={time}
             onChange={handleFormChange}
+            Service={service}
+            TotalPrice={totalPrice}
           />
         </KeyboardAwareScrollView>
       </ScrollView>
@@ -83,7 +86,7 @@ const ServiceRepairElectricityScreen = () => {
             marginTop: 10,
             marginBottom: 10,
           }}
-          onPress={() => formikSubmitRef.current && formikSubmitRef.current()}
+          onPress={handleNext}
         >
           <View
             style={[
@@ -92,7 +95,10 @@ const ServiceRepairElectricityScreen = () => {
             ]}
           >
             <Text style={styles.btnTitle}>
-              {priceRepairElectricity(formData, price, time)}
+              {FormatMoney(totalPrice) +
+                " VNĐ / " +
+                RoundUpNumber(time, 0) +
+                " giờ"}
             </Text>
             <View style={[MainStyles.flexRow, { alignItems: "center" }]}>
               <Text style={[styles.btnTitle, { marginRight: 10 }]}>
@@ -103,18 +109,19 @@ const ServiceRepairElectricityScreen = () => {
           </View>
         </ButtonInfo>
       </View>
-      <ModalInformationDetail
-        isOpen={modalOpen}
-        onClose={modalOnClose}
-        snapPoints={["40%", "60%", "80%"]}
-        initialIndex={1}
-      >
-        <CardPremiumInfomation />
-      </ModalInformationDetail>
+      {modalOpen && (
+        <ModalInformationDetail
+          isOpen={modalOpen}
+          onClose={modalOnClose}
+          snapPoints={["60%", "80%"]}
+          initialIndex={1}
+        >
+          <CardPremiumInfomation />
+        </ModalInformationDetail>
+      )}
     </View>
   );
 };
-export default ServiceRepairElectricityScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -130,3 +137,6 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
 });
+
+export default ServiceRepairElectricityScreen;
+

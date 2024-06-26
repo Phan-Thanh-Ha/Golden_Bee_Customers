@@ -134,9 +134,9 @@ const FormServiceMachine = ({
                     (value) => value.ServiceDetailId === item.ServiceDetailId
                   )
                     ? values.otherService.filter(
-                        (value) =>
-                          value.ServiceDetailId !== item.ServiceDetailId
-                      )
+                      (value) =>
+                        value.ServiceDetailId !== item.ServiceDetailId
+                    )
                     : [...values.otherService, item];
                   setFieldValue("otherService", newSelectedValues);
                   if (onChange && typeof onChange === "function") {

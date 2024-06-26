@@ -12,7 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		19A467CF2C2127C500A809F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 19A467CE2C2127C500A809F4 /* GoogleService-Info.plist */; };
+		19D57F572C2A604D00CB55DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 19D57F562C2A604D00CB55DE /* GoogleService-Info.plist */; };
 		7699B88040F8A987B510C191 /* libPods-Golden_Bee_Customers-Golden_Bee_CustomersTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Golden_Bee_Customers-Golden_Bee_CustomersTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -38,7 +38,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Golden_Bee_Customers/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Golden_Bee_Customers/main.m; sourceTree = "<group>"; };
 		19A277AA2C253E4D00C03822 /* Golden_Bee_Customers.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Golden_Bee_Customers.entitlements; path = Golden_Bee_Customers/Golden_Bee_Customers.entitlements; sourceTree = "<group>"; };
-		19A467CE2C2127C500A809F4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		19D57F562C2A604D00CB55DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Golden_Bee_Customers-Golden_Bee_CustomersTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Golden_Bee_Customers-Golden_Bee_CustomersTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-Golden_Bee_Customers.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Golden_Bee_Customers.debug.xcconfig"; path = "Target Support Files/Pods-Golden_Bee_Customers/Pods-Golden_Bee_Customers.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Golden_Bee_Customers.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Golden_Bee_Customers.release.xcconfig"; path = "Target Support Files/Pods-Golden_Bee_Customers/Pods-Golden_Bee_Customers.release.xcconfig"; sourceTree = "<group>"; };
@@ -89,8 +89,8 @@
 		13B07FAE1A68108700A75B9A /* Golden_Bee_Customers */ = {
 			isa = PBXGroup;
 			children = (
+				19D57F562C2A604D00CB55DE /* GoogleService-Info.plist */,
 				19A277AA2C253E4D00C03822 /* Golden_Bee_Customers.entitlements */,
-				19A467CE2C2127C500A809F4 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -248,7 +248,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				19A467CF2C2127C500A809F4 /* GoogleService-Info.plist in Resources */,
+				19D57F572C2A604D00CB55DE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

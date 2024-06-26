@@ -1,4 +1,5 @@
 import FormServiceClearingAir from "./FormServiceClearingAir";
+import React, { useRef, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { colors } from "../../styles/Colors";
 import LinearGradient from "react-native-linear-gradient";
@@ -27,7 +28,6 @@ const ServiceClearningAirScreen = () => {
   const route = useRoute();
   const { service } = route.params || {};
   // const service = dataMenuApi[0];
-  console.log("service in service clearning air", service);
   const price = service.ServicePrice || 11;
   const workingTime = service.ServiceTime || 11;
   const [time, setTime] = useState(workingTime);
@@ -42,6 +42,7 @@ const ServiceClearningAirScreen = () => {
     formikSubmitRef.current && formikSubmitRef.current();
   };
   const handleFormChange = (values) => {
+    console.log(values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceClearningAirConditioner(values, price, time));
     values.premium ? setModalOpen(true) : setModalOpen(false);
@@ -138,5 +139,4 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
 });
-
 export default ServiceClearningAirScreen;

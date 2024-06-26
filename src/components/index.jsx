@@ -16,3 +16,4 @@ export * from "./Loading";
 export * from "./CardPremiumInfomation";
 export * from "./ItemTitlePremiumDes";
 export * from "./TopTabs";
+export * from "./Rating";

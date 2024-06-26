@@ -31,6 +31,7 @@ import ServiceRepairInteriorScreen from "../Screens/Service/ServiceRepairInterio
 import ConfirmBooking from "../Screens/Service/ConfirmBooking";
 import WaitingStaffScreen from "../Screens/Service/WaitingStaffScreen";
 import FireBaseRealtimeCheck from "../Screens/firebaseCheck/FireBaseRealtimeCheck";
+import ServiceRepairElectricityScreen from "../Screens/Service/ServiceRepairElectricityScreen";
 
 const MainStack = createStackNavigator();
 
@@ -87,48 +88,49 @@ const RootNavigator = () => {
         />
 
         <MainStack.Screen
-          name={ScreenNames.FORM_CLEARNING} //giusp viec
+          name={ScreenNames.FORM_CLEARNING} //giusp viec ok
           component={ServiceClearningScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_HOUSE_CLEARING} //don nha
+          name={ScreenNames.FORM_HOUSE_CLEARING} //don nha -> ok
           component={ServiceHouseClearningScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_OFFICE_CLEARING} //don van phong
+          name={ScreenNames.FORM_OFFICE_CLEARING} //don van phong -> ok
           component={ServiceClearningOfficeScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_MACHINE_CLEANING} //ve sinh may giat
+          name={ScreenNames.FORM_MACHINE_CLEANING} //ve sinh may giat -> ok
           component={ServiceClearningMachineScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_AIR_CONDITIONING} //ve sinh ddiieuf hòa ok
+          name={ScreenNames.FORM_AIR_CONDITIONING} //ve sinh ddiieuf hòa -> ok
           component={ServiceClearningAirScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_REPAIR_AIR_CONDITIONING} //sửa ddiieuf hòa ok
+          name={ScreenNames.FORM_REPAIR_AIR_CONDITIONING} //sửa ddiieuf hòa -> ok
           component={ServiceRepairAirScreen}
         />
+        <MainStack.Screen name={ScreenNames.SHOW_MAP} component={ShowMap} />
         <MainStack.Screen
-          name={ScreenNames.SHOW_MAP} //ve sinh ddiieuf hòa
-          component={ShowMap}
-        />
-        <MainStack.Screen
-          name={ScreenNames.FORM_INSTALLING} //sửa oonsg nuocws ok
+          name={ScreenNames.FORM_INSTALLING} //sửa oonsg nuocws -> ok
           component={ServiceRepairPipeScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_REPAIR_CAMERA} //sửa camera ok
+          name={ScreenNames.FORM_REPAIR_CAMERA} //sửa camera -> ok
           component={ServiceRepairCameraScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FORM_INTERIOR} //sửa nooij thaats
+          name={ScreenNames.FORM_INTERIOR} //sửa nooij thaats -> ok
           component={ServiceRepairInteriorScreen}
         />
         <MainStack.Screen
           name={ScreenNames.CONFIRM_BOOKING} //sửa xac nhan dat
           component={ConfirmBooking}
+        />
+        <MainStack.Screen
+          name={ScreenNames.FORM_REPAIR_ELECTRICITY} //sửa xac nhan dat
+          component={ServiceRepairElectricityScreen}
         />
         <MainStack.Screen
           name={ScreenNames.WAITING_STAFF} //sửa xac nhan dat

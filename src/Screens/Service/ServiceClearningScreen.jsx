@@ -38,6 +38,7 @@ const ServiceClearningScreen = () => {
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceClearning(values, price, time));
     values.premium ? setModalOpen(true) : setModalOpen(false);
+    console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  values:", values);
   };
 
   return (

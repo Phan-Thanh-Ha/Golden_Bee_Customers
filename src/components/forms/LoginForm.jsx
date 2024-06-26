@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { AlertToaster } from "../../Utils/AlertToaster";
 import { setData } from "../../Utils";
 
-const LoginForm = ({ setSubmit }) => {
+const LoginForm = () => {
   const dispatch = useDispatch();
   const navi = useNavigation();
   const [loading, setLoading] = React.useState(false);
@@ -42,7 +42,6 @@ const LoginForm = ({ setSubmit }) => {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Login",
       };
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
 
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result?.Status === "OK") {

@@ -25,15 +25,11 @@ const ConfirmBooking = () => {
   const route = useRoute();
   const dispatch = useDispatch();
   const { dataConfirmService } = route.params || {};
-  console.log(
-    "-----> 💀💀💀💀💀💀💀💀💀 <-----  dataConfirmService:",
-    dataConfirmService
-  );
   const navi = useNavigation();
   const [payment, setPayment] = useState(false);
 
   // Lưu booking
-  const OVG_spService_BookingService = async () => {
+  const OVG_spService_BookingService_Save = async () => {
     try {
       const pr = {
         CustomerId: dataConfirmService?.CustomerId, // Id KH
@@ -49,13 +45,16 @@ const ConfirmBooking = () => {
         Premium: dataConfirmService?.premium ? 1 : 0, // 1: premium, 0: normal
         TimeService: dataConfirmService?.workingTime, // Thời gian làm việc
         ServiceCode: dataConfirmService?.ServiceCode, // Mã dịch vụ
+        SelectOption: dataConfirmService?.serviceOption,
         Note: dataConfirmService?.note, // Ghi chú
         ListServiceAdditional: dataConfirmService.otherService,
+        AddressService: dataConfirmService?.Address, // Địa chỉ,
+        SelectOption: dataConfirmService?.serviceOption, // Loại dịch vụ
         GroupUserId: GroupUserId,
       };
       const params = {
         Json: JSON.stringify(pr),
-        func: "OVG_spService_BookingService",
+        func: "OVG_spService_BookingService_Save",
       };
       console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
@@ -66,7 +65,7 @@ const ConfirmBooking = () => {
         }
       }
     } catch (error) {
-      // console.log("error", error);
+      console.log("error", error);
       setLoading(false);
     }
   };
@@ -78,24 +77,24 @@ const ConfirmBooking = () => {
     const dataBooking = {
       CustomerName: userLogin?.CustomerName, // Tên KH
       CustomerPhone: userLogin?.Phone, // SĐT KH
-      ServiceDetaiil: dataConfirmService.Detail,
-      ServiceId: dataConfirmService.ServiceId,
-      ServiceCode: dataConfirmService.ServiceCode,
-      CustomerId: dataConfirmService.CustomerId,
-      Address: dataConfirmService.Address,
-      ServiceName: dataConfirmService.ServiceName,
-      ServiceOption: dataConfirmService.ServiceOption,
-      ServicePrice: dataConfirmService.ServicePrice,
-      ServiceTime: dataConfirmService.ServiceTime,
-      TotalPrice: dataConfirmService.TotalPrice,
-      NoteBooking: dataConfirmService.note,
-      OtherService: dataConfirmService.otherService,
-      TotalStaff: dataConfirmService.people,
-      IsPremium: dataConfirmService.premium,
-      TotalRoom: dataConfirmService.room,
-      TimeWorking: dataConfirmService.workingTime,
-      Latitude: dataConfirmService.Latitude,
-      Longitude: dataConfirmService.Longitude,
+      ServiceDetaiil: dataConfirmService?.Detail,
+      ServiceId: dataConfirmService?.ServiceId,
+      ServiceCode: dataConfirmService?.ServiceCode,
+      CustomerId: dataConfirmService?.CustomerId,
+      Address: dataConfirmService?.Address,
+      ServiceName: dataConfirmService?.ServiceName,
+      SelectOption: dataConfirmService?.serviceOption,
+      ServicePrice: dataConfirmService?.ServicePrice,
+      ServiceTime: dataConfirmService?.ServiceTime,
+      TotalPrice: dataConfirmService?.TotalPrice,
+      NoteBooking: dataConfirmService?.note,
+      OtherService: dataConfirmService?.otherService,
+      TotalStaff: dataConfirmService?.people,
+      IsPremium: dataConfirmService?.premium,
+      TotalRoom: dataConfirmService?.room,
+      TimeWorking: dataConfirmService?.workingTime,
+      Latitude: dataConfirmService?.Latitude,
+      Longitude: dataConfirmService?.Longitude,
       Payment: payment,
     };
 
@@ -247,7 +246,7 @@ const ConfirmBooking = () => {
           </Text>
         </View>
         <Button
-          onPress={OVG_spService_BookingService}
+          onPress={OVG_spService_BookingService_Save}
           isLoading={loading}
           disable={loading}
           bgColor={colors.PRIMARY_GREEN}

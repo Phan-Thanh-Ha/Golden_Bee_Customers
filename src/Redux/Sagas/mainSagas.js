@@ -1,7 +1,7 @@
 import { delay, put, takeEvery, takeLatest } from "redux-saga/effects";
 import mainTypes from "../Action/mainTypes";
 import { api, APIKey, API_END_POINT } from "../../Config/Api";
-import messaging from "@react-native-firebase/messaging";
+// import messaging from "@react-native-firebase/messaging";
 export function* API_spCallServer(action) {
   const params = action && action.params;
 
@@ -35,24 +35,24 @@ export function* API_spCallServer(action) {
   }
 }
 
-export function* checkPermission(action) {
-  try {
-    const authStatus = yield messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-    if (enabled) {
-      const token = yield messaging().getToken();
-      if (token) {
-        // yield setData(StorageNames.DEVICES_TOKEN, JSON.stringify(token));
-        action.resolve(token);
-      }
-    }
-  } catch (e) {
-    yield delay(300);
-    action.reject(e);
-  }
-}
+// export function* checkPermission(action) {
+//   try {
+//     const authStatus = yield messaging().requestPermission();
+//     const enabled =
+//       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+//       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+//     if (enabled) {
+//       const token = yield messaging().getToken();
+//       if (token) {
+//         // yield setData(StorageNames.DEVICES_TOKEN, JSON.stringify(token));
+//         action.resolve(token);
+//       }
+//     }
+//   } catch (e) {
+//     yield delay(300);
+//     action.reject(e);
+//   }
+// }
 
 export function* cameraScan(action) {
   yield put({ type: mainTypes.LOADING, payload: true });
@@ -62,5 +62,5 @@ export function* cameraScan(action) {
 
 export default function* watchMainSagas() {
   yield takeEvery(mainTypes.CallServer, API_spCallServer);
-  yield takeLatest(mainTypes.CHECK_PERMISSION, checkPermission);
+  // yield takeLatest(mainTypes.CHECK_PERMISSION, checkPermission);
 }

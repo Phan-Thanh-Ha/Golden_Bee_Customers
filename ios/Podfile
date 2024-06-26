@@ -1,20 +1,12 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 require_relative '../node_modules/react-native-permissions/scripts/setup'
-# require Pod::Executable.execute_command('node', ['-p',
-#   'require.resolve(
-#     "react-native/scripts/react_native_pods.rb",
-#     {paths: [process.argv[1]]},
-#   )', __dir__]).strip
-platform :ios, '12.4'
+platform :ios, '13.0'
 use_modular_headers!
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'Golden_Bee_Customers' do
   config = use_native_modules!
-  # use_frameworks! :linkage => :static
-  # $RNFirebaseAsStaticFramework = true
-
   
   pod 'Firebase/Core', :modular_headers => true
   pod 'Firebase/Database', :modular_headers => true

@@ -25,63 +25,56 @@ export const priceOfficeClearning = (values, price, time) => {
 };
 export const priceClearningMachine = (values, price, time) => {
   const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  const serviceOptionPrice = values?.serviceOption?.OptionePrice || 0;
   const total =
-    price +
-    values?.people * values?.serviceOption?.OptionePrice +
-    priceServiceDetail;
+    price + values?.people * serviceOptionPrice + priceServiceDetail;
   return total;
 };
 
-export const priceClearningAirConditioner = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceClearningAirConditioner = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  const serviceOptionPrice = values?.serviceOption?.OptionePrice || 0;
+  const total =
+    price + values?.people * serviceOptionPrice + priceServiceDetail;
+  return total;
 };
 
-export const priceRepairElectricity = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceRepairElectricity = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  const serviceOptionPrice = values?.serviceOption?.OptionePrice || 0;
+  const total =
+    price + values?.people * serviceOptionPrice + priceServiceDetail;
+  return total;
 };
 
-export const priceRepairAirConditioner = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceRepairAirConditioner = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  const serviceOptionPrice = values?.serviceOption?.OptionePrice || 0;
+  const total =
+    price + values?.people * serviceOptionPrice + priceServiceDetail;
+  return total;
 };
 
-export const priceRepairPipe = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceRepairPipe = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  const serviceOptionPrice = values?.serviceOption?.OptionePrice || 0;
+  const total =
+    price + values?.people * serviceOptionPrice + priceServiceDetail;
+  return total;
 };
 
-export const priceRepairCamera = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceRepairCamera = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  const serviceOptionPrice = values?.serviceOption?.OptionePrice || 0;
+  const total =
+    price + values?.people * serviceOptionPrice + priceServiceDetail;
+  return total;
 };
 
-export const priceRepairInterior = (formData, price, time) => {
-  return (
-    FormatMoney(price * formData?.people) +
-    " VNĐ / " +
-    RoundUpNumber(time, 1) +
-    " giờ"
-  );
+export const priceRepairInterior = (values, price, time) => {
+  const priceServiceDetail = calculateTotalPrice(values?.otherService);
+  const serviceOptionPrice = values?.serviceOption?.OptionePrice || 0;
+  const total =
+    price + values?.people * serviceOptionPrice + priceServiceDetail;
+  return total;
 };

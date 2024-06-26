@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
   tabContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: SCREEN_WIDTH + 200,
   },
 });
 

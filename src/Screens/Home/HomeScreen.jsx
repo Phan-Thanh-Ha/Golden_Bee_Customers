@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { colors } from "../../styles/Colors";
 import LogoBeeBox from "../../components/LogoBeeBox";
-import { Card } from "@ui-kitten/components";
-import { responsivescreen, units } from "../../Utils";
+import { Card, Text } from "@ui-kitten/components";
+import { GetUserProfile, GroupUserId, units } from "../../Utils";
 import { MenuPickup } from "./Menu";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
 import ProductMust from "./Menu/ProductMust";
 import InputSearch from "../../components/InputSeach";
 import { useNavigation } from "@react-navigation/native";
-import { mainAction } from "../../Redux/Action";
-import { useDispatch, useSelector } from "react-redux";
+import { mainAction, mainTypes } from "../../Redux/Action";
+import { useDispatch } from "react-redux";
 import { ScreenNames } from "../../Constants";
 import Geolocation from "@react-native-community/geolocation";
-import Slider from "../../components/Slider";
 import Box from "../../components/Box";
 import MainStyles, {
   SCREEN_HEIGHT,
@@ -32,8 +25,9 @@ import ArrowRight from "../../components/svg/ArrowRight";
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const navi = useNavigation();
-  const menuData = useSelector((state) => state.main.menuService);
+
   useEffect(() => {
+    OVG_spBooking_Service_List();
     Geolocation.getCurrentPosition(
       (position) => {
         if (position.coords) {
@@ -47,6 +41,28 @@ const HomeScreen = () => {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
   }, []);
+
+  const OVG_spBooking_Service_List = async () => {
+    const userLogin = await GetUserProfile();
+    try {
+      const pr = {
+        CustomerId: userLogin.Id,
+        GroupUserId: GroupUserId,
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spBooking_Service_List",
+      };
+
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      if (result) {
+        mainAction.serviceList(result, dispatch);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const OVG_spCustomer_Location_Update = async (
     latitude,
     longitude,
@@ -70,7 +86,6 @@ const HomeScreen = () => {
             type: mainTypes.LOCATION_TIME,
             payload: result.Result,
           });
-          // setDataMenu("LOCATION_TIME", result.Result);
         }
       }
     } catch (e) {}
@@ -93,7 +108,16 @@ const HomeScreen = () => {
           marginVertical: 15,
         }}
       />
-      <ScrollView style={{ height: units.height("70%") }}>
+      <Card
+        style={{
+          width: SCREEN_WIDTH - 20,
+          alignSelf: "center",
+          height: SCREEN_HEIGHT / 15,
+        }}
+      >
+        <Text>Bạn đang có 1 booking đang thực hiện</Text>
+      </Card>
+      <ScrollView style={{ height: units.height("50%") }}>
         <Card
           style={{
             backgroundColor: colors.TEXT_WHITE_CLIENT,
@@ -105,7 +129,7 @@ const HomeScreen = () => {
             borderRadius: 10,
             borderWidth: 0,
             alignSelf: "center",
-            width: units.width("90%"),
+            width: units.width("95%"),
           }}
         >
           <MenuPickup

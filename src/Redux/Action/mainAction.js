@@ -50,3 +50,10 @@ export function checkPermission(params, dispatch) {
     });
   });
 }
+// SERVICE_LIST
+export function serviceList(data, dispatch) {
+  return dispatch({
+    type: mainTypes.SERVICE_LIST,
+    payload: data,
+  });
+}

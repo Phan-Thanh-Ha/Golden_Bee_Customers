@@ -29,6 +29,7 @@ export const placeOrder = async (
     LongitudeCustomer: longitudeCustomer,
     CreateAt: Date.now(),
     BookingCode: bookingCode,
+    StatusOrder: 0,
   };
   try {
     await databaseOrder.child(orderId).set(newOrder);

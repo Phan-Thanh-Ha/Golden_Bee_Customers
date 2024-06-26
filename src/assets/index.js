@@ -18,6 +18,13 @@ export const ic_air_conditioner = require("../assets/icons/ic_air_conditioner.pn
 export const ic_repair_electricity = require("../assets/icons/ic_repair_electricity.png");
 export const ic_repair_the_air_conditioning = require("../assets/icons/ic_repair_the_air_conditioning.png");
 export const ic_repair_the_camera = require("../assets/icons/ic_repair_the_camera.png");
+export const ic_person = require("../assets/icons/person.png");
+export const ic_living_room = require("../assets/icons/living-room.png");
+export const ic_glass = require("../assets/icons/tmp-client-1.png");
+export const ic_clearning_basic = require("../assets/icons/cleaning-basic.png");
+export const ic_clearning = require("../assets/icons/cleaning.png");
+export const ic_schedule = require("../assets/icons/schedule.png");
+export const ic_note = require("../assets/icons/note.png");
 
 // ========================= Images_Gif =========================
 export const ic_star = require("../assets/image_gif/star.gif");

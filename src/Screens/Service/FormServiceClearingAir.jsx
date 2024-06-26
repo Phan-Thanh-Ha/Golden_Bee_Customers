@@ -69,7 +69,7 @@ const FormServiceClearingAir = ({
           }
           return (
             <View>
-              <Label style={styles.title}>Loại máy giặt</Label>
+              <Label style={styles.title}>Loại máy lạnh</Label>
               <SelectOption
                 data={Service?.ServiceOption}
                 value={values.serviceOption}

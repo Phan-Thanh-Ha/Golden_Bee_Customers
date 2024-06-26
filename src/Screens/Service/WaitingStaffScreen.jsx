@@ -55,14 +55,14 @@ const WaitingStaffScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        {/* <View>
+        <View>
           <MapView
             style={styles.map}
             region={{
               latitude: dataBooking.Latitude,
               longitude: dataBooking.Longitude,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
+              latitudeDelta: 0.03,
+              longitudeDelta: 0.03,
             }}
             zoomEnabled={true}
           >
@@ -80,38 +80,42 @@ const WaitingStaffScreen = () => {
                 />
               </View>
             </Marker>
-            <Marker
-              coordinate={{
-                latitude: clientOrder?.LatitudeStaff,
-                longitude: clientOrder?.LongitudeStaff,
-              }}
-            >
-              <View style={styles.markerContainer}>
-                <Loading
-                  source={delivery_Golden}
-                  style={{ width: 64, height: 64 }}
-                />
-              </View>
-            </Marker>
-            <MapViewDirections
-              origin={{
-                latitude: clientOrder?.LatitudeStaff,
-                longitude: clientOrder?.LongitudeStaff,
-              }}
-              destination={{
-                latitude: dataBooking.Latitude,
-                longitude: dataBooking.Longitude,
-              }}
-              apikey={GOOGLE_API_KEY}
-              strokeWidth={3}
-              strokeColor={colors.SUCCESS}
-              onReady={(result) => {
-                setSetTImeOut({
-                  distance: result.distance,
-                  duration: result.duration,
-                });
-              }}
-            />
+            {clientOrder?.LatitudeStaff ? (
+              <Marker
+                coordinate={{
+                  latitude: clientOrder?.LatitudeStaff,
+                  longitude: clientOrder?.LongitudeStaff,
+                }}
+              >
+                <View style={styles.markerContainer}>
+                  <Loading
+                    source={delivery_Golden}
+                    style={{ width: 64, height: 64 }}
+                  />
+                </View>
+              </Marker>
+            ) : null}
+            {clientOrder?.LatitudeStaff ? (
+              <MapViewDirections
+                origin={{
+                  latitude: clientOrder?.LatitudeStaff,
+                  longitude: clientOrder?.LongitudeStaff,
+                }}
+                destination={{
+                  latitude: dataBooking.Latitude,
+                  longitude: dataBooking.Longitude,
+                }}
+                apikey={GOOGLE_API_KEY}
+                strokeWidth={3}
+                strokeColor={colors.SUCCESS}
+                onReady={(result) => {
+                  setSetTImeOut({
+                    distance: result.distance,
+                    duration: result.duration,
+                  });
+                }}
+              />
+            ) : null}
           </MapView>
           <LayoutPosition style={{ top: 10, left: 10, right: 10 }}>
             <CardLocation
@@ -119,7 +123,7 @@ const WaitingStaffScreen = () => {
               location={dataBooking?.Address}
             />
           </LayoutPosition>
-        </View> */}
+        </View>
         <View style={styles.bodyContainer}>
           <View style={MainStyles.contentContainerClient}>
             <Text style={MainStyles.cardLabelConfirm}>Vị trí làm việc</Text>

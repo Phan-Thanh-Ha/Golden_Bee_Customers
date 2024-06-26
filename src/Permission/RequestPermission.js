@@ -37,16 +37,6 @@ export const RequestPermission = () => {
       const { status } = await requestPermission(permission);
       permissionsStatus[permission] = status;
     }
-    console.log("Permissions status:", permissionsStatus);
-
-    // Kiểm tra nếu POST_NOTIFICATIONS (cho Android) hoặc NOTIFICATIONS (cho iOS) đã được bật
-    const notificationsPermission = Platform.select({
-      android: PERMISSIONS.ANDROID.POST_NOTIFICATIONS,
-      ios: PERMISSIONS.IOS.NOTIFICATIONS,
-    });
-    // if (permissionsStatus[notificationsPermission] === RESULTS.GRANTED) {
-    //   requestUserPermission();
-    // }
   };
 
   useEffect(() => {

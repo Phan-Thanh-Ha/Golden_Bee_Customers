@@ -297,5 +297,35 @@ const MainStyles = StyleSheet.create({
     fontWeight: "700",
     color: colors.MAIN_BLUE_CLIENT,
   },
+  cardJob: {
+    backgroundColor: colors.WHITE,
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+  },
+  titleCardJob: {
+    color: colors.MAIN_COLOR_CLIENT,
+    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: "700",
+    paddingRight: SCREEN_WIDTH * 0.04,
+  },
+  line: {
+    backgroundColor: colors.MAIN_BLUE_CLIENT,
+    marginBottom: 5,
+    marginTop: 5,
+    height: 1,
+    width: SCREEN_WIDTH * 0.7,
+  },
+  rowMargin: {
+    marginVertical: 8,
+  },
+  textCardJob: {
+    color: colors.MAIN_BLUE_CLIENT,
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: "600",
+    paddingRight: SCREEN_WIDTH * 0.04,
+  },
 });
 export default MainStyles;
