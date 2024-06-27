@@ -10,9 +10,6 @@ const initialState = {
   SERVICELIST: [],
 };
 export default function (state = initialState, action = {}) {
-  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  initialState:", initialState);
-  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  action:", action);
-  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  state:", state);
   switch (action.type) {
     case mainTypes.LOADING:
       return {

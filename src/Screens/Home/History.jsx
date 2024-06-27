@@ -18,9 +18,12 @@ import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../../styles/Colors";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import Box from "../../components/Box";
-import { dataBooing } from "../data";
-import TopTabs from "../../components/TopTabs";
 import { LayoutComponent } from "../../components/history";
+import { Layout, Tab, TabBar } from "@ui-kitten/components";
+import { useFocusEffect } from "@react-navigation/native";
+import { GetUserProfile, GroupUserId } from "../../Utils";
+import { mainAction } from "../../Redux/Action";
+import { useDispatch } from "react-redux";
 
 // const bookingData = useSelector((state) => state.bookingData);
 
@@ -28,16 +31,58 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const History = () => {
-  const tabs = [
-    {
-      title: "Đang diễn ra",
-      content: () => <LayoutComponent />,
-    },
-    {
-      title: "Hoàn thành",
-      content: () => <Text category="h5">ORDERS CONTENT</Text>,
-    },
-  ];
+  const dispatch = useDispatch();
+  const [dataDoing, setDataDoing] = useState([]);
+  useFocusEffect(
+    React.useCallback(() => {
+      OVG_spBooking_Service_List();
+    }, [])
+  );
+  const OVG_spBooking_Service_List = async () => {
+    const userLogin = await GetUserProfile();
+    try {
+      const pr = {
+        CustomerId: userLogin.Id,
+        GroupUserId: GroupUserId,
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spBooking_Service_List",
+      };
+
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      if (result) {
+        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+        setDataDoing(result);
+        // mainAction.serviceList(result, dispatch);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const UsersScreen = () => (
+    <Layout style={{ backgroundColor: "red" }}>
+      <LayoutComponent data={dataDoing} />
+    </Layout>
+  );
+
+  const OrdersScreen = () => (
+    <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text category="h1">ORDERS</Text>
+    </Layout>
+  );
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const renderCurrentScreen = () => {
+    switch (selectedIndex) {
+      case 0:
+        return <UsersScreen />;
+      case 1:
+        return <OrdersScreen />;
+      default:
+        return null;
+    }
+  };
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -50,7 +95,14 @@ const History = () => {
         sizeImage={SCREEN_WIDTH / 10}
         sizeText={20}
       />
-      <TopTabs tabs={tabs} />
+      <TabBar
+        selectedIndex={selectedIndex}
+        onSelect={(index) => setSelectedIndex(index)}
+      >
+        <Tab title="Đang thực hiện" />
+        <Tab title="Đã hoàn thành" />
+      </TabBar>
+      {renderCurrentScreen()}
     </View>
   );
 };

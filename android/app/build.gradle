@@ -224,12 +224,13 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('keystore.jks')
-            storePassword 'Phanha123@'
+            storeFile file("keystore.jks")
+            storePassword 'netco123'
             keyAlias 'keystore'
-            keyPassword 'Phanha123@'
+            keyPassword 'netco123'
         }
     }
+    // netco123
     namespace 'com.golden_bee_customers'
     buildTypes {
         debug {
@@ -238,7 +239,8 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            debuggable false
+            signingConfig signingConfigs.release 
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

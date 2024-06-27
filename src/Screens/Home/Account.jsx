@@ -1,9 +1,14 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { colors } from "../../styles/Colors";
 import { ScreenNames, StorageNames } from "../../Constants";
-import { useNavigation } from "@react-navigation/native";
-import { FormatMoney, removeData } from "../../Utils";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import {
+  FormatMoney,
+  GetUserProfile,
+  GroupUserId,
+  removeData,
+} from "../../Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
 import MainStyles from "../../styles/MainStyle";
@@ -24,7 +29,34 @@ const Account = () => {
       await removeData(StorageNames.USER_PROFILE);
       mainAction.userLogout(dispatch);
       navi.navigate(ScreenNames.AUTH_HOME);
-    } catch (error) { }
+    } catch (error) {}
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      OVG_spCustomer_Booking_Total_Point();
+    }, [])
+  );
+  const [totalPoint, setTotalPoint] = useState(0);
+  const OVG_spCustomer_Booking_Total_Point = async () => {
+    const userLogin = await GetUserProfile();
+    try {
+      const pr = {
+        CustomerId: userLogin.Id,
+        GroupUserId: GroupUserId,
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spCustomer_Booking_Total_Point",
+      };
+
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      if (result) {
+        setTotalPoint(result);
+        // mainAction.serviceList(result, dispatch);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <View>
@@ -92,7 +124,7 @@ const Account = () => {
             </View>
           </View>
           <Box height={10} />
-          <View
+          {/* <View
             style={[
               MainStyles.flexRowCenter,
               {
@@ -106,7 +138,7 @@ const Account = () => {
               Cộng tác viên cao cấp
             </Text>
             <Rating rating={5} fontSize={[17, 17]} />
-          </View>
+          </View> */}
           <Box height={10} />
           <Text style={MainStyles.labelTitle}>Tài chính</Text>
           <View>
@@ -130,7 +162,7 @@ const Account = () => {
                   fontWeight: "700",
                 }}
               >
-                {FormatMoney(400000)} đ
+                {FormatMoney(0)} đ
               </Text>
             </View>
           </View>
@@ -161,11 +193,11 @@ const Account = () => {
               }}
             />
             <Text style={[MainStyles.labelTitle, { marginRight: 10 }]}>
-              {FormatMoney(userLogin?.point || 7)} point
+              {FormatMoney(totalPoint[0]?.TotalPoint || 0)} point
             </Text>
           </View>
           <Box height={10} />
-          <Text style={[MainStyles.labelTitle]}>Báo cáo tuần</Text>
+          {/* <Text style={[MainStyles.labelTitle]}>Báo cáo tuần</Text>
           <View style={MainStyles.flexRowFlexStart}>
             <Text
               style={[
@@ -187,8 +219,8 @@ const Account = () => {
             >
               {FormatMoney(2000000)} đ
             </Text>
-          </View>
-          <View style={MainStyles.flexRowFlexStart}>
+          </View> */}
+          {/* <View style={MainStyles.flexRowFlexStart}>
             <Text
               style={[
                 {
@@ -209,7 +241,7 @@ const Account = () => {
             >
               {10} task đã hoàn thành
             </Text>
-          </View>
+          </View> */}
           <Box height={10} />
           <Text style={[MainStyles.labelTitle]}>Hỗ trợ</Text>
           <View style={MainStyles.flexRowFlexStart}>

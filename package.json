@@ -16,7 +16,6 @@
     "apk": "cd android && ./gradlew clean && ./gradlew assembleRelease && open app/build/outputs/apk/release",
     "abb": "cd android && ./gradlew clean && ./gradlew bundleRelease && open app/build/outputs/bundle/release",
     "remove-app": "adb uninstall com.golden_bee_customers"
-  
   },
   "dependencies": {
     "@codler/react-native-keyboard-aware-scroll-view": "^2.0.1",
@@ -41,6 +40,7 @@
     "firebase": "^10.12.2",
     "formik": "^2.4.6",
     "lottie-react-native": "^6.7.2",
+    "moment": "^2.30.1",
     "patch-package": "^8.0.0",
     "react": "18.1.0",
     "react-native": "0.70.6",

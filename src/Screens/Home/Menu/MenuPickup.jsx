@@ -43,7 +43,9 @@ export const MenuPickup = ({ onPress = () => {} }) => {
               width: (SCREEN_WIDTH / 5) * 0.8,
             }}
           >
-            <Text style={{ textAlign: "center", flexWrap: "wrap" }}>
+            <Text
+              style={{ textAlign: "center", flexWrap: "wrap", fontSize: 12 }}
+            >
               {item.ServiceName}
             </Text>
           </View>

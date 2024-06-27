@@ -27,7 +27,6 @@ const HomeScreen = () => {
   const navi = useNavigation();
 
   useEffect(() => {
-    OVG_spBooking_Service_List();
     Geolocation.getCurrentPosition(
       (position) => {
         if (position.coords) {
@@ -56,7 +55,7 @@ const HomeScreen = () => {
 
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result) {
-        mainAction.serviceList(result, dispatch);
+        // mainAction.serviceList(result, dispatch);
       }
     } catch (error) {
       console.log(error);
