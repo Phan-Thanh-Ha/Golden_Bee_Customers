@@ -57,3 +57,17 @@ export function serviceList(data, dispatch) {
     payload: data,
   });
 }
+
+export function setMyOrdersAccepted(orders, dispatch) {
+  return dispatch({
+    type: mainTypes.MY_ORDER_ACCEPTED,
+    payload: orders,
+  });
+}
+
+export function acceptedOrder(order, dispatch) {
+  return dispatch({
+    type: mainTypes.ACCEPTED_ORDER,
+    payload: order,
+  });
+}

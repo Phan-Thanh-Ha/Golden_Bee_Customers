@@ -8,6 +8,8 @@ const initialState = {
   userLogin: {},
   menuService: [],
   SERVICELIST: [],
+  acceptedOrder: [],
+  myOrdersAccepted: [],
 };
 export default function (state = initialState, action = {}) {
   switch (action.type) {
@@ -35,6 +37,22 @@ export default function (state = initialState, action = {}) {
       return {
         ...state,
         SERVICELIST: action.payload,
+      };
+    case mainTypes.ACCEPTED_ORDER:
+      {
+        console.log("oder accepted in redux", action.payload);
+      }
+      return {
+        ...state,
+        acceptedOrder: action.payload,
+      };
+    case mainTypes.MY_ORDER_ACCEPTED:
+      {
+        console.log("my oder accepted in redux", action.payload);
+      }
+      return {
+        ...state,
+        myOrdersAccepted: action.payload,
       };
     default:
       return state;

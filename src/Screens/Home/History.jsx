@@ -1,153 +1,133 @@
-import React, { useState, useRef } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  FlatList,
-  Dimensions,
-} from "react-native";
-import {
-  BottomSheetModalProvider,
-  BottomSheetModal,
-  BottomSheetBackdrop,
-} from "@gorhom/bottom-sheet";
-import BookingCard from "../../components/BookingCard";
-import LinearGradient from "react-native-linear-gradient";
-import { colors } from "../../styles/Colors";
-import LogoBeeBox from "../../components/LogoBeeBox";
-import Box from "../../components/Box";
-import { LayoutComponent } from "../../components/history";
-import { Layout, Tab, TabBar } from "@ui-kitten/components";
-import { useFocusEffect } from "@react-navigation/native";
-import { GetUserProfile, GroupUserId } from "../../Utils";
-import { mainAction } from "../../Redux/Action";
-import { useDispatch } from "react-redux";
-
-// const bookingData = useSelector((state) => state.bookingData);
-
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-const SCREEN_WIDTH = Dimensions.get("window").width;
+import React, { useRef, useState } from 'react';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import LayoutGradientBlue from '../../components/layouts/LayoutGradientBlue';
+import LogoBeeBox from '../../components/LogoBeeBox';
+import { colors } from '../../styles/Colors';
+import { useSelector } from 'react-redux';
+import CardJobDone from '../../components/CardJobDone';
+import CardNewJob from '../../components/CardNewJob';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../styles/MainStyle';
+import JobDetailsModal from '../../components/JobDetailsModal';
+import CardDefault from '../../components/CardDefault';
 
 const History = () => {
-  const dispatch = useDispatch();
-  const [dataDoing, setDataDoing] = useState([]);
-  useFocusEffect(
-    React.useCallback(() => {
-      OVG_spBooking_Service_List();
-    }, [])
-  );
-  const OVG_spBooking_Service_List = async () => {
-    const userLogin = await GetUserProfile();
-    try {
-      const pr = {
-        CustomerId: userLogin.Id,
-        GroupUserId: GroupUserId,
-      };
-      const params = {
-        Json: JSON.stringify(pr),
-        func: "OVG_spBooking_Service_List",
-      };
+  const [selectedTab, setSelectedTab] = useState('Đang Làm Việc');
+  const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
+  // const modalRef = useRef(null);
 
-      const result = await mainAction.API_spCallServer(params, dispatch);
-      if (result) {
-        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
-        setDataDoing(result);
-        // mainAction.serviceList(result, dispatch);
-      }
-    } catch (error) {
-      console.log(error);
+  console.log("myOrdersAccepted redux : ", myOrdersAccepted);
+  const renderContent = () => {
+    if (selectedTab === 'Đang Làm Việc') {
+      return (
+        myOrdersAccepted?.length > 0 ? (
+          <FlatList
+            style={styles.flatList}
+            data={myOrdersAccepted}
+            renderItem={({ item }) => (
+              <CardNewJob data={item} />
+            )}
+            keyExtractor={(item) => item?.orderId}
+          />
+        ) : (
+          <CardDefault title={"Bạn chưa có đơn dịch vụ nào"} />
+        )
+
+      );
+    } else if (selectedTab === 'Dịch Vụ Đã Đặt') {
+      return (
+        <FlatList
+          style={styles.flatList}
+          data={[]}
+          renderItem={({ item }) => (
+            <CardJobDone data={item} />
+          )}
+          keyExtractor={(item) => item?.id}
+        />
+      );
     }
   };
-  const UsersScreen = () => (
-    <Layout style={{ backgroundColor: "red" }}>
-      <LayoutComponent data={dataDoing} />
-    </Layout>
-  );
 
-  const OrdersScreen = () => (
-    <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text category="h1">ORDERS</Text>
-    </Layout>
-  );
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-
-  const renderCurrentScreen = () => {
-    switch (selectedIndex) {
-      case 0:
-        return <UsersScreen />;
-      case 1:
-        return <OrdersScreen />;
-      default:
-        return null;
-    }
-  };
   return (
-    <View style={styles.container}>
-      <LinearGradient
-        colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
-        style={{ position: "absolute", width: "100%", height: "100%" }}
-      />
-      <Box height={SCREEN_HEIGHT * 0.01} />
-      <LogoBeeBox
-        color={colors.WHITE}
-        sizeImage={SCREEN_WIDTH / 10}
-        sizeText={20}
-      />
-      <TabBar
-        selectedIndex={selectedIndex}
-        onSelect={(index) => setSelectedIndex(index)}
-      >
-        <Tab title="Đang thực hiện" />
-        <Tab title="Đã hoàn thành" />
-      </TabBar>
-      {renderCurrentScreen()}
-    </View>
+    <LayoutGradientBlue>
+      <LogoBeeBox color={colors.WHITE} sizeImage={70} sizeText={20} />
+      <View style={{ height: SCREEN_HEIGHT * 0.73, width: SCREEN_WIDTH }}>
+        <View style={styles.container}>
+          <View style={styles.tabHeader}>
+            <TouchableOpacity
+              style={[
+                styles.tabButton,
+                selectedTab === 'Đang Làm Việc' && styles.selectedTabButton,
+              ]}
+              onPress={() => setSelectedTab('Đang Làm Việc')}
+            >
+              <Text
+                style={[
+                  styles.tabButtonText,
+                  selectedTab === 'Đang Làm Việc' && styles.selectedTabButtonText,
+                ]}
+              >
+                Đang Làm Việc
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.tabButton,
+                selectedTab === 'Dịch Vụ Đã Đặt' && styles.selectedTabButton,
+              ]}
+              onPress={() => setSelectedTab('Dịch Vụ Đã Đặt')}
+            >
+              <Text
+                style={[
+                  styles.tabButtonText,
+                  selectedTab === 'Dịch Vụ Đã Đặt' && styles.selectedTabButtonText,
+                ]}
+              >
+                Dịch Vụ Đã Đặt
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {renderContent()}
+        </View>
+      </View>
+      {/* <JobDetailsModal ref={modalRef} /> */}
+    </LayoutGradientBlue>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.WHITE,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
-  tabContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 10,
-    borderRadius: 10,
-    backgroundColor: colors.WHITE,
-    paddingVertical: SCREEN_HEIGHT * 0.01,
+  tabHeader: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
-  btnTab: {
-    paddingVertical: SCREEN_HEIGHT * 0.01,
-    paddingHorizontal: SCREEN_WIDTH * 0.05,
-    borderRadius: 10,
-    backgroundColor: colors.WHITE,
-    alignItems: "center",
-    marginHorizontal: SCREEN_WIDTH * 0.005,
+  tabButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
   },
-  btnTabActive: {
-    backgroundColor: colors.MAIN_COLOR_CLIENT,
+  selectedTabButton: {
+    borderBottomColor: colors.WHITE,
+    borderRadius: 5,
   },
-  tabText: {
-    color: colors.MAIN_COLOR_CLIENT,
-    fontSize: SCREEN_WIDTH * 0.04,
-  },
-  tabTextActive: {
+  tabButtonText: {
     color: colors.WHITE,
+    fontSize: 18,
   },
-  tabContent: {
-    padding: 10,
+  selectedTabButtonText: {
+    fontWeight: 'bold',
+    color: colors.MAIN_BLUE_CLIENT,
   },
-  tabContentText: {
-    fontSize: SCREEN_WIDTH * 0.05,
-    color: colors.MAIN_COLOR_CLIENT,
-  },
-  scrollView: {
+  flatList: {
     flex: 1,
+    paddingHorizontal: 15,
   },
 });
 

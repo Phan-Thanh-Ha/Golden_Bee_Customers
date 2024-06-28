@@ -3,12 +3,12 @@ import { Input } from '@ui-kitten/components';
 import { StyleSheet } from 'react-native';
 import { colors } from '../styles/Colors';
 
-const TextArea = ({ label, ...props }) => {
+const TextArea = ({ label, style = {}, ...props }) => {
   return (
     <Input
       label={label}
       multiline={true}
-      textStyle={{ minHeight: 100, textAlignVertical: 'top' }}
+      textStyle={[{ minHeight: 100, textAlignVertical: 'top' }, style]}
       style={styles.input}
       {...props}
     />

@@ -4,10 +4,11 @@ import LoginForm from "../../components/forms/LoginForm";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import MainStyle from "../../styles/MainStyle";
 import Box from "../../components/Box";
+import { View } from "react-native";
 
 const LoginScreen = () => {
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <LayoutGradientBlue>
         <KeyboardAwareScrollView
           contentContainerStyle={MainStyle.containerLogin}
@@ -18,12 +19,11 @@ const LoginScreen = () => {
           extraScrollHeight={160}
           enableOnAndroid={true}
         >
-          <Box height={80} />
           <LoginForm />
         </KeyboardAwareScrollView>
       </LayoutGradientBlue>
       <Footer />
-    </>
+    </View>
   );
 };
 

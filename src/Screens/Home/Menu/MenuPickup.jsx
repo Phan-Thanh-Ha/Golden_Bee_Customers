@@ -10,7 +10,7 @@ import { ScreenNames } from "../../../Constants";
 import { getIconById } from "../../../Utils/RoutingService";
 import { useSelector } from "react-redux";
 
-export const MenuPickup = ({ onPress = () => {} }) => {
+export const MenuPickup = ({ onPress = () => { } }) => {
   const data = useSelector((state) => state.main.menuService);
   const navi = useNavigation();
   const renderItem = ({ item }) => {

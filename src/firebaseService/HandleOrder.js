@@ -41,6 +41,49 @@ export const placeOrder = async (
   }
 };
 
+export const OVG_FBRT_ListenOrderUpdate = (
+  staffId,
+  customerId,
+  onUpdate,
+  onDelete
+) => {
+  const orderRef = firebase
+    .app()
+    .database()
+    .ref("/orders")
+    .orderByChild("StaffId")
+    .equalTo(staffId);
+
+  const handleUpdate = (snapshot) => {
+    const orders = snapshot.val();
+    for (const key in orders) {
+      if (orders[key].CustomerId === customerId) {
+        onUpdate({ ...orders[key], key });
+      }
+    }
+  };
+
+  const handleDelete = (snapshot) => {
+    const orders = snapshot.val();
+    for (const key in orders) {
+      if (orders[key].CustomerId === customerId) {
+        console.log(`Order ${key} đã bị xóa`);
+        onDelete(key);
+      }
+    }
+  };
+
+  orderRef.on("child_added", handleUpdate);
+  orderRef.on("child_changed", handleUpdate);
+  orderRef.on("child_removed", handleDelete);
+
+  return () => {
+    orderRef.off("child_added", handleUpdate);
+    orderRef.off("child_changed", handleUpdate);
+    orderRef.off("child_removed", handleDelete);
+  };
+};
+
 // Lắng nghe thay đổi đơn hàng cho khách hàng
 export const listenForOrderUpdates = (clientId, setClientOrder) => {
   console.log("Listening for order updates for client:", clientId);

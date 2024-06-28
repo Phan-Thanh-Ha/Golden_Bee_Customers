@@ -31,6 +31,9 @@ import LayoutPosition from "../../components/layouts/LayoutPosition";
 import { listenForOrderUpdates } from "../../firebaseService/HandleOrder";
 import { useSelector } from "react-redux";
 import MapViewDirections from "react-native-maps-directions";
+import LayoutBottom from "../../components/layouts/LayoutBottom";
+import Button from "../../components/buttons/Button";
+import { ScreenNames } from "../../Constants";
 
 const WaitingStaffScreen = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -54,76 +57,76 @@ const WaitingStaffScreen = () => {
   });
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View>
-          <MapView
-            style={styles.map}
-            region={{
+      <View>
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: dataBooking.Latitude,
+            longitude: dataBooking.Longitude,
+            latitudeDelta: 0.03,
+            longitudeDelta: 0.03,
+          }}
+          zoomEnabled={true}
+        >
+          <Marker
+            coordinate={{
               latitude: dataBooking.Latitude,
               longitude: dataBooking.Longitude,
-              latitudeDelta: 0.03,
-              longitudeDelta: 0.03,
             }}
-            zoomEnabled={true}
+            title={dataBooking?.Address}
           >
+            <View style={styles.markerContainer}>
+              <Loading
+                source={pin_outline}
+                style={{ width: 64, height: 64 }}
+              />
+            </View>
+          </Marker>
+          {clientOrder?.LatitudeStaff ? (
             <Marker
               coordinate={{
-                latitude: dataBooking.Latitude,
-                longitude: dataBooking.Longitude,
+                latitude: clientOrder?.LatitudeStaff,
+                longitude: clientOrder?.LongitudeStaff,
               }}
-              title={dataBooking?.Address}
             >
               <View style={styles.markerContainer}>
                 <Loading
-                  source={pin_outline}
+                  source={delivery_Golden}
                   style={{ width: 64, height: 64 }}
                 />
               </View>
             </Marker>
-            {clientOrder?.LatitudeStaff ? (
-              <Marker
-                coordinate={{
-                  latitude: clientOrder?.LatitudeStaff,
-                  longitude: clientOrder?.LongitudeStaff,
-                }}
-              >
-                <View style={styles.markerContainer}>
-                  <Loading
-                    source={delivery_Golden}
-                    style={{ width: 64, height: 64 }}
-                  />
-                </View>
-              </Marker>
-            ) : null}
-            {clientOrder?.LatitudeStaff ? (
-              <MapViewDirections
-                origin={{
-                  latitude: clientOrder?.LatitudeStaff,
-                  longitude: clientOrder?.LongitudeStaff,
-                }}
-                destination={{
-                  latitude: dataBooking.Latitude,
-                  longitude: dataBooking.Longitude,
-                }}
-                apikey={GOOGLE_API_KEY}
-                strokeWidth={3}
-                strokeColor={colors.SUCCESS}
-                onReady={(result) => {
-                  setSetTImeOut({
-                    distance: result.distance,
-                    duration: result.duration,
-                  });
-                }}
-              />
-            ) : null}
-          </MapView>
-          <LayoutPosition style={{ top: 10, left: 10, right: 10 }}>
-            <CardLocation
-              onPress={() => navi.goBack()}
-              location={dataBooking?.Address}
+          ) : null}
+          {clientOrder?.LatitudeStaff ? (
+            <MapViewDirections
+              origin={{
+                latitude: clientOrder?.LatitudeStaff,
+                longitude: clientOrder?.LongitudeStaff,
+              }}
+              destination={{
+                latitude: dataBooking.Latitude,
+                longitude: dataBooking.Longitude,
+              }}
+              apikey={GOOGLE_API_KEY}
+              strokeWidth={3}
+              strokeColor={colors.SUCCESS}
+              onReady={(result) => {
+                setSetTImeOut({
+                  distance: result.distance,
+                  duration: result.duration,
+                });
+              }}
             />
-          </LayoutPosition>
-        </View>
+          ) : null}
+        </MapView>
+        <LayoutPosition style={{ top: 10, left: 10, right: 10 }}>
+          <CardLocation
+            onPress={() => navi.goBack()}
+            location={dataBooking?.Address}
+          />
+        </LayoutPosition>
+      </View>
+      <ScrollView>
         <View style={styles.bodyContainer}>
           <View style={MainStyles.contentContainerClient}>
             <Text style={MainStyles.cardLabelConfirm}>Vị trí làm việc</Text>
@@ -281,11 +284,11 @@ const WaitingStaffScreen = () => {
                     {customRound(timeOut.duration)} Phút
                   </Text>
                 </View>
-                {/* <LayoutBottom>
-                    <BtnPrimary onPress={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}>
-                      <Text>Về trang chính</Text>
-                    </BtnPrimary>
-                  </LayoutBottom> */}
+                <LayoutBottom>
+                  <Button onPress={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}>
+                    <Text>Về trang chủ</Text>
+                  </Button>
+                </LayoutBottom>
               </>
             ) : (
               <View

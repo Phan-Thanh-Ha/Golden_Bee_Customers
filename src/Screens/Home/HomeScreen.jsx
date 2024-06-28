@@ -11,7 +11,7 @@ import ProductMust from "./Menu/ProductMust";
 import InputSearch from "../../components/InputSeach";
 import { useNavigation } from "@react-navigation/native";
 import { mainAction, mainTypes } from "../../Redux/Action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ScreenNames } from "../../Constants";
 import Geolocation from "@react-native-community/geolocation";
 import Box from "../../components/Box";
@@ -21,10 +21,12 @@ import MainStyles, {
 } from "../../styles/MainStyle";
 import Label from "../../components/Label";
 import ArrowRight from "../../components/svg/ArrowRight";
+import MyOrders from "../../components/firebaseListen/MyOrders";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const navi = useNavigation();
+  const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -87,7 +89,7 @@ const HomeScreen = () => {
           });
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   };
   return (
     <View style={styles.container}>
@@ -101,42 +103,61 @@ const HomeScreen = () => {
         sizeImage={SCREEN_WIDTH / 5}
         sizeText={20}
       />
-      <InputSearch
+      {/* <InputSearch
         style={{
           marginHorizontal: 25,
           marginVertical: 15,
         }}
-      />
+      /> */}
       <Card
         style={{
-          width: SCREEN_WIDTH - 20,
+          backgroundColor: colors.TEXT_WHITE_CLIENT,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          borderRadius: 10,
+          borderWidth: 0,
           alignSelf: "center",
-          height: SCREEN_HEIGHT / 15,
+          width: units.width("95%"),
+          marginTop: 10,
         }}
       >
-        <Text>Bạn đang có 1 booking đang thực hiện</Text>
-      </Card>
-      <ScrollView style={{ height: units.height("50%") }}>
-        <Card
-          style={{
-            backgroundColor: colors.TEXT_WHITE_CLIENT,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
-            borderRadius: 10,
-            borderWidth: 0,
-            alignSelf: "center",
-            width: units.width("95%"),
+        <MenuPickup
+          onPress={(item) => {
+            navi.navigate(ScreenNames.ADDRESS_SEARCH, { service: item });
           }}
-        >
-          <MenuPickup
-            onPress={(item) => {
-              navi.navigate(ScreenNames.ADDRESS_SEARCH, { service: item });
+        />
+      </Card>
+      {
+        myOrdersAccepted?.length > 0 ? (
+          <TouchableOpacity
+            onPress={() => navi.navigate(ScreenNames.HISTORY)}
+            style={{
+              backgroundColor: colors.WHITE,
+              borderRadius: 10,
+              width: SCREEN_WIDTH - 20,
+              alignSelf: "center",
+              height: SCREEN_HEIGHT * 0.05,
+              justifyContent: "center",
+              marginTop: 10,
             }}
-          />
-        </Card>
+          >
+            <Text
+              style={{
+                alignItems: "center",
+                alignSelf: "center",
+                justifyContent: "center",
+                fontSize: 16,
+                fontWeight: "600",
+                color: colors.MAIN_BLUE_CLIENT,
+              }}
+            >Bạn đang đặt {myOrdersAccepted?.length} dịch vụ</Text>
+          </TouchableOpacity>
+        ) : null
+      }
+      <ScrollView style={{ height: units.height("50%") }}>
         <View style={{ marginTop: 10, borderRadius: 10 }}>
           <CarouselItem />
         </View>
@@ -154,6 +175,7 @@ const HomeScreen = () => {
         </View>
         <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
+      <MyOrders />
     </View>
   );
 };

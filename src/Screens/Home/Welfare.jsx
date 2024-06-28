@@ -80,6 +80,9 @@ const Welfare = () => {
               </View>
             </View>
             <Box height={10} />
+            {/* <View>
+              <Text>Vàng</Text>
+            </View> */}
             <StepsBar rating={1} fontSize={[24, 24]} />
             <Text
               style={{

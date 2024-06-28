@@ -11,26 +11,34 @@ import {
 } from "../../Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
-import MainStyles from "../../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT } from "../../styles/MainStyle";
 import { ic_coin, ic_premium, logo_bee_blue } from "../../assets";
 import Rating from "../../components/Rating";
 import Box from "../../components/Box";
 import BtnToggle from "../../components/BtnToggle";
 import LinearGradient from "react-native-linear-gradient";
 import ButtonResize from "../../components/buttons/ButtonResize";
+import Button from "../../components/buttons/Button";
+import ModalConfirm from "../../components/ModalConfirm";
 
 const Account = () => {
   const navi = useNavigation();
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.main.userLogin);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleLogout = async () => {
     try {
       await removeData(StorageNames.USER_PROFILE);
-      mainAction.userLogout(dispatch);
+      mainAction.userLogin(null, dispatch);
       navi.navigate(ScreenNames.AUTH_HOME);
-    } catch (error) {}
+    } catch (error) { }
   };
+  const handleClearAccount = async () => {
+    await removeData(StorageNames.USER_PROFILE);
+    mainAction.userLogin(null, dispatch);
+    navi.navigate(ScreenNames.AUTH_HOME);
+  }
   useFocusEffect(
     React.useCallback(() => {
       OVG_spCustomer_Booking_Total_Point();
@@ -52,7 +60,6 @@ const Account = () => {
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result) {
         setTotalPoint(result);
-        // mainAction.serviceList(result, dispatch);
       }
     } catch (error) {
       console.log(error);
@@ -124,22 +131,6 @@ const Account = () => {
             </View>
           </View>
           <Box height={10} />
-          {/* <View
-            style={[
-              MainStyles.flexRowCenter,
-              {
-                backgroundColor: colors.MAIN_BLUE_CLIENT,
-                borderRadius: 10,
-                padding: 5,
-              },
-            ]}
-          >
-            <Text style={{ color: colors.WHITE, fontSize: 17, marginRight: 5 }}>
-              Cộng tác viên cao cấp
-            </Text>
-            <Rating rating={5} fontSize={[17, 17]} />
-          </View> */}
-          <Box height={10} />
           <Text style={MainStyles.labelTitle}>Tài chính</Text>
           <View>
             <Text
@@ -197,52 +188,7 @@ const Account = () => {
             </Text>
           </View>
           <Box height={10} />
-          {/* <Text style={[MainStyles.labelTitle]}>Báo cáo tuần</Text>
-          <View style={MainStyles.flexRowFlexStart}>
-            <Text
-              style={[
-                {
-                  marginRight: 10,
-                  paddingLeft: 10,
-                  fontSize: 15,
-                  color: colors.MAIN_BLUE_CLIENT,
-                },
-              ]}
-            >
-              Thu nhập tuần này :
-            </Text>
-            <Text
-              style={[
-                MainStyles.labelTitle,
-                { marginRight: 10, color: colors.MAIN_COLOR_CLIENT },
-              ]}
-            >
-              {FormatMoney(2000000)} đ
-            </Text>
-          </View> */}
-          {/* <View style={MainStyles.flexRowFlexStart}>
-            <Text
-              style={[
-                {
-                  marginRight: 10,
-                  paddingLeft: 10,
-                  fontSize: 15,
-                  color: colors.MAIN_BLUE_CLIENT,
-                },
-              ]}
-            >
-              Công việc tuần này :
-            </Text>
-            <Text
-              style={[
-                MainStyles.labelTitle,
-                { marginRight: 10, color: colors.MAIN_BLUE_CLIENT },
-              ]}
-            >
-              {10} task đã hoàn thành
-            </Text>
-          </View> */}
-          <Box height={10} />
+
           <Text style={[MainStyles.labelTitle]}>Hỗ trợ</Text>
           <View style={MainStyles.flexRowFlexStart}>
             <Text
@@ -307,31 +253,39 @@ const Account = () => {
             Gọi tổng đài
           </ButtonResize>
         </View>
-        <ButtonResize
-          onPress={handleLogout}
-          textColor={colors.RED}
-          bgColor={colors.WHITE}
-          paddingVertical={5}
-        >
-          Đăng xuất
-        </ButtonResize>
-        <Box height={10} />
-        <ButtonResize
-          onPress={handleLogout}
-          textColor={colors.BLACK}
-          bgColor={colors.GRAY}
-          paddingVertical={5}
-        >
-          Xóa tài khoản
-        </ButtonResize>
-        {/* <ButtonResize
-          onPress={() => navi.navigate(ScreenNames.FIRE_STORE)}
-          textColor={colors.BLACK}
-          bgColor={colors.GRAY}
-          paddingVertical={5}
-        >FireStore check</ButtonResize> */}
-        <Box height={80} />
+        <View style={{ marginHorizontal: 10 }}>
+          <ButtonResize
+            fontSize={15}
+            paddingHorizontal={10}
+            paddingVertical={7}
+            onPress={handleLogout}
+            textColor={colors.WHITE}
+            bgColor={colors.MAIN_BLUE_CLIENT}
+          >
+            Đăng xuất
+          </ButtonResize>
+        </View>
+        <View style={{ margin: 10 }}>
+          <ButtonResize
+            fontSize={15}
+            paddingHorizontal={10}
+            paddingVertical={7}
+            onPress={() => setIsModalVisible(true)}
+            textColor={colors.WHITE}
+            bgColor={'#F44336'}
+          >
+            Xóa tài khoản
+          </ButtonResize>
+        </View>
+        <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
+      <ModalConfirm
+        title={"Bạn đnag muốn xóa tài khoản này ! bạn có chắc chắn muốn xóa tài khoản hiện tại không ? Mọi thông tin của bạn sẽ không còn trên hệ thống sau khi bạn xác nhận !"}
+        isModalVisible={isModalVisible}
+        setModalVisible={setIsModalVisible}
+        onConfirm={handleClearAccount}
+      />
+      <Box height={SCREEN_HEIGHT * 0.1} />
     </View>
   );
 };

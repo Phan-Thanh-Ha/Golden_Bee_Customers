@@ -417,6 +417,7 @@
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-Golden_Bee_Customers-Golden_Bee_CustomersTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 692V8JQYJ2;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -445,6 +446,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 692V8JQYJ2;
 				INFOPLIST_FILE = Golden_Bee_CustomersTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (

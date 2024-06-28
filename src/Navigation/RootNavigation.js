@@ -32,6 +32,10 @@ import ConfirmBooking from "../Screens/Service/ConfirmBooking";
 import WaitingStaffScreen from "../Screens/Service/WaitingStaffScreen";
 import FireBaseRealtimeCheck from "../Screens/firebaseCheck/FireBaseRealtimeCheck";
 import ServiceRepairElectricityScreen from "../Screens/Service/ServiceRepairElectricityScreen";
+import PaymentScreen from "../Screens/Service/PaymentScreen";
+import CashScreen from "../Screens/Service/CashScreen";
+import RatingServiceScreen from "../Screens/Service/RatingServiceScreen";
+import ViewLocationStaff from "../Screens/Service/ViewLocationStaff";
 
 const MainStack = createStackNavigator();
 
@@ -63,6 +67,18 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.MAIN_NAVIGATOR}
           component={BottomTabNavigator}
+        />
+        <MainStack.Screen
+          name={ScreenNames.PAYMENT_SCREEN}
+          component={PaymentScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.RATING_SERVICE}
+          component={RatingServiceScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.CASH_SCREEN}
+          component={CashScreen}
         />
         <MainStack.Screen name={ScreenNames.HOME} component={HomeScreen} />
         <MainStack.Screen
@@ -137,8 +153,12 @@ const RootNavigator = () => {
           component={WaitingStaffScreen}
         />
         <MainStack.Screen
-          name={ScreenNames.FIRE_STORE} //checking firestore
+          name={ScreenNames.FIRE_STORE}
           component={FireBaseRealtimeCheck}
+        />
+        <MainStack.Screen
+          name={ScreenNames.VIEW_LOCATION_STAFF}
+          component={ViewLocationStaff}
         />
       </MainStack.Navigator>
     </NavigationContainer>

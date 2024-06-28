@@ -4,14 +4,13 @@ import messaging from "@react-native-firebase/messaging";
 import PushNotification from "react-native-push-notification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { useDispatch } from "react-redux";
-import { mainAction, notiActions } from "../Redux";
-import moment from "moment";
+// import moment from "moment";
 
 export const SetupNotification = () => {
   const dispatch = useDispatch();
   const parseDate = (date) => {
     const newDate = new Date(parseInt(date));
-    return moment(new Date(parseInt(date))).format("DD-MM-YYYY hh:mm:ss");
+    // return moment(new Date(parseInt(date))).format("DD-MM-YYYY hh:mm:ss");
   };
   // const checkPermission = async () => {
   //     const token = await notiActions.checkPermission(dispatch);

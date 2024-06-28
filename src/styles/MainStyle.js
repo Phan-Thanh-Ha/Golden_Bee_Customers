@@ -327,5 +327,42 @@ const MainStyles = StyleSheet.create({
     fontWeight: "600",
     paddingRight: SCREEN_WIDTH * 0.04,
   },
+  titleContentModal: {
+    color: colors.MAIN_COLOR_CLIENT,
+    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: "600",
+    paddingLeft: SCREEN_WIDTH * 0.04,
+    paddingRight: SCREEN_WIDTH * 0.04,
+  },
+  tabContainerDefault: {
+    height: 230,
+    justifyContent: "center",
+    borderRadius: 5,
+    borderBottomEndRadius: 5,
+    borderBottomStartRadius: 5,
+    padding: 5,
+    marginBottom: 5,
+    backgroundColor: "transparent",
+  },
+  textDefault: {
+    fontSize: 16,
+    textAlign: "center",
+    color: colors.MAIN_BLUE_CLIENT,
+  },
+  title_1: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: colors.MAIN_BLUE_CLIENT,
+    textAlign: "center",
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  subtitle_1: {
+    fontSize: 16,
+    color: colors.MAIN_BLUE_CLIENT,
+    textAlign: "center",
+    paddingHorizontal: 20,
+  },
 });
 export default MainStyles;

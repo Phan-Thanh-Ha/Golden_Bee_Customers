@@ -42,6 +42,10 @@ const ScreenNames = {
   // ===================== End Services =================
   // check firestore
   FIRE_STORE: "FIRE_STORE",
+  CASH_SCREEN: "CASH_SCREEN",
+  PAYMENT_SCREEN: "PAYMENT_SCREEN",
+  RATING_SERVICE: "RATING_SERVICE",
+  VIEW_LOCATION_STAFF: "VIEW_LOCATION_STAFF",
 };
 
 export default ScreenNames;

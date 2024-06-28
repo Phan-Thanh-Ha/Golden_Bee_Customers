@@ -1,5 +1,5 @@
 export const image_banner_1 = require("./images/cleaner.jpg");
-export const logo_bee_blue = require("./images/logo-blue.png");
+export const logo_bee_blue = require("./images/logo-golden.png");
 // banner about authentication
 export const image_banner_2 = require("../assets/images/tmp-client-1.png");
 export const image_banner_3 = require("../assets/images/tmp-client-2.png");
@@ -40,3 +40,16 @@ export const delivery_Golden = require("../assets/Image_Json/Delivery_Golden.jso
 // ========================= Images =========================
 export const ic_coin = require("../assets/images/dollar.png");
 export const ic_gift = require("../assets/images/gift.png");
+//
+export const ic_image_edit = require("./images/image-edit.png");
+export const ic_upload_image = require("./images/upload-ic.png");
+export const ic_trash = require("./images/trash.png");
+export const ic_success = require("./images/success.png");
+export const gif_bee_flying = require("./images/bee.gif");
+export const ic_group = require("./images/group.png");
+export const ic_hourse_clearning = require("./images/house-cleaning.png");
+export const ic_chronometer = require("./images/chronometer.png");
+export const ic_phone_call = require("./images/phone-call.png");
+export const ic_human = require("./images/human.png");
+export const ic_upload = require("./images/upload.png");
+export const cirtificate = require("./images/certification.png");

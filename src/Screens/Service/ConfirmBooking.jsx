@@ -27,6 +27,7 @@ const ConfirmBooking = () => {
   const { dataConfirmService } = route.params || {};
   const navi = useNavigation();
   const [payment, setPayment] = useState(false);
+  console.log("🚀 ~ file: ConfirmBooking.jsx:ConfirmBooking ~ dataConfirmService:", dataConfirmService);
 
   // Lưu booking
   const OVG_spService_BookingService_Save = async () => {
