@@ -43,7 +43,9 @@ const LoginForm = () => {
         func: "OVG_spCustomer_Login",
       };
 
+      console.log("pr ", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
+      console.log("rsult ", result);
       if (result?.Status === "OK") {
         mainAction.userLogin(result.Result[0], dispatch);
         await setData(StorageNames.USER_PROFILE, result.Result[0]);

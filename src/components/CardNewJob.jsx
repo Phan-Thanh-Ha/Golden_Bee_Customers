@@ -33,7 +33,7 @@ const CardNewJob = ({ data, modalRef }) => {
   );
   return (
     <View style={{ marginBottom: 10 }}>
-      <Pressable>
+      <Pressable onPress={openModal}>
         <View style={MainStyles.cardJob}>
           <View style={MainStyles.flexRowCenter}>
             <Text style={[MainStyles.titleCardJob, { textAlign: 'center' }]}>Dịch vụ {data?.DataService?.ServiceName.toLowerCase()}</Text>

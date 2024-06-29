@@ -13,7 +13,7 @@ import CardDefault from '../../components/CardDefault';
 const History = () => {
   const [selectedTab, setSelectedTab] = useState('Đang Làm Việc');
   const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
-  // const modalRef = useRef(null);
+  const modalRef = useRef(null);
 
   console.log("myOrdersAccepted redux : ", myOrdersAccepted);
   const renderContent = () => {
@@ -24,7 +24,7 @@ const History = () => {
             style={styles.flatList}
             data={myOrdersAccepted}
             renderItem={({ item }) => (
-              <CardNewJob data={item} />
+              <CardNewJob data={item} modalRef={modalRef} />
             )}
             keyExtractor={(item) => item?.orderId}
           />
@@ -89,7 +89,7 @@ const History = () => {
           {renderContent()}
         </View>
       </View>
-      {/* <JobDetailsModal ref={modalRef} /> */}
+      <JobDetailsModal ref={modalRef} />
     </LayoutGradientBlue>
   );
 };

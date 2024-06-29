@@ -31,15 +31,15 @@ const First = () => {
     };
 
     const ensureMenuData = async () => {
-      // const menuData = await getData(StorageNames.MENU_SERVICE);
+      const menuData = await getData(StorageNames.MENU_SERVICE);
       await fetchMenuData();
 
-      // if (menuData) {
-      //   console.log("Menu data from AsyncStorage:", menuData);
-      //   mainAction.menuService(menuData, dispatch);
-      // } else {
-      //   await fetchMenuData();
-      // }
+      if (menuData) {
+        console.log("Menu data from AsyncStorage:", menuData);
+        mainAction.menuService(menuData, dispatch);
+      } else {
+        await fetchMenuData();
+      }
     };
 
     const fetchMenuData = async () => {
