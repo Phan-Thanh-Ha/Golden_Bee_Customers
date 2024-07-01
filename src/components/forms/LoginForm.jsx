@@ -131,7 +131,7 @@ const LoginForm = () => {
             </CustomFormError>
             <View style={MainStyle.viewSubLinkForm}>
               <Pressable
-                onPress={() => navi.navigate(ScreenNames.FORGOT_Password)}
+                onPress={() => navi.navigate(ScreenNames.FORGOT_PASSWORD)}
               >
                 <Text style={MainStyle.subLinkForm}>Quên mật khẩu ?</Text>
               </Pressable>

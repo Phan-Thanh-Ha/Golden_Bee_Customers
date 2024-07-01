@@ -140,7 +140,7 @@ android {
         applicationId "com.golden_bee_customers"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
+        versionCode 9
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         multiDexEnabled true
@@ -236,14 +236,21 @@ android {
         debug {
             signingConfig signingConfigs.debug
         }
+        buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            debuggable false
-            signingConfig signingConfigs.release 
-            minifyEnabled enableProguardInReleaseBuilds
+            signingConfig signingConfigs.release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
         }
+    }
     }
 
     // applicationVariants are e.g. debug, release

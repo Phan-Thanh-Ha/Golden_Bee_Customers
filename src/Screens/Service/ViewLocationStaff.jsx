@@ -34,6 +34,7 @@ import MapViewDirections from "react-native-maps-directions";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import Button from "../../components/buttons/Button";
 import { ScreenNames } from "../../Constants";
+import BtnDouble from "../../components/BtnDouble";
 
 const ViewLocationStaff = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -285,9 +286,17 @@ const ViewLocationStaff = () => {
         </View>
       </ScrollView>
       <LayoutBottom>
-        <Button onPress={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}>
-          <Text>Về trang chủ</Text>
-        </Button>
+        <BtnDouble
+          // btn2Visible={clientOrder && clientOrder?.StaffId !== "" ? false : true}
+          title1={"Về trang chủ"}
+          // title2={"Hủy đơn"}
+          btn2Visible={false}
+          onConfirm1={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}
+        // onConfirm2={() => {
+        //   completeOrder(clientOrder?.OrderId);
+        //   navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+        // }}
+        />
       </LayoutBottom>
     </SafeAreaView>
   );

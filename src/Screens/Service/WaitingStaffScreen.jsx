@@ -15,9 +15,7 @@ import MainStyles, {
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Icon } from "@ui-kitten/components";
 import Box from "../../components/Box";
-import { UseInset } from "../../Hooks";
 import {
   delivery_Golden,
   ic_coin,
@@ -28,12 +26,12 @@ import {
 import Loading from "../../components/Loading";
 import { FormatMoney, GOOGLE_API_KEY, customRound } from "../../Utils";
 import LayoutPosition from "../../components/layouts/LayoutPosition";
-import { listenForOrderUpdates } from "../../firebaseService/HandleOrder";
+import { completeOrder, listenForOrderUpdates } from "../../firebaseService/HandleOrder";
 import { useSelector } from "react-redux";
 import MapViewDirections from "react-native-maps-directions";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
-import Button from "../../components/buttons/Button";
 import { ScreenNames } from "../../Constants";
+import BtnDouble from "../../components/BtnDouble";
 
 const WaitingStaffScreen = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -129,17 +127,6 @@ const WaitingStaffScreen = () => {
       <ScrollView>
         <View style={styles.bodyContainer}>
           <View style={MainStyles.contentContainerClient}>
-            <Text style={MainStyles.cardLabelConfirm}>Vị trí làm việc</Text>
-            <View style={MainStyles.cardConfirmContainer}>
-              <View style={MainStyles.flexRowFlexStart}>
-                <Image source={ic_location} style={{ width: 20, height: 20 }} />
-                <View>
-                  <Text style={MainStyles.cardTitleConfirm}>
-                    {dataBooking?.Address}
-                  </Text>
-                </View>
-              </View>
-            </View>
             <Text style={MainStyles.cardSubLabelConfirm}>
               Thời gian làm việc
             </Text>
@@ -174,7 +161,7 @@ const WaitingStaffScreen = () => {
                   fontWeight: "700",
                 }}
               >
-                {FormatMoney(dataBooking?.TotalPrice)} vnđ
+                {FormatMoney(dataBooking?.PriceAfterDiscount)} vnđ
               </Text>
             </View>
             <Text style={MainStyles.cardSubLabelConfirm}>Nhân viên</Text>
@@ -284,34 +271,44 @@ const WaitingStaffScreen = () => {
                     {customRound(timeOut.duration)} Phút
                   </Text>
                 </View>
-                <LayoutBottom>
-                  <Button onPress={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}>
-                    <Text>Về trang chủ</Text>
-                  </Button>
-                </LayoutBottom>
               </>
             ) : (
-              <View
-                style={[
-                  { alignContent: "center" },
-                  MainStyles.cardConfirmContainer,
-                ]}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    color: colors.MAIN_BLUE_CLIENT,
-                    fontSize: 15,
-                  }}
+              <>
+                <View
+                  style={[
+                    { alignContent: "center" },
+                    MainStyles.cardConfirmContainer,
+                  ]}
                 >
-                  Đang đợi nhân viên nhận đơn
-                </Text>
-                <Loading />
-              </View>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      color: colors.MAIN_BLUE_CLIENT,
+                      fontSize: 15,
+                    }}
+                  >
+                    Đang đợi nhân viên nhận đơn
+                  </Text>
+                  <Loading />
+                </View>
+              </>
             )}
           </View>
         </View>
       </ScrollView>
+      <LayoutBottom>
+        <BtnDouble
+          // btn2Visible={clientOrder && clientOrder?.StaffId !== "" ? false : true}
+          title1={"Về trang chủ"}
+          btn2Visible={false}
+          title2={"Hủy đơn"}
+          onConfirm1={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}
+          onConfirm2={() => {
+            completeOrder(clientOrder?.OrderId);
+            navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+          }}
+        />
+      </LayoutBottom>
     </SafeAreaView>
   );
 };

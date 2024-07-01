@@ -54,7 +54,7 @@ const MyOrders = () => {
     );
 
     return () => {
-      unsubscribe();
+      unsubscribe ? unsubscribe() : null;
     };
   }, [userLogin?.Id]);
 

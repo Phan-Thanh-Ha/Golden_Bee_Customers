@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { Image, Text, View } from "react-native";
 import MainStyles from "../../styles/MainStyle";
 import LinearGradient from "react-native-linear-gradient";
@@ -9,7 +9,7 @@ import { ic_coin, ic_location } from "../../assets";
 import Box from "../../components/Box";
 import { FormatMoney, GroupUserId, TitleSlice, setData } from "../../Utils";
 import Button from "../../components/buttons/Button";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import { ScreenNames, StorageNames } from "../../Constants";
@@ -18,6 +18,9 @@ import { mainAction } from "../../Redux/Action";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { placeOrder } from "../../firebaseService/HandleOrder";
 import { AlertToaster } from "../../Utils/AlertToaster";
+import { orderId, vouchers } from "../data";
+import VoucherComponent from "../../components/VoucherComponent";
+import { calculateDiscount } from "../../Utils/calculateDiscount";
 
 const ConfirmBooking = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -27,10 +30,30 @@ const ConfirmBooking = () => {
   const { dataConfirmService } = route.params || {};
   const navi = useNavigation();
   const [payment, setPayment] = useState(false);
-  console.log("🚀 ~ file: ConfirmBooking.jsx:ConfirmBooking ~ dataConfirmService:", dataConfirmService);
+  const [vouchers, setVouchers] = useState([]);
+  const [priceAfterDiscount, setPriceAfterDiscount] = useState(dataConfirmService?.TotalPrice);
+  const [totalDiscount, setTotalDiscount] = useState(0);
+  // console.log("🚀 ~ file: ConfirmBooking.jsx:ConfirmBooking ~ dataConfirmService:", dataConfirmService);
 
+  //vouvher
+  const [selectedVouchers, setSelectedVouchers] = useState([]);
+  const limit = 100;
+
+  // console.log("🚀 ~ file: ConfirmBooking.jsx: ~ selectedVouchers:", selectedVouchers);
+  // console.log("🚀 ~ file: ConfirmBooking.jsx: ~ limit:", limit);
+  // console.log("🚀 ~ file: ConfirmBooking.jsx: ~ price:", calculateDiscount(selectedVouchers, dataConfirmService?.TotalPrice));
+  useFocusEffect(
+    React.useCallback(() => {
+      OVG_spVoucher_List();
+    }, [])
+  );
+  useEffect(() => {
+    setPriceAfterDiscount(calculateDiscount(selectedVouchers, dataConfirmService?.TotalPrice).finalAmount);
+    setTotalDiscount(dataConfirmService?.TotalPrice - priceAfterDiscount);
+  }, [selectedVouchers, priceAfterDiscount]);
   // Lưu booking
   const OVG_spService_BookingService_Save = async () => {
+    setLoading(true);
     try {
       const pr = {
         CustomerId: dataConfirmService?.CustomerId, // Id KH
@@ -42,24 +65,28 @@ const ConfirmBooking = () => {
         TotalMoney: dataConfirmService?.TotalPrice, // Tổng tiền
         Payment: payment ? 1 : 0, // 1: chuyển khoản, 0: tiền mặt
         StaffTotal: dataConfirmService?.people, // Số nhân sự
-        RoomTotal: dataConfirmService?.room, // Số phòng
+        RoomTotal: dataConfirmService?.room || 0, // Số phòng
         Premium: dataConfirmService?.premium ? 1 : 0, // 1: premium, 0: normal
-        TimeService: dataConfirmService?.workingTime, // Thời gian làm việc
+        TimeService: RoundUpNumber(dataConfirmService?.workingTime, 0), // Thời gian làm việc
         ServiceCode: dataConfirmService?.ServiceCode, // Mã dịch vụ
-        SelectOption: dataConfirmService?.serviceOption,
         Note: dataConfirmService?.note, // Ghi chú
         ListServiceAdditional: dataConfirmService.otherService,
         AddressService: dataConfirmService?.Address, // Địa chỉ,
-        SelectOption: dataConfirmService?.serviceOption, // Loại dịch vụ
-        GroupUserId: GroupUserId,
+        // SelectOption: dataConfirmService?.serviceOption ? dataConfirmService?.serviceOption : {},// Loại dịch vụ
+        SelectOption: {},// Loại dịch vụ
+        UsedVoucher: selectedVouchers.length > 0 ? 1 : 0, // có sử dụng voucher 
+        Voucher: selectedVouchers, // danh sách voucher áp mã
+        PriceAfterDiscount: priceAfterDiscount, // tổng tiền sau khi áp mã
+        TotalDiscount: totalDiscount, // số tiền giảm giá 
+        GroupUserId: GroupUserId
       };
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spService_BookingService_Save",
       };
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
+      // console.log("-----> 🚀🚀🚀🚀🚀🚀🚀🚀🚀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+      // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
       if (result.Status === "OK") {
         if (result?.BookingId) {
           await handleNext(result.BookingId, result.BookingCode);
@@ -71,34 +98,53 @@ const ConfirmBooking = () => {
     }
   };
 
+  // theem voucher
+  const OVG_spVoucher_List = async () => {
+    try {
+      const pr = {
+        GroupUserId: 10060,
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spVoucher_Customer",
+      };
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+      setVouchers(result);
+    } catch (error) {
+      console.log("error", error);
+      setLoading(false);
+    }
+  };
+
   // Lưu bookingService lên firebase
   const handleNext = async (BookingId, BookingCode) => {
-    setLoading(true);
     // lưu dữ liệu booking
     const dataBooking = {
+      CustomerId: dataConfirmService?.CustomerId, // Id KH
       CustomerName: userLogin?.CustomerName, // Tên KH
-      CustomerPhone: userLogin?.Phone, // SĐT KH
-      ServiceDetaiil: dataConfirmService?.Detail,
-      ServiceId: dataConfirmService?.ServiceId,
-      ServiceCode: dataConfirmService?.ServiceCode,
-      CustomerId: dataConfirmService?.CustomerId,
-      Address: dataConfirmService?.Address,
-      ServiceName: dataConfirmService?.ServiceName,
-      SelectOption: dataConfirmService?.serviceOption,
-      ServicePrice: dataConfirmService?.ServicePrice,
-      ServiceTime: dataConfirmService?.ServiceTime,
-      TotalPrice: dataConfirmService?.TotalPrice,
-      NoteBooking: dataConfirmService?.note,
-      OtherService: dataConfirmService?.otherService,
-      TotalStaff: dataConfirmService?.people,
-      IsPremium: dataConfirmService?.premium,
-      TotalRoom: dataConfirmService?.room,
-      TimeWorking: dataConfirmService?.workingTime,
-      Latitude: dataConfirmService?.Latitude,
-      Longitude: dataConfirmService?.Longitude,
-      Payment: payment,
+      Lat: dataConfirmService?.Latitude, // Lat
+      Lng: dataConfirmService?.Longitude, // Lng
+      ServiceId: dataConfirmService?.ServiceId, // Id dịch vụ
+      ServiceName: dataConfirmService?.ServiceName, // Tên dịch vụ
+      TotalMoney: dataConfirmService?.TotalPrice, // Tổng tiền
+      Payment: payment ? 1 : 0, // 1: chuyển khoản, 0: tiền mặt
+      StaffTotal: dataConfirmService?.people, // Số nhân sự
+      RoomTotal: dataConfirmService?.room || 0, // Số phòng
+      Premium: dataConfirmService?.premium ? 1 : 0, // 1: premium, 0: normal
+      TimeService: RoundUpNumber(dataConfirmService?.workingTime, 0), // Thời gian làm việc
+      ServiceCode: dataConfirmService?.ServiceCode, // Mã dịch vụ
+      Note: dataConfirmService?.note, // Ghi chú
+      ListServiceAdditional: dataConfirmService.otherService,
+      AddressService: dataConfirmService?.Address, // Địa chỉ,
+      SelectOption: dataConfirmService?.serviceOption ? dataConfirmService?.serviceOption : {},// Loại dịch vụ
+      UsedVoucher: selectedVouchers.length > 0 ? 1 : 0, // có sử dụng voucher 
+      Voucher: selectedVouchers, // danh sách voucher áp mã
+      PriceAfterDiscount: priceAfterDiscount, // tổng tiền sau khi áp mã
+      TotalDiscount: totalDiscount, // số tiền giảm giá 
+      GroupUserId: GroupUserId
     };
-
+    console.log("dataBooking", dataBooking);
     // Lưu đơn đặt lên firebase
     const saveOnFirebase = await placeOrder(
       userLogin.Id, // ClientId
@@ -110,8 +156,23 @@ const ConfirmBooking = () => {
     );
     if (saveOnFirebase !== null) {
       setData(StorageNames.ORDER_SERVICE, saveOnFirebase);
-      navi.navigate(ScreenNames.WAITING_STAFF, {
-        dataBooking,
+      // navi.navigate(ScreenNames.WAITING_STAFF, {
+      //   dataBooking,
+      // });
+      navi.navigate(ScreenNames.VIEW_STAFF, {
+        data: {
+          // ClientId: userLogin.Id,
+          OrderId: BookingId,
+          // DataService: dataBooking,
+          // StaffId: "",
+          // StaffName: "",
+          // StaffPhone: "",
+          // LatitudeCustomer: dataConfirmService?.Latitude,
+          // LongitudeCustomer: dataConfirmService?.Longitude,
+          // CreateAt: Date.now(),
+          // BookingCode: BookingCode,
+          // StatusOrder: 0,
+        }
       });
       setLoading(false);
     } else {
@@ -151,7 +212,7 @@ const ConfirmBooking = () => {
                 {dataConfirmService?.ServiceName}
               </Text>
             </View>
-            {dataConfirmService?.serviceOption?.OptionName !== null ? (
+            {dataConfirmService?.serviceOption?.OptionName ? (
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Loại</Text>
                 <Text style={MainStyles.cardTitleConfirm}>
@@ -198,6 +259,13 @@ const ConfirmBooking = () => {
               </Text>
             </View>
           </View>
+          <Text style={MainStyles.cardLabelConfirm}>Thêm mã giảm giá</Text>
+          <VoucherComponent
+            vouchers={vouchers}
+            selectedVouchers={selectedVouchers}
+            setSelectedVouchers={setSelectedVouchers}
+            limit={limit}
+          />
           <Text style={MainStyles.cardLabelConfirm}>Tổng tiền</Text>
           <View
             style={[MainStyles.cardConfirmContainer, MainStyles.flexRowCenter]}
@@ -211,11 +279,17 @@ const ConfirmBooking = () => {
                 fontWeight: "700",
               }}
             >
-              {FormatMoney(dataConfirmService?.TotalPrice)} vnđ
+              {FormatMoney(priceAfterDiscount)} vnđ
             </Text>
           </View>
+          {
+            totalDiscount > 0 ? (
+              <Text>Đã giảm : {FormatMoney(totalDiscount)} vnđ</Text>
+            ) : null
+          }
+
           <Text style={MainStyles.cardLabelConfirm}>
-            Phương thức thanh tóan
+            Phương thức thanh toán
           </Text>
           <View style={MainStyles.cardConfirmContainer}>
             <View style={MainStyles.flexRowSpaceBetween}>
@@ -243,7 +317,7 @@ const ConfirmBooking = () => {
         >
           <Text style={MainStyles.txtTotalPrice}>Tổng cộng</Text>
           <Text style={MainStyles.txtTotalPrice}>
-            {FormatMoney(dataConfirmService?.TotalPrice)} VNĐ
+            {FormatMoney(priceAfterDiscount)} VNĐ
           </Text>
         </View>
         <Button

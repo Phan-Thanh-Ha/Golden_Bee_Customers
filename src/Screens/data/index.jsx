@@ -1590,3 +1590,201 @@ export const dataSlider = [
 export const clientId = "client123"; // ID của khách hàng
 export const staffId = "staff123"; // ID của nhân viên
 export const orderId = "order123"; // ID của đơn hàng
+
+
+export const vouchers = [
+  {
+    Id: 1,
+    VoucherCode: "VND100",
+    VoucherName: "Sinh nhật BeeGolden",
+    Discount: 100000,
+    Type: 0, // fixed
+  },
+  {
+    Id: 2,
+    VoucherName: "Sinh nhật BeeGolden",
+    VoucherCode: "VND200",
+    Discount: 50,
+    Type: 1, // Percentage
+  },
+  {
+    Id: 3,
+    VoucherName: "Sinh nhật BeeGolden",
+    VoucherCode: "VND300",
+    Discount: 800000,
+    Type: 0, // fixed
+  },
+  {
+    Id: 4,
+    VoucherName: "Sinh nhật BeeGolden",
+    VoucherCode: "VND400",
+    Discount: 30,
+    Type: 1, // Percentage
+  }
+]
+
+export const dataJobDone = [
+  {
+    // phần này là tông tin đơn đã đặt, tương tự như lấy đơn đã hoàn thành của client OVG_spOfficer_Booking_Done, thêm lat long cũ
+    BookingServiceCode: "OVG-28062402404376",
+    BookingTime: "2024-06-28T14:40:43.760",
+    CustomerName: " PhanHa",
+    CustomerPoint: 320,
+    Detail: [
+      {
+        ServiceId: 7,
+        ServiceDetailName: "Mang theo dụng cụ",
+        ServicePriceDetail: 30000,
+      },
+      {
+        ServiceId: 7,
+        ServiceDetailName: "Nấu ăn",
+        ServicePriceDetail: 60000,
+      },
+    ],
+    Id: 341,
+    Note: "",
+    Phone: "0943214791",
+    ServiceName: "Giúp việc theo giờ",
+    TotalMoney: 320000,
+    SelectOption: [],
+    TotalRoom: 1,
+    TotalStaff: 1,
+    Address: "100 Lý Chính Thắng, phải 8, Quận 3, Hồ Chí Minh, Việt Nam",
+    LatitudeCustomer: 10.7895826,
+    LongitudeCustomer: 106.6854736,
+    Service: {
+      ServiceId: 7,
+      ServiceCode: "DV-05062405025764",
+      ServiceName: "Giúp việc theo giờ",
+      ServiceTime: 2,
+      ServicePrice: 100000,
+      Detail: [
+        {
+          ServiceId: 7,
+          ServiceDetailName: "Mang theo dụng cụ",
+          ServicePriceDetail: 30000,
+          ServiceDetailId: 2
+        },
+        {
+          ServiceId: 7,
+          ServiceDetailName: "Nấu ăn",
+          ServicePriceDetail: 60000,
+          ServiceDetailId: 7
+        },
+        {
+          ServiceId: 7,
+          ServiceDetailName: "Ủi + Phơi quần áo",
+          ServicePriceDetail: 60000,
+          ServiceDetailId: 8
+        },
+        {
+          ServiceId: 7,
+          ServiceDetailName: "Mang theo hoá chất tẩy rửa, nước lau kính",
+          ServicePriceDetail: 30000,
+          ServiceDetailId: 9
+        },
+      ],
+      ServiceOption: [],
+    },
+  },
+  {
+    // phần này là tông tin đơn đã đặt, tương tự như lấy đơn đã hoàn thành của client OVG_spOfficer_Booking_Done, thêm lat long cũ
+    BookingServiceCode: "OVG-28062402404377",
+    BookingTime: "2024-06-28T14:40:43.760",
+    CustomerName: " PhanHa",
+    CustomerPoint: 320,
+    Detail: [
+      {
+        ServiceId: 7,
+        ServiceDetailName: "Mang theo dụng cụ",
+        ServicePriceDetail: 30000,
+      },
+      {
+        ServiceId: 7,
+        ServiceDetailName: "Nấu ăn",
+        ServicePriceDetail: 60000,
+      },
+    ],
+    Id: 341,
+    Note: "",
+    Rating: 4,
+    RatingNote: "Rất tuyệt",
+    Phone: "0943214791",
+    ServiceName: "Giúp việc theo giờ",
+    TotalMoney: 320000,
+    SelectOption: [],
+    TotalRoom: 1,
+    TotalStaff: 1,
+    Address: "100 Lý Chính Thắng, phải 8, Quận 3, Hồ Chí Minh, Việt Nam",
+    LatitudeCustomer: 10.7895826,
+    LongitudeCustomer: 106.6854736,
+    Service: {
+      ServiceId: 7,
+      ServiceCode: "DV-05062405025764",
+      ServiceName: "Giúp việc theo giờ",
+      ServiceTime: 2,
+      ServicePrice: 100000,
+      Detail: [
+        {
+          ServiceId: 7,
+          ServiceDetailName: "Mang theo dụng cụ",
+          ServicePriceDetail: 30000,
+          ServiceDetailId: 2
+        },
+        {
+          ServiceId: 7,
+          ServiceDetailName: "Nấu ăn",
+          ServicePriceDetail: 60000,
+          ServiceDetailId: 7
+        },
+        {
+          ServiceId: 7,
+          ServiceDetailName: "Ủi + Phơi quần áo",
+          ServicePriceDetail: 60000,
+          ServiceDetailId: 8
+        },
+        {
+          ServiceId: 7,
+          ServiceDetailName: "Mang theo hoá chất tẩy rửa, nước lau kính",
+          ServicePriceDetail: 30000,
+          ServiceDetailId: 9
+        },
+      ],
+      ServiceOption: [],
+    },
+  },
+]
+
+const serviceInShowMap = {
+  "Address": "39b Nguyễn Du, Nguyen Du, Hai Bà Trưng District, Hanoi, Vietnam",
+  "CustomerId": 582,
+  "CustomerName": " PhanHa",
+  "Detail": [
+    {
+      "ServiceDetailId": 2,
+      "ServiceDetailName": "Mang theo dụng cụ",
+      "ServiceId": 7, "ServicePriceDetail": 30000
+    },
+    {
+      "ServiceDetailId": 3,
+      "ServiceDetailName": "Nấu ăn",
+      "ServiceId": 7,
+      "ServicePriceDetail": 60000
+    },
+    {
+      "ServiceDetailId": 4,
+      "ServiceDetailName": "Ủi + Phơi quần áo",
+      "ServiceId": 7, "ServicePriceDetail": 60000
+    },
+  ],
+  "Latitude": 21.018089,
+  "Longitude": 105.8496929,
+  "ServiceCode": "DV-05062405025764",
+  "ServiceId": 7,
+  "ServiceName": "Giúp việc theo giờ",
+  "ServiceOption": [],
+  "ServicePrice": 100000,
+  "ServiceTime": 2,
+  "place_id": "ChIJZfVDdo2rNTERp-a6WmpPXkA"
+}

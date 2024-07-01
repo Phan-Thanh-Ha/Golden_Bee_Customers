@@ -9,15 +9,59 @@ import CardNewJob from '../../components/CardNewJob';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../styles/MainStyle';
 import JobDetailsModal from '../../components/JobDetailsModal';
 import CardDefault from '../../components/CardDefault';
+import { useFocusEffect } from '@react-navigation/native';
+import { mainAction } from '../../Redux/Action';
+import { GroupUserId } from '../../Utils';
+import { dataJobDone } from '../data';
+import JobDoneModal from '../../components/JobDoneModal';
 
 const History = () => {
-  const [selectedTab, setSelectedTab] = useState('Đang Làm Việc');
+  const [selectedTab, setSelectedTab] = useState('Đang làm việc');
   const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
+  const userLogin = useSelector((state) => state.main.userLogin);
   const modalRef = useRef(null);
+  const modalJobDoneRef = useRef(null);
 
-  console.log("myOrdersAccepted redux : ", myOrdersAccepted);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (modalRef.current) {
+        modalRef.current.closeModal();
+      }
+      if (modalJobDoneRef.current) {
+        modalJobDoneRef.current.closeModal();
+      }
+    }, [])
+  );
+  // const [dataJobDone, setDataJobDone] = useState([]);
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     OVG_spOfficer_Booking_Done();
+  //   }, [])
+  // );
+  // const OVG_spOfficer_Booking_Done = async () => {
+  //   try {
+  //     const pr = {
+  //       CustomerId: userLogin.Id,
+  //       GroupUserId: GroupUserId,
+  //     };
+  //     const params = {
+  //       Json: JSON.stringify(pr),
+  //       func: "OVG_spOfficer_Booking_Done",
+  //     };
+
+  //     const result = await mainAction.API_spCallServer(params, dispatch);
+  //     if (result) {
+  //       console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+  //       setDataJobDone(result);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  dataJobDone:", dataJobDone);
   const renderContent = () => {
-    if (selectedTab === 'Đang Làm Việc') {
+    if (selectedTab === 'Đang làm việc') {
       return (
         myOrdersAccepted?.length > 0 ? (
           <FlatList
@@ -29,20 +73,24 @@ const History = () => {
             keyExtractor={(item) => item?.orderId}
           />
         ) : (
-          <CardDefault title={"Bạn chưa có đơn dịch vụ nào"} />
+          <CardDefault title={"Bạn chưa đặt dịch vụ nào"} />
         )
 
       );
-    } else if (selectedTab === 'Dịch Vụ Đã Đặt') {
+    } else if (selectedTab === 'Dịch vụ đã đặt') {
       return (
-        <FlatList
-          style={styles.flatList}
-          data={[]}
-          renderItem={({ item }) => (
-            <CardJobDone data={item} />
-          )}
-          keyExtractor={(item) => item?.id}
-        />
+        dataJobDone?.length > 0 ? (
+          <FlatList
+            style={styles.flatList}
+            data={dataJobDone}
+            renderItem={({ item }) => (
+              <CardJobDone data={item} modalRef={modalJobDoneRef} />
+            )}
+            keyExtractor={(item) => item?.BookingServiceCode}
+          />
+        ) : (
+          <CardDefault title={"Chưa có dịch vụ đã đặt"} />
+        )
       );
     }
   };
@@ -56,33 +104,33 @@ const History = () => {
             <TouchableOpacity
               style={[
                 styles.tabButton,
-                selectedTab === 'Đang Làm Việc' && styles.selectedTabButton,
+                selectedTab === 'Đang làm việc' && styles.selectedTabButton,
               ]}
-              onPress={() => setSelectedTab('Đang Làm Việc')}
+              onPress={() => setSelectedTab('Đang làm việc')}
             >
               <Text
                 style={[
                   styles.tabButtonText,
-                  selectedTab === 'Đang Làm Việc' && styles.selectedTabButtonText,
+                  selectedTab === 'Đang làm việc' && styles.selectedTabButtonText,
                 ]}
               >
-                Đang Làm Việc
+                Đang làm việc
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.tabButton,
-                selectedTab === 'Dịch Vụ Đã Đặt' && styles.selectedTabButton,
+                selectedTab === 'Dịch vụ đã đặt' && styles.selectedTabButton,
               ]}
-              onPress={() => setSelectedTab('Dịch Vụ Đã Đặt')}
+              onPress={() => setSelectedTab('Dịch vụ đã đặt')}
             >
               <Text
                 style={[
                   styles.tabButtonText,
-                  selectedTab === 'Dịch Vụ Đã Đặt' && styles.selectedTabButtonText,
+                  selectedTab === 'Dịch vụ đã đặt' && styles.selectedTabButtonText,
                 ]}
               >
-                Dịch Vụ Đã Đặt
+                Dịch vụ đã đặt
               </Text>
             </TouchableOpacity>
           </View>
@@ -90,6 +138,7 @@ const History = () => {
         </View>
       </View>
       <JobDetailsModal ref={modalRef} />
+      <JobDoneModal ref={modalJobDoneRef} />
     </LayoutGradientBlue>
   );
 };

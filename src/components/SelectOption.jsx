@@ -8,7 +8,14 @@ const SelectOption = ({ data, onChange, value }) => {
     return null;
   }
 
-  const selectedIndex = data.findIndex(item => item?.OptionName === value?.OptionName);
+  if (typeof onChange !== 'function') {
+    console.error('onChange is not a valid function:', onChange);
+    return null;
+  }
+
+  const isValidOption = (option) => option && typeof option.OptionName === 'string';
+
+  const selectedIndex = data.findIndex(item => isValidOption(item) && isValidOption(value) && item.OptionName === value.OptionName);
   const defaultSelectedIndex = selectedIndex !== -1 ? selectedIndex : 0;
   const selectedIndexPath = new IndexPath(defaultSelectedIndex);
 
@@ -17,13 +24,17 @@ const SelectOption = ({ data, onChange, value }) => {
       selectedIndex={selectedIndexPath}
       onSelect={index => {
         const selectedItem = data[index.row];
-        onChange(selectedItem); // Truyền đối tượng đã chọn vào onChange
+        if (isValidOption(selectedItem)) {
+          onChange(selectedItem);
+        } else {
+          console.error('Selected item is not valid:', selectedItem);
+        }
       }}
-      value={String(data[selectedIndexPath.row]?.OptionName)}
+      value={isValidOption(data[selectedIndexPath.row]) ? String(data[selectedIndexPath.row].OptionName) : 'N/A'}
       style={{ backgroundColor: colors.WHITE }}
     >
       {data.map((item, index) => (
-        <SelectItem key={index} title={String(item?.OptionName)} />
+        <SelectItem key={index} title={isValidOption(item) ? String(item.OptionName) : 'N/A'} />
       ))}
     </Select>
   );

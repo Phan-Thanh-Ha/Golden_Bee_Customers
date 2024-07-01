@@ -25,7 +25,7 @@ const ListenOrderChange = ({ orderChange, isModalVisible, setModalVisible, onCon
       onClose={hideModal}
       isAuto={false}
       onConfirm={handleConfirm}
-      title="Thông báo cập nhật đơn dịch vụ"
+      title="Thông báo dịch vụ"
       backdropCloseable={true}
       isCancelable={false}
     >
@@ -47,7 +47,7 @@ const ListenOrderChange = ({ orderChange, isModalVisible, setModalVisible, onCon
             </View>
             <View style={MainStyles.flexRowCenter}>
               <Text style={[{ textAlign: 'center' }]}>
-                {"Quản trị viên đã cập nhật đơn dịch vụ của bạn, vui lòng kiểm tra lại thông tin dịch vụ !"}
+                {"Nhân viên " + orderChange?.StaffName + " đã nhân đơn dịch vụ của bạn." + orderChange?.StaffName + " sẽ đến làm việc ngay. Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !"}
               </Text>
             </View>
           </View>

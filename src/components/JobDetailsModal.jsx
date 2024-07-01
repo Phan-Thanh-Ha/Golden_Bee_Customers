@@ -1,6 +1,6 @@
-import React, { forwardRef, useImperativeHandle, useState, useRef, useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
-import BottomSheet from '@gorhom/bottom-sheet';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
+import Modal from 'react-native-modal';
 import MainStyles, { SCREEN_HEIGHT } from '../styles/MainStyle';
 import { colors } from '../styles/Colors';
 import { Spinner } from '@ui-kitten/components';
@@ -8,40 +8,45 @@ import { ic_person, ic_living_room, ic_glass, ic_chronometer, cirtificate, ic_cl
 import Box from './Box';
 import { FormatMoney, FormatTime } from '../Utils';
 
+const { height: windowHeight } = Dimensions.get('window');
+
 const JobDetailsModal = forwardRef((_, ref) => {
   const [data, setData] = useState(null);
-  const bottomSheetRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const snapPoints = useMemo(() => ['60%', '90%'], []);
+  useImperativeHandle(ref, () => ({
+    openModal(data) {
+      setData(data);
+      setIsOpen(true);
+    },
+    closeModal() {
+      setIsOpen(false);
+    }
+  }));
 
   const checkStatus = (status) => {
     if (status === 0) {
       return { status: 'Chưa có nhân viên nhận đơn' };
     } else if (status === 1) {
-      return { status: 'Nhân viên đang tới' };
+      return { status: 'Nhân viên đã nhận đơn' };
     } else if (status === 2) {
+      return { status: 'Nhân viên đang tới' };
+    } else if (status === 3) {
       return { status: 'Đang làm việc' };
     }
   };
 
-  useImperativeHandle(ref, () => ({
-    openModal(data) {
-      setData(data);
-      bottomSheetRef.current?.expand();
-    },
-  }));
-
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      index={-1}
-      snapPoints={snapPoints}
-      enablePanDownToClose={true}
-      style={styles.bottomSheet}
-      handleIndicatorStyle={styles.handleIndicator}
+    <Modal
+      isVisible={isOpen}
+      onBackdropPress={() => setIsOpen(false)}
+      onSwipeComplete={() => setIsOpen(false)}
+      swipeDirection={['down']}
+      style={styles.modal}
     >
-      <ScrollView>
-        <View style={styles.modalContent}>
+      <View style={styles.modalContent}>
+        <View style={styles.handle} />
+        <ScrollView>
           {data ? (
             <View>
               <View style={MainStyles.cardJob}>
@@ -141,13 +146,13 @@ const JobDetailsModal = forwardRef((_, ref) => {
                 <View style={MainStyles.rowMargin}>
                   <View style={MainStyles.flexRowFlexStart}>
                     <Image source={ic_human} style={{ width: 22, height: 22 }} />
-                    <Text style={MainStyles.textCardJob}>Tên nhân viên : {data?.StaffName}</Text>
+                    <Text style={MainStyles.textCardJob}>Tên nhân viên : {data?.StaffName || "Chưa có nhân viên nhận đơn"}</Text>
                   </View>
                 </View>
                 <View style={MainStyles.rowMargin}>
                   <View style={MainStyles.flexRowFlexStart}>
                     <Image source={ic_phone_call} style={{ width: 22, height: 22 }} />
-                    <Text style={MainStyles.textCardJob}>Số điện thoại : {data?.StaffPhone}</Text>
+                    <Text style={MainStyles.textCardJob}>Số điện thoại : {data?.StaffPhone || "Chưa có thông tin"}</Text>
                   </View>
                 </View>
                 <View style={MainStyles.flexRowCenter}>
@@ -178,22 +183,34 @@ const JobDetailsModal = forwardRef((_, ref) => {
               <Spinner />
             </View>
           )}
-        </View>
-      </ScrollView>
-    </BottomSheet>
+        </ScrollView>
+      </View>
+    </Modal>
   );
 });
 
 const styles = StyleSheet.create({
   modalContent: {
     flex: 1,
-  },
-  bottomSheet: {
+    backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 40,
+    maxHeight: windowHeight * 0.85, // Set max height to 85% of screen height
   },
-  handleIndicator: {
-    backgroundColor: colors.MAIN_BLUE_CLIENT,
+  handle: {
+    width: 40,
+    height: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 2.5,
+    alignSelf: 'center',
+    marginVertical: 10,
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
   },
   sectionTitle: {
     fontSize: 18,

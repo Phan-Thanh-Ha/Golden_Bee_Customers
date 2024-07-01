@@ -34,6 +34,7 @@ const FormServiceMachine = ({
       <Formik
         initialValues={{
           serviceOption: Service?.ServiceOption[0], // Sử dụng đối tượng đầu tiên từ mảng
+          // serviceOption: {}, // Sử dụng đối tượng đầu tiên từ mảng
           people: 1,
           premium: false,
           otherService: [],
@@ -74,7 +75,7 @@ const FormServiceMachine = ({
                 data={Service?.ServiceOption}
                 value={values.serviceOption}
                 onChange={(value) => {
-                  setFieldValue("serviceOption", value); // Cập nhật đối tượng đã chọn
+                  setFieldValue("serviceOption", value);
                   if (onChange && typeof onChange === "function") {
                     onChange({ ...values, serviceOption: value });
                   }

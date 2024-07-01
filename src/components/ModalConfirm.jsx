@@ -8,6 +8,8 @@ const ModalConfirm = ({
   isModalVisible,
   setModalVisible,
   onConfirm,
+  modalTitle = 'Xác nhận yêu cầu',
+  btnConfirmTiTle = 'Xác nhận',
 }) => {
   const handleConfirm = () => {
     onConfirm();
@@ -20,8 +22,10 @@ const ModalConfirm = ({
       onClose={() => setModalVisible(false)}
       isAuto={false}
       onConfirm={handleConfirm}
-      title="Xác nhận yêu cầu"
-      backdropCloseable={true}
+      title={modalTitle}
+      backdropCloseable={false}
+      isCancelable={false}
+      btnConfirmTiTle={btnConfirmTiTle}
     >
       <View>
         <View style={[MainStyles.cardJob]}>

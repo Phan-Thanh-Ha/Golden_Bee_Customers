@@ -5,7 +5,18 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../styles/MainStyle';
 import { colors } from '../styles/Colors';
 import Logo from './Logo';
 
-const ModalOption = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000, onConfirm, title, backdropCloseable = true }) => {
+const ModalOption = ({
+  isVisible,
+  onClose,
+  children,
+  isAuto,
+  autoCloseTime = 3000,
+  onConfirm,
+  title,
+  backdropCloseable = true,
+  textCancel = 'Hủy',
+  textConfirm = 'Xác nhận',
+}) => {
   const [countdown, setCountdown] = useState(autoCloseTime / 1000);
 
   useEffect(() => {
@@ -63,10 +74,10 @@ const ModalOption = ({ isVisible, onClose, children, isAuto, autoCloseTime = 300
         ) : (
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.confirmButton} onPress={onClose}>
-              <Text style={styles.buttonText}>Tiếp tục</Text>
+              <Text style={styles.buttonText}>{textConfirm}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelButton} onPress={onConfirm}>
-              <Text style={styles.buttonText}>Về trang chính</Text>
+              <Text style={styles.buttonText}>Huỷ đơn</Text>
             </TouchableOpacity>
           </View>
         )}

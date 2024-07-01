@@ -8,7 +8,6 @@ import { getData, setData } from "../Utils";
 import { useNavigation } from "@react-navigation/native";
 import { mainAction } from "../Redux/Action";
 import { useDispatch } from "react-redux";
-import CheckNewData from "../Utils/CheckNewData";
 const First = () => {
   const navi = useNavigation();
   const dispatch = useDispatch();

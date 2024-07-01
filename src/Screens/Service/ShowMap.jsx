@@ -41,6 +41,15 @@ const ShowMap = () => {
   useEffect(() => {
     getLatLong(service.place_id);
   }, []);
+  // console.log("----------------------------------");
+  // console.log("service in show map : ", {
+  //   ...service,
+  //   CustomerId: user.Id,
+  //   CustomerName: user.CustomerName,
+  //   Latitude: userProfile.Latitude,
+  //   Longitude: userProfile.Longitude,
+  // });
+  // console.log("----------------------------------");
 
   const getLatLong = async (place_id) => {
     try {

@@ -28,10 +28,18 @@ export const OVG_FBRT_ListenMyOrders = (
   const handleOrderChange = (snapshot) => {
     const order = snapshot.val();
     const orderId = snapshot.key;
-    console.log("Order changed:", { ...order, orderId });
-
-    setOrderChange({ ...order, orderId });
-
+    const orderChanged = { ...order, orderId };
+    // if (orderChanged?.StatusOrder === 1) {
+    //   setOrderChange({ ...order, orderId });
+    //   setModalOrderChangeVisible(true);
+    // }
+    if (orderChanged?.StatusOrder === 1) {
+      setOrderChange({ ...order, orderId });
+    }
+    if (orderChanged?.StatusOrder === 1) {
+      // setOrderChange({ ...order, orderId });
+      setModalOrderChangeVisible(true);
+    }
     setMyOrders((prevOrders) => {
       const existingOrderIndex = prevOrders.findIndex(
         (o) => o.OrderId === orderId
@@ -40,7 +48,6 @@ export const OVG_FBRT_ListenMyOrders = (
       if (existingOrderIndex > -1) {
         const updatedOrders = [...prevOrders];
         updatedOrders[existingOrderIndex] = { ...order, OrderId: orderId };
-        // setModalOrderChangeVisible(true);
         return updatedOrders;
       } else {
         return prevOrders;
@@ -136,22 +143,15 @@ export const OVG_FBRT_ListenMyOrders = (
     console.error("Error listening for orders: ", error);
   }
 };
+
 export const OVG_FBRT_ListenOrderUpdate = (
   orderId,
   onOrderUpdate,
   onOrderRemoved
 ) => {
-  // Kiểm tra dữ liệu đầu vào
-  if (typeof orderId !== "string" || orderId.trim() === "") {
-    throw new Error("orderId phải là một chuỗi không rỗng");
-  }
-
-  if (typeof onOrderUpdate !== "function") {
-    throw new Error("onOrderUpdate phải là một hàm");
-  }
-
-  if (typeof onOrderRemoved !== "function") {
-    throw new Error("onOrderRemoved phải là một hàm");
+  if (!orderId) {
+    console.error("Order ID is required for listening to updates.");
+    return null;
   }
 
   try {
@@ -171,7 +171,7 @@ export const OVG_FBRT_ListenOrderUpdate = (
           onOrderRemoved();
         }
       } catch (error) {
-        console.error("Lỗi khi xử lý cập nhật đơn hàng:", error);
+        console.error("Error handling order update:", error);
       }
     };
 
@@ -179,24 +179,24 @@ export const OVG_FBRT_ListenOrderUpdate = (
       try {
         onOrderRemoved();
       } catch (error) {
-        console.error("Lỗi khi xử lý đơn hàng bị xóa:", error);
+        console.error("Error handling order removal:", error);
       }
     };
 
     orderRef.on("value", handleOrderUpdate);
     orderRef.on("child_removed", handleOrderRemoved);
 
-    // Trả về hàm hủy lắng nghe để có thể sử dụng khi cần thiết
+    // Return unsubscribe function
     return () => {
       try {
         orderRef.off("value", handleOrderUpdate);
         orderRef.off("child_removed", handleOrderRemoved);
       } catch (error) {
-        console.error("Lỗi khi hủy lắng nghe:", error);
+        console.error("Error removing listeners:", error);
       }
     };
   } catch (error) {
-    console.error("Lỗi khi thiết lập lắng nghe Firebase:", error);
-    throw new Error("Không thể thiết lập lắng nghe Firebase");
+    console.error("Error setting up Firebase listener:", error);
+    throw new Error("Unable to set up Firebase listener");
   }
 };

@@ -11,22 +11,59 @@ import MainStyles from "../../styles/MainStyle";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { ScreenNames } from "../../Constants";
 import { Spinner } from "@ui-kitten/components";
+import { TextInput } from "react-native";
+import { colors } from "../../styles/Colors";
+import { GroupUserId } from "../../Utils";
+import { mainAction } from "../../Redux/Action";
+import { useDispatch, useSelector } from "react-redux";
+import ModalConfirm from "../../components/ModalConfirm";
 
 
 const RatingServiceScreen = () => {
   const route = useRoute();
   const { data } = route.params || {};
+  const userLogin = useSelector((state) => state.main.userLogin);
   const navi = useNavigation();
+  const dispatch = useDispatch();
   console.log("data service remove on rating service", data);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(5);
   const [note, setNote] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const onGoToHome = () => {
     navi.navigate(ScreenNames.MAIN_NAVIGATOR);
   }
-  const onSubmitRating = () => {
 
+  const OVG_spCustomer_Review_Save = async () => {
+    setIsLoading(true);
+    try {
+      const pr = {
+        BookingId: data?.OrderId,
+        CustomerId: userLogin?.Id,
+        OfficerId: data?.StaffId,
+        StartNumber: rating,
+        Note: note,
+        GroupUserId: GroupUserId
+      };
+      console.log("pr", pr);
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spCustomer_Review_Save",
+      };
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+      if (result.Status === "OK") {
+        setIsModalVisible(true);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log("error", error);
+      setIsLoading(false);
+    }
+  };
+  const onSubmitRating = () => {
+    OVG_spCustomer_Review_Save();
   }
   return (
     <View style={MainStyles.containerClient}>
@@ -53,11 +90,12 @@ const RatingServiceScreen = () => {
             <RatingTouch rating={rating} fontSize={[30, 30]} onRate={setRating} />
           </View>
           <Label>Ghi chú</Label>
-          <TextArea
-            style={{ height: 200 }}
-            placeholder="Để lại lời nhắn cho ong vàng"
+          <TextInput
+            style={styles.textArea}
+            placeholder="Hãy để lại lời nhắn ở đây ..."
             value={note}
-            onChangeText={(value) => setNote(value)}
+            onChangeText={setNote}
+            multiline={true}
           />
         </View>
         <LayoutBottom>
@@ -81,6 +119,14 @@ const RatingServiceScreen = () => {
             </TouchableOpacity>
           </View>
         </LayoutBottom>
+        <ModalConfirm
+          isModalVisible={isModalVisible}
+          setModalVisible={setIsModalVisible}
+          onConfirm={onGoToHome}
+          modalTitle="Đã đánh giá"
+          title={"Cảm ơn quý khách đã để lại đánh giá cho dịch vụ này. Hẹn gặp lại trong những dịch vụ tới, Ong Vàng xin cảm ơn !"}
+          btnConfirmTiTle="Về trang chính"
+        />
       </LayoutGradientBlue>
     </View>
   );
@@ -111,6 +157,15 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  textArea: {
+    height: 200,
+    borderColor: 'gray',
+    backgroundColor: colors.WHITE,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 8,
+    textAlignVertical: 'top',
   },
 })
 

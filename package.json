@@ -13,8 +13,8 @@
     "ios-clean": "rm -rf node_modules && rm -rf yarn.lock && yarn install && cd ios && rm -rf Pods/ && rm -rf Podfile.lock && pod install && cd ..",
     "android-clean": "rm -rf node_modules && rm -rf yarn.lock && yarn install && cd android && ./gradlew clean && cd .. && yarn android",
     "postinstall": "patch-package",
-    "apk": "cd android && ./gradlew clean && ./gradlew assembleRelease && open app/build/outputs/apk/release",
-    "abb": "cd android && ./gradlew clean && ./gradlew bundleRelease && open app/build/outputs/bundle/release",
+    "apk": " react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle && cd android && ./gradlew clean && ./gradlew assembleRelease && open app/build/outputs/apk/release",
+    "abb": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle && cd android && ./gradlew clean && ./gradlew bundleRelease && open app/build/outputs/bundle/release",
     "remove-app": "adb uninstall com.golden_bee_customers"
   },
   "dependencies": {
@@ -30,8 +30,6 @@
     "@react-native-firebase/messaging": "^20.1.0",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
-    "react-native-compressor": "^1.8.25",
-    "react-native-confetti-cannon": "^1.5.2",
     "@react-navigation/stack": "^6.3.29",
     "@ui-kitten/components": "5.3.1",
     "@ui-kitten/eva-icons": "5.3.1",
@@ -45,6 +43,8 @@
     "patch-package": "^8.0.0",
     "react": "18.1.0",
     "react-native": "0.70.6",
+    "react-native-compressor": "^1.8.25",
+    "react-native-confetti-cannon": "^1.5.2",
     "react-native-confirmation-code-field": "^7.4.0",
     "react-native-curved-bottom-bar": "^3.2.7",
     "react-native-fast-image": "^8.6.3",

@@ -1,0 +1,189 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions } from 'react-native';
+import Modal from 'react-native-modal';
+import { color } from 'react-native-reanimated';
+import { colors } from '../styles/Colors';
+import MainStyles, { SCREEN_WIDTH } from '../styles/MainStyle';
+import { parseTimeSql } from '../Utils';
+
+const VoucherComponent = ({ vouchers, selectedVouchers, setSelectedVouchers, limit }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleSelectVoucher = (voucher) => {
+    if (selectedVouchers.includes(voucher)) {
+      setSelectedVouchers(selectedVouchers.filter(v => v.VoucherId !== voucher.VoucherId));
+    } else if (selectedVouchers.length < limit) {
+      setSelectedVouchers([...selectedVouchers, voucher]);
+    }
+  };
+
+  const handleApplyVouchers = () => {
+    setModalVisible(false);
+  };
+
+  const handleClearVouchers = () => {
+    setSelectedVouchers([]);
+  };
+
+  const renderVoucher = ({ item }) => {
+    const isSelected = selectedVouchers.includes(item);
+    const isDisabled = !isSelected && selectedVouchers.length >= limit;
+
+    let backgroundColorStyle = styles.voucherItem;
+    if (isSelected) {
+      backgroundColorStyle = [styles.voucherItem, styles.selectedVoucher];
+    } else if (isDisabled) {
+      backgroundColorStyle = [styles.voucherItem, styles.disabledVoucher];
+    }
+
+    return (
+      <TouchableOpacity
+        onPress={() => !isDisabled && handleSelectVoucher(item)}
+        style={backgroundColorStyle}
+        disabled={isDisabled}
+      >
+        <View style={styles.voucherContent}>
+          {/* <Text style={styles.voucherName}>{item?.VoucherName}</Text> */}
+          <Text style={styles.voucherCode}>⚡ Mã voucher : {item?.VoucherCode}</Text>
+          <Text style={styles.voucherDiscount}>Giảm : {item?.TypeDiscount === 2 ? `-${item?.Discount} VND` : `-${item?.Discount}%`}</Text>
+          <Text style={styles.voucherDiscount}>Ngày kết thúc : {parseTimeSql(item?.Today, 1)}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View style={MainStyles.cardConfirmContainer}>
+      <TouchableOpacity style={styles.applyButton} onPress={() => setModalVisible(true)}>
+        <View style={MainStyles.flexRowSpaceBetween}>
+          <Text style={styles.applyButtonText}>{`Áp mã voucher (${selectedVouchers.length} mã đã chọn)`}</Text>
+          <Text style={{ fontSize: 20 }}>🎁</Text>
+        </View>
+      </TouchableOpacity>
+      <Modal
+        isVisible={modalVisible}
+        onBackdropPress={() => setModalVisible(false)}
+        style={styles.modal}
+      >
+        <View style={styles.modalContent}>
+          <Text style={{
+            textAlign: 'center',
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginBottom: 10,
+            color: colors.MAIN_BLUE_CLIENT
+          }}>Chọn mã giảm giá</Text>
+          <View style={MainStyles.flexRowCenter}>
+            <View style={{ marginBottom: 10, width: SCREEN_WIDTH * 0.7, backgroundColor: colors.MAIN_BLUE_CLIENT, height: 1 }}></View>
+          </View>
+          <FlatList
+            data={vouchers}
+            renderItem={renderVoucher}
+            keyExtractor={(item) => item?.VoucherId.toString()}
+            contentContainerStyle={{ paddingBottom: 20 }}
+          />
+          <View style={styles.modalFooter}>
+            <TouchableOpacity style={[styles.footerButton, styles.applyButtonColor]} onPress={handleApplyVouchers}>
+              <Text style={styles.footerButtonText}>Áp mã giảm giá</Text>
+            </TouchableOpacity>
+            {selectedVouchers.length > 0 && (
+              <TouchableOpacity style={[styles.footerButton, styles.clearButtonColor]} onPress={handleClearVouchers}>
+                <Text style={styles.footerButtonText}>Gỡ áp mã</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity style={[styles.footerButton, styles.cancelButtonColor]} onPress={() => setModalVisible(false)}>
+              <Text style={styles.footerButtonText}>Hủy</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  applyButton: {
+    backgroundColor: colors.WHITE,
+    borderRadius: 10,
+    width: SCREEN_WIDTH * 0.8,
+  },
+  applyButtonText: {
+    color: colors.BLACK,
+    fontSize: 16,
+  },
+  modal: {
+    justifyContent: 'center',
+    margin: 0,
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    marginHorizontal: 20,
+    maxHeight: Dimensions.get('window').height * 0.6,
+  },
+  voucherItem: {
+    padding: 15,
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: colors.GRAY,
+    borderRadius: 10,
+    backgroundColor: colors.WHITE,
+  },
+  voucherContent: {
+    flex: 1,
+  },
+  voucherName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  voucherCode: {
+    fontSize: 14,
+    color: '#555',
+  },
+  voucherDiscount: {
+    fontSize: 14,
+    color: '#ff5722',
+  },
+  modalFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderColor: '#ddd',
+  },
+  footerButton: {
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  footerButtonText: {
+    color: 'white',
+    fontSize: 14,
+  },
+  selectedVoucher: {
+    backgroundColor: '#fffacd', // Màu vàng nhạt
+    borderColor: '#ffd700', // Màu vàng
+  },
+  disabledVoucher: {
+    backgroundColor: '#e0e0e0', // Màu xám
+    borderColor: '#cccccc', // Màu xám
+  },
+  applyButtonColor: {
+    backgroundColor: '#28a745', // Màu xanh lá
+  },
+  cancelButtonColor: {
+    backgroundColor: '#dc3545', // Màu đỏ
+  },
+  clearButtonColor: {
+    backgroundColor: '#ffc107', // Màu vàng
+  },
+});
+
+export default VoucherComponent;

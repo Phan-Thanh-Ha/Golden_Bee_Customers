@@ -5,7 +5,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../styles/MainStyle';
 import { colors } from '../styles/Colors';
 import Logo from './Logo';
 
-const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000, onConfirm, title, backdropCloseable = true, isCancelable = true, isConfirmable = true }) => {
+const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000, onConfirm, title, backdropCloseable = true, isCancelable = true, isConfirmable = true, btnConfirmTiTle = 'Xác nhận' }) => {
   const [countdown, setCountdown] = useState(autoCloseTime / 1000);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000
             {
               isConfirmable ? (
                 <TouchableOpacity style={styles.confirmButton} onPress={onConfirm}>
-                  <Text style={styles.buttonText}>Xác nhận</Text>
+                  <Text style={styles.buttonText}>{btnConfirmTiTle}</Text>
                 </TouchableOpacity>
               ) : null
             }

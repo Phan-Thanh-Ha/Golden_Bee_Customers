@@ -9,38 +9,35 @@ export const databaseOrder = firebase
   )
   .ref("/order");
 
-// Đặt đơn hàng truyền lên firebase
-export const placeOrder = async (
-  clientId,
-  orderId,
-  dataBooking,
-  latitudeCustomer,
-  longitudeCustomer,
-  bookingCode
-) => {
-  const newOrder = {
-    ClientId: clientId,
-    OrderId: orderId,
-    DataService: dataBooking,
-    StaffId: "",
-    StaffName: "",
-    StaffPhone: "",
-    LatitudeCustomer: latitudeCustomer,
-    LongitudeCustomer: longitudeCustomer,
-    CreateAt: Date.now(),
-    BookingCode: bookingCode,
-    StatusOrder: 0,
-  };
-  try {
-    await databaseOrder.child(orderId).set(newOrder);
-    console.log("Order placed successfully:", newOrder);
-    return newOrder;
-  } catch (error) {
-    console.error("Error placing order: ", error);
-    return null;
-  }
-};
+// Lắng nghe thay đổi đơn hàng cho khách hàng
+export const listenForOrderUpdates = (clientId, setClientOrder) => {
+  console.log("Listening for order updates for client:", clientId);
+  databaseOrder
+    .orderByChild("ClientId")
+    .equalTo(clientId)
+    .on("value", (snapshot) => {
+      const orders = snapshot.val();
+      console.log("Orders snapshot received:", orders);
+      if (orders) {
+        Object.keys(orders).forEach((orderId) => {
+          const order = orders[orderId];
+          setClientOrder(order); // Cập nhật trạng thái đơn hàng cho khách hàng
+        });
+      } else {
+        setClientOrder(null); // Nếu không có đơn hàng nào
+      }
+    });
 
+  // Lắng nghe sự kiện xóa đơn hàng
+  databaseOrder
+    .orderByChild("ClientId")
+    .equalTo(clientId)
+    .on("child_removed", (snapshot) => {
+      console.log("Order removed:", snapshot.val());
+      setClientOrder(null); // Khi đơn hàng bị xóa, cập nhật trạng thái
+      // xóa dưới database
+    });
+};
 export const OVG_FBRT_ListenOrderUpdate = (
   staffId,
   customerId,
@@ -83,38 +80,36 @@ export const OVG_FBRT_ListenOrderUpdate = (
     orderRef.off("child_removed", handleDelete);
   };
 };
-
-// Lắng nghe thay đổi đơn hàng cho khách hàng
-export const listenForOrderUpdates = (clientId, setClientOrder) => {
-  console.log("Listening for order updates for client:", clientId);
-  databaseOrder
-    .orderByChild("ClientId")
-    .equalTo(clientId)
-    .on("value", (snapshot) => {
-      const orders = snapshot.val();
-      console.log("Orders snapshot received:", orders);
-      if (orders) {
-        Object.keys(orders).forEach((orderId) => {
-          const order = orders[orderId];
-          setClientOrder(order); // Cập nhật trạng thái đơn hàng cho khách hàng
-        });
-      } else {
-        setClientOrder(null); // Nếu không có đơn hàng nào
-      }
-    });
-
-  // Lắng nghe sự kiện xóa đơn hàng
-  databaseOrder
-    .orderByChild("ClientId")
-    .equalTo(clientId)
-    .on("child_removed", (snapshot) => {
-      console.log("Order removed:", snapshot.val());
-      setClientOrder(null); // Khi đơn hàng bị xóa, cập nhật trạng thái
-      removeData(StorageNames.ORDER_SERVICE);
-      // xóa dưới database
-    });
+export const placeOrder = async (
+  clientId,
+  orderId,
+  dataBooking,
+  latitudeCustomer,
+  longitudeCustomer,
+  bookingCode
+) => {
+  const newOrder = {
+    ClientId: clientId,
+    OrderId: orderId,
+    DataService: dataBooking,
+    StaffId: "",
+    StaffName: "",
+    StaffPhone: "",
+    LatitudeCustomer: latitudeCustomer,
+    LongitudeCustomer: longitudeCustomer,
+    CreateAt: Date.now(),
+    BookingCode: bookingCode,
+    StatusOrder: 0,
+  };
+  try {
+    await databaseOrder.child(orderId).set(newOrder);
+    console.log("Order placed successfully:", newOrder);
+    return newOrder;
+  } catch (error) {
+    console.error("Error placing order: ", error);
+    return null;
+  }
 };
-
 // Lắng nghe đơn hàng mới cho nhân viên
 export const listenForNewOrders = (setNewOrders) => {
   console.log("Listening for new orders with StaffId equal to ''");

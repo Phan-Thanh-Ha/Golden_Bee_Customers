@@ -70,7 +70,7 @@ const AddressSearch = () => {
           width: "98%",
           alignSelf: "center",
         }}
-        onRightIconPress={() => {}}
+        onRightIconPress={() => { }}
         onChangeText={(e) => {
           setStatusAddressSearch("basic");
         }}
@@ -78,7 +78,7 @@ const AddressSearch = () => {
           checkInputSearch(e);
         }}
       />
-      <KeyboardAwareScrollView enableOnAndroid extraHeight={200}>
+      <KeyboardAwareScrollView>
         {isLoading && <Loading />}
         <ItemAddress
           data={dataAddressSearch}

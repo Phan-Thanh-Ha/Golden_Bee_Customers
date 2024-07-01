@@ -2,18 +2,23 @@ import React, { useCallback } from 'react';
 import { FlatList, Image, Pressable, TouchableOpacity, View } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { colors } from '../styles/Colors';
-import MainStyles from '../styles/MainStyle';
+import MainStyles, { SCREEN_HEIGHT } from '../styles/MainStyle';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenNames } from '../Constants';
 import { cirtificate, coin_icon, ic_chronometer, ic_clearning, ic_clearning_basic, ic_glass, ic_hourse_clearning, ic_living_room, ic_location, ic_note, ic_person, ic_schedule } from '../assets';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormatMoney } from '../Utils';
 import Button from './buttons/Button';
+import Box from './Box';
+import { RoundUpNumber } from '../Utils/RoundUpNumber';
 
 const CardNewJob = ({ data, modalRef }) => {
   const navi = useNavigation();
+  // const handleGoViewStaff = () => {
+  //   navi.navigate(ScreenNames.VIEW_LOCATION_STAFF, { data: data });
+  // };
   const handleGoViewStaff = () => {
-    navi.navigate(ScreenNames.VIEW_LOCATION_STAFF, { data: data });
+    navi.navigate(ScreenNames.VIEW_STAFF, { data: data });
   };
 
   const HandlePayment = () => {
@@ -33,8 +38,8 @@ const CardNewJob = ({ data, modalRef }) => {
   );
   return (
     <View style={{ marginBottom: 10 }}>
-      <Pressable onPress={openModal}>
-        <View style={MainStyles.cardJob}>
+      <View style={MainStyles.cardJob}>
+        <Pressable onPress={openModal}>
           <View style={MainStyles.flexRowCenter}>
             <Text style={[MainStyles.titleCardJob, { textAlign: 'center' }]}>Dịch vụ {data?.DataService?.ServiceName.toLowerCase()}</Text>
           </View>
@@ -74,7 +79,7 @@ const CardNewJob = ({ data, modalRef }) => {
                   source={ic_glass}
                   style={{ width: 22, height: 22 }}
                 />
-                <Text style={MainStyles.textCardJob}> trong {data?.DataService?.TimeWorking} giờ</Text>
+                <Text style={MainStyles.textCardJob}> trong {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ</Text>
               </View>
               <View style={MainStyles.flexRowFlexEnd}>
                 <Image
@@ -170,58 +175,76 @@ const CardNewJob = ({ data, modalRef }) => {
               }>{FormatMoney(data?.DataService?.TotalPrice)} vnđ</Text>
             </View>
           </View>
-        </View>
-      </Pressable>
-      {data?.StatusOrder === 0 ? (
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flex: 1 }}>
-            <Button
-              disable={true}
-              fontSize={14}
-              paddingHorizontal={10}
-              paddingVertical={8}
-              bgColor={colors.CONFIRM2}
-            >
-              Đơn chưa có nhân viên nhận
-            </Button>
-          </View>
-        </View>
-      ) : null
-      }
-      {
-        data?.StatusOrder === 1 ? (
+        </Pressable>
+        <Box height={SCREEN_HEIGHT * 0.01} />
+        {data?.StatusOrder === 0 ? (
           <View style={{ flexDirection: 'row' }}>
             <View style={{ flex: 1 }}>
               <Button
+                disable={true}
                 fontSize={14}
                 paddingHorizontal={10}
                 paddingVertical={8}
                 bgColor={colors.CONFIRM2}
-                onPress={handleGoViewStaff}
               >
-                Xem vị trí nhân viên
+                Đơn chưa có nhân viên nhận
               </Button>
             </View>
           </View>
         ) : null
-      }
-      {
-        data?.StatusOrder === 2 ? (
-          <View style={{ flexDirection: 'row' }}>
-            <View style={{ flex: 1 }}>
-              <Button
-                fontSize={14}
-                paddingHorizontal={10}
-                paddingVertical={8}
-                bgColor={colors.CONFIRM2}
-                onPress={HandlePayment}
-              >
-                Thông tin thanh toán
-              </Button>
+        }
+        {
+          data?.StatusOrder === 1 ? (
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1 }}>
+                <Button
+                  fontSize={14}
+                  paddingHorizontal={10}
+                  paddingVertical={8}
+                  bgColor={colors.CONFIRM2}
+                  onPress={handleGoViewStaff}
+                >
+                  Nhân viên đã nhận đơn
+                </Button>
+              </View>
             </View>
-          </View>
-        ) : null
-      }
+          ) : null
+        }
+        {
+          data?.StatusOrder === 2 ? (
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1 }}>
+                <Button
+                  fontSize={14}
+                  paddingHorizontal={10}
+                  paddingVertical={8}
+                  bgColor={colors.CONFIRM2}
+                  onPress={handleGoViewStaff}
+                >
+                  Nhân viên đang tới, xem vị trí
+                </Button>
+              </View>
+            </View>
+          ) : null
+        }
+        {
+          data?.StatusOrder === 3 ? (
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1 }}>
+                <Button
+                  fontSize={14}
+                  paddingHorizontal={10}
+                  paddingVertical={8}
+                  bgColor={colors.CONFIRM2}
+                  onPress={HandlePayment}
+                >
+                  Đang làm việc, xem hóa đơn thanh toán
+                </Button>
+              </View>
+            </View>
+          ) : null
+        }
+      </View>
     </View>
   );
 };

@@ -175,7 +175,7 @@ const HomeScreen = () => {
         </View>
         <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
-      <MyOrders />
+      {/* <MyOrders /> */}
     </View>
   );
 };
