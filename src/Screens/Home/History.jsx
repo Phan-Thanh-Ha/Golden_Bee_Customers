@@ -21,7 +21,6 @@ const History = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const modalRef = useRef(null);
   const modalJobDoneRef = useRef(null);
-
   useFocusEffect(
     React.useCallback(() => {
       if (modalRef.current) {

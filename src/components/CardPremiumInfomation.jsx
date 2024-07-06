@@ -27,6 +27,7 @@ const CardPremiumInfomation = () => {
   }
   return (
     <View style={styles.container}>
+      <Text style={{ textAlign: 'center', color: colors.MAIN_BLUE_CLIENT, marginBottom: 10 }}>Dịch vụ Premium hiện chưa hỗ trợ</Text>
       <Image
         source={image_banner_1}
         style={{ width: '100%', height: 200, resizeMode: 'cover', borderRadius: 10 }}

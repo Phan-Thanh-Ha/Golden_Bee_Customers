@@ -71,6 +71,14 @@ const MainStyles = StyleSheet.create({
     alignItems: "flex-end",
     marginBottom: 20,
   },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: "#F44336",
+    padding: 10,
+    borderRadius: 4,
+    alignItems: "center",
+    marginHorizontal: 5,
+  },
   containerFormActive: {
     justifyContent: "center",
     margin: 15,

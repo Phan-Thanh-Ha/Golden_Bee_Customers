@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, Linking, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { colors } from "../../styles/Colors";
 import { ScreenNames, StorageNames } from "../../Constants";
@@ -11,8 +11,8 @@ import {
 } from "../../Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
-import MainStyles, { SCREEN_HEIGHT } from "../../styles/MainStyle";
-import { ic_coin, ic_premium, logo_bee_blue } from "../../assets";
+import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import { cirtificate, ic_coin, ic_premium, logo_bee_blue } from "../../assets";
 import Rating from "../../components/Rating";
 import Box from "../../components/Box";
 import BtnToggle from "../../components/BtnToggle";
@@ -26,10 +26,12 @@ const Account = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.main.userLogin);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  console.log(userLogin);
 
   const handleLogout = async () => {
     try {
       await removeData(StorageNames.USER_PROFILE);
+      await removeData(StorageNames.SERVICE_CONFIRM);
       mainAction.userLogin(null, dispatch);
       navi.navigate(ScreenNames.AUTH_HOME);
     } catch (error) { }
@@ -65,6 +67,10 @@ const Account = () => {
       console.log(error);
     }
   };
+  const user = {
+    level: 1,
+    point: 2000,
+  };
   return (
     <View>
       <LinearGradient
@@ -73,217 +79,125 @@ const Account = () => {
       />
       <Text style={MainStyles.screenTitle}>Thông tin tài khoản</Text>
       <ScrollView>
+
         <View style={MainStyles.contentContainer}>
           <Text style={MainStyles.labelTitle}>Thông tin</Text>
-          <View style={MainStyles.flexRowCenter}>
+          <View style={[MainStyles.flexRowFlexStart, { paddingHorizontal: 20, alignItems: "center" }]}>
             <Image
               source={logo_bee_blue}
               style={{
                 width: 80,
                 height: 120,
                 resizeMode: "contain",
-                marginRight: 10,
+                marginRight: 40,
               }}
             />
-          </View>
-          <View style={{ paddingHorizontal: 40 }}>
-            <View style={MainStyles.flexRowSpaceBetween}>
-              <Text
-                style={{
-                  color: colors.MAIN_BLUE_CLIENT,
-                  fontSize: 15,
-                  width: 120,
-                }}
-              >
-                Họ tên :
-              </Text>
-              <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>
-                {userLogin?.CustomerName}
-              </Text>
-            </View>
-            <View style={MainStyles.flexRowSpaceBetween}>
-              <Text
-                style={{
-                  color: colors.MAIN_BLUE_CLIENT,
-                  fontSize: 15,
-                  width: 120,
-                }}
-              >
-                SĐT :
-              </Text>
-              <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>
-                {userLogin?.Phone}
-              </Text>
-            </View>
-            <View style={MainStyles.flexRowSpaceBetween}>
-              <Text
-                style={{
-                  color: colors.MAIN_BLUE_CLIENT,
-                  fontSize: 15,
-                  width: 120,
-                }}
-              >
-                Mã khách hàng :
-              </Text>
-              <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>
-                {userLogin?.Id || "0123456789"}
-              </Text>
+            <View>
+              <View style={MainStyles.flexRow}>
+                <Text
+                  style={[MainStyles.labelTitle, { width: SCREEN_WIDTH * 0.4 }]}
+                >
+                  Mã khách hàng : {userLogin?.Id}
+                </Text>
+              </View>
+              <View style={MainStyles.flexRow}>
+                <Text
+                  style={[MainStyles.labelTitle, { width: SCREEN_WIDTH * 0.4 }]}
+                >
+                  Họ tên : {userLogin?.CustomerName}
+                </Text>
+              </View>
+              <View style={MainStyles.flexRow}>
+                <Text
+                  style={[MainStyles.labelTitle, { width: SCREEN_WIDTH * 0.4 }]}
+                >
+                  SĐT :  {userLogin?.Phone}
+                </Text>
+              </View>
             </View>
           </View>
-          <Box height={10} />
-          <Text style={MainStyles.labelTitle}>Tài chính</Text>
-          <View>
-            <Text
-              style={{
-                fontSize: 20,
-                color: colors.MAIN_BLUE_CLIENT,
-                textAlign: "center",
-                fontWeight: "700",
-              }}
-            >
-              Tài khoản chính
-            </Text>
-            <View style={MainStyles.flexRowCenter}>
-              <Image source={ic_coin} style={{ width: 27, height: 27 }} />
-              <Text
-                style={{
-                  color: colors.MAIN_COLOR_CLIENT,
-                  marginLeft: 10,
-                  fontSize: 20,
-                  fontWeight: "700",
-                }}
-              >
-                {FormatMoney(0)} đ
-              </Text>
-            </View>
-          </View>
-          <ButtonResize
-            fontSize={15}
-            paddingHorizontal={10}
-            paddingVertical={7}
-          >
-            Nạp thêm tiền
-          </ButtonResize>
-          <Box height={10} />
+          <Box height={SCREEN_HEIGHT * 0.01} />
+          <Box height={SCREEN_HEIGHT * 0.01} />
+          <Box height={SCREEN_HEIGHT * 0.02} />
+        </View>
+        <View style={MainStyles.contentContainer}>
+          <Box height={SCREEN_HEIGHT * 0.01} />
           <View style={MainStyles.flexRowSpaceBetween}>
-            <Text style={MainStyles.labelTitle}>Hành trình</Text>
-            <Text style={[MainStyles.labelTitle, { color: colors.RED }]}>
-              Cấp {userLogin?.level || 5}
-            </Text>
-          </View>
-          <View style={MainStyles.flexRowFlexStart}>
             <Text style={[MainStyles.labelTitle, { marginRight: 10 }]}>
               Điểm ưu đãi
             </Text>
-            <Image
-              source={ic_premium}
+            <View style={MainStyles.flexRowFlexStart}>
+              <Image
+                source={cirtificate}
+                style={{
+                  width: 20,
+                  height: 20,
+                  marginRight: 5,
+                }}
+              />
+              <Text style={[MainStyles.labelTitle, { marginRight: 10 }]}>
+                {FormatMoney(user.point)} point
+              </Text>
+            </View>
+          </View>
+          <View style={MainStyles.flexRowSpaceBetween}>
+            <Text style={MainStyles.labelTitle}>Hành trình</Text>
+            <Text style={[MainStyles.labelTitle, { color: colors.RED }]}>
+              Cấp {user.level}
+            </Text>
+          </View>
+          <Box height={SCREEN_HEIGHT * 0.01} />
+        </View>
+        <View style={MainStyles.contentContainer}>
+          <Text style={MainStyles.labelTitle}>Liên hệ tổng đài</Text>
+          <View style={MainStyles.flexRowSpaceBetween}>
+            <Text
               style={{
-                width: 20,
-                height: 20,
-                marginRight: 5,
-              }}
-            />
-            <Text style={[MainStyles.labelTitle, { marginRight: 10 }]}>
-              {FormatMoney(totalPoint[0]?.TotalPoint || 0)} point
+                marginRight: 10,
+                paddingLeft: 10,
+                fontSize: 15,
+                color: colors.MAIN_BLUE_CLIENT,
+                marginVertical: 10,
+              }}>
+              Liên hệ tổng đài để dược hỗ trợ các thắc mắc liên quan trong quá trình hoạt động và sử dụng ứng dụng.
             </Text>
           </View>
-          <Box height={10} />
-
-          <Text style={[MainStyles.labelTitle]}>Hỗ trợ</Text>
-          <View style={MainStyles.flexRowFlexStart}>
-            <Text
-              style={[
-                {
-                  marginRight: 10,
-                  paddingLeft: 10,
-                  fontSize: 15,
-                  color: colors.MAIN_BLUE_CLIENT,
-                  width: 200,
-                },
-              ]}
-            >
-              Thứ 2 đến thứ 7 :
-            </Text>
-            <Text style={[{ marginRight: 10, color: colors.MAIN_BLUE_CLIENT }]}>
-              Chủ nhật
-            </Text>
-          </View>
-          <View style={MainStyles.flexRowFlexStart}>
-            <Text
-              style={[
-                {
-                  marginRight: 10,
-                  paddingLeft: 10,
-                  fontSize: 15,
-                  color: colors.MAIN_BLUE_CLIENT,
-                  width: 200,
-                },
-              ]}
-            >
-              08:00 - 12:00 :
-            </Text>
-            <Text style={[{ marginRight: 10, color: colors.MAIN_BLUE_CLIENT }]}>
-              09:00 - 12:00
-            </Text>
-          </View>
-          <View style={MainStyles.flexRowFlexStart}>
-            <Text
-              style={[
-                {
-                  marginRight: 10,
-                  paddingLeft: 10,
-                  fontSize: 15,
-                  color: colors.MAIN_BLUE_CLIENT,
-                  width: 200,
-                },
-              ]}
-            >
-              08:00 - 12:00 :
-            </Text>
-            <Text style={[{ marginRight: 10, color: colors.MAIN_BLUE_CLIENT }]}>
-              09:00 - 12:00
-            </Text>
-          </View>
-
-          <ButtonResize
+          <Button
             fontSize={15}
             paddingHorizontal={10}
             paddingVertical={7}
-          >
+            onPress={() => {
+              Linking.openURL(`tel:${'0922277782'}`);
+            }}>
             Gọi tổng đài
-          </ButtonResize>
+          </Button>
         </View>
         <View style={{ marginHorizontal: 10 }}>
-          <ButtonResize
-            fontSize={15}
-            paddingHorizontal={10}
-            paddingVertical={7}
+          <Button
             onPress={handleLogout}
             textColor={colors.WHITE}
             bgColor={colors.MAIN_BLUE_CLIENT}
-          >
+            paddingVertical={5}>
             Đăng xuất
-          </ButtonResize>
+          </Button>
         </View>
         <View style={{ margin: 10 }}>
-          <ButtonResize
-            fontSize={15}
-            paddingHorizontal={10}
-            paddingVertical={7}
+          <Button
             onPress={() => setIsModalVisible(true)}
             textColor={colors.WHITE}
             bgColor={'#F44336'}
-          >
+            paddingVertical={5}>
             Xóa tài khoản
-          </ButtonResize>
+          </Button>
         </View>
-        <Box height={SCREEN_HEIGHT * 0.1} />
+        <Box height={SCREEN_HEIGHT * 0.2} />
       </ScrollView>
       <ModalConfirm
-        title={"Bạn đnag muốn xóa tài khoản này ! bạn có chắc chắn muốn xóa tài khoản hiện tại không ? Mọi thông tin của bạn sẽ không còn trên hệ thống sau khi bạn xác nhận !"}
+        title={"Bạn  có chắc chắn muốn xóa tài khoản hiện tại không ? Mọi thông tin của bạn sẽ không còn trên hệ thống sau khi bạn xác nhận !"}
         isModalVisible={isModalVisible}
         setModalVisible={setIsModalVisible}
         onConfirm={handleClearAccount}
+        backdropClose={true}
       />
       <Box height={SCREEN_HEIGHT * 0.1} />
     </View>

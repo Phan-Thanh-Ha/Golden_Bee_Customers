@@ -16,7 +16,6 @@ export * from "./ServiceClearningScreen";
 export * from "./ServiceHouseClearningScreen";
 export * from "./ServiceClearningOfficeScreen";
 export * from "./ServiceClearningAirScreen";
-export * from "./ServiceRepairAirScreen";
 export * from "./ServiceClearningMachineScreen";
 export * from "./ServiceRepairElectricityScreen";
 export * from "./ServiceRepairPipeScreen";

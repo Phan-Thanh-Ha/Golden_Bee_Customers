@@ -47,7 +47,7 @@ const ServiceClearningOfficeScreen = () => {
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
-      <Text style={MainStyles.screenTitle}>Thông tin công việc</Text>
+      <Text style={MainStyles.screenTitle}>Dọn dẹp văn phòng</Text>
       <CardLocation location={service.Address} />
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>

@@ -31,6 +31,7 @@ const CardNewJob = ({ data, modalRef }) => {
   const openModal = () => {
     modalRef.current?.openModal(data);
   };
+  // console.log(data);
   const renderItem = ({ item }) => (
     <View >
       <Text style={[MainStyles.textCardJob, { paddingLeft: 10 }]}>🔸{item.ServiceDetailName}</Text>
@@ -150,6 +151,31 @@ const CardNewJob = ({ data, modalRef }) => {
               <Text style={MainStyles.textCardJob}>{data?.DataService?.NoteBooking ? "Ghi chú: " + data?.DataService?.NoteBooking.trim() : "Không có ghi chú"}</Text>
             </View>
           </View>
+          <View style={MainStyles.rowMargin}>
+            <View style={MainStyles.flexRowFlexStart}>
+              <Text>⚡</Text>
+              {
+                data?.StatusOrder === 0 && (
+                  <Text style={MainStyles.textCardJob}>Trạng thái : Chưa có nhân viên nhận</Text>
+                )
+              }
+              {
+                data?.StatusOrder === 1 && (
+                  <Text style={MainStyles.textCardJob}>Trạng thái : Nhân viên đã nhận đơn</Text>
+                )
+              }
+              {
+                data?.StatusOrder === 2 && (
+                  <Text style={MainStyles.textCardJob}>Trạng thái : Nhân viên đang tới</Text>
+                )
+              }
+              {
+                data?.StatusOrder === 3 && (
+                  <Text style={MainStyles.textCardJob}>Trạng thái : Đang làm việc</Text>
+                )
+              }
+            </View>
+          </View>
           <View style={MainStyles.cardContentJob} onPress={() => navi.navigate(ScreenNames.PAYMENT_SCREEN)}>
             <Text style={
               {
@@ -181,13 +207,13 @@ const CardNewJob = ({ data, modalRef }) => {
           <View style={{ flexDirection: 'row' }}>
             <View style={{ flex: 1 }}>
               <Button
-                disable={true}
                 fontSize={14}
                 paddingHorizontal={10}
                 paddingVertical={8}
+                onPress={handleGoViewStaff}
                 bgColor={colors.CONFIRM2}
               >
-                Đơn chưa có nhân viên nhận
+                Chưa có nhân viên nhận đơn
               </Button>
             </View>
           </View>
@@ -221,7 +247,7 @@ const CardNewJob = ({ data, modalRef }) => {
                   bgColor={colors.CONFIRM2}
                   onPress={handleGoViewStaff}
                 >
-                  Nhân viên đang tới, xem vị trí
+                  Xem vị trí nhân viên
                 </Button>
               </View>
             </View>
@@ -238,7 +264,7 @@ const CardNewJob = ({ data, modalRef }) => {
                   bgColor={colors.CONFIRM2}
                   onPress={HandlePayment}
                 >
-                  Đang làm việc, xem hóa đơn thanh toán
+                  Xem hóa đơn thanh toán
                 </Button>
               </View>
             </View>

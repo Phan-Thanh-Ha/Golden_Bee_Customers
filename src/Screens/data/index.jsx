@@ -1788,3 +1788,19 @@ const serviceInShowMap = {
   "ServiceTime": 2,
   "place_id": "ChIJZfVDdo2rNTERp-a6WmpPXkA"
 }
+
+export const dataDefault = {
+  BookingCode: "",
+  ClientId: 0,
+  CreateAt: 0,
+  LatitudeCustomer: 0,
+  LatitudeStaff: 0,
+  LongitudeCustomer: 0,
+  LongitudeStaff: 0,
+  OrderId: "",
+  StaffAvatar: "",
+  StaffId: 0,
+  StaffName: "",
+  StaffPhone: "",
+  StatusOrder: 0
+}

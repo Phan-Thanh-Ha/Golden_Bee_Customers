@@ -10,6 +10,7 @@ const initialState = {
   SERVICELIST: [],
   acceptedOrder: [],
   myOrdersAccepted: [],
+  serviceConfirm: {},
 };
 export default function (state = initialState, action = {}) {
   switch (action.type) {

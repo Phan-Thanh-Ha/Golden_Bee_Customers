@@ -1,5 +1,4 @@
 import { firebase } from "@react-native-firebase/database";
-import { deepEqualObject } from "../utils/Equals";
 
 export const databaseOrder = firebase
   .app()
@@ -199,4 +198,34 @@ export const OVG_FBRT_ListenOrderUpdate = (
     console.error("Error setting up Firebase listener:", error);
     throw new Error("Unable to set up Firebase listener");
   }
+};
+
+export const OVG_FBRT_ListentOrderById = (orderId, callback) => {
+  const orderRef = databaseOrder.child(orderId);
+
+  orderRef.on("value", (snapshot) => {
+    const orderData = snapshot.val();
+    if (orderData) {
+      callback(orderData);
+    }
+  });
+
+  // Trả về hàm để hủy bỏ lắng nghe khi component unmount
+  return () => orderRef.off();
+};
+
+// Hàm lắng nghe danh sách đơn hàng theo CustomerId
+export const OVG_FBRT_ListentOrderByCustomerId = (customerId, callback) => {
+  const ordersRef = databaseOrder
+    .orderByChild("CustomerId")
+    .equalTo(customerId);
+
+  ordersRef.on("value", (snapshot) => {
+    const ordersData = snapshot.val();
+    const ordersList = ordersData ? Object.values(ordersData) : [];
+    callback(ordersList);
+  });
+
+  // Trả về hàm để hủy bỏ lắng nghe khi component unmount
+  return () => ordersRef.off();
 };

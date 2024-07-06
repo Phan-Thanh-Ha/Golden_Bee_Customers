@@ -3,22 +3,29 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ArrowLeft from "./svg/ArrowLeft";
 import { colors } from "../styles/Colors";
+import { SCREEN_WIDTH } from '@gorhom/bottom-sheet';
 
-const BackButton = ({ title, showBackButton = true, color = colors.WHITE }) => {
+const BackButton = ({ title, showBackButton = true, onBack = () => { }, color = colors.WHITE, showHomeButton = false, onHomeBtnPress = () => { } }) => {
   const navigation = useNavigation();
 
   const handleGoBack = () => {
+    onBack();
     navigation.goBack();
   };
 
   return (
     <View style={styles.header}>
       {showBackButton && (
-        <TouchableOpacity onPress={handleGoBack}>
+        <TouchableOpacity onPress={handleGoBack} style={{ width: SCREEN_WIDTH * 0.2 }}>
           <ArrowLeft color={color} />
         </TouchableOpacity>
       )}
       <Text>{title}</Text>
+      {/* {showBackButton && (
+        <TouchableOpacity onPress={handleGoBack} style={{ width: SCREEN_WIDTH * 0.2 }}>
+          <ArrowLeft color={color} />
+        </TouchableOpacity>
+      )} */}
     </View>
   );
 };

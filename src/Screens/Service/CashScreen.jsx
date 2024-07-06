@@ -9,15 +9,30 @@ import { cirtificate, ic_chronometer, ic_clearning, ic_clearning_basic, ic_coin,
 import LayoutBottom from '../../components/layouts/LayoutBottom';
 import { FormatMoney } from '../../Utils';
 import BackButton from '../../components/BackButton';
+import InputCheckBox from '../../components/InputCheckBox';
+import BtnDouble from '../../components/BtnDouble';
+import Box from '../../components/Box';
 
 const CashScreen = ({ route }) => {
   const { data } = route.params || {};
-
+  const [selectedValues, setSelectedValues] = useState([]);
+  const handleChange = (item) => {
+    setSelectedValues((prevSelected) => {
+      const isSelected = prevSelected.some((value) => value.ServiceDetailId === item.ServiceDetailId);
+      if (isSelected) {
+        // Nếu đã chọn thì bỏ chọn
+        return prevSelected.filter((value) => value.ServiceDetailId !== item.ServiceDetailId);
+      } else {
+        // Nếu chưa chọn thì thêm vào danh sách đã chọn
+        return [...prevSelected, item];
+      }
+    });
+  };
   return (
     <LayoutGradientBlue>
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
       <LogoBeeBox color={colors.WHITE} sizeImage={70} sizeText={20} />
-      <Text style={{ textAlign: 'center', color: colors.MAIN_BLUE_CLIENT, fontSize: 20, fontWeight: 'bold', marginTop: 10, marginTop: SCREEN_HEIGHT * 0.05, marginBottom: 10 }}>Thông tin thanh toán dịch vụ</Text>
+      <Text style={{ textAlign: 'center', color: colors.MAIN_BLUE_CLIENT, fontSize: 20, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>Thông tin thanh toán dịch vụ</Text>
       <ScrollView>
         <View style={[MainStyles.containerTabPayment, { backgroundColor: colors.WHITE, padding: 10, marginHorizontal: 10, borderRadius: 10 }]}>
           <View style={MainStyles.layoutTabPayment}>
@@ -132,6 +147,30 @@ const CashScreen = ({ route }) => {
             </View>
           </View>
         </View>
+
+        {
+          data?.DataService?.ServiceDetaiil?.length > 0 && (
+            <View style={[MainStyles.containerTabPayment, { backgroundColor: colors.WHITE, padding: 10, margin: 10, borderRadius: 10 }]}>
+              <View style={MainStyles.layoutTabPayment}>
+                <View style={MainStyles.rowMargin}>
+                  <View style={MainStyles.flexRowFlexStart}>
+                    <Image
+                      source={ic_clearning}
+                      style={{ width: 22, height: 22 }}
+                    />
+                    <Text style={MainStyles.textCardJob}>Đặt thêm dịch vụ :</Text>
+                  </View>
+                  <InputCheckBox
+                    data={data?.DataService?.ServiceDetaiil}
+                    selectedValues={selectedValues}
+                    onChange={handleChange}
+                  />
+                </View>
+              </View>
+            </View>
+          )
+        }
+        <Box height={SCREEN_HEIGHT * 0.03} />
       </ScrollView>
       <LayoutBottom>
         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 80 }}>

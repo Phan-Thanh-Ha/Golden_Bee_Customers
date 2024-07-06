@@ -5,8 +5,9 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
+  BackHandler,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import MainStyles, {
   SCREEN_HEIGHT,
@@ -14,7 +15,7 @@ import MainStyles, {
 } from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { CommonActions, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import Box from "../../components/Box";
 import {
   delivery_Golden,
@@ -32,12 +33,32 @@ import MapViewDirections from "react-native-maps-directions";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { ScreenNames } from "../../Constants";
 import BtnDouble from "../../components/BtnDouble";
+import { Alert } from "react-native";
 
 const WaitingStaffScreen = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const navi = useNavigation();
   const route = useRoute();
   const { dataBooking } = route.params || {};
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        navi.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+          })
+        );
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
+    }, [navi])
+  );
   console.log(
     "-----> 💀💀💀💀💀💀💀💀💀 <-----  dataBookingWatting:",
     dataBooking
@@ -131,6 +152,14 @@ const WaitingStaffScreen = () => {
               Thời gian làm việc
             </Text>
             <View style={MainStyles.cardConfirmContainer}>
+              <View style={MainStyles.flexRowSpaceBetween}>
+                <Text style={MainStyles.cardTitleConfirm}>Mã dịch vụ </Text>
+                <Text style={MainStyles.cardTitleConfirm}>{clientOrder?.BookingCode}</Text>
+              </View>
+              <View style={MainStyles.flexRowSpaceBetween}>
+                <Text style={MainStyles.cardTitleConfirm}>tên dịch vụ </Text>
+                <Text style={MainStyles.cardTitleConfirm}>{clientOrder?.DataService?.ServiceName}</Text>
+              </View>
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Ngày làm việc</Text>
                 <Text style={MainStyles.cardTitleConfirm}>Ngay bây giờ</Text>
@@ -419,10 +448,8 @@ const styles = StyleSheet.create({
   },
   topBar: {
     position: "absolute",
-    // left: SCREEN_WIDTH / 28,
     alignItems: "center",
     marginTop: SCREEN_HEIGHT / 81,
-    // right: SCREEN_WIDTH / 100,
     marginHorizontal: SCREEN_WIDTH / 110,
   },
   btnTitle: {

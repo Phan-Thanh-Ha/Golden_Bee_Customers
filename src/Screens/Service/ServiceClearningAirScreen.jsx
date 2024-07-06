@@ -1,4 +1,3 @@
-import FormServiceClearingAir from "./FormServiceClearingAir";
 import React, { useRef, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { colors } from "../../styles/Colors";
@@ -7,27 +6,21 @@ import BackButton from "../../components/BackButton";
 import MainStyles from "../../styles/MainStyle";
 import { UseInset } from "../../Hooks";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
-import { CardLocation } from "../../components";
-import ButtonInfo from "../../components/buttons/ButtonInfo";
-import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
-import FormServiceClearning from "./FormServiceClearning";
+import FormServiceMachine from "./FormServiceMachine";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
 import CardPremiumInfomation from "../../components/CardPremiumInfomation";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { FormatMoney } from "../../Utils";
-import {
-  priceClearning,
-  priceClearningAirConditioner,
-  priceClearningMachine,
-} from "../../Utils/PriceService";
+import { priceClearningAirConditioner, priceClearningMachine } from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
-import FormServiceMachine from "./FormServiceMachine";
+import ButtonInfo from "../../components/buttons/ButtonInfo";
+import ArrowRight from "../../components/svg/ArrowRight";
+import FormServiceClearingAir from "./FormServiceClearingAir";
 
 const ServiceClearningAirScreen = () => {
   const route = useRoute();
   const { service } = route.params || {};
-  // const service = dataMenuApi[0];
   const price = service.ServicePrice || 11;
   const workingTime = service.ServiceTime || 11;
   const [time, setTime] = useState(workingTime);
@@ -39,7 +32,7 @@ const ServiceClearningAirScreen = () => {
     setModalOpen(false);
   };
   const handleNext = () => {
-    formikSubmitRef.current && formikSubmitRef.current();
+    formikSubmitRef.current?.submitForm();
   };
   const handleFormChange = (values) => {
     console.log(values);
@@ -55,12 +48,11 @@ const ServiceClearningAirScreen = () => {
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
-      <Text style={MainStyles.screenTitle}>Thông tin công việc</Text>
-      <CardLocation location={service.Address} />
+      <Text style={MainStyles.screenTitle}>Vệ sinh máy lạnh</Text>
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
           <FormServiceClearingAir
-            onSubmit={formikSubmitRef}
+            ref={formikSubmitRef}
             timeWorking={time}
             onChange={handleFormChange}
             Service={service}
@@ -139,4 +131,5 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
 });
+
 export default ServiceClearningAirScreen;

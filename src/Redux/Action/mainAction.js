@@ -40,6 +40,14 @@ export function menuService(data, dispatch) {
   });
 }
 
+export function saveServiceConfirm(data, dispatch) {
+  // Log để kiểm tra dữ liệu trước khi dispatch
+  return dispatch({
+    type: mainTypes.SERVICE_CONFIRM,
+    payload: data,
+  });
+}
+
 export function checkPermission(params, dispatch) {
   return new Promise((resolve, reject) => {
     dispatch({

@@ -28,20 +28,20 @@ const HomeScreen = () => {
   const navi = useNavigation();
   const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
 
-  useEffect(() => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        if (position.coords) {
-          OVG_spCustomer_Location_Update(
-            position?.coords?.latitude,
-            position?.coords?.longitude
-          );
-        }
-      },
-      (error) => console.log(error),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
-  }, []);
+  // useEffect(() => {
+  //   Geolocation.getCurrentPosition(
+  //     (position) => {
+  //       if (position.coords) {
+  //         OVG_spCustomer_Location_Update(
+  //           position?.coords?.latitude,
+  //           position?.coords?.longitude
+  //         );
+  //       }
+  //     },
+  //     (error) => console.log(error),
+  //     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+  //   );
+  // }, []);
 
   const OVG_spBooking_Service_List = async () => {
     const userLogin = await GetUserProfile();
@@ -64,33 +64,33 @@ const HomeScreen = () => {
     }
   };
 
-  const OVG_spCustomer_Location_Update = async (
-    latitude,
-    longitude,
-    CustomerId
-  ) => {
-    try {
-      const pr = {
-        CustomerId: 582,
-        Lat: latitude,
-        Lng: longitude,
-      };
-      const params = {
-        Json: JSON.stringify(pr),
-        func: "OVG_spCustomer_Location_Update",
-        API_key: "netcoAPIkey2020",
-      };
-      const result = await mainAction.API_spCallServer(params, dispatch);
-      if (result) {
-        if (result.Status === "OK") {
-          dispatch({
-            type: mainTypes.LOCATION_TIME,
-            payload: result.Result,
-          });
-        }
-      }
-    } catch (e) { }
-  };
+  // const OVG_spCustomer_Location_Update = async (
+  //   latitude,
+  //   longitude,
+  //   CustomerId
+  // ) => {
+  //   try {
+  //     const pr = {
+  //       CustomerId: 582,
+  //       Lat: latitude,
+  //       Lng: longitude,
+  //     };
+  //     const params = {
+  //       Json: JSON.stringify(pr),
+  //       func: "OVG_spCustomer_Location_Update",
+  //       API_key: "netcoAPIkey2020",
+  //     };
+  //     const result = await mainAction.API_spCallServer(params, dispatch);
+  //     if (result) {
+  //       if (result.Status === "OK") {
+  //         dispatch({
+  //           type: mainTypes.LOCATION_TIME,
+  //           payload: result.Result,
+  //         });
+  //       }
+  //     }
+  //   } catch (e) { }
+  // };
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -150,10 +150,10 @@ const HomeScreen = () => {
                 alignSelf: "center",
                 justifyContent: "center",
                 fontSize: 16,
-                fontWeight: "600",
+                fontWeight: "700",
                 color: colors.MAIN_BLUE_CLIENT,
               }}
-            >Bạn đang đặt {myOrdersAccepted?.length} dịch vụ</Text>
+            >🔔   Bạn đang đặt {myOrdersAccepted?.length} dịch vụ   🔔</Text>
           </TouchableOpacity>
         ) : null
       }
@@ -168,7 +168,6 @@ const HomeScreen = () => {
           ]}
         >
           <Label>Có thể bạn sẽ thích</Label>
-          <ArrowRight size={20} />
         </TouchableOpacity>
         <View>
           <ProductMust />

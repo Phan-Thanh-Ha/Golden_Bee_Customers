@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -9,16 +9,31 @@ import Button from "../buttons/Button";
 import { ScreenNames, StorageNames } from "../../Constants";
 import LogoBeeBox from "../LogoBeeBox";
 import MainStyle from "../../styles/MainStyle";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { mainAction } from "../../Redux/Action";
 import { useDispatch } from "react-redux";
 import { AlertToaster } from "../../Utils/AlertToaster";
-import { setData } from "../../Utils";
+import { getData, setData } from "../../Utils";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const navi = useNavigation();
-  const [loading, setLoading] = React.useState(false);
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [dataConfirmService, setDataConfirmService] = useState({});
+  console.log("dataConfirmService ", dataConfirmService);
+  useFocusEffect(
+    React.useCallback(() => {
+      const getDataService = async () => {
+        const data = await getData(StorageNames.SERVICE_CONFIRM);
+        setDataConfirmService(data);
+      };
+      getDataService();
+      return () => {
+        console.log("dataConfirmService ", dataConfirmService);
+      };
+    }, [])
+  );
+
   const validationSchema = yup.object().shape({
     PhoneNumber: yup
       .string()
@@ -49,16 +64,33 @@ const LoginForm = () => {
       if (result?.Status === "OK") {
         mainAction.userLogin(result.Result[0], dispatch);
         await setData(StorageNames.USER_PROFILE, result.Result[0]);
-        AlertToaster("success", "Đăng nhập thành công !");
-        navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+        console.log("dataConfirmService ", dataConfirmService);
+        if (dataConfirmService) {
+          console.log("dataConfirmService -------------------");
+          setLoading(false);
+          AlertToaster(
+            "success",
+            "Đăng nhập thành công !",
+            "Hoàn tất đơn dịch vụ nào !"
+          );
+          navigation.replace(ScreenNames.CONFIRM_BOOKING, {
+            dataConfirmService: dataConfirmService,
+          });
+        } else {
+          AlertToaster("success", "Đăng nhập này thành công !");
+          setLoading(false);
+          navigation.navigate(ScreenNames.MAIN_NAVIGATOR);
+        }
         setLoading(false);
-        const token = await mainAction.checkPermission(null, dispatch);
-        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  token:", token);
-        OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
+        // AlertToaster("success", "Đăng nhập thành công !");
+        // const token = await mainAction.checkPermission(null, dispatch);
+        // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  token:", token);
+        // OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
       } else {
         AlertToaster("error", result?.Result);
         setLoading(false);
       }
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.log(error);

@@ -1,28 +1,29 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useCallback, useState } from "react";
+import { BackHandler, StyleSheet, Text, View } from "react-native";
 import Header from "../../components/Header";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { CommonActions, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { InputComponent } from "../../components/Input";
 import { colors } from "../../styles/Colors";
-import { GOOGLE_API_KEY, setData } from "../../Utils";
-import Label from "../../components/Label";
+import { GOOGLE_API_KEY, getData, setData } from "../../Utils";
 import ItemAddress from "../../components/ItemAddress";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
-import Loading from "../../components/Loading";
 import axios from "axios";
 import { ScreenNames } from "../../Constants";
+import debounce from "lodash/debounce";
+import { useSelector } from "react-redux";
+
 const AddressSearch = () => {
   const navi = useNavigation();
-  const API_URL =
-    "https://maps.googleapis.com/maps/api/place/autocomplete/json";
+  const API_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
   const route = useRoute();
   const { service } = route.params || {};
-  const [dataAddressSearch, setDataAddressSearch] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [statusAddressSearch, setStatusAddressSearch] = React.useState("basic");
+  const [dataAddressSearch, setDataAddressSearch] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [statusAddressSearch, setStatusAddressSearch] = useState("basic");
+  const userLogin = useSelector((state) => state.main.userLogin);
 
-  // Hàm nhập địa chỉ tìm kiếm từ Google
-  const handleChangeText = async (text) => {
+  // Hàm gọi API tìm kiếm địa chỉ từ Google
+  const handleSearch = async (text) => {
     setIsLoading(true);
     try {
       const response = await axios.get(API_URL, {
@@ -34,33 +35,56 @@ const AddressSearch = () => {
       });
       const data = response.data;
       if (data.predictions.length > 0) {
-        const dataSeachLocation = data.predictions.map((item) => ({
+        const dataSearchLocation = data.predictions.map((item) => ({
           place_id: item.place_id,
           name: item.description,
         }));
-        setDataAddressSearch(dataSeachLocation);
-        // LocalStore
-        await setData("ADDRESS_SEARCH", dataSeachLocation);
-        setIsLoading(false);
+        setDataAddressSearch(dataSearchLocation);
+        // Lưu trữ cục bộ
+        await setData("ADDRESS_SEARCH", dataSearchLocation);
       } else {
         setDataAddressSearch([]);
-        setIsLoading(false);
       }
     } catch (error) {
-      console.error("Error fetching data from Google Places API:", error);
+      console.error("Lỗi khi lấy dữ liệu từ Google Places API:", error);
+    } finally {
       setIsLoading(false);
     }
   };
-  const checkInputSearch = (e) => {
-    if (e !== "") {
-      handleChangeText(e);
-    } else {
-      setStatusAddressSearch("danger");
-    }
+
+  // Hàm debounce để hạn chế số lần gọi API
+  const debouncedHandleSearch = useCallback(debounce(handleSearch, 500), []);
+
+  // Hàm kiểm tra và gọi tìm kiếm
+  const handleChangeText = (text) => {
+    setStatusAddressSearch(text === "" ? "danger" : "basic");
+    debouncedHandleSearch(text);
   };
+  const onBackPress = () => {
+    console.log("test", userLogin);
+    if (userLogin) {
+      navi.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+        })
+      );
+      return true;
+    } else {
+      navi.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: ScreenNames.HOME }],
+        })
+      );
+    }
+    return true;
+  };
+
+
   return (
     <View style={{ backgroundColor: colors.WHITE }}>
-      <Header title="Chọn vị trí làm việc" />
+      <Header title="Chọn vị trí làm việc" onBack={onBackPress} isGoBack={false} />
       <InputComponent
         placeholder={"Nhập địa chỉ"}
         iconRight="map-outline"
@@ -71,15 +95,13 @@ const AddressSearch = () => {
           alignSelf: "center",
         }}
         onRightIconPress={() => { }}
-        onChangeText={(e) => {
-          setStatusAddressSearch("basic");
-        }}
-        onFinishText={(e) => {
-          checkInputSearch(e);
-        }}
+        onChangeText={handleChangeText}
       />
-      <KeyboardAwareScrollView>
-        {isLoading && <Loading />}
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        enableOnAndroid={true}
+      >
+        {/* {isLoading && <Loading />} */}
         <ItemAddress
           data={dataAddressSearch}
           onPress={(item) => {

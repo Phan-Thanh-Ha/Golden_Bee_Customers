@@ -1,32 +1,34 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import MainStyles from '../styles/MainStyle';
-import AlertModal from './AlertModal';
+import MainStyles from '../../styles/MainStyle';
+import ModalSelectOption from './ModalSelectOption';
 
-const ModalConfirm = ({
+const ModalRequired = ({
   title,
   isModalVisible,
   setModalVisible,
-  onConfirm,
-  modalTitle = 'Xác nhận yêu cầu',
-  btnConfirmTiTle = 'Xác nhận',
-  backdropClose = false,
+  onConfirm1,
+  onConfirm2,
 }) => {
-  const handleConfirm = () => {
-    onConfirm();
+  const handleConfirm1 = () => {
+    onConfirm1();
+    setModalVisible(false);
+  };
+  const handleConfirm2 = () => {
+    onConfirm2();
     setModalVisible(false);
   };
 
   return (
-    <AlertModal
+    <ModalSelectOption
+      titleBtn1={"Xác nhận"}
+      titleBtn2={"Hủy"}
       isVisible={isModalVisible}
       onClose={() => setModalVisible(false)}
-      isAuto={false}
-      onConfirm={handleConfirm}
-      title={modalTitle}
-      backdropCloseable={backdropClose}
-      isCancelable={false}
-      btnConfirmTiTle={btnConfirmTiTle}
+      title="Thông báo"
+      backdropCloseable={true}
+      onConfirm1={handleConfirm1}
+      onConfirm2={handleConfirm2}
     >
       <View>
         <View style={[MainStyles.cardJob]}>
@@ -40,8 +42,8 @@ const ModalConfirm = ({
           </View>
         </View>
       </View>
-    </AlertModal>
+    </ModalSelectOption>
   );
 };
 
-export default ModalConfirm;
+export default ModalRequired;

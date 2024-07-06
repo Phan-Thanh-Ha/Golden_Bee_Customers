@@ -9,48 +9,54 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../../Constants";
 import { getIconById } from "../../../Utils/RoutingService";
 import { useSelector } from "react-redux";
+import ModalAlertSelectOption from "../../../components/modal/ModalAlertSelectOption";
+import ModalRequired from "../../../components/modal/ModalRequired";
 
 export const MenuPickup = ({ onPress = () => { } }) => {
   const data = useSelector((state) => state.main.menuService);
   const navi = useNavigation();
+  const userLogin = useSelector((state) => state.main.userLogin);
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          onPress(item);
-          navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-            service: item,
-          });
-        }}
-      >
-        <View
-          style={{
-            width: units.width("16%"),
+      <>
+        <TouchableOpacity
+          onPress={() => {
+            onPress(item);
+            navi.navigate(ScreenNames.ADDRESS_SEARCH, {
+              service: item,
+            });
           }}
         >
-          <FastImage
-            style={{ width: 50, height: 50, alignSelf: "center" }}
-            source={
-              getIconById(item.ServiceId)
-                ? getIconById(item.ServiceId)
-                : "https://picsum.photos/200"
-            }
-          />
           <View
             style={{
-              textAlign: "center",
-              marginVertical: 5,
-              width: (SCREEN_WIDTH / 5) * 0.8,
+              width: units.width("16%"),
             }}
           >
-            <Text
-              style={{ textAlign: "center", flexWrap: "wrap", fontSize: 12 }}
+            <FastImage
+              style={{ width: 50, height: 50, alignSelf: "center" }}
+              source={
+                getIconById(item.ServiceId)
+                  ? getIconById(item.ServiceId)
+                  : "https://picsum.photos/200"
+              }
+            />
+            <View
+              style={{
+                textAlign: "center",
+                marginVertical: 5,
+                width: (SCREEN_WIDTH / 5) * 0.8,
+              }}
             >
-              {item.ServiceName}
-            </Text>
+              <Text
+                style={{ textAlign: "center", flexWrap: "wrap", fontSize: 12 }}
+              >
+                {item.ServiceName}
+              </Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </>
     );
   };
 

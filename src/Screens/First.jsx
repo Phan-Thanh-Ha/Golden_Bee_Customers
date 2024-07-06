@@ -1,17 +1,65 @@
 import { Image, SafeAreaView, View, StyleSheet } from "react-native";
 import LogoBee from "../components/LogoBee";
 import { colors } from "../styles/Colors";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { image_banner_1 } from "../assets/icons";
 import { ScreenNames, StorageNames } from "../Constants";
 import { getData, setData } from "../Utils";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { mainAction } from "../Redux/Action";
 import { useDispatch } from "react-redux";
+import Geolocation from '@react-native-community/geolocation';
+
 const First = () => {
   const navi = useNavigation();
   const dispatch = useDispatch();
 
+  const OVG_spCustomer_Location_Update = async (
+    latitude,
+    longitude,
+    CustomerId
+  ) => {
+    try {
+      const pr = {
+        CustomerId: 582,
+        Lat: latitude,
+        Lng: longitude,
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spCustomer_Location_Update",
+        API_key: "netcoAPIkey2020",
+      };
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      if (result) {
+        if (result.Status === "OK") {
+          dispatch({
+            type: mainTypes.LOCATION_TIME,
+            payload: result.Result,
+          });
+        }
+      }
+    } catch (e) { }
+  };
+  const getCurrentLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        if (position.coords) {
+          OVG_spCustomer_Location_Update(
+            position?.coords?.latitude,
+            position?.coords?.longitude
+          );
+        }
+      },
+      (error) => console.log(error),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  };
+  useFocusEffect(
+    useCallback(() => {
+      getCurrentLocation();
+    }, []),
+  );
   useEffect(() => {
     const getRouter = async () => {
       try {

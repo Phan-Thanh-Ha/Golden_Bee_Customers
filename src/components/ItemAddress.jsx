@@ -1,42 +1,42 @@
+import React from "react";
 import {
-  FlatList,
   Image,
   StyleSheet,
   Text,
-  Touchable,
   TouchableOpacity,
   View,
 } from "react-native";
 import { colors } from "../styles/Colors";
-import { ic_location, ic_placeholder } from "../assets";
+import { ic_placeholder } from "../assets";
 import ArrowRight from "./svg/ArrowRight";
-import { TitleSlice } from "../Utils";
 
 const ItemAddress = ({ data = [], onPress = () => { } }) => {
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => onPress(item)} // Cập nhật ở đây
-    >
-      <Image source={ic_placeholder} style={styles.iconLeft} />
-      <View style={styles.containerContent}>
-        <Text style={styles.title}>{item.name}</Text>
-      </View>
-      <View style={styles.iconRight}>
-        <ArrowRight color={colors.MAIN_COLOR_CLIENT} />
-      </View>
-    </TouchableOpacity>
-  );
-
+  // Giới hạn số lượng item hiển thị tối đa là 7
+  const itemsToShow = data.slice(0, 7);
+  // console.log("🚀 ~ file: ItemAddress.jsx:ItemAddress ~ data", data)
   return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-    />
+    <View>
+      {itemsToShow.map((item) => (
+        <TouchableOpacity
+          key={item?.place_id} // Giả sử item có thuộc tính id là duy nhất
+          style={styles.container}
+          onPress={() => onPress(item)}
+        >
+          <Image source={ic_placeholder} style={styles.iconLeft} />
+          <View style={styles.containerContent}>
+            <Text style={styles.title}>{item?.name}</Text>
+          </View>
+          <View style={styles.iconRight}>
+            <ArrowRight color={colors.MAIN_COLOR_CLIENT} />
+          </View>
+        </TouchableOpacity>
+      ))}
+    </View>
   );
 };
+
 export default ItemAddress;
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.WHITE,
@@ -56,10 +56,6 @@ const styles = StyleSheet.create({
     color: colors.BLACK,
     fontSize: 16,
   },
-  subTitle: {
-    color: colors.GRAY,
-    fontSize: 13,
-  },
   iconLeft: {
     marginRight: 10,
     width: 24,
@@ -72,9 +68,3 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -12 }],
   },
 });
-
-//   < FlatList
-// data = { dataLocation }
-// renderItem = {({ item }) => <ItemAddress data={item} onPress={prss} />}
-// keyExtractor = {(item) => item.id}
-// />
