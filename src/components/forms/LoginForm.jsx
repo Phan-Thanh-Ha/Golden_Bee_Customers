@@ -19,7 +19,9 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const [loginMessage, setLoginMessage] = React.useState("");
   const [dataConfirmService, setDataConfirmService] = useState({});
+  // const dataConfirmService = async () => await getData(StorageNames.SERVICE_CONFIRM);
   console.log("dataConfirmService ", dataConfirmService);
   useFocusEffect(
     React.useCallback(() => {
@@ -35,12 +37,14 @@ const LoginForm = () => {
   );
 
   const validationSchema = yup.object().shape({
-    PhoneNumber: yup
+    phoneNumber: yup
       .string()
+      .trim()
       .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ")
       .required("Thông tin bắt buộc"),
-    Password: yup
+    password: yup
       .string()
+      .trim()
       .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
       .required("Thông tin bắt buộc"),
   });
@@ -49,8 +53,8 @@ const LoginForm = () => {
     try {
       setLoading(true);
       const pr = {
-        UserName: values.PhoneNumber,
-        Password: values.Password,
+        UserName: values.phoneNumber,
+        Password: values.password,
         GroupUserId: 10060,
       };
       const params = {
@@ -60,10 +64,11 @@ const LoginForm = () => {
 
       console.log("pr ", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("rsult ", result);
+      console.log("result ", result);
       if (result?.Status === "OK") {
         mainAction.userLogin(result.Result[0], dispatch);
         await setData(StorageNames.USER_PROFILE, result.Result[0]);
+        setLoginMessage("");
         console.log("dataConfirmService ", dataConfirmService);
         if (dataConfirmService) {
           console.log("dataConfirmService -------------------");
@@ -87,6 +92,7 @@ const LoginForm = () => {
         // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  token:", token);
         // OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
       } else {
+        setLoginMessage(result?.Result);
         AlertToaster("error", result?.Result);
         setLoading(false);
       }
@@ -97,7 +103,6 @@ const LoginForm = () => {
     }
   };
 
-  // Upload Token Customer
   const OVG_spCustomer_TokenDevice_Save = async (token, CustomerLogin) => {
     console.log(
       "-----> 💀💀💀💀💀💀💀💀💀 <-----  CustomerLogin:",
@@ -123,7 +128,7 @@ const LoginForm = () => {
 
   return (
     <Formik
-      initialValues={{ PhoneNumber: "", Password: "" }}
+      initialValues={{ phoneNumber: "", password: "" }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
@@ -135,52 +140,63 @@ const LoginForm = () => {
         errors,
         touched,
       }) => (
-        <View>
-          <View style={MainStyle.containerForm}>
-            <LogoBeeBox />
-            <Text style={MainStyle.subTitleForm}>Chào mừng bạn trở lại</Text>
-            <CustomLabel>Số điện thoại:</CustomLabel>
-            <CustomInput
-              placeholder="Nhập số điện thoại"
-              onChangeText={handleChange("PhoneNumber")}
-              onBlur={handleBlur("PhoneNumber")}
-              value={values.PhoneNumber}
-            />
-            <CustomFormError>
-              {touched.PhoneNumber && errors.PhoneNumber}
-            </CustomFormError>
+        <View style={MainStyle.containerForm}>
+          <LogoBeeBox />
+          <Text style={MainStyle.subTitleForm}>Chào mừng bạn trở lại</Text>
+          <CustomLabel>Số điện thoại:</CustomLabel>
+          <CustomInput
+            placeholder="Nhập số điện thoại"
+            onChangeText={handleChange("phoneNumber")}
+            onBlur={handleBlur("phoneNumber")}
+            value={values.phoneNumber}
+            borderColor={
+              touched.phoneNumber && errors.phoneNumber ? "red" : "#E0E0E0"
+            }
+          />
+          <CustomFormError>
+            {touched.phoneNumber && errors.phoneNumber}
+          </CustomFormError>
 
-            <CustomLabel>Mật khẩu:</CustomLabel>
-            <CustomInput
-              placeholder="Nhập mật khẩu"
-              onChangeText={handleChange("Password")}
-              onBlur={handleBlur("Password")}
-              value={values.Password}
-              secureTextEntry
-            />
-            <CustomFormError>
-              {touched.Password && errors.Password}
-            </CustomFormError>
-            <View style={MainStyle.viewSubLinkForm}>
-              <Pressable
-                onPress={() => navi.navigate(ScreenNames.FORGOT_PASSWORD)}
-              >
-                <Text style={MainStyle.subLinkForm}>Quên mật khẩu ?</Text>
-              </Pressable>
-            </View>
-            <Button
-              onPress={handleSubmit}
-              isLoading={loading}
-              disable={loading}
+          <CustomLabel>Mật khẩu:</CustomLabel>
+          <CustomInput
+            placeholder="Nhập mật khẩu"
+            onChangeText={handleChange("password")}
+            onBlur={handleBlur("password")}
+            value={values.password}
+            secureTextEntry
+            borderColor={
+              touched.password && errors.password ? "red" : "#E0E0E0"
+            }
+          />
+          <CustomFormError>
+            {touched.password && errors.password}
+          </CustomFormError>
+          <View style={MainStyle.viewSubLinkForm}>
+            <Pressable
+              onPress={() => navigation.navigate(ScreenNames.FORGOT_PASSWORD)}
             >
-              {"Đăng nhập"}
-            </Button>
-            <View style={MainStyle.regis}>
-              <Text style={MainStyle.regisSub}>Bạn chưa có tài khoản ?</Text>
-              <Pressable onPress={() => navi.navigate(ScreenNames.REGISTER)}>
-                <Text style={MainStyle.regisBtn}>Đăng ký</Text>
-              </Pressable>
-            </View>
+              <Text style={MainStyle.subLinkForm}>Quên mật khẩu ?</Text>
+            </Pressable>
+          </View>
+          {loginMessage ? (
+            <Text
+              style={[MainStyle.textErrFormActive, { textAlign: "center" }]}
+            >
+              {loginMessage}
+            </Text>
+          ) : (
+            ""
+          )}
+          <Button onPress={handleSubmit} isLoading={loading} disable={loading}>
+            Đăng nhập
+          </Button>
+          <View style={MainStyle.regis}>
+            <Text style={MainStyle.regisSub}>Bạn chưa có tài khoản ?</Text>
+            <Pressable
+              onPress={() => navigation.navigate(ScreenNames.REGISTER)}
+            >
+              <Text style={MainStyle.regisBtn}>Đăng ký</Text>
+            </Pressable>
           </View>
         </View>
       )}

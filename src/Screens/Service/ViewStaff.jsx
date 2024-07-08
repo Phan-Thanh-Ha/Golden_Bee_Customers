@@ -6,9 +6,10 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
+  BackHandler,
 } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { CommonActions, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import MapViewDirections from 'react-native-maps-directions';
 import { FormatMoney, GOOGLE_API_KEY, customRound } from '../../Utils';
 import Loading from '../../components/Loading';
@@ -20,6 +21,7 @@ import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../styles/MainStyle'
 import { ScreenNames } from '../../Constants';
 import LayoutBottom from '../../components/layouts/LayoutBottom';
 import ModalConfirm from '../../components/ModalConfirm';
+import { OVG_FBRT_ListentOrderById } from '../../firebaseService/ListenOrder';
 
 const ViewStaffScreen = () => {
   const navi = useNavigation();
@@ -27,15 +29,70 @@ const ViewStaffScreen = () => {
   const { data } = route.params || {};
   const [timeOut, setTimeOut] = useState({ distance: 0, duration: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
+  // const [isModalReloadVisible, setIsModalReloadVisible] = useState(false);
+  const [clientOrder, setClientOrder] = useState({});
+  const [flag, setFlag] = useState(false);
+
+
+  const handleReload = () => {
+    navi.replace(ScreenNames.VIEW_STAFF, { data: data?.OrderId });
+  };
   // Fetch order based on OrderId
-  const clientOrder = useFilteredOrderById(data?.OrderId);
+  // const clientOrder = useFilteredOrderById(data?.OrderId);
+  const getOrder = useCallback(() => {
+    if (data?.OrderId) {
+      const unsubscribe = OVG_FBRT_ListentOrderById(data?.OrderId, setClientOrder);
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [data?.OrderId]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        navi.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+          })
+        );
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
+    }, [navi])
+  )
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = getOrder();
+
+      return () => {
+        if (unsubscribe) {
+          unsubscribe();
+        }
+      };
+    }, [getOrder])
+  );
   console.log('clientOrder', clientOrder);
 
   useEffect(() => {
+    if (clientOrder.StatusOrder === 1) {
+      setFlag(true);
+      // setIsModalReloadVisible(true);
+    }
     if (clientOrder.StatusOrder === 3) {
       setIsModalVisible(true);
     }
+    if (flag && !clientOrder) {
+      navi.replace(ScreenNames.MAIN_NAVIGATOR);
+    }
   }, [clientOrder.StatusOrder]);
+
   // Memoize the MapView component to avoid unnecessary re-renders
   const mapView = useMemo(() => (
     clientOrder?.LatitudeCustomer && clientOrder?.LongitudeCustomer && (
@@ -298,7 +355,6 @@ const ViewStaffScreen = () => {
   if (!clientOrder) {
     return (
       <SafeAreaView style={styles.container}>
-
         <LayoutBottom>
           <BtnDouble
             style={MainStyles.btnConfirm}
@@ -313,31 +369,44 @@ const ViewStaffScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.mapContainer}>
-          {mapView}
-        </View>
-        {renderOrderDetails()}
-        {renderStaffInfo()}
-      </ScrollView>
-      <LayoutBottom>
-        <BtnDouble
-          style={MainStyles.btnConfirm}
-          onConfirm1={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}
-          title1="Về trang chính"
-          btn2Visible={false}
-        />
-      </LayoutBottom>
-      <ModalConfirm
-        title={`Nhân viên ${clientOrder?.StaffName}  đã bắt đầu làm việc, quay về trang chủ !`}
-        isModalVisible={isModalVisible}
-        setModalVisible={setIsModalVisible}
-        onConfirm={() => {
-          setIsModalVisible(false);
-          navi.navigate(ScreenNames.MAIN_NAVIGATOR);
-        }}
-        backdropClose={false}
-      />
+      {
+        clientOrder && (
+          <>
+            <ScrollView>
+              <View style={styles.mapContainer}>
+                {mapView}
+              </View>
+              {renderOrderDetails()}
+              {renderStaffInfo()}
+            </ScrollView>
+            <LayoutBottom>
+              <BtnDouble
+                style={MainStyles.btnConfirm}
+                onConfirm1={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}
+                title1="Về trang chính"
+                btn2Visible={false}
+              />
+            </LayoutBottom>
+            <ModalConfirm
+              title={`Nhân viên ${clientOrder?.StaffName}  đã bắt đầu làm việc, quay về trang chủ !`}
+              isModalVisible={isModalVisible}
+              setModalVisible={setIsModalVisible}
+              onConfirm={() => {
+                setIsModalVisible(false);
+                navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+              }}
+              backdropClose={false}
+            />
+            {/* <ModalConfirm
+              title={`Nhân viên ${clientOrder?.StaffName}  đã nhận đơn dịch vụ và đang chuẩn bị, hãy theo dõi quãng đường để biết vị trí nhân viên!`}
+              isModalVisible={isModalReloadVisible}
+              setModalVisible={setIsModalReloadVisible}
+              onConfirm={handleReload}
+              backdropClose={false}
+            /> */}
+          </>
+        )
+      }
     </SafeAreaView>
   );
 };

@@ -12,6 +12,8 @@ import SplashScreen from "react-native-splash-screen";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { RequestPermission } from "./src/Permission/RequestPermission";
 import { SetupNotification } from "./src/Firebase/SetupNotification";
+import MyOrders from "./src/components/firebaseListen/MyOrders";
+import HealthCheck from "./src/Utils/HealthCheck";
 LogBox.ignoreAllLogs();
 
 const App = () => {
@@ -20,7 +22,7 @@ const App = () => {
   } else {
     setTimeout(() => {
       SplashScreen.hide();
-    }, 2000);
+    }, 1000);
   }
   return (
     <Provider store={Store}>
@@ -36,6 +38,7 @@ const App = () => {
             <RootNavigator />
             <RequestPermission />
             <SetupNotification />
+            <HealthCheck />
           </BottomSheetModalProvider>
           <Toast />
         </MenuProvider>

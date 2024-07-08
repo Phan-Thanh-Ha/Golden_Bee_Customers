@@ -28,15 +28,10 @@ export const OVG_FBRT_ListenMyOrders = (
     const order = snapshot.val();
     const orderId = snapshot.key;
     const orderChanged = { ...order, orderId };
-    // if (orderChanged?.StatusOrder === 1) {
-    //   setOrderChange({ ...order, orderId });
-    //   setModalOrderChangeVisible(true);
-    // }
     if (orderChanged?.StatusOrder === 1) {
       setOrderChange({ ...order, orderId });
     }
     if (orderChanged?.StatusOrder === 1) {
-      // setOrderChange({ ...order, orderId });
       setModalOrderChangeVisible(true);
     }
     setMyOrders((prevOrders) => {
@@ -93,7 +88,7 @@ export const OVG_FBRT_ListenMyOrders = (
     setMyOrders((prevOrders) => {
       const updatedOrders = prevOrders.filter((o) => o.OrderId !== orderId);
 
-      if (order?.StatusOrder === 1 || order?.StatusOrder === 2) {
+      if (order?.StatusOrder === 2 || order?.StatusOrder === 3) {
         setModalOrderRemoveVisible(true);
       }
 
@@ -216,9 +211,7 @@ export const OVG_FBRT_ListentOrderById = (orderId, callback) => {
 
 // Hàm lắng nghe danh sách đơn hàng theo CustomerId
 export const OVG_FBRT_ListentOrderByCustomerId = (customerId, callback) => {
-  const ordersRef = databaseOrder
-    .orderByChild("CustomerId")
-    .equalTo(customerId);
+  const ordersRef = databaseOrder.orderByChild("ClientId").equalTo(customerId);
 
   ordersRef.on("value", (snapshot) => {
     const ordersData = snapshot.val();

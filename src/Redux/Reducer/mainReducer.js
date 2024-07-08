@@ -8,7 +8,7 @@ const initialState = {
   userLogin: {},
   menuService: [],
   SERVICELIST: [],
-  acceptedOrder: [],
+  acceptedOrder: 0,
   myOrdersAccepted: [],
   serviceConfirm: {},
 };

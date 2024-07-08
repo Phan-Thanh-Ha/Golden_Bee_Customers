@@ -100,6 +100,7 @@ const AddressSearch = () => {
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         enableOnAndroid={true}
+        keyboardVerticalOffset={0}
       >
         {/* {isLoading && <Loading />} */}
         <ItemAddress

@@ -13,7 +13,7 @@ const ModalSelectOption = ({ isVisible, onClose, children, onConfirm1, onConfirm
       backdropTransitionOutTiming={0}
       animationIn="slideInUp"
       animationOut="slideOutDown"
-      backdropOpacity={0.5}
+      backdropOpacity={0.1}
       backdropColor="black"
     >
       <View style={styles.modalContent}>

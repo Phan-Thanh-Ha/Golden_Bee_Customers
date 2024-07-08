@@ -5,11 +5,8 @@ import ListenOrderChange from './ListenOrderChange';
 import ListenOrderRemove from './ListenOrderRemove'; // Sửa import này
 import ListenOrderAdd from './ListenOrderAdd'; // Sửa import này
 import { mainAction } from '../../Redux/Action';
-import StorageNames from '../../Constants/StorageNames';
 import { OVG_FBRT_ListenMyOrders } from '../../firebaseService/ListenOrder';
-import { setData } from '../../Utils';
 import { useNavigation } from '@react-navigation/native';
-import { ScreenNames } from '../../Constants';
 
 const MyOrders = () => {
   const dispatch = useDispatch();
@@ -59,12 +56,11 @@ const MyOrders = () => {
 
   useEffect(() => {
     if (myOrders?.length > 0) {
-      mainAction.setMyOrdersAccepted(myOrders, dispatch);
+      mainAction.acceptedOrder(myOrders?.length, dispatch);
+    } else {
+      mainAction.acceptedOrder(0, dispatch);
     }
-    if (myOrders?.length === 0) {
-      mainAction.setMyOrdersAccepted([], dispatch);
-    }
-  }, [myOrders]);
+  }, [myOrders?.length]);
 
   console.log("-----------------------------------------------------")
   console.log("myOrders", myOrders);
@@ -73,27 +69,31 @@ const MyOrders = () => {
   console.log("-----------------------------------------------------")
 
   return (
-    <View>
-      <ListenOrderChange
-        orderChange={orderChange}
-        isModalVisible={modalOrderChangeVisible}
-        setModalVisible={setModalOrderChangeVisible}
-        onConfirm={handleConfirmOrderChange}
-      />
-      <ListenOrderRemove
-        orderRemove={orderRemove}
-        isModalVisible={modalOrderRemoveVisible}
-        setModalVisible={setModalOrderRemoveVisible}
-        onConfirm={handleConfirmOrderRemove}
-        navi={navi}
-      />
-      <ListenOrderAdd
-        orderAdd={orderAdd}
-        isModalVisible={modalOrderAddVisible}
-        setModalVisible={setModalOrderAddVisible}
-        onConfirm={handleConfirmOrderAdd}
-      />
-    </View>
+    userLogin ? (
+      <>
+        <View>
+          <ListenOrderChange
+            orderChange={orderChange}
+            isModalVisible={modalOrderChangeVisible}
+            setModalVisible={setModalOrderChangeVisible}
+            onConfirm={handleConfirmOrderChange}
+          />
+          <ListenOrderRemove
+            orderRemove={orderRemove}
+            isModalVisible={modalOrderRemoveVisible}
+            setModalVisible={setModalOrderRemoveVisible}
+            onConfirm={handleConfirmOrderRemove}
+            navi={navi}
+          />
+          <ListenOrderAdd
+            orderAdd={orderAdd}
+            isModalVisible={modalOrderAddVisible}
+            setModalVisible={setModalOrderAddVisible}
+            onConfirm={handleConfirmOrderAdd}
+          />
+        </View>
+      </>
+    ) : null
   );
 };
 

@@ -14,6 +14,8 @@ import { mainAction } from '../../Redux/Action';
 import { GroupUserId } from '../../Utils';
 import { dataJobDone } from '../data';
 import JobDoneModal from '../../components/JobDoneModal';
+import TabPending from '../../components/TabPending';
+import TabHistory from '../../components/TabHistory';
 
 const History = () => {
   const [selectedTab, setSelectedTab] = useState('Đang làm việc');
@@ -21,16 +23,16 @@ const History = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const modalRef = useRef(null);
   const modalJobDoneRef = useRef(null);
-  useFocusEffect(
-    React.useCallback(() => {
-      if (modalRef.current) {
-        modalRef.current.closeModal();
-      }
-      if (modalJobDoneRef.current) {
-        modalJobDoneRef.current.closeModal();
-      }
-    }, [])
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     if (modalRef.current) {
+  //       modalRef.current.closeModal();
+  //     }
+  //     if (modalJobDoneRef.current) {
+  //       modalJobDoneRef.current.closeModal();
+  //     }
+  //   }, [])
+  // );
   // const [dataJobDone, setDataJobDone] = useState([]);
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -60,36 +62,18 @@ const History = () => {
 
   // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  dataJobDone:", dataJobDone);
   const renderContent = () => {
+    // (selectedTab === 'Đang làm việc') ?  (
+    //   <TabPending />
+    // ) : (
+    //   <TabHistory />
+    // )
     if (selectedTab === 'Đang làm việc') {
       return (
-        myOrdersAccepted?.length > 0 ? (
-          <FlatList
-            style={styles.flatList}
-            data={myOrdersAccepted}
-            renderItem={({ item }) => (
-              <CardNewJob data={item} modalRef={modalRef} />
-            )}
-            keyExtractor={(item) => item?.orderId}
-          />
-        ) : (
-          <CardDefault title={"Bạn chưa đặt dịch vụ nào"} />
-        )
-
+        <TabPending modalRef={modalRef} />
       );
     } else if (selectedTab === 'Dịch vụ đã đặt') {
       return (
-        dataJobDone?.length > 0 ? (
-          <FlatList
-            style={styles.flatList}
-            data={dataJobDone}
-            renderItem={({ item }) => (
-              <CardJobDone data={item} modalRef={modalJobDoneRef} />
-            )}
-            keyExtractor={(item) => item?.BookingServiceCode}
-          />
-        ) : (
-          <CardDefault title={"Chưa có dịch vụ đã đặt"} />
-        )
+        <TabHistory modalRef={modalJobDoneRef} />
       );
     }
   };

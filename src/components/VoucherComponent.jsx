@@ -76,12 +76,18 @@ const VoucherComponent = ({ vouchers, selectedVouchers, setSelectedVouchers, lim
           <View style={MainStyles.flexRowCenter}>
             <View style={{ marginBottom: 10, width: SCREEN_WIDTH * 0.7, backgroundColor: colors.MAIN_BLUE_CLIENT, height: 1 }}></View>
           </View>
-          <FlatList
-            data={vouchers}
-            renderItem={renderVoucher}
-            keyExtractor={(item) => item?.VoucherId.toString()}
-            contentContainerStyle={{ paddingBottom: 20 }}
-          />
+          {
+            vouchers.length > 0 ? (
+              <FlatList
+                data={vouchers}
+                renderItem={renderVoucher}
+                keyExtractor={(item) => item?.VoucherId.toString()}
+                contentContainerStyle={{ paddingBottom: 20 }}
+              />
+            ) : (
+              <Text style={{ textAlign: 'center', marginVertical: 30 }}>Không có voucher cho dịch vụ này</Text>
+            )
+          }
           <View style={styles.modalFooter}>
             <TouchableOpacity style={[styles.footerButton, styles.applyButtonColor]} onPress={handleApplyVouchers}>
               <Text style={styles.footerButtonText}>Áp mã giảm giá</Text>

@@ -23,7 +23,7 @@ const CardNewJob = ({ data, modalRef }) => {
 
   const HandlePayment = () => {
     if (data?.DataService?.Payment === true) {
-      navi.navigate(ScreenNames.PAYMENT_SCREEN, { data: data });
+      navi.navigate(ScreenNames.CASH_SCREEN, { data: data });
     } else {
       navi.navigate(ScreenNames.CASH_SCREEN, { data: data });
     }

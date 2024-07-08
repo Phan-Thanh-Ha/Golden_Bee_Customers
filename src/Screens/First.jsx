@@ -65,12 +65,12 @@ const First = () => {
       try {
         const userLogin = await getData(StorageNames.USER_PROFILE);
         mainAction.userLogin(userLogin, dispatch);
-        if (userLogin === null || userLogin?.Phone === "") {
-          await ensureMenuData();
-          navi.navigate(ScreenNames.ABOUT);
-        } else {
-          await ensureMenuData();
+        await ensureMenuData();
+        // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+        if (userLogin) {
           navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+        } else {
+          navi.navigate(ScreenNames.HOME);
         }
       } catch (error) {
         console.error("Failed to fetch the user from AsyncStorage:", error);

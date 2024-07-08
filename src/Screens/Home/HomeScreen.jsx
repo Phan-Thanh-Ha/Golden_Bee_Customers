@@ -1,32 +1,30 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { colors } from "../../styles/Colors";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import { Card, Text } from "@ui-kitten/components";
-import { GetUserProfile, GroupUserId, units } from "../../Utils";
+import { units } from "../../Utils";
 import { MenuPickup } from "./Menu";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
 import ProductMust from "./Menu/ProductMust";
-import InputSearch from "../../components/InputSeach";
 import { useNavigation } from "@react-navigation/native";
-import { mainAction, mainTypes } from "../../Redux/Action";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ScreenNames } from "../../Constants";
-import Geolocation from "@react-native-community/geolocation";
 import Box from "../../components/Box";
 import MainStyles, {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
 } from "../../styles/MainStyle";
 import Label from "../../components/Label";
-import ArrowRight from "../../components/svg/ArrowRight";
 import MyOrders from "../../components/firebaseListen/MyOrders";
+import LayoutBottom from "../../components/layouts/LayoutBottom";
+import BtnDouble from "../../components/BtnDouble";
 
 const HomeScreen = () => {
-  const dispatch = useDispatch();
   const navi = useNavigation();
-  const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
+  const userLogin = useSelector((state) => state.main.userLogin);
+  const acceptedOrder = useSelector((state) => state.main.acceptedOrder);
 
   // useEffect(() => {
   //   Geolocation.getCurrentPosition(
@@ -43,26 +41,26 @@ const HomeScreen = () => {
   //   );
   // }, []);
 
-  const OVG_spBooking_Service_List = async () => {
-    const userLogin = await GetUserProfile();
-    try {
-      const pr = {
-        CustomerId: userLogin.Id,
-        GroupUserId: GroupUserId,
-      };
-      const params = {
-        Json: JSON.stringify(pr),
-        func: "OVG_spBooking_Service_List",
-      };
+  // const OVG_spBooking_Service_List = async () => {
+  //   const userLogin = await GetUserProfile();
+  //   try {
+  //     const pr = {
+  //       CustomerId: userLogin.Id,
+  //       GroupUserId: GroupUserId,
+  //     };
+  //     const params = {
+  //       Json: JSON.stringify(pr),
+  //       func: "OVG_spBooking_Service_List",
+  //     };
 
-      const result = await mainAction.API_spCallServer(params, dispatch);
-      if (result) {
-        // mainAction.serviceList(result, dispatch);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     const result = await mainAction.API_spCallServer(params, dispatch);
+  //     if (result) {
+  //       // mainAction.serviceList(result, dispatch);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // const OVG_spCustomer_Location_Update = async (
   //   latitude,
@@ -103,12 +101,6 @@ const HomeScreen = () => {
         sizeImage={SCREEN_WIDTH / 5}
         sizeText={20}
       />
-      {/* <InputSearch
-        style={{
-          marginHorizontal: 25,
-          marginVertical: 15,
-        }}
-      /> */}
       <Card
         style={{
           backgroundColor: colors.TEXT_WHITE_CLIENT,
@@ -130,33 +122,33 @@ const HomeScreen = () => {
           }}
         />
       </Card>
-      {
-        myOrdersAccepted?.length > 0 ? (
-          <TouchableOpacity
-            onPress={() => navi.navigate(ScreenNames.HISTORY)}
+      {userLogin && acceptedOrder > 0 ? (
+        <TouchableOpacity
+          onPress={() => navi.navigate(ScreenNames.HISTORY)}
+          style={{
+            backgroundColor: colors.WHITE,
+            borderRadius: 10,
+            width: SCREEN_WIDTH - 20,
+            alignSelf: "center",
+            height: SCREEN_HEIGHT * 0.05,
+            justifyContent: "center",
+            marginTop: 10,
+          }}
+        >
+          <Text
             style={{
-              backgroundColor: colors.WHITE,
-              borderRadius: 10,
-              width: SCREEN_WIDTH - 20,
+              alignItems: "center",
               alignSelf: "center",
-              height: SCREEN_HEIGHT * 0.05,
               justifyContent: "center",
-              marginTop: 10,
+              fontSize: 16,
+              fontWeight: "700",
+              color: colors.MAIN_BLUE_CLIENT,
             }}
           >
-            <Text
-              style={{
-                alignItems: "center",
-                alignSelf: "center",
-                justifyContent: "center",
-                fontSize: 16,
-                fontWeight: "700",
-                color: colors.MAIN_BLUE_CLIENT,
-              }}
-            >🔔   Bạn đang đặt {myOrdersAccepted?.length} dịch vụ   🔔</Text>
-          </TouchableOpacity>
-        ) : null
-      }
+            🔔 Bạn đang đặt {acceptedOrder} dịch vụ 🔔
+          </Text>
+        </TouchableOpacity>
+      ) : null}
       <ScrollView style={{ height: units.height("50%") }}>
         <View style={{ marginTop: 10, borderRadius: 10 }}>
           <CarouselItem />
@@ -174,7 +166,18 @@ const HomeScreen = () => {
         </View>
         <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
-      {/* <MyOrders /> */}
+      {userLogin ? (
+        <MyOrders />
+      ) : (
+        <LayoutBottom>
+          <BtnDouble
+            title1={"Đăng nhập"}
+            title2={"Đăng ký"}
+            onConfirm1={() => navi.navigate(ScreenNames.LOGIN)}
+            onConfirm2={() => navi.navigate(ScreenNames.REGISTER)}
+          />
+        </LayoutBottom>
+      )}
     </View>
   );
 };
