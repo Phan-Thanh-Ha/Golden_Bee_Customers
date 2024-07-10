@@ -111,68 +111,6 @@ export const placeOrder = async (
   }
 };
 // Lắng nghe đơn hàng mới cho nhân viên
-export const listenForNewOrders = (setNewOrders) => {
-  console.log("Listening for new orders with StaffId equal to ''");
-  databaseOrder
-    .orderByChild("StaffId")
-    .equalTo("")
-    .on("value", (snapshot) => {
-      const orders = snapshot.val();
-      console.log("New orders snapshot received:", orders);
-      if (orders) {
-        const newOrders = [];
-        Object.keys(orders).forEach((orderId) => {
-          const order = orders[orderId];
-          newOrders.push(order);
-        });
-        setNewOrders(newOrders); // Cập nhật danh sách đơn hàng mới
-      } else {
-        setNewOrders([]); // Nếu không có đơn hàng nào mới
-      }
-    });
-};
-
-// Lắng nghe các đơn hàng mà nhân viên đã nhận
-export const listenForAcceptedOrders = (staffId, setAcceptedOrders) => {
-  console.log("Listening for accepted orders for staff:", staffId);
-  databaseOrder
-    .orderByChild("StaffId")
-    .equalTo(staffId)
-    .on("value", (snapshot) => {
-      const orders = snapshot.val();
-      console.log("Accepted orders snapshot received:", orders);
-      if (orders) {
-        const acceptedOrders = [];
-        Object.keys(orders).forEach((orderId) => {
-          const order = orders[orderId];
-          acceptedOrders.push(order);
-        });
-        setAcceptedOrders(acceptedOrders); // Cập nhật danh sách đơn hàng đã nhận
-      } else {
-        setAcceptedOrders([]); // Nếu không có đơn hàng nào đã nhận
-      }
-    });
-};
-
-// Nhận đơn hàng
-export const acceptOrder = async (orderId, staffId) => {
-  try {
-    await databaseOrder.child(orderId).update({ StaffId: staffId });
-    console.log("Order accepted successfully:", { orderId, staffId });
-  } catch (error) {
-    console.error("Error accepting order: ", error);
-  }
-};
-
-// Hoàn thành đơn hàng
-export const completeOrder = async (orderId) => {
-  try {
-    await databaseOrder.child(orderId).remove();
-    console.log("Order completed and removed successfully:", orderId);
-  } catch (error) {
-    console.error("Error completing order: ", error);
-  }
-};
 
 // Xóa đơn hàng sau 10 phút
 export const deleteOrderIfNotAccepted = (orderId, createAt) => {

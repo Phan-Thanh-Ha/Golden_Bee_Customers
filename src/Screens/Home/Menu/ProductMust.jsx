@@ -34,9 +34,10 @@ const ProductMust = () => {
     <FlatList
       data={ProductLike}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()} // Chuyển key thành chuỗi
+      keyExtractor={(item) => item.id.toString()}
       horizontal
       contentContainerStyle={styles.listContainer}
+      showsHorizontalScrollIndicator={false} // Tắt thanh cuộn ngang
     />
   );
 };
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     alignItems: "center",
-    elevation: 3, // Độ nổi của card (cho Android)
+    // elevation: 3, // Độ nổi của card (cho Android)
     shadowColor: "#000", // Màu của bóng đổ
     shadowOffset: {
       width: 0,

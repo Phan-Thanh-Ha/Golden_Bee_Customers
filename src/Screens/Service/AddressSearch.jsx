@@ -61,7 +61,6 @@ const AddressSearch = () => {
     debouncedHandleSearch(text);
   };
   const onBackPress = () => {
-    console.log("test", userLogin);
     if (userLogin) {
       navi.dispatch(
         CommonActions.reset({

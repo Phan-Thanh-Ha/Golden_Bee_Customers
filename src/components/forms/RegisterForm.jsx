@@ -1,62 +1,54 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import { Formik } from "formik";
-import * as yup from "yup";
-import CustomInput from "./CustomInput"; // Import CustomInput component
-import CustomLabel from "./CustomLabel";
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import CustomInput from './CustomInput'; // Import CustomInput component
+import CustomLabel from './CustomLabel';
 import { colors } from "../../styles/Colors";
 import CustomFormError from "./CustomFormError";
 import ArrowRight from "../svg/ArrowRight"; // Import CustomLabel component
 import Button from "../buttons/Button";
 import { ScreenNames } from "../../Constants";
 import MainStyle from "../../styles/MainStyle";
-import { mainAction } from "../../Redux/Action";
-import { useDispatch } from "react-redux";
-import { AlertToaster } from "../../Utils/AlertToaster";
+import { mainAction } from '../../Redux/Action';
+import { useDispatch } from 'react-redux';
+import { AlertToaster } from '../../Utils/AlertToaster';
+import { useNavigation } from '@react-navigation/native';
 
-const RegisterForm = ({ setSubmit, navigation }) => {
+
+const RegisterForm = () => {
+  const navi = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const validationSchema = yup.object().shape({
-    fullName: yup.string().required("Thông tin bắt buộc"),
-    idNumber: yup.string().optional(),
-    // idNumber: yup.string().matches(/^[0-9]{12}$/, 'Mã định danh phải là chuỗi 12 ký tự số').required('Thông tin bắt buộc'),
-    phoneNumber: yup
-      .string()
-      .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ")
-      .required("Thông tin bắt buộc"),
-    password: yup
-      .string()
-      .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
-      .required("Thông tin bắt buộc"),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password"), null], "Xác nhận mật khẩu không khớp")
-      .required("Thông tin bắt buộc"),
+    fullName: yup.string().required('Thông tin bắt buộc'),
+    phoneNumber: yup.string().matches(/^[0-9]{10}$/, 'Số điện thoại không hợp lệ').required('Thông tin bắt buộc'),
+    password: yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Thông tin bắt buộc'),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Xác nhận mật khẩu không khớp').required('Thông tin bắt buộc'),
   });
 
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
       const pr = {
-        OfficerName: values.fullName,
-        Phone: values.phoneNumber,
+        CustomerId: 0,
+        CustomerName: values.fullName,
+        CustomerPhone: values.phoneNumber,
         Password: values.password,
-        // Identified: values.idNumber,
-        Identified: "",
-        GroupUserId: 10060,
+        CustomerEmail: "",
+        GroupId: 10060
       };
       const params = {
         Json: JSON.stringify(pr),
-        func: "CRM2_spOfficer_Registration",
+        func: "Shop_spCustomer_Save",
       };
       console.log(params);
 
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log(result);
+      console.log("result", result);
       if (result?.Status === "OK") {
         AlertToaster("success", "Xác thực OTP để hoàn tất đăng ký !");
-        navigation.navigate(ScreenNames.ACTIVE_ACCOUNT, {
+        navi.navigate(ScreenNames.ACTIVE_ACCOUNT, {
           data: values,
         });
         setIsLoading(false);
@@ -69,10 +61,12 @@ const RegisterForm = ({ setSubmit, navigation }) => {
         setIsLoading(false);
       }
       setIsLoading(false);
+
     } catch (error) {
       setIsLoading(false);
     }
   };
+
 
   return (
     <Formik
@@ -85,37 +79,28 @@ const RegisterForm = ({ setSubmit, navigation }) => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        values,
-        errors,
-        touched,
-      }) => (
-        <View style={MainStyle.containerForm}>
+      {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        <View
+          style={MainStyle.containerForm}
+        >
           <CustomLabel>Họ và tên:</CustomLabel>
           <CustomInput
             placeholder="Nhập họ và tên"
-            onChangeText={handleChange("fullName")}
-            onBlur={handleBlur("fullName")}
+            onChangeText={handleChange('fullName')}
+            onBlur={handleBlur('fullName')}
             value={values.fullName}
-            borderColor={
-              touched.fullName && errors.fullName ? "red" : "#E0E0E0"
-            }
+            borderColor={touched.fullName && errors.fullName ? 'red' : '#E0E0E0'}
           />
-          <CustomFormError>
-            {touched.fullName && errors.fullName}
-          </CustomFormError>
+          <CustomFormError>{touched.fullName && errors.fullName}</CustomFormError>
 
           <CustomLabel>Số điện thoại:</CustomLabel>
           <CustomInput
             placeholder="Nhập số điện thoại"
-            onChangeText={handleChange("phoneNumber")}
-            onBlur={handleBlur("phoneNumber")}
+            onChangeText={handleChange('phoneNumber')}
+            onBlur={handleBlur('phoneNumber')}
             value={values.phoneNumber}
             borderColor={
-              touched.phoneNumber && errors.phoneNumber ? "red" : "#E0E0E0"
+              touched.phoneNumber && errors.phoneNumber ? 'red' : '#E0E0E0'
             }
           />
           <CustomFormError>
@@ -125,47 +110,37 @@ const RegisterForm = ({ setSubmit, navigation }) => {
           <CustomLabel>Mật khẩu:</CustomLabel>
           <CustomInput
             placeholder="Nhập mật khẩu"
-            onChangeText={handleChange("password")}
-            onBlur={handleBlur("password")}
+            onChangeText={handleChange('password')}
+            onBlur={handleBlur('password')}
             value={values.password}
-            type="password"
+            type='password'
             showPasswordToggle={true}
-            borderColor={
-              touched.password && errors.password ? "red" : "#E0E0E0"
-            }
+            borderColor={touched.password && errors.password ? 'red' : '#E0E0E0'}
           />
-          <CustomFormError>
-            {touched.password && errors.password}
-          </CustomFormError>
+          <CustomFormError>{touched.password && errors.password}</CustomFormError>
 
           <CustomLabel>Xác nhận mật khẩu:</CustomLabel>
           <CustomInput
             placeholder="Xác nhận mật khẩu"
-            onChangeText={handleChange("confirmPassword")}
-            onBlur={handleBlur("confirmPassword")}
+            onChangeText={handleChange('confirmPassword')}
+            onBlur={handleBlur('confirmPassword')}
             value={values.confirmPassword}
-            type="password"
+            type='password'
             showPasswordToggle={true}
-            borderColor={
-              touched.confirmPassword && errors.confirmPassword
-                ? "red"
-                : "#E0E0E0"
-            }
+            borderColor={touched.confirmPassword && errors.confirmPassword ? 'red' : '#E0E0E0'}
           />
-          <CustomFormError>
-            {touched.confirmPassword && errors.confirmPassword}
-          </CustomFormError>
+          <CustomFormError>{touched.confirmPassword && errors.confirmPassword}</CustomFormError>
           <Button
             isLoading={isLoading}
             disable={isLoading}
             onPress={handleSubmit}
-            icon={() => <ArrowRight color={colors.WHITE} />}
+            icon={() => (<ArrowRight color={colors.WHITE} />)}
           >
             Tiếp tục
           </Button>
           <View style={MainStyle.regis}>
             <Text style={MainStyle.regisSub}>Bạn đã có tài khoản ?</Text>
-            <Pressable onPress={() => navigation.navigate(ScreenNames.LOGIN)}>
+            <Pressable onPress={() => navi.navigate(ScreenNames.LOGIN)}>
               <Text style={MainStyle.regisBtn}>Đăng nhập</Text>
             </Pressable>
           </View>
@@ -177,18 +152,18 @@ const RegisterForm = ({ setSubmit, navigation }) => {
 
 const styles = StyleSheet.create({
   regis: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: "center",
-    margin: 10,
+    margin: 10
   },
   regisSub: {
     fontSize: 15,
-    marginRight: 10,
+    marginRight: 10
   },
   regisBtn: {
     fontSize: 15,
-    color: colors.MAIN_BLUE_CLIENT,
+    color: colors.MAIN_BLUE_CLIENT
   },
   container: {
     margin: 15,
@@ -211,10 +186,11 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   pagination: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginVertical: 10,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
-});
+})
+
 
 export default RegisterForm;

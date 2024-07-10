@@ -20,7 +20,7 @@ const Header = ({ title, onBack = () => { }, isGoBack = true }) => {
   return (
     <View>
       <LinearGradient
-        colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
+        colors={[colors.PRIMARY_LIGHT, colors.WHITE]}
         style={{
           position: "absolute",
           left: 0,

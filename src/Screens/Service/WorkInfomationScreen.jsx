@@ -33,7 +33,7 @@ const WorkInfomationScreen = () => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
+        colors={[colors.PRIMARY_LIGHT, colors.WHITE]}
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
       <Header color={colors.MAIN_BLUE_CLIENT} />

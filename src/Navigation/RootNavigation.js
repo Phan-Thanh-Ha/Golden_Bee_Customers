@@ -37,6 +37,7 @@ import CashScreen from "../Screens/Service/CashScreen";
 import RatingServiceScreen from "../Screens/Service/RatingServiceScreen";
 import ViewLocationStaff from "../Screens/Service/ViewLocationStaff";
 import ViewStaff from "../Screens/Service/ViewStaff";
+import { TrainingFeedback } from "../Screens/Admin/TrainingFeedback";
 
 const MainStack = createStackNavigator();
 
@@ -160,6 +161,10 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.VIEW_LOCATION_STAFF}
           component={ViewLocationStaff}
+        />
+        <MainStack.Screen
+          name={ScreenNames.WEB_VIEW_CHECK}
+          component={TrainingFeedback}
         />
         <MainStack.Screen name={ScreenNames.VIEW_STAFF} component={ViewStaff} />
       </MainStack.Navigator>

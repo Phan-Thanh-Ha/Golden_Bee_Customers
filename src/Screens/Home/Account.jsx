@@ -74,7 +74,7 @@ const Account = () => {
   return (
     <View>
       <LinearGradient
-        colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
+        colors={[colors.PRIMARY_LIGHT, colors.WHITE]}
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
       <Text style={MainStyles.screenTitle}>Thông tin tài khoản</Text>

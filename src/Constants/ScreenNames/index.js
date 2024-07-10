@@ -47,6 +47,7 @@ const ScreenNames = {
   RATING_SERVICE: "RATING_SERVICE",
   VIEW_LOCATION_STAFF: "VIEW_LOCATION_STAFF",
   VIEW_STAFF: "VIEW_STAFF",
+  WEB_VIEW_CHECK: "WEB_VIEW_CHECK",
 };
 
 export default ScreenNames;

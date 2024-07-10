@@ -19,54 +19,9 @@ import TabHistory from '../../components/TabHistory';
 
 const History = () => {
   const [selectedTab, setSelectedTab] = useState('Đang làm việc');
-  const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
-  const userLogin = useSelector((state) => state.main.userLogin);
   const modalRef = useRef(null);
   const modalJobDoneRef = useRef(null);
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     if (modalRef.current) {
-  //       modalRef.current.closeModal();
-  //     }
-  //     if (modalJobDoneRef.current) {
-  //       modalJobDoneRef.current.closeModal();
-  //     }
-  //   }, [])
-  // );
-  // const [dataJobDone, setDataJobDone] = useState([]);
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     OVG_spOfficer_Booking_Done();
-  //   }, [])
-  // );
-  // const OVG_spOfficer_Booking_Done = async () => {
-  //   try {
-  //     const pr = {
-  //       CustomerId: userLogin.Id,
-  //       GroupUserId: GroupUserId,
-  //     };
-  //     const params = {
-  //       Json: JSON.stringify(pr),
-  //       func: "OVG_spOfficer_Booking_Done",
-  //     };
-
-  //     const result = await mainAction.API_spCallServer(params, dispatch);
-  //     if (result) {
-  //       console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
-  //       setDataJobDone(result);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  dataJobDone:", dataJobDone);
   const renderContent = () => {
-    // (selectedTab === 'Đang làm việc') ?  (
-    //   <TabPending />
-    // ) : (
-    //   <TabHistory />
-    // )
     if (selectedTab === 'Đang làm việc') {
       return (
         <TabPending modalRef={modalRef} />
@@ -80,7 +35,7 @@ const History = () => {
 
   return (
     <LayoutGradientBlue>
-      <LogoBeeBox color={colors.WHITE} sizeImage={70} sizeText={20} />
+      <LogoBeeBox color={colors.MAIN_COLOR_CLIENT} sizeImage={70} sizeText={20} />
       <View style={{ height: SCREEN_HEIGHT * 0.73, width: SCREEN_WIDTH }}>
         <View style={styles.container}>
           <View style={styles.tabHeader}>
@@ -150,7 +105,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   tabButtonText: {
-    color: colors.WHITE,
+    color: colors.MAIN_COLOR_CLIENT,
     fontSize: 18,
   },
   selectedTabButtonText: {

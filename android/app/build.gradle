@@ -140,7 +140,7 @@ android {
         applicationId "com.golden_bee_customers"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
+        versionCode 12
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         multiDexEnabled true
@@ -247,7 +247,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             ndk {
-                debugSymbolLevel 'FULL'
+                debugSymbolLevel 'SYMBOL_TABLE'
             }
         }
     }

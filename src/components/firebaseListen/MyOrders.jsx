@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import ListenOrderChange from './ListenOrderChange';
-import ListenOrderRemove from './ListenOrderRemove'; // Sửa import này
-import ListenOrderAdd from './ListenOrderAdd'; // Sửa import này
-import { mainAction } from '../../Redux/Action';
-import { OVG_FBRT_ListenMyOrders } from '../../firebaseService/ListenOrder';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import ListenOrderChange from "./ListenOrderChange";
+import ListenOrderRemove from "./ListenOrderRemove"; // Sửa import này
+import ListenOrderAdd from "./ListenOrderAdd"; // Sửa import này
+import { mainAction } from "../../Redux/Action";
+import { OVG_FBRT_ListenMyOrders } from "../../firebaseService/ListenOrder";
+import { useNavigation } from "@react-navigation/native";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
@@ -61,40 +61,38 @@ const MyOrders = () => {
       mainAction.acceptedOrder(0, dispatch);
     }
   }, [myOrders?.length]);
-
-  console.log("-----------------------------------------------------")
+  console.log("myOrders", myOrders);
+  console.log("-----------------------------------------------------");
   console.log("myOrders", myOrders);
   console.log("check order remove", orderRemove);
   console.log("check order remove on ", modalOrderRemoveVisible);
-  console.log("-----------------------------------------------------")
+  console.log("-----------------------------------------------------");
 
-  return (
-    userLogin ? (
-      <>
-        <View>
-          <ListenOrderChange
-            orderChange={orderChange}
-            isModalVisible={modalOrderChangeVisible}
-            setModalVisible={setModalOrderChangeVisible}
-            onConfirm={handleConfirmOrderChange}
-          />
-          <ListenOrderRemove
-            orderRemove={orderRemove}
-            isModalVisible={modalOrderRemoveVisible}
-            setModalVisible={setModalOrderRemoveVisible}
-            onConfirm={handleConfirmOrderRemove}
-            navi={navi}
-          />
-          <ListenOrderAdd
-            orderAdd={orderAdd}
-            isModalVisible={modalOrderAddVisible}
-            setModalVisible={setModalOrderAddVisible}
-            onConfirm={handleConfirmOrderAdd}
-          />
-        </View>
-      </>
-    ) : null
-  );
+  return userLogin ? (
+    <>
+      <View>
+        <ListenOrderChange
+          orderChange={orderChange}
+          isModalVisible={modalOrderChangeVisible}
+          setModalVisible={setModalOrderChangeVisible}
+          onConfirm={handleConfirmOrderChange}
+        />
+        <ListenOrderRemove
+          orderRemove={orderRemove}
+          isModalVisible={modalOrderRemoveVisible}
+          setModalVisible={setModalOrderRemoveVisible}
+          onConfirm={handleConfirmOrderRemove}
+          navi={navi}
+        />
+        <ListenOrderAdd
+          orderAdd={orderAdd}
+          isModalVisible={modalOrderAddVisible}
+          setModalVisible={setModalOrderAddVisible}
+          onConfirm={handleConfirmOrderAdd}
+        />
+      </View>
+    </>
+  ) : null;
 };
 
 export default MyOrders;

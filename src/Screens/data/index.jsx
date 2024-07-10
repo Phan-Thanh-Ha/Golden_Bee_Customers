@@ -1653,6 +1653,7 @@ export const dataJobDone = [
     Address: "100 Lý Chính Thắng, phải 8, Quận 3, Hồ Chí Minh, Việt Nam",
     LatitudeCustomer: 10.7895826,
     LongitudeCustomer: 106.6854736,
+
     Service: {
       ServiceId: 7,
       ServiceCode: "DV-05062405025764",

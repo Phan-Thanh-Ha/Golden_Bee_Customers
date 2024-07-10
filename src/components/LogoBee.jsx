@@ -1,4 +1,5 @@
 import { logo_bee_blue } from "../assets";
+import { colors } from "../styles/Colors";
 import MainStyle from "../styles/MainStyle";
 import { Image, Text, View } from "react-native";
 
@@ -23,7 +24,7 @@ const LogoBee = () => {
         <Text
           style={{
             textAlign: "center",
-            color: "white",
+            color: colors.MAIN_COLOR_CLIENT,
             fontWeight: "bold",
             fontSize: 28,
           }}

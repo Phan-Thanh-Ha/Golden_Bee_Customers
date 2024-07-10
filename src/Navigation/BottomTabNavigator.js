@@ -17,6 +17,7 @@ import { colors } from "../styles/Colors";
 import { Icon } from "@ui-kitten/components";
 import { ScreenNames } from "../Constants";
 import { screen } from "../Utils";
+import { SCREEN_WIDTH } from "../styles/MainStyle";
 
 export const BottomTabNavigator = () => {
   const _renderIcon = (routeName, selectedTab) => {
@@ -97,7 +98,10 @@ export const BottomTabNavigator = () => {
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <Animated.View style={styles.btnCircleUp}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigate(ScreenNames.WEB_VIEW_CHECK)}
+          >
             <Image source={logo_bee_blue} style={styles.circleIcon} />
           </TouchableOpacity>
         </Animated.View>
@@ -149,7 +153,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  bottomBar: {},
   btnCircleUp: {
     width: 60,
     height: 60,

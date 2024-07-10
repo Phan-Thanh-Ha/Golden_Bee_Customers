@@ -222,3 +222,60 @@ export const OVG_FBRT_ListentOrderByCustomerId = (customerId, callback) => {
   // Trả về hàm để hủy bỏ lắng nghe khi component unmount
   return () => ordersRef.off();
 };
+
+export const OVG_FBRT_PlaceOrder = async (
+  clientId,
+  orderId,
+  dataBooking,
+  latitudeCustomer,
+  longitudeCustomer,
+  bookingCode
+) => {
+  const newOrder = {
+    ClientId: clientId,
+    OrderId: orderId,
+    DataService: dataBooking,
+    StaffId: "",
+    StaffName: "",
+    StaffPhone: "",
+    LatitudeCustomer: latitudeCustomer,
+    LongitudeCustomer: longitudeCustomer,
+    CreateAt: Date.now(),
+    BookingCode: bookingCode,
+    StatusOrder: 0,
+  };
+  try {
+    await databaseOrder.child(orderId).set(newOrder);
+    console.log("Order placed successfully:", newOrder);
+    return newOrder;
+  } catch (error) {
+    console.error("Error placing order: ", error);
+    return null;
+  }
+};
+
+// Xóa đơn hàng sau 10 phút
+export const deleteOrderIfNotAccepted = (orderId, createAt) => {
+  const currentTime = Date.now();
+  if (currentTime - createAt > 10 * 60 * 1000) {
+    databaseOrder.child(orderId).remove();
+    console.log("Order deleted due to timeout:", orderId);
+  }
+};
+
+// Kiểm tra và xóa đơn hàng chưa nhận sau 10 phút
+export const checkAndDeleteExpiredOrders = () => {
+  console.log("Checking and deleting expired orders");
+  databaseOrder.on("value", (snapshot) => {
+    const orders = snapshot.val();
+    console.log("Orders snapshot received for deletion check:", orders);
+    if (orders) {
+      Object.keys(orders).forEach((orderId) => {
+        const order = orders[orderId];
+        if (order.StaffId === "") {
+          deleteOrderIfNotAccepted(orderId, order.createAt);
+        }
+      });
+    }
+  });
+};

@@ -1,19 +1,19 @@
-import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
-import { Card } from '@ui-kitten/components'; // import Card from UI Kitten
-import { Dimensions } from 'react-native';
-import { ic_coin, ic_icon, ic_location } from '../assets';
-import MainStyles from '../styles/MainStyle';
-import { colors } from '../styles/Colors';
-import Person from './svg/Person';
-import Label from './Label';
-import HourGlass from './svg/HourGlass';
-import GroupPerson from './svg/GroupPerson';
-import { FormatMoney } from '../Utils';
-import Box from './Box';
-import Money from './svg/Money';
+import React from "react";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { Card } from "@ui-kitten/components"; // import Card from UI Kitten
+import { Dimensions } from "react-native";
+import { ic_location } from "../assets";
+import MainStyles from "../styles/MainStyle";
+import { colors } from "../styles/Colors";
+import Person from "./svg/Person";
+import Label from "./Label";
+import HourGlass from "./svg/HourGlass";
+import GroupPerson from "./svg/GroupPerson";
+import { FormatMoney } from "../Utils";
+import Box from "./Box";
+import Money from "./svg/Money";
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const BookingCard = ({ data, onPress }) => {
   const renderOtherServices = () => {
@@ -32,10 +32,7 @@ const BookingCard = ({ data, onPress }) => {
         </View>
         <Label>Địa chỉ :</Label>
         <View style={[styles.cardHeader, MainStyles.flexRowFlexStart]}>
-          <Image
-            source={ic_location}
-            style={styles.icon}
-          />
+          <Image source={ic_location} style={styles.icon} />
           <Text style={styles.address}>{data.Address}</Text>
         </View>
         <View style={styles.infoContainer}>
@@ -52,7 +49,9 @@ const BookingCard = ({ data, onPress }) => {
           <View style={styles.infoItem}>
             {/* <Image source={ic_coin} style={styles.icon} /> */}
             <Money color={colors.MAIN_COLOR_CLIENT} />
-            <Text style={styles.infoText}>{FormatMoney(data.TotalPrice)} vnđ</Text>
+            <Text style={styles.infoText}>
+              {FormatMoney(data.TotalPrice)} vnđ
+            </Text>
           </View>
           <View style={styles.infoItem}>
             <GroupPerson color={colors.MAIN_COLOR_CLIENT} />
@@ -85,8 +84,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   serviceName: {
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     color: colors.MAIN_BLUE_CLIENT,
     fontSize: SCREEN_WIDTH * 0.05,
   },
@@ -94,26 +93,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 5,
     color: colors.MAIN_BLUE_CLIENT,
-    fontSize: 16
+    fontSize: 16,
   },
   infoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 5,
   },
   infoItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   infoText: {
     marginLeft: 5,
     color: colors.MAIN_BLUE_CLIENT,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   note: {
     color: colors.MAIN_BLUE_CLIENT,
-    fontSize: 14
+    fontSize: 14,
   },
   icon: {
     width: SCREEN_WIDTH * 0.07,

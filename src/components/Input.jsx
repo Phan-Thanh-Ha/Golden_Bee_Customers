@@ -18,14 +18,14 @@ const LeghtIcon = (props) => (
 export const InputComponent = ({
   placeholder,
   value,
-  onChangeText = () => {},
+  onChangeText = () => { },
   onLeftIconPress,
   onRightIconPress,
   style = {},
   iconLeft,
   iconRight,
   disabled,
-  onFinishText = () => {},
+  onFinishText = () => { },
   inputStatus = "basic",
   sizeInput = "large",
   colorText = colors.BLACK,
@@ -33,31 +33,29 @@ export const InputComponent = ({
   txtWarning = "",
 }) => {
   return (
-    <KeyboardAwareScrollView onPress={Keyboard.dismiss}>
-      <Input
-        style={[styles.container, style]} // Style của input
-        placeholder={placeholder} // Placeholder của input
-        value={value} // Giá trị của input
-        onChangeText={onChangeText} // Sử dụng hàm handleTextChange thay vì onChangeText
-        editable={!disabled} // Không cho phép chỉnh sửa input
-        size={sizeInput} // Kích thước của input
-        status={inputStatus} // Trạng thái của input
-        caption={txtWarning !== "" ? inputStatus === "danger" : txtWarning} // Cảnh báo nếu inputStatus là danger
-        onEndEditing={(e) => onFinishText(e.nativeEvent.text)}
-        accessoryLeft={(props) => (
-          <LeghtIcon {...props} onPress={onLeftIconPress} iconName={iconLeft} />
-        )}
-        textStyle={colorText} // Màu chữ
-        autoFocus={KeyboardOpen} // Mở bàn phím khi mở màn hình
-        accessoryRight={(props) => (
-          <RightIcon
-            {...props}
-            onPress={onRightIconPress}
-            iconName={iconRight}
-          />
-        )}
-      />
-    </KeyboardAwareScrollView>
+    <Input
+      style={[styles.container, style]} // Style của input
+      placeholder={placeholder} // Placeholder của input
+      value={value} // Giá trị của input
+      onChangeText={onChangeText} // Sử dụng hàm handleTextChange thay vì onChangeText
+      editable={!disabled} // Không cho phép chỉnh sửa input
+      size={sizeInput} // Kích thước của input
+      status={inputStatus} // Trạng thái của input
+      caption={txtWarning !== "" ? inputStatus === "danger" : txtWarning} // Cảnh báo nếu inputStatus là danger
+      onEndEditing={(e) => onFinishText(e.nativeEvent.text)}
+      accessoryLeft={(props) => (
+        <LeghtIcon {...props} onPress={onLeftIconPress} iconName={iconLeft} />
+      )}
+      textStyle={colorText} // Màu chữ
+      autoFocus={KeyboardOpen} // Mở bàn phím khi mở màn hình
+      accessoryRight={(props) => (
+        <RightIcon
+          {...props}
+          onPress={onRightIconPress}
+          iconName={iconRight}
+        />
+      )}
+    />
   );
 };
 

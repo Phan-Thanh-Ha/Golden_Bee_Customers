@@ -7,7 +7,7 @@ const LayoutGradientBlue = ({ children }) => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={[colors.MAIN_COLOR_CLIENT, colors.WHITE]}
+        colors={[colors.PRIMARY_LIGHT, colors.WHITE]}
         style={styles.gradient}
       />
       {children}

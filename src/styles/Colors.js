@@ -1,5 +1,18 @@
 export const gradientBlue = ["#4c669f", "#3b5998", "#192f6a"];
 
+export const themeColors = {
+  background: "#dff0d8", // Màu nền chính
+  primary: "#00796B", // Màu chính
+  secondary: "#009688", // Màu phụ
+  accent: "#FFC107", // Màu nhấn
+  lightBackground: "#FFFFFF", // Màu nền sáng
+  darkBackground: "#004D40", // Màu nền tối
+  primaryText: "#212121", // Màu chữ chính
+  secondaryText: "#757575", // Màu chữ phụ
+  borderColor: "#B2DFDB", // Màu viền
+  header: "#2ecc71", // Màu thanh header
+};
+
 export const colors = {
   SUCCESS: "#227c45",
   CANCEL: "#8092FF",

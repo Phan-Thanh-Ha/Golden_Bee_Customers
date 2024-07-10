@@ -31,10 +31,10 @@ const TabPending = ({ modalRef }) => {
     }
   }, [userLogin?.Id, orders]);
 
+  console.log(orders);
   useFocusEffect(
     useCallback(() => {
       const unsubscribe = updateOrders();
-
       return () => {
         if (unsubscribe) {
           unsubscribe();
@@ -52,7 +52,7 @@ const TabPending = ({ modalRef }) => {
         renderItem={({ item }) => (
           <CardNewJob data={item} modalRef={modalRef} />
         )}
-        keyExtractor={(item) => item?.orderId}
+        keyExtractor={(item) => item?.BookingCode}
       />
     ) : (
       <CardDefault title={"Bạn chưa đặt dịch vụ nào"} />
