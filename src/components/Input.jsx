@@ -3,7 +3,6 @@ import { Input, Icon } from "@ui-kitten/components";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { StyleSheet, Keyboard } from "react-native";
 import { colors } from "../styles/Colors";
-import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 
 const RightIcon = (props) => (
   <TouchableOpacity onPress={props.onPress}>
@@ -39,10 +38,8 @@ export const InputComponent = ({
       value={value} // Giá trị của input
       onChangeText={onChangeText} // Sử dụng hàm handleTextChange thay vì onChangeText
       editable={!disabled} // Không cho phép chỉnh sửa input
-      size={sizeInput} // Kích thước của input
       status={inputStatus} // Trạng thái của input
       caption={txtWarning !== "" ? inputStatus === "danger" : txtWarning} // Cảnh báo nếu inputStatus là danger
-      onEndEditing={(e) => onFinishText(e.nativeEvent.text)}
       accessoryLeft={(props) => (
         <LeghtIcon {...props} onPress={onLeftIconPress} iconName={iconLeft} />
       )}
@@ -60,5 +57,8 @@ export const InputComponent = ({
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: colors.WHITE,
+    margin: 10
+  },
 });

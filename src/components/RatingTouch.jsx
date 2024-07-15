@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { colors } from "../styles/Colors";
 
-const RatingTouch = ({ rating = 5, fontSize = [20, 20], color = [colors.WHITE, colors.MAIN_BLUE_CLIENT], onRate }) => {
+const RatingTouch = ({ rating = 5, fontSize = [20, 20], color = [colors.WHITE, colors.MAIN_COLOR_CLIENT], onRate }) => {
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {

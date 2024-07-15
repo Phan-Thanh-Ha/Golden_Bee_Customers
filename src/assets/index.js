@@ -1,23 +1,23 @@
 export const image_banner_1 = require("./images/cleaner.jpg");
 export const logo_bee_blue = require("./images/logo-golden.png");
 // banner about authentication
-export const image_banner_2 = require("../assets/images/tmp-client-1.png");
-export const image_banner_3 = require("../assets/images/tmp-client-2.png");
-export const image_banner_4 = require("../assets/images/tmp-client-3.png");
+export const image_banner_2 = require("../assets/welcome/Customer1.png");
+export const image_banner_3 = require("../assets/welcome/Customer2.png");
+export const image_banner_4 = require("../assets/welcome/Customer3.png");
 
 export const image_banner_5 = require("../assets/images/tmp-3.png");
 
 // ========================= Icons =========================
-export const ic_cleaning = require("../assets/icons/ic_cleaning.png");
-export const ic_house_cleaning = require("../assets/icons/ic_house_cleaning.png");
-export const ic_interior = require("../assets/icons/ic_interior.png");
-export const ic_installing = require("../assets/icons/ic_installing.png");
-export const ic_clean_the_office = require("../assets/icons/ic_clean_the_office.png");
-export const ic_the_machine = require("../assets/icons/ic_the_machine.png");
-export const ic_air_conditioner = require("../assets/icons/ic_air_conditioner.png");
-export const ic_repair_electricity = require("../assets/icons/ic_repair_electricity.png");
-export const ic_repair_the_air_conditioning = require("../assets/icons/ic_repair_the_air_conditioning.png");
-export const ic_repair_the_camera = require("../assets/icons/ic_repair_the_camera.png");
+export const ic_cleaning = require("../assets/logo/1.png");
+export const ic_house_cleaning = require("../assets/logo/2.png");
+export const ic_interior = require("../assets/logo/8.png");
+export const ic_installing = require("../assets/logo/7.png");
+export const ic_clean_the_office = require("../assets/logo/3.png");
+export const ic_the_machine = require("../assets/logo/4.png");
+export const ic_air_conditioner = require("../assets/logo/9.png");
+export const ic_repair_electricity = require("../assets/logo/6.png");
+export const ic_repair_the_air_conditioning = require("../assets/logo/5.png");
+export const ic_repair_the_camera = require("../assets/logo/10.png");
 export const ic_person = require("../assets/icons/person.png");
 export const ic_living_room = require("../assets/icons/living-room.png");
 export const ic_glass = require("../assets/icons/tmp-client-1.png");

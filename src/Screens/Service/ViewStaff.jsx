@@ -30,6 +30,7 @@ const ViewStaffScreen = () => {
   const [timeOut, setTimeOut] = useState({ distance: 0, duration: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
   // const [isModalReloadVisible, setIsModalReloadVisible] = useState(false);
+  console.log("data-------------", data);
   const [clientOrder, setClientOrder] = useState({});
   const [flag, setFlag] = useState(false);
 

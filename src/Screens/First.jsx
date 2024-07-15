@@ -20,9 +20,17 @@ const First = () => {
         await ensureMenuData();
         // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
         if (userLogin) {
-          navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+          navi.reset({
+            index: 0,
+            routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+          })
+          // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
         } else {
-          navi.navigate(ScreenNames.HOME);
+          navi.reset({
+            index: 0,
+            routes: [{ name: ScreenNames.HOME }],
+          })
+          // navi.navigate(ScreenNames.HOME);
         }
       } catch (error) {
         console.error("Failed to fetch the user from AsyncStorage:", error);

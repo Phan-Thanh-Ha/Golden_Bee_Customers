@@ -7,80 +7,84 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../../Constants";
 import { getIconById } from "../../../Utils/RoutingService";
 import { SCREEN_WIDTH } from "../../../styles/MainStyle";
-import { themeColors } from "../../../styles/Colors";
+import { colors, themeColors } from "../../../styles/Colors";
 
-const ITEMS_PER_PAGE = 6; // 3 items per row, 2 rows
+const ITEMS_PER_ROW = 2;
+const ITEM_WIDTH = SCREEN_WIDTH * 0.3 + 10;
+const PROGRESS_BAR_WIDTH = SCREEN_WIDTH * 0.08;
 
 export const MenuScroll = () => {
   const data = useSelector((state) => state.main.menuService);
   const navi = useNavigation();
-  const [currentPage, setCurrentPage] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const scrollViewRef = useRef(null);
 
-  const numPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const renderItems = () => {
+    const rows = [];
+    for (let i = 0; i < data.length; i += ITEMS_PER_ROW) {
+      const rowItems = data.slice(i, i + ITEMS_PER_ROW).map((item) => (
+        <TouchableOpacity
+          key={item?.ServiceCode}
+          onPress={() => {
+            navi.navigate(ScreenNames.ADDRESS_SEARCH, {
+              service: item,
+            });
+          }}
+          style={styles.itemContainer}
+        >
+          <FastImage
+            style={styles.image}
+            source={
+              getIconById(item.ServiceId)
+                ? getIconById(item.ServiceId)
+                : { uri: "https://picsum.photos/200" }
+            }
+          />
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>{item.ServiceName}</Text>
+          </View>
+        </TouchableOpacity>
+      ));
 
-  const handleScroll = (event) => {
-    const pageIndex = Math.floor(
-      event.nativeEvent.contentOffset.x / SCREEN_WIDTH
-    );
-    setCurrentPage(pageIndex);
+      rows.push(
+        <View key={i} style={styles.row}>
+          {rowItems}
+        </View>
+      );
+    }
+    return rows;
   };
 
-  const getPagedData = (pageIndex) => {
-    const startIndex = pageIndex * ITEMS_PER_PAGE;
-    return data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const handleScroll = (event) => {
+    const contentOffset = event.nativeEvent.contentOffset.x;
+    const contentWidth = event.nativeEvent.contentSize.width;
+    const layoutWidth = event.nativeEvent.layoutMeasurement.width;
+
+    const scrollPercentage = (contentOffset / (contentWidth - layoutWidth)) * 100;
+    setScrollPosition(scrollPercentage);
   };
 
   return (
     <View style={styles.container}>
       <ScrollView
+        ref={scrollViewRef}
         horizontal
-        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scrollViewContent}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        showsHorizontalScrollIndicator={false}
-        ref={scrollViewRef}
       >
-        {Array.from({ length: numPages }).map((_, pageIndex) => (
-          <View key={pageIndex} style={styles.page}>
-            {getPagedData(pageIndex).map((item) => (
-              <TouchableOpacity
-                key={item.id}
-                onPress={() => {
-                  navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-                    service: item,
-                  });
-                }}
-                style={styles.itemContainer}
-              >
-                <FastImage
-                  style={styles.image}
-                  source={
-                    getIconById(item.ServiceId)
-                      ? getIconById(item.ServiceId)
-                      : { uri: "https://picsum.photos/200" }
-                  }
-                />
-                <View style={styles.textContainer}>
-                  <Text style={styles.text}>{item.ServiceName}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        ))}
+        {renderItems()}
       </ScrollView>
-      <View style={styles.pagination}>
-        {Array.from({ length: numPages }).map((_, index) => (
-          <Text
-            key={index}
+      <View style={styles.progressBarContainer}>
+        <View style={styles.progressBar}>
+          <View
             style={[
-              styles.paginationDot,
-              { opacity: currentPage === index ? 1 : 0.5 },
+              styles.progressDot,
+              { left: `${scrollPosition}%` }
             ]}
-          >
-            ●
-          </Text>
-        ))}
+          />
+        </View>
       </View>
     </View>
   );
@@ -88,6 +92,7 @@ export const MenuScroll = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: themeColors.lightBackground,
     borderRadius: 10,
     margin: 10,
@@ -100,20 +105,21 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  page: {
+  scrollViewContent: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    width: SCREEN_WIDTH,
+  },
+  row: {
+    flexDirection: "column",
   },
   itemContainer: {
     width: SCREEN_WIDTH * 0.3,
     alignItems: "center",
-    marginTop: 15,
+    marginVertical: 10,
+    marginHorizontal: 5,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
   },
   textContainer: {
     textAlign: "center",
@@ -124,15 +130,24 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     fontSize: 12,
   },
-  pagination: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
+  progressBarContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
   },
-  paginationDot: {
-    fontSize: 16,
-    marginHorizontal: 5,
-    color: themeColors.primary,
+  progressBar: {
+    width: PROGRESS_BAR_WIDTH,
+    height: 4,
+    backgroundColor: colors.GRAY,
+    borderRadius: 2,
+  },
+  progressDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 5,
+    backgroundColor: themeColors.primary,
+    position: 'absolute',
+    top: -1,
+    marginLeft: -5,
   },
 });

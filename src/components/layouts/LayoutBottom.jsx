@@ -13,9 +13,9 @@ const LayoutBottom = ({ children }) => {
 const styles = StyleSheet.create({
   footer: {
     position: 'absolute',
-    bottom: 10,
-    left: 10,
-    right: 10,
+    bottom: 5,
+    left: 5,
+    right: 5,
     justifyContent: 'center',
   }
 });

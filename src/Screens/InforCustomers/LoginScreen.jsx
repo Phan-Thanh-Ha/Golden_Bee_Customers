@@ -4,8 +4,9 @@ import LoginForm from "../../components/forms/LoginForm";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import MainStyle from "../../styles/MainStyle";
 import Box from "../../components/Box";
-import { View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import MainStyles from "../../styles/MainStyle";
+import { themeColors } from "../../styles/Colors";
 
 const LoginScreen = () => {
   return (
@@ -20,6 +21,7 @@ const LoginScreen = () => {
           extraScrollHeight={200}
           enableOnAndroid={true}
         >
+          <Text style={styles.title}>Đăng nhập</Text>
           <LoginForm />
         </KeyboardAwareScrollView>
       </LayoutGradientBlue>
@@ -27,5 +29,12 @@ const LoginScreen = () => {
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: themeColors.primary,
+    textAlign: 'center',
+  },
+})
 export default LoginScreen;

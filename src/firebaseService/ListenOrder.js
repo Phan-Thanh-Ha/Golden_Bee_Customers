@@ -49,36 +49,6 @@ export const OVG_FBRT_ListenMyOrders = (
     });
   };
 
-  const handleOrderAdd = (snapshot) => {
-    if (!initialLoadComplete) return;
-
-    const order = snapshot.val();
-    const orderId = snapshot.key;
-
-    setMyOrders((prevOrders) => {
-      const existingOrderIndex = prevOrders.findIndex(
-        (o) => o.OrderId === orderId
-      );
-      if (existingOrderIndex > -1) {
-        return prevOrders;
-      } else {
-        const updatedOrders = [...prevOrders, { ...order, OrderId: orderId }];
-        const orderAdded = { ...order, orderId };
-        console.log("Order added:", orderAdded);
-
-        if (
-          orderAdded?.StatusOrder === 0 ||
-          orderAdded?.StatusOrder === 1 ||
-          !orderAdded?.StatusOrder
-        ) {
-          // setModalOrderAddVisible(true);
-        }
-        setOrderAdd(orderAdded);
-        return updatedOrders;
-      }
-    });
-  };
-
   const handleOrderRemove = (snapshot) => {
     const order = snapshot.val();
     const orderId = snapshot.key;
@@ -88,7 +58,11 @@ export const OVG_FBRT_ListenMyOrders = (
     setMyOrders((prevOrders) => {
       const updatedOrders = prevOrders.filter((o) => o.OrderId !== orderId);
 
-      if (order?.StatusOrder === 2 || order?.StatusOrder === 3) {
+      if (
+        order?.StatusOrder === 1 ||
+        order?.StatusOrder === 2 ||
+        order?.StatusOrder === 3
+      ) {
         setModalOrderRemoveVisible(true);
       }
 
@@ -124,13 +98,11 @@ export const OVG_FBRT_ListenMyOrders = (
       initialLoadComplete = true;
 
       myOrdersRef.on("child_changed", handleOrderChange);
-      myOrdersRef.on("child_added", handleOrderAdd);
       myOrdersRef.on("child_removed", handleOrderRemove);
     });
 
     return () => {
       myOrdersRef.off("child_changed", handleOrderChange);
-      myOrdersRef.off("child_added", handleOrderAdd);
       myOrdersRef.off("child_removed", handleOrderRemove);
     };
   } catch (error) {
@@ -211,29 +183,43 @@ export const OVG_FBRT_ListentOrderById = (orderId, callback) => {
 
 // Hàm lắng nghe danh sách đơn hàng theo CustomerId
 export const OVG_FBRT_ListentOrderByCustomerId = (customerId, callback) => {
-  const ordersRef = databaseOrder.orderByChild("ClientId").equalTo(customerId);
+  const myOrdersRef = databaseOrder
+    .orderByChild("ClientId")
+    .equalTo(customerId);
 
-  ordersRef.on("value", (snapshot) => {
-    const ordersData = snapshot.val();
-    const ordersList = ordersData ? Object.values(ordersData) : [];
-    callback(ordersList);
-  });
+  myOrdersRef.once(
+    "value",
+    (snapshot) => {
+      const ordersData = snapshot.val();
+
+      const ordersList = ordersData
+        ? Object.keys(ordersData).map((orderId) => ({
+            ...ordersData[orderId],
+            OrderId: orderId,
+          }))
+        : [];
+      callback(ordersList);
+    },
+    (error) => {
+      console.error("Error fetching orders: ", error);
+      callback([]);
+    }
+  );
 
   // Trả về hàm để hủy bỏ lắng nghe khi component unmount
-  return () => ordersRef.off();
+  return () => myOrdersRef.off();
 };
 
 export const OVG_FBRT_PlaceOrder = async (
   clientId,
-  orderId,
+  bookingCode,
   dataBooking,
   latitudeCustomer,
-  longitudeCustomer,
-  bookingCode
+  longitudeCustomer
 ) => {
   const newOrder = {
     ClientId: clientId,
-    OrderId: orderId,
+    OrderId: bookingCode,
     DataService: dataBooking,
     StaffId: "",
     StaffName: "",
@@ -245,7 +231,7 @@ export const OVG_FBRT_PlaceOrder = async (
     StatusOrder: 0,
   };
   try {
-    await databaseOrder.child(orderId).set(newOrder);
+    await databaseOrder.child(bookingCode).set(newOrder);
     console.log("Order placed successfully:", newOrder);
     return newOrder;
   } catch (error) {

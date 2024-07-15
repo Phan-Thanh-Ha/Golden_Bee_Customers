@@ -75,7 +75,9 @@ const FormActiveAccount = ({ setSubmit, data }) => {
     setSubmitted(true);
     setCountdown(0);
     AlertToaster('success', 'Đăng ký thành công !', 'Hãy đăng nhập để dùng ứng dụng');
-    navi.navigate(ScreenNames.LOGIN);
+    navi.reset({
+      routes: [{ name: ScreenNames.LOGIN }],
+    });
     // }
   };
 

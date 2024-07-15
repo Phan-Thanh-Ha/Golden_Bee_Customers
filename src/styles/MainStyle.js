@@ -175,7 +175,6 @@ const MainStyles = StyleSheet.create({
     marginBottom: 20,
   },
   containerLogin: {
-    flexGrow: 1,
     justifyContent: "center",
   },
   titleLogin: {

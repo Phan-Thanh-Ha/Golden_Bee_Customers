@@ -1,8 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import Carousel from "react-native-snap-carousel";
-import FastImage from "react-native-fast-image"; // Hoặc thư viện hình ảnh khác nếu cần
+import FastImage from "react-native-fast-image";
 import { themeColors } from "../styles/Colors";
+import { limitTitle } from "../Utils/LimitTitle";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const ITEM_WIDTH = SCREEN_WIDTH * 0.8;
@@ -17,8 +18,8 @@ const ServiceCarousel = ({ dataNewService = [] }) => {
           resizeMode={FastImage.resizeMode.cover}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{item.MetaDescription}</Text>
-          <Text style={styles.description}>{item.NewsDescriptionEn}</Text>
+          <Text style={styles.title}>{limitTitle(item.MetaDescription, 50)}</Text>
+          <Text style={styles.description}>{limitTitle(item.NewsDescriptionEn, 120)}</Text>
         </View>
       </View>
     </View>
@@ -49,9 +50,12 @@ const ServiceCarousel = ({ dataNewService = [] }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    margin: 10,
+    borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 10,
     backgroundColor: themeColors.lightBackground,
+    overflow: "hidden",
   },
   header: {
     fontSize: 18,
@@ -60,11 +64,13 @@ const styles = StyleSheet.create({
     color: themeColors.primary,
   },
   cardContainer: {
+    height: 300,
     marginRight: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   card: {
+    height: 300,
     backgroundColor: "white",
     borderRadius: 15,
     shadowColor: "#000",
@@ -76,7 +82,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: ITEM_WIDTH * 0.96,
+    width: 300,
     height: 180,
     borderRadius: 10,
   },
@@ -105,9 +111,6 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     backgroundColor: themeColors.primary,
-  },
-  carouselContentContainer: {
-    // paddingHorizontal: SCREEN_WIDTH * (1 - 0.8) / 2, // Padding để đảm bảo item nằm ở lề trái
   },
 });
 

@@ -21,8 +21,6 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [loginMessage, setLoginMessage] = React.useState('');
   const [dataConfirmService, setDataConfirmService] = useState({});
-  // const dataConfirmService = async () => await getData(StorageNames.SERVICE_CONFIRM);
-  console.log("dataConfirmService ", dataConfirmService);
   useFocusEffect(
     React.useCallback(() => {
       const getDataService = async () => {
@@ -31,7 +29,6 @@ const LoginForm = () => {
       };
       getDataService();
       return () => {
-        console.log("dataConfirmService ", dataConfirmService);
       };
     }, [])
   );
@@ -62,16 +59,12 @@ const LoginForm = () => {
         func: "Shop_spCustomer_Login",
       };
 
-      console.log("pr ", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("result ", result);
       if (result?.Status === "OK") {
         mainAction.userLogin(result.Result[0], dispatch);
         await setData(StorageNames.USER_PROFILE, result.Result[0]);
         setLoginMessage("");
-        console.log("dataConfirmService ", dataConfirmService);
         if (dataConfirmService) {
-          console.log("dataConfirmService -------------------");
           setLoading(false);
           AlertToaster("success", "Đăng nhập thành công !", "Hoàn tất đơn dịch vụ nào !");
           navigation.replace(ScreenNames.CONFIRM_BOOKING, {
@@ -80,13 +73,14 @@ const LoginForm = () => {
         } else {
           AlertToaster("success", "Đăng nhập này thành công !");
           setLoading(false);
-          navigation.navigate(ScreenNames.MAIN_NAVIGATOR);
+          navigation.reset({
+            routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+          });
         }
         setLoading(false);
-        // AlertToaster("success", "Đăng nhập thành công !");
-        // const token = await mainAction.checkPermission(null, dispatch);
-        // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  token:", token);
-        // OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
+        AlertToaster("success", "Đăng nhập thành công !");
+        const token = await mainAction.checkPermission(null, dispatch);
+        OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
       } else {
         setLoginMessage(result?.Result);
         AlertToaster("error", result?.Result);
@@ -100,10 +94,6 @@ const LoginForm = () => {
   };
 
   const OVG_spCustomer_TokenDevice_Save = async (token, CustomerLogin) => {
-    console.log(
-      "-----> 💀💀💀💀💀💀💀💀💀 <-----  CustomerLogin:",
-      CustomerLogin
-    );
     try {
       const pr = {
         CustomerId: CustomerLogin.Id,
@@ -116,7 +106,6 @@ const LoginForm = () => {
       };
 
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
     } catch (error) {
       console.log(error);
     }
@@ -154,11 +143,14 @@ const LoginForm = () => {
           <CustomLabel>Mật khẩu:</CustomLabel>
           <CustomInput
             placeholder="Nhập mật khẩu"
-            onChangeText={handleChange("password")}
-            onBlur={handleBlur("password")}
+            onChangeText={handleChange('password')}
+            onBlur={handleBlur('password')}
             value={values.password}
-            secureTextEntry
-            borderColor={touched.password && errors.password ? 'red' : '#E0E0E0'}
+            type="password"
+            showPasswordToggle={true}
+            borderColor={
+              touched.password && errors.password ? 'red' : '#E0E0E0'
+            }
           />
           <CustomFormError>
             {touched.password && errors.password}

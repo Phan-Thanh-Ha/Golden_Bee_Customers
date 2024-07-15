@@ -13,11 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
 import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import { cirtificate, ic_coin, ic_premium, logo_bee_blue } from "../../assets";
-import Rating from "../../components/Rating";
 import Box from "../../components/Box";
-import BtnToggle from "../../components/BtnToggle";
 import LinearGradient from "react-native-linear-gradient";
-import ButtonResize from "../../components/buttons/ButtonResize";
 import Button from "../../components/buttons/Button";
 import ModalConfirm from "../../components/ModalConfirm";
 
@@ -33,7 +30,9 @@ const Account = () => {
       await removeData(StorageNames.USER_PROFILE);
       await removeData(StorageNames.SERVICE_CONFIRM);
       mainAction.userLogin(null, dispatch);
-      navi.navigate(ScreenNames.AUTH_HOME);
+      navi.reset({
+        routes: [{ name: ScreenNames.ABOUT }],
+      });
     } catch (error) { }
   };
   const handleClearAccount = async () => {

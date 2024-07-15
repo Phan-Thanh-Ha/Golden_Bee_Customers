@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   footerText: {
-    color: colors.WHITE,
+    color: colors.BLACK,
     fontSize: 11,
   },
 });

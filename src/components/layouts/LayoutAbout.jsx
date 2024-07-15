@@ -2,16 +2,16 @@ import React from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import MainStyle from "../../styles/MainStyle";
-import { colors } from "../../styles/Colors";
+import { colors, themeColors } from "../../styles/Colors";
 
 const LayoutAbout = ({ children }) => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["blue", colors.MAIN_BLUE_CLIENT]}
+        colors={[colors.WHITE, colors.WHITE]}
         style={styles.gradient}
       />
-      <View style={styles.decorationBox} />
+      {/* <View style={styles.decorationBox} /> */}
       <SafeAreaView style={MainStyle.safeArea}>{children}</SafeAreaView>
     </View>
   );

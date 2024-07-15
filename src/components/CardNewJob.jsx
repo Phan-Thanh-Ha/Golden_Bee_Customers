@@ -198,7 +198,7 @@ const CardNewJob = ({ data, modalRef }) => {
                   fontSize: 18,
                   fontWeight: '700',
                 }
-              }>{FormatMoney(data?.DataService?.TotalPrice)} vnđ</Text>
+              }>{FormatMoney(data?.DataService?.PriceAfterDiscount)} vnđ</Text>
             </View>
           </View>
         </Pressable>

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import FormRegister from "../../components/forms/RegisterForm";
 import Header from "../../components/Header";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
-import { colors } from "../../styles/Colors";
+import { colors, themeColors } from "../../styles/Colors";
 import Footer from "../../components/Footer";
 import { ScreenNames } from "../../Constants";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
@@ -41,9 +41,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#fff',
+    color: themeColors.primary,
     textAlign: 'center',
-    marginTop: 20,
     marginBottom: 20,
   },
   dot: {

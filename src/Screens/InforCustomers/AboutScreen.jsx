@@ -1,8 +1,7 @@
 import React, { useState, useRef } from "react";
 import { View, StyleSheet } from "react-native";
-import LogoBee from "../../components/LogoBee";
 import LayoutAbout from "../../components/layouts/LayoutAbout";
-import { colors } from "../../styles/Colors";
+import { colors, themeColors } from "../../styles/Colors";
 import CustomSwiper from "../../components/about/CustomSwiper";
 import { ScreenNames } from "../../Constants";
 import { image_banner_2, image_banner_3, image_banner_4 } from "../../assets";
@@ -11,22 +10,22 @@ import ArrowRight from "../../components/svg/ArrowRight";
 
 const dataSlider = [
   {
-    title: "Thời gian linh động",
-    description1: "Thời gian làm việc tùy thuộc vào lựa chọn của bạn.",
-    description2: "Chuyển hóa thời gian rảnh của bạn thành thu nhập!",
+    title: "Dịch vụ cung cấp đa dạng",
+    description1: "Dễ dàng lựa chọn dịch vụ vệ sinh ngôi nhà của bạn.",
+    description2: "",
     image: image_banner_2,
   },
   {
-    title: "Thu nhập hấp dẫn",
-    description1: "Siêng năng và tích cực nhận việc.",
-    description2: "Thu nhập hấp dẫn đến 20 triệu/tháng!.",
+    title: "Yêu cầu chi tiết",
+    description1: "Có thể bổ sung các yêu cầu chi tiết hoặc các lưu ý đặc biệt.T ùy theo nhu cầu quý khách hàng.",
+    description2: "",
     image: image_banner_3,
   },
   {
-    title: "Chính sách đãi ngộ tốt",
+    title: "Xác nhận nhanh chóng",
     description1:
-      "Kênh chia sẻ tôn vinh giá trị lao động và nghề cung cấp dịch vụ.",
-    description2: "Được hưởng chính sách hỗ trợ tuyệt vời từ Ong Vàng",
+      "Dịch vụ sẽ thông báo đến nhân viên ở khu vực gần bạn, Để đảm bảo thời gian phục vụ nhanh nhất có thể",
+    description2: "",
     image: image_banner_4,
   },
 ];
@@ -42,13 +41,14 @@ const AboutScreen = ({ navigation }) => {
       swiperRef.current.scrollToIndex({ index: nextIndex, animated: true });
     }
     if (currentIndex === 2) {
-      navigation.navigate(ScreenNames.AUTH_HOME);
+      navigation.reset({
+        routes: [{ name: ScreenNames.AUTH_HOME }],
+      })
     }
   };
 
   return (
     <LayoutAbout>
-      <LogoBee />
       <CustomSwiper
         dataSlider={dataSlider}
         currentIndex={currentIndex}
@@ -56,63 +56,24 @@ const AboutScreen = ({ navigation }) => {
         swiperRef={swiperRef}
       />
       <View style={styles.buttonContainer}>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={handleNext}
-            bgColor={colors.PRIMARY_GREEN}
-            icon={() => <ArrowRight color={colors.WHITE} />}
-          >
-            {currentIndex === 2 ? "Bắt đầu " : "Tiếp theo"}
-          </Button>
-        </View>
+        <Button
+          onPress={handleNext}
+          bgColor={themeColors.secondary}
+          icon={() => <ArrowRight color={colors.WHITE} />}
+        >
+          {currentIndex === 2 ? "Bắt đầu " : "Tiếp theo"}
+        </Button>
       </View>
     </LayoutAbout>
   );
 };
 
 const styles = StyleSheet.create({
-  slide: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  buttonContainer: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    padding: 20,
   },
-  image: {
-    width: 280,
-    height: 280,
-    resizeMode: "contain",
-  },
-  title: {
-    color: colors.TEXT_WHITE_CLIENT,
-    fontSize: 24,
-    fontWeight: "bold",
-    marginTop: 10,
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  description: {
-    color: colors.TEXT_WHITE_CLIENT,
-    fontSize: 15,
-    textAlign: "center",
-    marginHorizontal: 20,
-  },
-  pagination: {
-    flexDirection: "row",
-    marginVertical: 10,
-    justifyContent: "center",
-  },
-  dot: {
-    width: 10,
-    height: 5,
-    borderRadius: 5,
-    margin: 2,
-  },
-  activeDot: {
-    backgroundColor: colors.YELLOW,
-    width: 20,
-  },
-  inactiveDot: {
-    backgroundColor: colors.WHITE,
-  },
-});
-
+})
 export default AboutScreen;

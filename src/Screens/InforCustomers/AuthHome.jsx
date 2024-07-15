@@ -26,7 +26,7 @@ const AuthHome = ({ navigation }) => {
           {"Đăng nhập"}
         </BtnAuth>
         <Text style={{
-          color: colors.WHITE,
+          color: colors.BLACK,
           fontSize: 20,
           fontWeight: 'bold',
           marginTop: 10,

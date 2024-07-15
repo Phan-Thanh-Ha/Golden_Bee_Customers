@@ -6,7 +6,6 @@ import { InputComponent } from "../../components/Input";
 import { colors } from "../../styles/Colors";
 import { GOOGLE_API_KEY, getData, setData } from "../../Utils";
 import ItemAddress from "../../components/ItemAddress";
-import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 import { ScreenNames } from "../../Constants";
 import debounce from "lodash/debounce";
@@ -84,6 +83,7 @@ const AddressSearch = () => {
   return (
     <View style={{ backgroundColor: colors.WHITE }}>
       <Header title="Chọn vị trí làm việc" onBack={onBackPress} isGoBack={false} />
+
       <InputComponent
         placeholder={"Nhập địa chỉ"}
         iconRight="map-outline"
@@ -96,25 +96,18 @@ const AddressSearch = () => {
         onRightIconPress={() => { }}
         onChangeText={handleChangeText}
       />
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps="handled"
-        enableOnAndroid={true}
-        keyboardVerticalOffset={0}
-      >
-        {/* {isLoading && <Loading />} */}
-        <ItemAddress
-          data={dataAddressSearch}
-          onPress={(item) => {
-            navi.navigate(ScreenNames.SHOW_MAP, {
-              service: {
-                ...service,
-                Address: item.name,
-                place_id: item.place_id,
-              },
-            });
-          }}
-        />
-      </KeyboardAwareScrollView>
+      <ItemAddress
+        data={dataAddressSearch}
+        onPress={(item) => {
+          navi.navigate(ScreenNames.SHOW_MAP, {
+            service: {
+              ...service,
+              Address: item.name,
+              place_id: item.place_id,
+            },
+          });
+        }}
+      />
     </View>
   );
 };

@@ -17,7 +17,6 @@ import Loading from "../../components/Loading";
 import { pin_outline } from "../../assets";
 
 const ShowMap = () => {
-  // const user = useSelector((state) => state.main.userLogin);
   const route = useRoute();
   const navi = useNavigation();
   const { service } = route.params || {};
