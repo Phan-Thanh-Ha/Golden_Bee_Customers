@@ -24,7 +24,6 @@ import Loading from "../../components/Loading";
 import ModalRequired from "../../components/modal/ModalRequired";
 import { OVG_FBRT_PlaceOrder } from "../../firebaseService/ListenOrder";
 import ModalSelectOption from "../../components/modal/ModalSelectOption";
-import BtnDouble from "../../components/BtnDouble";
 
 const ConfirmBooking = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -156,8 +155,9 @@ const ConfirmBooking = () => {
           Json: JSON.stringify(pr),
           func: "OVG_spService_BookingService_Save_V1",
         };
+        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
         const result = await mainAction.API_spCallServer(params, dispatch);
-        // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
         if (result?.Status === "OK") {
           navi.reset({
             index: 0,
@@ -169,13 +169,16 @@ const ConfirmBooking = () => {
         }
         else if (result?.Status === "NOTOK" && retryCount < maxRetries) {
           retryCount++;
-          // console.log(`Retry ${retryCount}/${maxRetries}`);
+          console.log(`Retry ${retryCount}/${maxRetries}`);
           setTimeout(calling, 10000);
         } else {
           if (retryCount >= maxRetries) {
-            // console.log(`Exceeded maximum retries (${maxRetries})`);
+            console.log(`Exceeded maximum retries (${maxRetries})`);
             setIsOver(true);
             setIsModalVisible(false);
+          }
+          else {
+            AlertToaster("error", "Lỗi đặt đơn, vui lòng thử lại !");
           }
           setLoading(false);
           setIsModalVisible(false);
@@ -224,9 +227,15 @@ const ConfirmBooking = () => {
       };
       // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
-      // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
       if (result?.Status === "OK") {
-        await handleNext(result?.BookingCode);
+        AlertToaster("success", "Đơn dịch vụ đã được gửi tới admin");
+        // await handleNext(result?.BookingCode);
+        navi.reset({
+          routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+        });
+        await removeStorage();
+        setLoading(false);
       }
       setLoading(false);
     } catch (error) {
@@ -464,7 +473,7 @@ const ConfirmBooking = () => {
             </View>
           </View>
         </View>
-        <Box height={SCREEN_HEIGHT * 0.03} />
+        <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
       <LayoutBottom>
         <View

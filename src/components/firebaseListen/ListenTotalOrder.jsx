@@ -7,7 +7,7 @@ import { colors } from '../../styles/Colors';
 const ListenOrderTotal = ({ myOrders, isModalVisible, setModalVisible, onConfirm }) => {
   const handleConfirm = () => {
     onConfirm();
-    console.log('User confirmed');
+    // console.log('User confirmed');
     setModalVisible(false); // Đóng modal khi người dùng xác nhận
   };
 

@@ -54,6 +54,26 @@ export function* API_spCallServer(action) {
 //   }
 // }
 
+export function* API_spCallPostImage(action) {
+  try {
+    const params = action && action.params;
+
+    let respone = yield api.post(
+      "https://api-crmcak.vps.vn/api/ApiMain/API_spCallPostImage_TimeKeeping",
+      params
+    );
+    if (respone && respone.status === 201) {
+      respone.data == {}
+        ? action.resolve([])
+        : action.resolve(JSON.parse(respone.data.Message));
+    } else {
+      action.reject(respone);
+    }
+  } catch (e) {
+    action.reject(e);
+  }
+}
+
 export function* cameraScan(action) {
   yield put({ type: mainTypes.LOADING, payload: true });
   const params = action && action.params;
@@ -62,5 +82,6 @@ export function* cameraScan(action) {
 
 export default function* watchMainSagas() {
   yield takeEvery(mainTypes.CallServer, API_spCallServer);
+  yield takeEvery(mainTypes.PostImage, API_spCallPostImage);
   // yield takeLatest(mainTypes.CHECK_PERMISSION, checkPermission);
 }

@@ -35,7 +35,7 @@ const ServiceRepairElectricityScreen = () => {
     formikSubmitRef.current?.submitForm();
   };
   const handleFormChange = (values) => {
-    console.log(values);
+    // console.log(values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceRepairElectricity(values, price, time));
     values.premium ? setModalOpen(true) : setModalOpen(false);

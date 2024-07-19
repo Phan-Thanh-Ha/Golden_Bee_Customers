@@ -10,7 +10,6 @@ import LayoutBottom from '../../components/layouts/LayoutBottom';
 import { FormatMoney } from '../../Utils';
 import BackButton from '../../components/BackButton';
 import InputCheckBox from '../../components/InputCheckBox';
-import BtnDouble from '../../components/BtnDouble';
 import Box from '../../components/Box';
 
 const CashScreen = ({ route }) => {
@@ -20,10 +19,8 @@ const CashScreen = ({ route }) => {
     setSelectedValues((prevSelected) => {
       const isSelected = prevSelected.some((value) => value.ServiceDetailId === item.ServiceDetailId);
       if (isSelected) {
-        // Nếu đã chọn thì bỏ chọn
         return prevSelected.filter((value) => value.ServiceDetailId !== item.ServiceDetailId);
       } else {
-        // Nếu chưa chọn thì thêm vào danh sách đã chọn
         return [...prevSelected, item];
       }
     });
@@ -31,7 +28,7 @@ const CashScreen = ({ route }) => {
   return (
     <LayoutGradientBlue>
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
-      <LogoBeeBox color={colors.WHITE} sizeImage={70} sizeText={20} />
+      <LogoBeeBox color={colors.MAIN_BLUE_CLIENT} sizeImage={70} sizeText={20} />
       <Text style={{ textAlign: 'center', color: colors.MAIN_BLUE_CLIENT, fontSize: 20, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>Thông tin thanh toán dịch vụ</Text>
       <ScrollView>
         <View style={[MainStyles.containerTabPayment, { backgroundColor: colors.WHITE, padding: 10, marginHorizontal: 10, borderRadius: 10 }]}>
@@ -170,7 +167,7 @@ const CashScreen = ({ route }) => {
             </View>
           )
         }
-        <Box height={SCREEN_HEIGHT * 0.03} />
+        <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
       <LayoutBottom>
         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 80 }}>
@@ -200,7 +197,7 @@ const CashScreen = ({ route }) => {
                     fontSize: 18,
                     fontWeight: '700',
                   }
-                }>{FormatMoney(data?.DataService?.TotalPrice)} vnđ</Text>
+                }>{FormatMoney(data?.DataService?.PriceAfterDiscount)} vnđ</Text>
               </View>
             </View>
           </View>

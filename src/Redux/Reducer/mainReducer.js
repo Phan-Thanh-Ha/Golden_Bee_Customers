@@ -40,17 +40,17 @@ export default function (state = initialState, action = {}) {
         SERVICELIST: action.payload,
       };
     case mainTypes.ACCEPTED_ORDER:
-      {
-        console.log("oder accepted in redux", action.payload);
-      }
+      // {
+      //   console.log("oder accepted in redux", action.payload);
+      // }
       return {
         ...state,
         acceptedOrder: action.payload,
       };
     case mainTypes.MY_ORDER_ACCEPTED:
-      {
-        console.log("my oder accepted in redux", action.payload);
-      }
+      // {
+      //   console.log("my oder accepted in redux", action.payload);
+      // }
       return {
         ...state,
         myOrdersAccepted: action.payload,

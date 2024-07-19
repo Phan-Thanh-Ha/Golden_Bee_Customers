@@ -10,10 +10,9 @@ import Toast from "react-native-toast-message";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import SplashScreen from "react-native-splash-screen";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { RequestPermission } from "./src/Permission/RequestPermission";
 import { SetupNotification } from "./src/Firebase/SetupNotification";
-import MyOrders from "./src/components/firebaseListen/MyOrders";
 import HealthCheck from "./src/Utils/HealthCheck";
+import RequestPermissionV2 from "./src/Permission/RequestPermissionV2";
 LogBox.ignoreAllLogs();
 
 const App = () => {
@@ -36,7 +35,7 @@ const App = () => {
         <MenuProvider>
           <BottomSheetModalProvider>
             <RootNavigator />
-            <RequestPermission />
+            <RequestPermissionV2 />
             <SetupNotification />
             <HealthCheck />
           </BottomSheetModalProvider>

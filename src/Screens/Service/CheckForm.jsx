@@ -7,12 +7,6 @@ import ItemAddress from "../../components/ItemAddress";
 import { dataLocation } from "../data";
 
 const CheckForm = () => {
-  const handlePress = () => {
-    console.log("test");
-  };
-  const prss = () => {
-    console.log("test");
-  };
   return (
     <SafeAreaView style={styles.formContainer}>
       <FormRequirementInfomation />

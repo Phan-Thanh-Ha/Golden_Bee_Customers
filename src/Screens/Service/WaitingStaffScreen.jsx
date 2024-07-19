@@ -59,10 +59,10 @@ const WaitingStaffScreen = () => {
       };
     }, [navi])
   );
-  console.log(
-    "-----> 💀💀💀💀💀💀💀💀💀 <-----  dataBookingWatting:",
-    dataBooking
-  );
+  // console.log(
+  //   "-----> 💀💀💀💀💀💀💀💀💀 <-----  dataBookingWatting:",
+  //   dataBooking
+  // );
 
   // handle listen order change
   const [clientOrder, setClientOrder] = useState(null);

@@ -45,7 +45,7 @@ const AddressSearch = () => {
         setDataAddressSearch([]);
       }
     } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu từ Google Places API:", error);
+      // console.error("Lỗi khi lấy dữ liệu từ Google Places API:", error);
     } finally {
       setIsLoading(false);
     }

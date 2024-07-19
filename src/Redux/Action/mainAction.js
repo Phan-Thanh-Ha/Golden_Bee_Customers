@@ -7,6 +7,18 @@ export function closeError(params, cb) {
   };
 }
 
+export function API_spCallPostImage(params, dispatch) {
+  //debugger
+  return new Promise((resolve, reject) => {
+    dispatch({
+      type: mainTypes.PostImage,
+      params,
+      resolve,
+      reject,
+    });
+  });
+}
+
 export function API_spCallServer(params, dispatch) {
   return new Promise((resolve, reject) => {
     dispatch({

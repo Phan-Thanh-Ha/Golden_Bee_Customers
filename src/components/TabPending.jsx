@@ -21,7 +21,7 @@ const TabPending = ({ modalRef }) => {
   const updateOrders = useCallback(() => {
     if (userLogin?.Id) {
       const unsubscribe = OVG_FBRT_ListentOrderByCustomerId(userLogin.Id, (ordersList) => {
-        if (JSON.stringify(ordersList) !== JSON.stringify(orders)) {
+        if (ordersList?.length > 0) {
           setOrders(ordersList);
         }
       });
@@ -31,7 +31,7 @@ const TabPending = ({ modalRef }) => {
     }
   }, [userLogin?.Id, orders]);
 
-  console.log(orders);
+  // console.log(orders);
   useFocusEffect(
     useCallback(() => {
       const unsubscribe = updateOrders();
@@ -42,7 +42,7 @@ const TabPending = ({ modalRef }) => {
       };
     }, [updateOrders])
   );
-  console.log(orders);
+  // console.log(orders);
 
   return (
     orders?.length > 0 ? (
@@ -59,11 +59,6 @@ const TabPending = ({ modalRef }) => {
     )
 
   );
-  // <View>
-  //   {orders.map(order => (
-  //     <Text key={order.id}>{order.BookingCode}</Text>
-  //   ))}
-  // </View>
 };
 
 const styles = StyleSheet.create({

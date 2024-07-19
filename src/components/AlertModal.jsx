@@ -5,7 +5,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../styles/MainStyle';
 import { colors } from '../styles/Colors';
 import Logo from './Logo';
 
-const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000, onConfirm, title, backdropCloseable = true, isCancelable = true, isConfirmable = true, btnConfirmTiTle = 'Xác nhận' }) => {
+const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000, onConfirm, title, backdropCloseable = true, isCancelable = true, isConfirmable = true, btnConfirmTiTle = 'Xác nhận', useLogo = true }) => {
   const [countdown, setCountdown] = useState(autoCloseTime / 1000);
 
   useEffect(() => {
@@ -53,9 +53,12 @@ const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000
       backdropColor="black"
     >
       <View style={styles.modalContent}>
-        <View style={styles.logoContainer}>
-          <Logo sizeImage={SCREEN_WIDTH * 0.18} />
-        </View>
+        {
+          useLogo &&
+          <View style={styles.logoContainer}>
+            <Logo sizeImage={SCREEN_WIDTH * 0.18} />
+          </View>
+        }
         {title && <Text style={styles.title}>{title}</Text>}
         {children}
         {isAuto ? (

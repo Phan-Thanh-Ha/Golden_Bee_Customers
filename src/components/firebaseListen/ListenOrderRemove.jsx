@@ -9,7 +9,7 @@ const ListenOrderRemove = ({ orderRemove, isModalVisible, setModalVisible, onCon
   const handleConfirm = () => {
     onConfirm();
     navi.navigate(ScreenNames.RATING_SERVICE, { data: orderRemove });
-    console.log('User confirmed');
+    // console.log('User confirmed');
     setModalVisible(false); // Thêm vào để đóng modal khi người dùng xác nhận
   };
 

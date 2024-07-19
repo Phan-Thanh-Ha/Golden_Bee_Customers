@@ -81,7 +81,7 @@ const ViewLocationStaff = () => {
       };
     }, [getOrder])
   );
-  console.log('clientOrder', clientOrder);
+  // console.log('clientOrder', clientOrder);
 
   useEffect(() => {
     if (clientOrder.StatusOrder === 1) {

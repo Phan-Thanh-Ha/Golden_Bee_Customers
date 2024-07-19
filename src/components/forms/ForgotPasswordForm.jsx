@@ -33,7 +33,7 @@ const ForgotPasswordForm = ({ setSubmit, navigation }) => {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      // console.log(error);
     }
     // Toast.show({
     //   type: 'success',

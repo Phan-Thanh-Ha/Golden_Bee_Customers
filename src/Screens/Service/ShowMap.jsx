@@ -1,54 +1,35 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import axios from "axios";
+import { GOOGLE_API_KEY } from "../../Utils";
+import { CardLocation } from "../../components";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
-import { CardLocation } from "../../components";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import Button from "../../components/buttons/Button";
-import Box from "../../components/Box";
-import { UseInset } from "../../Hooks";
-import ArrowRight from "../../components/svg/ArrowRight";
-import { useSelector } from "react-redux";
-import { getRouterById } from "../../Utils/RoutingService";
-import { GOOGLE_API_KEY } from "../../Utils";
-import axios from "axios";
 import Loading from "../../components/Loading";
 import { pin_outline } from "../../assets";
+import { getRouterById } from "../../Utils/RoutingService";
+import Button from "../../components/buttons/Button";
+import Box from "../../components/Box";
+import ArrowRight from "../../components/svg/ArrowRight";
 
 const ShowMap = () => {
   const route = useRoute();
-  const navi = useNavigation();
+  const navigation = useNavigation();
   const { service } = route.params || {};
-  const inset = UseInset();
-  const [userProfile, setUserProfile] = React.useState({
-    Latitude: 0,
-    Longitude: 0,
+  const [region, setRegion] = useState({
+    latitude: service.Latitude || 0,
+    longitude: service.Longitude || 0,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.0121,
   });
 
-  const handleNext = () => {
-    navi.navigate(getRouterById(service.ServiceId), {
-      service: {
-        ...service,
-        // CustomerId: user.Id,
-        // CustomerName: user.CustomerName,
-        Latitude: userProfile.Latitude,
-        Longitude: userProfile.Longitude,
-      },
-    });
-  };
   useEffect(() => {
-    getLatLong(service.place_id);
+    if (!service.Latitude || !service.Longitude) {
+      getLatLong(service.place_id);
+    }
   }, []);
-  // console.log("----------------------------------");
-  // console.log("service in show map : ", {
-  //   ...service,
-  //   CustomerId: user.Id,
-  //   CustomerName: user.CustomerName,
-  //   Latitude: userProfile.Latitude,
-  //   Longitude: userProfile.Longitude,
-  // });
-  // console.log("----------------------------------");
 
   const getLatLong = async (place_id) => {
     try {
@@ -62,33 +43,46 @@ const ShowMap = () => {
           },
         }
       );
-      setUserProfile({
-        Latitude: response.data.result.geometry.location.lat,
-        Longitude: response.data.result.geometry.location.lng,
+      const location = response.data.result.geometry.location;
+      setRegion({
+        ...region,
+        latitude: location.lat,
+        longitude: location.lng,
       });
     } catch (error) {
-      console.error("Error fetching place details:", error);
-      return null;
+      // console.error("Error fetching place details:", error);
+      // Handle error gracefully
     }
   };
+
+  const handleNext = () => {
+    navigation.navigate(getRouterById(service.ServiceId), {
+      service: {
+        ...service,
+        Latitude: region.latitude,
+        Longitude: region.longitude,
+      },
+    });
+  };
+
+  const onRegionChangeComplete = (newRegion) => {
+    setRegion(newRegion);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
           <MapView
             style={styles.map}
-            region={{
-              latitude: userProfile.Latitude,
-              longitude: userProfile.Longitude,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            }}
+            region={region}
+            onRegionChangeComplete={onRegionChangeComplete}
             zoomEnabled={true}
           >
             <Marker
               coordinate={{
-                latitude: userProfile.Latitude,
-                longitude: userProfile.Longitude,
+                latitude: region.latitude,
+                longitude: region.longitude,
               }}
               title={service.Address}
             >
@@ -100,9 +94,13 @@ const ShowMap = () => {
               </View>
             </Marker>
           </MapView>
+          {/* Center marker icon */}
+          <View style={styles.markerFixed}>
+            <Image source={pin_outline} style={{ width: 64, height: 64 }} />
+          </View>
           <View style={styles.topBar}>
             <CardLocation
-              onPress={() => navi.goBack()}
+              onPress={() => navigation.goBack()}
               location={service.Address}
             />
           </View>
@@ -117,7 +115,7 @@ const ShowMap = () => {
       <View
         style={{
           position: "absolute",
-          bottom: inset.bottom,
+          bottom: 10,
           zIndex: 10,
           elevation: 10,
           backgroundColor: colors.PRIMARY_GREEN,
@@ -157,23 +155,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: SCREEN_HEIGHT / 30,
   },
-  toText: {
-    fontSize: 12,
-    color: colors.GRAY,
-    marginTop: SCREEN_HEIGHT / 135,
-  },
-  progressLine: {
-    height: 4,
-    width: SCREEN_WIDTH / 5.3,
-    backgroundColor: colors.SUCCESS,
-    borderRadius: 20,
-  },
-  lineContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    marginTop: SCREEN_HEIGHT / 25,
-  },
   bodyContainer: {
     borderTopStartRadius: 24,
     borderTopEndRadius: 24,
@@ -182,85 +163,21 @@ const styles = StyleSheet.create({
     marginTop: SCREEN_HEIGHT / -81,
     backgroundColor: colors.WHITE,
   },
-  detailContainer: {
-    borderWidth: 1,
-    borderColor: colors.GRAY,
-    borderRadius: 14,
-    flexDirection: "row",
-    paddingVertical: SCREEN_HEIGHT / 58,
-    paddingHorizontal: SCREEN_WIDTH / 23,
-    marginTop: SCREEN_HEIGHT / 55,
-  },
-  motorContaniner: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: colors.GRAY,
-    borderRadius: 12,
-    paddingHorizontal: SCREEN_WIDTH / 25,
-    paddingVertical: SCREEN_HEIGHT / 54,
-  },
-  detailTitle: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: colors.DARK,
-  },
-  detailSubTitle: {
-    fontSize: 12,
-    color: colors.GRAY,
-    marginTop: SCREEN_HEIGHT / 102,
-  },
-  detailTextContainer: {
-    flex: 1,
-    marginStart: SCREEN_WIDTH / 31,
-  },
-  driverContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  driverText: {
-    fontWeight: "600",
-    color: colors.DARK,
-  },
-  driverStatus: {
-    color: colors.GRAY,
-    fontSize: 12,
-    marginTop: SCREEN_HEIGHT / 101,
-  },
-  bottomContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: SCREEN_HEIGHT / 41,
-    justifyContent: "space-between",
-  },
-  phoneContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: colors.CANCEL2,
-    borderRadius: 14,
-    paddingHorizontal: SCREEN_WIDTH / 31,
-    paddingVertical: SCREEN_HEIGHT / 67,
-    backgroundColor: colors.CANCEL2,
-  },
-  markerContainer: {
-    // backgroundColor: colors.WHITE,
-    borderRadius: 100,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: SCREEN_WIDTH / 47,
-    paddingVertical: SCREEN_HEIGHT / 101,
-  },
   topBar: {
     position: "absolute",
-    // left: SCREEN_WIDTH / 28,
     alignItems: "center",
     marginTop: SCREEN_HEIGHT / 81,
-    // right: SCREEN_WIDTH / 100,
     marginHorizontal: SCREEN_WIDTH / 110,
   },
-  btnTitle: {
-    fontSize: 18,
-    color: colors.WHITE,
+  markerFixed: {
+    left: "50%",
+    marginLeft: -32,
+    marginTop: -32,
+    position: "absolute",
+    top: "50%",
+  },
+  markerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

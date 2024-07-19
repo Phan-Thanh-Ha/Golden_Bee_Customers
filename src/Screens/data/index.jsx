@@ -1623,6 +1623,9 @@ export const vouchers = [
   }
 ]
 
+
+
+// dữ liệu dịch vụ khách hàng đã đặt
 export const dataJobDone = [
   {
     // phần này là tông tin đơn đã đặt, tương tự như lấy đơn đã hoàn thành của client OVG_spOfficer_Booking_Done, thêm lat long cũ
@@ -1653,7 +1656,8 @@ export const dataJobDone = [
     Address: "100 Lý Chính Thắng, phải 8, Quận 3, Hồ Chí Minh, Việt Nam",
     LatitudeCustomer: 10.7895826,
     LongitudeCustomer: 106.6854736,
-
+    Rating: 5,
+    CustomerReview: "Rất tốt",
     Service: {
       ServiceId: 7,
       ServiceCode: "DV-05062405025764",

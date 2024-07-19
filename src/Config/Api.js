@@ -34,3 +34,5 @@ export const APIKey = "netcoApikey2025";
 export const APIKey_Customer = "netCoApi2022";
 
 export const API_END_POINT = API_DOMAIN;
+
+export const APIImage = "https://api-crmcak.vps.vn/upload";

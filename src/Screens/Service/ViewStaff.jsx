@@ -30,7 +30,7 @@ const ViewStaffScreen = () => {
   const [timeOut, setTimeOut] = useState({ distance: 0, duration: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
   // const [isModalReloadVisible, setIsModalReloadVisible] = useState(false);
-  console.log("data-------------", data);
+  // console.log("data-------------", data);
   const [clientOrder, setClientOrder] = useState({});
   const [flag, setFlag] = useState(false);
 
@@ -79,7 +79,7 @@ const ViewStaffScreen = () => {
       };
     }, [getOrder])
   );
-  console.log('clientOrder', clientOrder);
+  // console.log('clientOrder', clientOrder);
 
   useEffect(() => {
     if (clientOrder.StatusOrder === 1) {

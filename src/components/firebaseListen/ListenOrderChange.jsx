@@ -15,7 +15,7 @@ const ListenOrderChange = ({ orderChange, isModalVisible, setModalVisible, onCon
 
   const handleConfirm = () => {
     onConfirm();
-    console.log('User confirmed');
+    // console.log('User confirmed');
     hideModal();
   };
 

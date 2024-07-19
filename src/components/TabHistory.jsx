@@ -1,6 +1,3 @@
-import { useFocusEffect } from "@react-navigation/native";
-import { useState } from "react";
-import { useSelector } from "react-redux";
 import { dataJobDone } from "../Screens/data";
 import CardJobDone from "./CardJobDone";
 import { FlatList, StyleSheet } from "react-native";

@@ -28,7 +28,7 @@ const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        console.log("Form values:", values);
+        // console.log("Form values:", values);
         if (onSubmit && typeof onSubmit === "function") {
           onSubmit(values);
         }

@@ -43,7 +43,7 @@ const RatingServiceScreen = () => {
         Note: note,
         GroupUserId: GroupUserId
       };
-      console.log("pr", pr);
+      // console.log("pr", pr);
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Review_Save",
@@ -54,7 +54,7 @@ const RatingServiceScreen = () => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
       setIsLoading(false);
     }
   };

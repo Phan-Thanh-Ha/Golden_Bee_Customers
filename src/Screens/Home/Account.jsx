@@ -1,4 +1,4 @@
-import { Image, Linking, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { colors } from "../../styles/Colors";
 import { ScreenNames, StorageNames } from "../../Constants";
@@ -12,18 +12,21 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
 import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
-import { cirtificate, ic_coin, ic_premium, logo_bee_blue } from "../../assets";
+import { cirtificate, logo_bee_blue } from "../../assets";
 import Box from "../../components/Box";
 import LinearGradient from "react-native-linear-gradient";
 import Button from "../../components/buttons/Button";
 import ModalConfirm from "../../components/ModalConfirm";
+import EditUser from "../../components/svg/EditUser";
+import ModalEditUser from "../../components/modal/ModalEditUser";
+import { APIImage } from "../../Config/Api";
 
 const Account = () => {
   const navi = useNavigation();
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.main.userLogin);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  console.log(userLogin);
+  const [modalEditUser, setModalEditUser] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -45,6 +48,7 @@ const Account = () => {
       OVG_spCustomer_Booking_Total_Point();
     }, [])
   );
+  // console.log("totalPoint", totalPoint);
   const [totalPoint, setTotalPoint] = useState(0);
   const OVG_spCustomer_Booking_Total_Point = async () => {
     const userLogin = await GetUserProfile();
@@ -58,12 +62,13 @@ const Account = () => {
         func: "OVG_spCustomer_Booking_Total_Point",
       };
 
+      // console.log(params);
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result) {
         setTotalPoint(result);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const user = {
@@ -80,17 +85,39 @@ const Account = () => {
       <ScrollView>
 
         <View style={MainStyles.contentContainer}>
-          <Text style={MainStyles.labelTitle}>Thông tin</Text>
+          <View style={MainStyles.flexRowSpaceBetween}>
+            <Text style={MainStyles.labelTitle}>Thông tin</Text>
+            <TouchableOpacity onPress={() => setModalEditUser(true)}>
+              <EditUser size={25} />
+            </TouchableOpacity>
+          </View>
           <View style={[MainStyles.flexRowFlexStart, { paddingHorizontal: 20, alignItems: "center" }]}>
-            <Image
-              source={logo_bee_blue}
-              style={{
-                width: 80,
-                height: 120,
-                resizeMode: "contain",
-                marginRight: 40,
-              }}
-            />
+            {
+              userLogin?.Avatar ? (
+                <Image
+                  source={{
+                    uri: APIImage + userLogin?.Avatar,
+                  }}
+                  style={{
+                    width: 80,
+                    height: 120,
+                    resizeMode: 'contain',
+                    marginRight: 10,
+                  }}
+                />
+              ) : (
+                <Image
+                  source={logo_bee_blue}
+                  style={{
+                    width: 80,
+                    height: 120,
+                    resizeMode: "contain",
+                    marginRight: 40,
+                  }}
+                />
+              )
+            }
+
             <View>
               <View style={MainStyles.flexRow}>
                 <Text
@@ -198,6 +225,12 @@ const Account = () => {
         onConfirm={handleClearAccount}
         backdropClose={true}
       />
+      <ModalEditUser
+        isModalVisible={modalEditUser}
+        setModalVisible={setModalEditUser}
+        onConfirm1={() => { }}
+        onConfirm2={() => { }}
+      />
       <Box height={SCREEN_HEIGHT * 0.1} />
     </View>
   );
@@ -205,4 +238,46 @@ const Account = () => {
 
 export default Account;
 
-const styles = StyleSheet.create({});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    maxHeight: SCREEN_HEIGHT * 0.7, // Chiều cao tối đa là 70% màn hình
+  },
+  scrollViewContent: {
+    paddingVertical: 20,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+});
+

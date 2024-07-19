@@ -4,8 +4,9 @@ import Modal from 'react-native-modal';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../styles/MainStyle';
 import { colors } from '../../styles/Colors';
 import Logo from '../Logo';
+import { Spinner } from '@ui-kitten/components';
 
-const ModalSelectOption = ({ isVisible, onClose, children, onConfirm1, onConfirm2, titleBtn1, titleBtn2, title, backdropCloseable = true, isBtn2Visible = true, isBtn1Visible = true }) => {
+const ModalSelectOption = ({ isVisible, onClose, children, onConfirm1, onConfirm2, titleBtn1, titleBtn2, title, backdropCloseable = true, isBtn2Visible = true, isBtn1Visible = true, useLogo = true, isBtn1Loading = false }) => {
   return (
     <Modal
       isVisible={isVisible}
@@ -17,16 +18,25 @@ const ModalSelectOption = ({ isVisible, onClose, children, onConfirm1, onConfirm
       backdropColor="black"
     >
       <View style={styles.modalContent}>
-        <View style={styles.logoContainer}>
-          <Logo sizeImage={SCREEN_WIDTH * 0.18} />
-        </View>
+        {
+          useLogo &&
+          <View style={styles.logoContainer}>
+            <Logo sizeImage={SCREEN_WIDTH * 0.18} />
+          </View>
+        }
         {title && <Text style={styles.title}>{title}</Text>}
         {children}
         <View style={styles.buttonContainer}>
           {
             isBtn1Visible ? (
-              <TouchableOpacity style={styles.confirmButton} onPress={onConfirm1}>
-                <Text style={styles.buttonText}>{titleBtn1}</Text>
+              <TouchableOpacity style={styles.confirmButton} onPress={onConfirm1} disabled={isBtn1Loading}>
+                {
+                  isBtn1Loading ? (
+                    <Spinner />
+                  ) : (
+                    <Text style={styles.buttonText}>{titleBtn1}</Text>
+                  )
+                }
               </TouchableOpacity>
             ) : null
           }

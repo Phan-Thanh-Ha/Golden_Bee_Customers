@@ -7,6 +7,7 @@ import IconWithAnimatedBadge from "./IconWithBadge";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../Constants";
 import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
+import { APIImage } from "../Config/Api";
 
 const UserHeader = ({ totalService = 0 }) => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -18,15 +19,32 @@ const UserHeader = ({ totalService = 0 }) => {
         userLogin ? (
           <View style={[MainStyles.flexRowSpaceBetween]}>
             <View style={MainStyles.flexRow}>
-              <Image
-                source={logo_bee_blue}
-                style={{
-                  width: SCREEN_WIDTH * 0.11,
-                  height: SCREEN_WIDTH * 0.11,
-                  resizeMode: 'contain',
-                  marginRight: 10,
-                }}
-              />
+              {
+                userLogin?.Avatar ? (
+                  <Image
+                    source={{
+                      uri: APIImage + userLogin?.Avatar,
+                    }}
+                    style={{
+                      width: SCREEN_WIDTH * 0.11,
+                      height: SCREEN_WIDTH * 0.11,
+                      resizeMode: 'contain',
+                      marginRight: 10,
+                      borderRadius: SCREEN_WIDTH * 0.11
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={logo_bee_blue}
+                    style={{
+                      width: SCREEN_WIDTH * 0.11,
+                      height: SCREEN_WIDTH * 0.11,
+                      resizeMode: 'contain',
+                      marginRight: 10,
+                    }}
+                  />
+                )
+              }
               <View>
                 <Text style={styles.title}>Chào {userLogin?.CustomerName},</Text>
                 <Text style={styles.subTitle}>Cùng làm việc nhé !</Text>

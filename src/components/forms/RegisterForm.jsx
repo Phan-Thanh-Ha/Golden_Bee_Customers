@@ -35,12 +35,11 @@ const RegisterForm = () => {
         CustomerName: values.fullName,
         CustomerPhone: values.phoneNumber,
         Password: values.password,
-        CustomerEmail: "",
         GroupId: 10060
       };
       const params = {
         Json: JSON.stringify(pr),
-        func: "Shop_spCustomer_Save",
+        func: "OVG_spCustomer_Save",
       };
       console.log(params);
 
