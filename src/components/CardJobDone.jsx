@@ -18,15 +18,18 @@ export default CardJobDone = ({ data, modalRef }) => {
   const navi = useNavigation();
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const userLogin = useSelector((state) => state.main.userLogin);
+  const menu = useSelector((state) => state.main.menuService);
+
   const useBeforeLocation = () => {
-    navi.navigate(getRouterById(data?.Service?.ServiceId), {
+    const service = menu.find(item => item.ServiceId === data?.ServiceId)
+    navi.navigate(getRouterById(data?.ServiceId), {
       service: {
-        ...data?.Service,
-        Address: data?.Address,
+        ...service,
+        Address: data?.AddressService,
         CustomerId: userLogin.Id,
         CustomerName: userLogin.CustomerName,
-        Latitude: data?.LatitudeCustomer,
-        Longitude: data?.LongitudeCustomer,
+        Latitude: data?.LatService,
+        Longitude: data?.LngService,
       }
     }
     )
@@ -42,9 +45,8 @@ export default CardJobDone = ({ data, modalRef }) => {
 
   return (
     <View>
-
       <View style={MainStyles.cardJob}>
-        <Pressable onPress={openModal}>
+        <Pressable >
           <View style={MainStyles.flexRowCenter}>
             <Text style={[MainStyles.titleCardJob, { textAlign: 'center' }]}>
               Dịch vụ {data?.ServiceName?.toLowerCase()}
@@ -63,17 +65,17 @@ export default CardJobDone = ({ data, modalRef }) => {
             <View style={MainStyles.flexRowSpaceBetween}>
               <View style={MainStyles.flexRowFlexStart}>
                 <Image source={ic_person} style={{ width: 22, height: 22 }} />
-                <Text style={MainStyles.textCardJob}>{data?.TotalStaff} nhân viên</Text>
+                <Text style={MainStyles.textCardJob}> Nhân viên : {data?.OfficerName}</Text>
               </View>
-              {data?.TotalRoom && (
+              {/* {data?.TotalRoom && (
                 <View style={MainStyles.flexRowFlexStart}>
                   <Image source={ic_living_room} style={{ width: 22, height: 22 }} />
                   <Text style={MainStyles.textCardJob}>{data?.TotalRoom} phòng</Text>
                 </View>
-              )}
+              )} */}
             </View>
           </View>
-          <View style={MainStyles.rowMargin}>
+          {/* <View style={MainStyles.rowMargin}>
             <View style={MainStyles.flexRowSpaceBetween}>
               <View style={MainStyles.flexRowFlexEnd}>
                 <Image source={ic_glass} style={{ width: 22, height: 22 }} />
@@ -84,8 +86,8 @@ export default CardJobDone = ({ data, modalRef }) => {
                 <Text style={MainStyles.textCardJob}>làm ngay</Text>
               </View>
             </View>
-          </View>
-          {data?.IsPremium ? (
+          </View> */}
+          {/* {data?.IsPremium ? (
             <View style={MainStyles.rowMargin}>
               <View style={MainStyles.flexRowFlexStart}>
                 <Image source={cirtificate} style={{ width: 22, height: 22 }} />
@@ -99,8 +101,8 @@ export default CardJobDone = ({ data, modalRef }) => {
                 <Text style={MainStyles.textCardJob}>Dịch vụ thông thường</Text>
               </View>
             </View>
-          )}
-          <View style={MainStyles.rowMargin}>
+          )} */}
+          {/* <View style={MainStyles.rowMargin}>
             <View style={MainStyles.flexRowFlexStart}>
               <Image source={ic_clearning} style={{ width: 22, height: 22 }} />
               <Text style={MainStyles.textCardJob}>
@@ -113,11 +115,11 @@ export default CardJobDone = ({ data, modalRef }) => {
                   <Text style={[MainStyles.textCardJob, { paddingLeft: 10 }]}>🔸{item.ServiceDetailName}</Text>
                 </View>
               ))}
-          </View>
+          </View> */}
           <View style={MainStyles.rowMargin}>
             <View style={MainStyles.flexRowFlexStart}>
               <Image source={ic_location} style={{ width: 22, height: 22 }} />
-              <Text style={MainStyles.textCardJob}>Địa chỉ: {data?.Address}</Text>
+              <Text style={MainStyles.textCardJob}>Địa chỉ: {data?.AddressService}</Text>
             </View>
           </View>
           <View style={MainStyles.rowMargin}>

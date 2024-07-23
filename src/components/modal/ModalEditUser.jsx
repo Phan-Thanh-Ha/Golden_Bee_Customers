@@ -80,7 +80,7 @@ const ModalEditUser = ({
           func: "OVG_spCustomer_Save",
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
-        console.log("result", result);
+        // console.log("result", result);
         if (result?.Status === "OK") {
           AlertToaster("success", "Cập nhật thành công");
           const userChange = {

@@ -94,6 +94,7 @@ const AddressSearch = () => {
           alignSelf: "center",
         }}
         onRightIconPress={() => { }}
+        onLeftIconPress={() => { }}
         onChangeText={handleChangeText}
       />
       <ItemAddress

@@ -147,34 +147,6 @@ const Account = () => {
           <Box height={SCREEN_HEIGHT * 0.02} />
         </View>
         <View style={MainStyles.contentContainer}>
-          <Box height={SCREEN_HEIGHT * 0.01} />
-          <View style={MainStyles.flexRowSpaceBetween}>
-            <Text style={[MainStyles.labelTitle, { marginRight: 10 }]}>
-              Điểm ưu đãi
-            </Text>
-            <View style={MainStyles.flexRowFlexStart}>
-              <Image
-                source={cirtificate}
-                style={{
-                  width: 20,
-                  height: 20,
-                  marginRight: 5,
-                }}
-              />
-              <Text style={[MainStyles.labelTitle, { marginRight: 10 }]}>
-                {FormatMoney(user.point)} point
-              </Text>
-            </View>
-          </View>
-          <View style={MainStyles.flexRowSpaceBetween}>
-            <Text style={MainStyles.labelTitle}>Hành trình</Text>
-            <Text style={[MainStyles.labelTitle, { color: colors.RED }]}>
-              Cấp {user.level}
-            </Text>
-          </View>
-          <Box height={SCREEN_HEIGHT * 0.01} />
-        </View>
-        <View style={MainStyles.contentContainer}>
           <Text style={MainStyles.labelTitle}>Liên hệ tổng đài</Text>
           <View style={MainStyles.flexRowSpaceBetween}>
             <Text

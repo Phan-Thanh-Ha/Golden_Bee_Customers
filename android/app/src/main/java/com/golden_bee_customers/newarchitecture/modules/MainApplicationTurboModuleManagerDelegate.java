@@ -1,4 +1,4 @@
-package com.golden_bee_customers.newarchitecture.modules;
+package com.golden_bee_customer.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

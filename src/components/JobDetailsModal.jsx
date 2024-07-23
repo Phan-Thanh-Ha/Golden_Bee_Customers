@@ -136,7 +136,8 @@ const JobDetailsModal = forwardRef((_, ref) => {
                 <View style={MainStyles.rowMargin}>
                   <View style={MainStyles.flexRowFlexStart}>
                     <Image source={ic_schedule} style={{ width: 22, height: 22 }} />
-                    <Text style={MainStyles.textCardJob}>Thời gian tạo :{FormatTime(data?.CreateAt, 1)}</Text>
+                    {/* <Text style={MainStyles.textCardJob}>Thời gian tạo :{FormatTime(data?.CreateAt, 1)}</Text> */}
+                    <Text style={MainStyles.textCardJob}>Thời gian tạo :{data?.CreateAt}</Text>
                   </View>
                 </View>
                 <View style={MainStyles.flexRowCenter}>
@@ -171,7 +172,7 @@ const JobDetailsModal = forwardRef((_, ref) => {
                   <View style={MainStyles.flexRowCenter}>
                     <Image source={ic_coin} style={{ width: 22, height: 22 }} />
                     <Text style={{ color: colors.MAIN_COLOR_CLIENT, marginLeft: 10, fontSize: 18, fontWeight: '700' }}>
-                      {FormatMoney(data?.DataService?.TotalPrice)} vnđ
+                      {FormatMoney(data?.DataService?.PriceAfterDiscount)} vnđ
                     </Text>
                   </View>
                 </View>

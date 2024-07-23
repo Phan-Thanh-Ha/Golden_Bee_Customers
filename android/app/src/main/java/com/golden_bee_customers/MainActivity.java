@@ -1,4 +1,4 @@
-package com.golden_bee_customers;
+package com.golden_bee_customer;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

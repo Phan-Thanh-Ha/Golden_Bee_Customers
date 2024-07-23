@@ -16,6 +16,7 @@ import Account from "../Screens/Home/Account";
 import { colors } from "../styles/Colors";
 import { Icon } from "@ui-kitten/components";
 import { ScreenNames } from "../Constants";
+import MyOrders from "../components/firebaseListen/MyOrders";
 
 export const BottomTabNavigator = () => {
   const _renderIcon = (routeName, selectedTab) => {
@@ -96,6 +97,7 @@ export const BottomTabNavigator = () => {
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <Animated.View style={styles.btnCircleUp}>
+          <MyOrders isListen={true} />
           <TouchableOpacity
             style={styles.button}
             // onPress={() => navigate(ScreenNames.WEB_VIEW_CHECK)}

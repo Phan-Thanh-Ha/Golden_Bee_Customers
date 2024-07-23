@@ -383,7 +383,10 @@ const ViewStaffScreen = () => {
             <LayoutBottom>
               <BtnDouble
                 style={MainStyles.btnConfirm}
-                onConfirm1={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}
+                onConfirm1={() =>
+                  navi.reset({
+                    routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+                  })}
                 title1="Về trang chính"
                 btn2Visible={false}
               />

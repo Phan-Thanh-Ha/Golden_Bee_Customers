@@ -3,28 +3,24 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native
 import LayoutGradientBlue from '../../components/layouts/LayoutGradientBlue';
 import LogoBeeBox from '../../components/LogoBeeBox';
 import { colors } from '../../styles/Colors';
-import { useSelector } from 'react-redux';
-import CardJobDone from '../../components/CardJobDone';
-import CardNewJob from '../../components/CardNewJob';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../styles/MainStyle';
 import JobDetailsModal from '../../components/JobDetailsModal';
-import CardDefault from '../../components/CardDefault';
-import { useFocusEffect } from '@react-navigation/native';
-import { mainAction } from '../../Redux/Action';
-import { GroupUserId } from '../../Utils';
-import { dataJobDone } from '../data';
 import JobDoneModal from '../../components/JobDoneModal';
 import TabPending from '../../components/TabPending';
 import TabHistory from '../../components/TabHistory';
+import { useSelector } from 'react-redux';
+import MyOrders from '../../components/firebaseListen/MyOrders';
 
 const History = () => {
   const [selectedTab, setSelectedTab] = useState('Đang làm việc');
   const modalRef = useRef(null);
+  const userLogin = useSelector((state) => state.main.userLogin);
   const modalJobDoneRef = useRef(null);
+  const [dataPending, setDataPending] = useState([]);
   const renderContent = () => {
     if (selectedTab === 'Đang làm việc') {
       return (
-        <TabPending modalRef={modalRef} />
+        <TabPending modalRef={modalRef} dataPending={dataPending} />
       );
     } else if (selectedTab === 'Dịch vụ đã đặt') {
       return (
@@ -35,7 +31,7 @@ const History = () => {
 
   return (
     <LayoutGradientBlue>
-      <LogoBeeBox color={colors.MAIN_COLOR_CLIENT} sizeImage={70} sizeText={20} />
+      <LogoBeeBox color={colors.MAIN_COLOR_CLIENT} sizeImage={SCREEN_WIDTH * 0.15} sizeText={18} />
       <View style={{ height: SCREEN_HEIGHT * 0.73, width: SCREEN_WIDTH }}>
         <View style={styles.container}>
           <View style={styles.tabHeader}>
@@ -77,6 +73,13 @@ const History = () => {
       </View>
       <JobDetailsModal ref={modalRef} />
       <JobDoneModal ref={modalJobDoneRef} />
+      {
+        userLogin ? (
+          <>
+            <MyOrders setOrders={setDataPending} isListen={false} />
+          </>
+        ) : null
+      }
     </LayoutGradientBlue>
   );
 };

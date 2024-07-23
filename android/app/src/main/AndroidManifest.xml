@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.golden_bee_customers">
+  package="com.golden_bee_customer">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- cho phép ứng dụng của bạn truy cập vào vị trí chính xác -->

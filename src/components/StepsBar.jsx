@@ -41,6 +41,7 @@ export default StepsBar = ({ rating = 5, fontSize = [20, 20], fillColor = colors
       borderRadius: 10
     }}>
       {renderStars()}
+      {/* <Text>🥇🥈🥉🏅🎖️🏆</Text> */}
     </View>
   );
 };

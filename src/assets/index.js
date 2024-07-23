@@ -53,3 +53,9 @@ export const ic_phone_call = require("./images/phone-call.png");
 export const ic_human = require("./images/human.png");
 export const ic_upload = require("./images/upload.png");
 export const cirtificate = require("./images/certification.png");
+
+export const ic_bronze = require("./rank_icons/bronze.png");
+export const ic_silver = require("./rank_icons/silver.png");
+export const ic_gold = require("./rank_icons/gold.png");
+export const ic_platinum = require("./rank_icons/platinum.png");
+export const ic_diamond = require("./rank_icons/diamond.png");

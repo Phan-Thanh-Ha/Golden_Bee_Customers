@@ -13,9 +13,7 @@ export const OVG_FBRT_ListenMyOrders = (
   setOrderChange,
   setModalOrderChangeVisible,
   setOrderRemove,
-  setModalOrderRemoveVisible,
-  setOrderAdd,
-  setModalOrderAddVisible
+  setModalOrderRemoveVisible
 ) => {
   if (!customerId) {
     console.error("Invalid value for customerId:", customerId);
@@ -89,7 +87,7 @@ export const OVG_FBRT_ListenMyOrders = (
           OrderId: orderId,
         }));
         setMyOrders(initialOrders);
-        console.log("Initial orders loaded:", initialOrders);
+        // console.log("Initial orders loaded:", initialOrders);
       } else {
         setMyOrders([]);
         console.log("No initial orders found.");

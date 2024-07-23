@@ -137,10 +137,10 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.golden_bee_customers"
+        applicationId "com.golden_bee_customer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 14
+        versionCode 4
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         multiDexEnabled true
@@ -231,7 +231,7 @@ android {
         }
     }
     // netco123
-    namespace 'com.golden_bee_customers'
+    namespace 'com.golden_bee_customer'
     buildTypes {
         debug {
             signingConfig signingConfigs.debug

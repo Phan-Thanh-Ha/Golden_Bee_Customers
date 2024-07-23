@@ -1,5 +1,5 @@
-import MainStyle from "../styles/MainStyle";
-import { Image, Text, View } from "react-native";
+import MainStyle, { SCREEN_HEIGHT } from "../styles/MainStyle";
+import { Image, Platform, Text, View } from "react-native";
 import { logo_bee_blue } from "../assets";
 import { colors } from "../styles/Colors";
 
@@ -9,7 +9,7 @@ const LogoBeeBox = ({ color = colors.MAIN_BLUE_CLIENT, sizeImage = 120, sizeText
       <View
         style={{
           alignItems: 'center',
-          marginTop: 35
+          marginTop: Platform.OS === 'ios' ? SCREEN_HEIGHT * 0.03 : 0
         }}>
         <Image
           source={logo_bee_blue}
