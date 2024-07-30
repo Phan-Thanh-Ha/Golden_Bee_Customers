@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import React from "react";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
-import Header from "../../components/Header";
-import { colors, themeColors } from "../../styles/Colors";
+import { themeColors } from "../../styles/Colors";
 import Footer from "../../components/Footer";
 import ForgotPasswordForm from "../../components/forms/ForgotPasswordForm";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
@@ -19,10 +19,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
           extraScrollHeight={140}
           enableOnAndroid={true}
         >
-
-          <Text style={styles.title}>
-            Quên mật khẩu
-          </Text>
+          <Text style={styles.title}>Quên mật khẩu</Text>
           <ForgotPasswordForm navigation={navigation} />
         </KeyboardAwareScrollView>
       </LayoutGradientBlue>
@@ -34,9 +31,9 @@ const ForgotPasswordScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: themeColors.primary,
-    textAlign: 'center',
+    textAlign: "center",
   },
-})
+});
 export default ForgotPasswordScreen;

@@ -50,7 +50,7 @@ const BookingCard = ({ data, onPress }) => {
             {/* <Image source={ic_coin} style={styles.icon} /> */}
             <Money color={colors.MAIN_COLOR_CLIENT} />
             <Text style={styles.infoText}>
-              {FormatMoney(data.TotalPrice)} vnđ
+              {FormatMoney(data.TotalPrice)} VND
             </Text>
           </View>
           <View style={styles.infoItem}>

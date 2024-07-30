@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
-import { color } from 'react-native-reanimated';
 import { colors } from '../styles/Colors';
 import MainStyles, { SCREEN_WIDTH } from '../styles/MainStyle';
 import { parseTimeSql } from '../Utils';
@@ -43,9 +42,8 @@ const VoucherComponent = ({ vouchers, selectedVouchers, setSelectedVouchers, lim
         disabled={isDisabled}
       >
         <View style={styles.voucherContent}>
-          {/* <Text style={styles.voucherName}>{item?.VoucherName}</Text> */}
           <Text style={styles.voucherCode}>⚡ Mã voucher : {item?.VoucherCode}</Text>
-          <Text style={styles.voucherDiscount}>Giảm : {item?.TypeDiscount === 2 ? `-${item?.Discount} VND` : `-${item?.Discount}%`}</Text>
+          <Text style={styles.voucherDiscount}>Giảm {item?.TypeDiscount === 2 ? `${item?.Discount} VND` : `${item?.Discount}%`}</Text>
           <Text style={styles.voucherDiscount}>Ngày kết thúc : {parseTimeSql(item?.Today, 1)}</Text>
         </View>
       </TouchableOpacity>
@@ -90,15 +88,15 @@ const VoucherComponent = ({ vouchers, selectedVouchers, setSelectedVouchers, lim
           }
           <View style={styles.modalFooter}>
             <TouchableOpacity style={[styles.footerButton, styles.applyButtonColor]} onPress={handleApplyVouchers}>
-              <Text style={styles.footerButtonText}>Áp mã giảm giá</Text>
+              <Text style={styles.footerButtonText}>Sử dụng</Text>
             </TouchableOpacity>
             {selectedVouchers.length > 0 && (
               <TouchableOpacity style={[styles.footerButton, styles.clearButtonColor]} onPress={handleClearVouchers}>
-                <Text style={styles.footerButtonText}>Gỡ áp mã</Text>
+                <Text style={styles.footerButtonText}>Gỡ bỏ</Text>
               </TouchableOpacity>
             )}
             <TouchableOpacity style={[styles.footerButton, styles.cancelButtonColor]} onPress={() => setModalVisible(false)}>
-              <Text style={styles.footerButtonText}>Hủy</Text>
+              <Text style={styles.footerButtonText}>Đóng</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -154,7 +152,7 @@ const styles = StyleSheet.create({
   },
   voucherDiscount: {
     fontSize: 14,
-    color: '#ff5722',
+    color: colors.RED,
   },
   modalFooter: {
     flexDirection: 'row',

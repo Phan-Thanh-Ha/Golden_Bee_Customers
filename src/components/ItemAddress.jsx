@@ -13,12 +13,11 @@ import ArrowRight from "./svg/ArrowRight";
 const ItemAddress = ({ data = [], onPress = () => { } }) => {
   // Giới hạn số lượng item hiển thị tối đa là 7
   const itemsToShow = data.slice(0, 7);
-  // console.log("🚀 ~ file: ItemAddress.jsx:ItemAddress ~ data", data)
   return (
     <View>
-      {itemsToShow.map((item) => (
+      {itemsToShow.map((item, index) => (
         <TouchableOpacity
-          key={item?.place_id} // Giả sử item có thuộc tính id là duy nhất
+          key={index}
           style={styles.container}
           onPress={() => onPress(item)}
         >

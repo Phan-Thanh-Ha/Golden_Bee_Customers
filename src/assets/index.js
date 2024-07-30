@@ -59,3 +59,10 @@ export const ic_silver = require("./rank_icons/silver.png");
 export const ic_gold = require("./rank_icons/gold.png");
 export const ic_platinum = require("./rank_icons/platinum.png");
 export const ic_diamond = require("./rank_icons/diamond.png");
+
+export const slide1 = require("./images/slide1.png");
+export const slide2 = require("./images/slide2.png");
+
+export const suaongnuoc = require("./images/suaongnuoc.jpg");
+export const suadien = require("./images/suadien.png");
+export const donnha = require("./images/donnha.png");

@@ -10,22 +10,41 @@ const carouselItemComp = ({ dataCarousel = [] }) => {
   const _renderItem = ({ item }) => {
     return (
       <View style={{ width: "100%" }}>
-        <FastImage
-          source={{ uri: item.Links + item.ImageShow }}
-          style={{
-            height: SCREEN_HEIGHT * 0.2,
-            borderRadius: 10,
-            width: "100%",
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
-          }}
-        />
+        {item?.IsFake ? (
+          <FastImage
+            source={item?.ImageShow}
+            style={{
+              height: SCREEN_HEIGHT * 0.2,
+              borderRadius: 10,
+              width: "100%",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }}
+          />
+        ) : (
+          <FastImage
+            source={{ uri: item?.Links + item?.ImageShow }}
+            style={{
+              height: SCREEN_HEIGHT * 0.2,
+              borderRadius: 10,
+              width: "100%",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }}
+          />
+        )}
       </View>
     );
   };

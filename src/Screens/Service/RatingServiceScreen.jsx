@@ -27,9 +27,16 @@ const RatingServiceScreen = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalAlertVisible, setIsModalAlertVisible] = useState(false);
 
   const onGoToHome = () => {
-    navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+    if (rating < 4 && note === "") {
+      setIsModalAlertVisible(true);
+    } else {
+      navi.reset({
+        routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+      });
+    }
   }
 
   const OVG_spCustomer_Review_Save = async () => {
@@ -43,7 +50,6 @@ const RatingServiceScreen = () => {
         Note: note,
         GroupUserId: GroupUserId
       };
-      // console.log("pr", pr);
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Review_Save",
@@ -54,13 +60,16 @@ const RatingServiceScreen = () => {
         setIsLoading(false);
       }
     } catch (error) {
-      // console.log("error", error);
       setIsLoading(false);
     }
   };
 
   const onSubmitRating = () => {
-    OVG_spCustomer_Review_Save();
+    if (rating < 4 && note === "") {
+      setIsModalAlertVisible(true);
+    } else {
+      OVG_spCustomer_Review_Save();
+    }
   }
 
   return (
@@ -81,9 +90,9 @@ const RatingServiceScreen = () => {
                 />
               )}
             </View>
-            <Text style={MainStyles.title_1}>Đánh giá dịch vụ nhân viên</Text>
+            <Text style={MainStyles.title_1}>Đánh giá dịch vụ</Text>
             <Text style={MainStyles.subtitle_1}>
-              Bạn thấy dịch vụ của từ nhân viên {data?.StaffName} như thế nào ? hãy để lại đánh giá để ong vàng biết nhé
+              Bạn thấy nhân viên {data?.StaffName} và dịch vụ của chúng tôi như thế nào ? hãy để lại đánh giá cho chúng tôi về chất lượng dịch vụ. Cảm ơn đã tin tưởng và sử dụng dịch vụ của chúng tôi ! Hẹn gặp lại.
             </Text>
             <View style={[MainStyles.flexRowCenter, { marginTop: 20 }]}>
               <RatingTouch rating={rating} fontSize={[30, 30]} onRate={setRating} />
@@ -91,7 +100,7 @@ const RatingServiceScreen = () => {
             <Label>Ghi chú</Label>
             <TextInput
               style={styles.textArea}
-              placeholder="Hãy để lại lời nhắn ở đây ..."
+              placeholder="Hãy để lại lời nhắn về dịch vụ và nhân viên ở đây ..."
               value={note}
               onChangeText={setNote}
               multiline={true}
@@ -126,6 +135,16 @@ const RatingServiceScreen = () => {
             modalTitle="Đã đánh giá"
             title={"Cảm ơn quý khách đã để lại đánh giá cho dịch vụ này. Hẹn gặp lại trong những dịch vụ tới, Ong Vàng xin cảm ơn !"}
             btnConfirmTiTle="Về trang chính"
+            backdropClose={true}
+          />
+          <ModalConfirm
+            isModalVisible={isModalAlertVisible}
+            setModalVisible={setIsModalAlertVisible}
+            onConfirm={() => setIsModalAlertVisible(false)}
+            modalTitle="Thông báo"
+            title={`Bạn đã để lại đáng giá thấp cho nhân viên ${data?.StaffName} và dịch vụ của chúng tôi ! Vui lòng viết thêm ghi chú cụ thể về sự không hài lòng này. Chúng tôi sẽ lắng nghe ý kiến đóng góp để cải thiện dịch vụ. Xin cảm ơn !`}
+            btnConfirmTiTle="Thêm ghi chú"
+            backdropClose={true}
           />
         </LayoutGradientBlue>
       </View>

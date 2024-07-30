@@ -10,7 +10,6 @@ import { SCREEN_WIDTH } from "../../../styles/MainStyle";
 import { colors, themeColors } from "../../../styles/Colors";
 
 const ITEMS_PER_ROW = 2;
-const ITEM_WIDTH = SCREEN_WIDTH * 0.3 + 10;
 const PROGRESS_BAR_WIDTH = SCREEN_WIDTH * 0.08;
 
 export const MenuScroll = () => {
@@ -60,7 +59,8 @@ export const MenuScroll = () => {
     const contentWidth = event.nativeEvent.contentSize.width;
     const layoutWidth = event.nativeEvent.layoutMeasurement.width;
 
-    const scrollPercentage = (contentOffset / (contentWidth - layoutWidth)) * 100;
+    const scrollPercentage =
+      (contentOffset / (contentWidth - layoutWidth)) * 100;
     setScrollPosition(scrollPercentage);
   };
 
@@ -74,16 +74,11 @@ export const MenuScroll = () => {
         onScroll={handleScroll}
         scrollEventThrottle={16}
       >
-        {renderItems()}
+        {/* {renderItems()} */}
       </ScrollView>
       <View style={styles.progressBarContainer}>
         <View style={styles.progressBar}>
-          <View
-            style={[
-              styles.progressDot,
-              { left: `${scrollPosition}%` }
-            ]}
-          />
+          <View style={[styles.progressDot, { left: `${scrollPosition}%` }]} />
         </View>
       </View>
     </View>
@@ -131,8 +126,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   progressBarContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: 10,
   },
   progressBar: {
@@ -146,7 +141,7 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 5,
     backgroundColor: themeColors.primary,
-    position: 'absolute',
+    position: "absolute",
     top: -1,
     marginLeft: -5,
   },

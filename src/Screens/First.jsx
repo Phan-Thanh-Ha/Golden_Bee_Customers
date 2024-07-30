@@ -15,22 +15,30 @@ const First = () => {
   useEffect(() => {
     const getRouter = async () => {
       try {
-        const userLogin = await getData(StorageNames.USER_PROFILE);
-        mainAction.userLogin(userLogin, dispatch);
-        await ensureMenuData();
-        // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
-        if (userLogin) {
-          navi.reset({
-            index: 0,
-            routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
-          })
+        const isOld = await getData(StorageNames.IS_OLD_USER);
+        if (isOld) {
+          const userLogin = await getData(StorageNames.USER_PROFILE);
+          mainAction.userLogin(userLogin, dispatch);
+          await ensureMenuData();
           // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+          if (userLogin) {
+            navi.reset({
+              index: 0,
+              routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+            })
+            // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
+          } else {
+            navi.reset({
+              index: 0,
+              routes: [{ name: ScreenNames.HOME }],
+            })
+            // navi.navigate(ScreenNames.HOME);
+          }
         } else {
           navi.reset({
             index: 0,
-            routes: [{ name: ScreenNames.HOME }],
+            routes: [{ name: ScreenNames.ABOUT }],
           })
-          // navi.navigate(ScreenNames.HOME);
         }
       } catch (error) {
         console.error("Failed to fetch the user from AsyncStorage:", error);

@@ -35,16 +35,19 @@ const RegisterForm = () => {
         CustomerName: values.fullName,
         CustomerPhone: values.phoneNumber,
         Password: values.password,
+        EnCode: "",
+        CustomerAddress: "",
+        CustomerEmail: "",
+        UserId: "",
         GroupId: 10060
       };
+
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Save",
       };
-      console.log(params);
 
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("result", result);
       if (result?.Status === "OK") {
         AlertToaster("success", "Xác thực OTP để hoàn tất đăng ký !");
         navi.navigate(ScreenNames.ACTIVE_ACCOUNT, {

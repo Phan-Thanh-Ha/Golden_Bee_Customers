@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../../styles/Colors";
 import Box from "../Box";
@@ -12,7 +12,7 @@ const LayoutGradientBlue = ({ children }) => {
         colors={[colors.PRIMARY_LIGHT, colors.WHITE]}
         style={styles.gradient}
       />
-      <Box height={Platform.OS === "android" ? 0 : SCREEN_HEIGHT * 0.07} />
+      <Box height={Platform.OS === "android" ? 0 : SCREEN_HEIGHT * 0.02} />
       {children}
     </View>
   );

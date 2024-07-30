@@ -48,7 +48,7 @@ const ServiceHouseClearningScreen = () => {
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
-      <Text style={MainStyles.screenTitle}>Dọn dẹp phòng</Text>
+      <Text style={MainStyles.screenTitle}>Dọn dẹp Phòng</Text>
       <CardLocation location={service.Address} />
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
@@ -91,7 +91,7 @@ const ServiceHouseClearningScreen = () => {
           >
             <Text style={styles.btnTitle}>
               {FormatMoney(totalPrice) +
-                " VNĐ / " +
+                " VND / " +
                 RoundUpNumber(time, 0) +
                 " giờ"}
             </Text>

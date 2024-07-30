@@ -1,12 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
-import Header from "../../components/Header";
-import { colors } from "../../styles/Colors";
+import { colors, themeColors } from "../../styles/Colors";
 import FormActiveAccount from "../../components/forms/FormActiveAccount";
 import { useState } from "react";
 import Footer from "../../components/Footer";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
-import FormRegister from "../../components/forms/RegisterForm";
 
 const ActiveAccount = () => {
   const [isSubmit, setIsSubmit] = useState();
@@ -35,7 +33,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#fff',
+    color: themeColors.primary,
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 20,

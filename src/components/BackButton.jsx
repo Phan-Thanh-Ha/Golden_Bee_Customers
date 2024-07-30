@@ -17,7 +17,7 @@ const BackButton = ({ title, showBackButton = true, onBack = () => { }, color = 
     <View style={styles.header}>
       {showBackButton && (
         <TouchableOpacity onPress={handleGoBack} style={{ width: SCREEN_WIDTH * 0.2 }}>
-          <ArrowLeft color={color} />
+          <ArrowLeft color={color} size={28} />
         </TouchableOpacity>
       )}
       <Text>{title}</Text>

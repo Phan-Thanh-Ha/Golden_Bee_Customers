@@ -13,21 +13,28 @@ import { getRouterById } from "../../Utils/RoutingService";
 import Button from "../../components/buttons/Button";
 import Box from "../../components/Box";
 import ArrowRight from "../../components/svg/ArrowRight";
+import BackButton from "../../components/BackButton";
 
 const ShowMap = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { service } = route.params || {};
   const [region, setRegion] = useState({
-    latitude: service.Latitude || 0,
-    longitude: service.Longitude || 0,
+    latitude: service?.latitude || 0,
+    longitude: service?.longitude || 0,
     latitudeDelta: 0.015,
     longitudeDelta: 0.0121,
   });
 
   useEffect(() => {
-    if (!service.Latitude || !service.Longitude) {
-      getLatLong(service.place_id);
+    if (!service.latitude || !service.longitude) {
+      getLatLong(service?.place_id);
+    } else {
+      setRegion({
+        ...region,
+        latitude: service?.latitude,
+        longitude: service?.longitude,
+      });
     }
   }, []);
 
@@ -71,6 +78,7 @@ const ShowMap = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <BackButton color={colors.BLACK} />
       <ScrollView>
         <View>
           <MapView
@@ -98,17 +106,18 @@ const ShowMap = () => {
           <View style={styles.markerFixed}>
             <Image source={pin_outline} style={{ width: 64, height: 64 }} />
           </View>
-          <View style={styles.topBar}>
+          {/* <View style={styles.topBar}>
             <CardLocation
               onPress={() => navigation.goBack()}
               location={service.Address}
             />
-          </View>
+          </View> */}
         </View>
+        <CardLocation
+          onPress={() => navigation.goBack()}
+          location={service.Address}
+        />
         <View style={styles.bodyContainer}>
-          <View style={styles.deliveryContainer}>
-            <Text style={styles.deliverytext}>{service.Address}</Text>
-          </View>
           <Box height={80} />
         </View>
       </ScrollView>

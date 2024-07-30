@@ -110,7 +110,7 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
           setUploadProgress(progress);
         },
       );
-      // console.log('result', result);
+      console.log('result Image-----------------------------------------------', result);
       setIsOptionsModalVisible(false);
       if (result.length > 0) {
         setIsUpload(true);

@@ -1,15 +1,20 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BackHandler, StyleSheet, Text, View } from "react-native";
 import Header from "../../components/Header";
 import { CommonActions, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { InputComponent } from "../../components/Input";
 import { colors } from "../../styles/Colors";
-import { GOOGLE_API_KEY, getData, setData } from "../../Utils";
+import { GOOGLE_API_KEY, GroupUserId, getData, setData } from "../../Utils";
 import ItemAddress from "../../components/ItemAddress";
 import axios from "axios";
 import { ScreenNames } from "../../Constants";
 import debounce from "lodash/debounce";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { mainAction } from "../../Redux/Action";
+import getAddressFromCurrentLocation from "../../Utils/getAddressFromCurrentLocation";
+import { limitTitle } from "../../Utils/LimitTitle";
+import BackButton from "../../components/BackButton";
+import MainStyles from "../../styles/MainStyle";
 
 const AddressSearch = () => {
   const navi = useNavigation();
@@ -17,9 +22,42 @@ const AddressSearch = () => {
   const route = useRoute();
   const { service } = route.params || {};
   const [dataAddressSearch, setDataAddressSearch] = useState([]);
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [oldAddressSearch, setOldAddressSearch] = useState([]);
   const [statusAddressSearch, setStatusAddressSearch] = useState("basic");
   const userLogin = useSelector((state) => state.main.userLogin);
+  const [initAddress, setInitAddress] = useState({});
+
+  useEffect(() => {
+    OVG_spAddress_List_By_Customer();
+    GetInitialAddress();
+  }, []);
+  const GetInitialAddress = async () => {
+    const result = await getAddressFromCurrentLocation();
+    if (result) {
+      setInitAddress(result);
+    }
+  }
+  console.log("initAddress-------------", initAddress);
+
+  const OVG_spAddress_List_By_Customer = async () => {
+    try {
+      const pr = {
+        CustomerId: userLogin?.Id
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spAddress_List_By_Customer",
+      };
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      if (result) {
+        setOldAddressSearch(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // Hàm gọi API tìm kiếm địa chỉ từ Google
   const handleSearch = async (text) => {
@@ -82,29 +120,42 @@ const AddressSearch = () => {
 
   return (
     <View style={{ backgroundColor: colors.WHITE }}>
-      <Header title="Chọn vị trí làm việc" onBack={onBackPress} isGoBack={false} />
-
+      {/* <Header title="Chọn vị trí làm việc" onBack={onBackPress} isGoBack={false} /> */}
+      <BackButton color={colors.MAIN_BLUE_CLIENT} />
+      <Text style={MainStyles.screenTitle}>Thêm vị trí của bạn</Text>
       <InputComponent
-        placeholder={"Nhập địa chỉ"}
-        iconRight="map-outline"
+        placeholder={limitTitle(initAddress?.address || "", 30) || "Nhập địa chỉ"}
+        iconRight="pin"
         inputStatus={statusAddressSearch}
         txtWarning="Vui lòng nhập địa chỉ"
         style={{
           width: "98%",
           alignSelf: "center",
         }}
-        onRightIconPress={() => { }}
+        onRightIconPress={() => {
+          navi.navigate(ScreenNames.SHOW_MAP, {
+            service: {
+              ...service,
+              Address: initAddress?.address,
+              place_id: "",
+              latitude: initAddress?.latitude,
+              longitude: initAddress?.longitude,
+            },
+          });
+        }}
         onLeftIconPress={() => { }}
         onChangeText={handleChangeText}
       />
       <ItemAddress
-        data={dataAddressSearch}
+        data={dataAddressSearch?.length ? dataAddressSearch : oldAddressSearch}
         onPress={(item) => {
           navi.navigate(ScreenNames.SHOW_MAP, {
             service: {
               ...service,
-              Address: item.name,
-              place_id: item.place_id,
+              Address: item?.name,
+              place_id: item?.place_id,
+              latitude: item?.latitude,
+              longitude: item?.longitude,
             },
           });
         }}

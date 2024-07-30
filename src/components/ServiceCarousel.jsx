@@ -12,14 +12,24 @@ const ServiceCarousel = ({ dataNewService = [] }) => {
   const renderItem = ({ item }) => (
     <View style={styles.cardContainer}>
       <View style={styles.card}>
-        <FastImage
-          style={styles.image}
-          source={{ uri: item.ImageNewsShow }}
-          resizeMode={FastImage.resizeMode.cover}
-        />
+        {
+          item?.IsFake ? (
+            <FastImage
+              style={styles.image}
+              source={item?.ImageNewsShow}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+          ) : (
+            <FastImage
+              style={styles.image}
+              source={{ uri: item?.ImageNewsShow }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+          )
+        }
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{limitTitle(item.MetaDescription, 50)}</Text>
-          <Text style={styles.description}>{limitTitle(item.NewsDescriptionEn, 120)}</Text>
+          <Text style={styles.title}>{limitTitle(item?.MetaDescription, 50)}</Text>
+          <Text style={styles.description}>{limitTitle(item?.NewsDescriptionEn, 120)}</Text>
         </View>
       </View>
     </View>
@@ -64,13 +74,13 @@ const styles = StyleSheet.create({
     color: themeColors.primary,
   },
   cardContainer: {
-    height: 300,
+    height: ITEM_WIDTH * 0.95,
     marginRight: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   card: {
-    height: 300,
+    height: ITEM_WIDTH * 0.95,
     backgroundColor: "white",
     borderRadius: 15,
     shadowColor: "#000",
@@ -82,7 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: 300,
+    width: ITEM_WIDTH * 0.95,
     height: 180,
     borderRadius: 10,
   },

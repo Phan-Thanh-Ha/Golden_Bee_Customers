@@ -56,7 +56,7 @@ const ModalEditUser = ({
   //   }
   // };
   const valid = () => {
-    if (!userName) {
+    if (!userName?.trim()) {
       setMessage("Không để trống tên khách hàng");
       return false;
     }
@@ -70,8 +70,13 @@ const ModalEditUser = ({
     if (isValid) {
       try {
         const pr = {
-          CustomerId: userLogin?.CustomerId || 0,
+          CustomerId: userLogin?.Id || 0,
+          CustomerName: userName,
           Avatar: avatar.join('') ? avatar.join('') : userLogin?.Avatar,
+          CustomerPhone: userLogin?.Phone,
+          CustomerAddress: "",
+          CustomerEmail: "",
+          UserId: "",
           GroupId: 10060
         };
 
@@ -80,13 +85,13 @@ const ModalEditUser = ({
           func: "OVG_spCustomer_Save",
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
-        // console.log("result", result);
         if (result?.Status === "OK") {
           AlertToaster("success", "Cập nhật thành công");
           const userChange = {
             ...userLogin,
             Avatar: avatar.join('') ? avatar.join('') : userLogin?.Avatar,
-            CustomerName: userName
+            CustomerName: userName,
+            Phone: userLogin?.Phone
           }
           mainAction.userLogin(userChange, dispatch);
           setData(StorageNames.USER_PROFILE, userChange);

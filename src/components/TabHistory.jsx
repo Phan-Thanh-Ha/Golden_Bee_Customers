@@ -8,6 +8,7 @@ import { mainAction } from "../Redux/Action";
 import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { SCREEN_HEIGHT } from "../styles/MainStyle";
+import React from "react";
 
 const TabHistory = ({ modalJobDoneRef }) => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -41,22 +42,20 @@ const TabHistory = ({ modalJobDoneRef }) => {
   };
   console.log("Result: ", dataJobDone);
   const renderFooter = () => <View style={{ height: SCREEN_HEIGHT * 0.05 }} />;
-  return (
-    dataJobDone?.length > 0 ? (
-      <FlatList
-        style={styles.flatList}
-        data={dataJobDone}
-        renderItem={({ item }) => (
-          <CardJobDone data={item} modalRef={modalJobDoneRef} />
-        )}
-        keyExtractor={(item) => item?.BookingServiceCode}
-        ListFooterComponent={renderFooter}
-      />
-    ) : (
-      <CardDefault title={"Chưa có dịch vụ đã đặt"} />
-    )
+  return dataJobDone?.length > 0 ? (
+    <FlatList
+      style={styles.flatList}
+      data={dataJobDone}
+      renderItem={({ item }) => (
+        <CardJobDone data={item} modalRef={modalJobDoneRef} />
+      )}
+      keyExtractor={(item) => item?.BookingServiceCode}
+      ListFooterComponent={renderFooter}
+    />
+  ) : (
+    <CardDefault title={"Chưa có dịch vụ đã đặt"} />
   );
-}
+};
 const styles = StyleSheet.create({
   flatList: {
     flex: 1,

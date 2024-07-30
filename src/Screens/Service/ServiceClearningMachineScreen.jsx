@@ -89,7 +89,7 @@ const ServiceClearningMachineScreen = () => {
           >
             <Text style={styles.btnTitle}>
               {FormatMoney(totalPrice) +
-                " VNĐ / " +
+                " VND / " +
                 RoundUpNumber(time, 0) +
                 " giờ"}
             </Text>

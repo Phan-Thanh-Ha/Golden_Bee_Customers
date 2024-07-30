@@ -199,12 +199,12 @@ const MainStyles = StyleSheet.create({
     color: colors.MAIN_BLUE_CLIENT,
   },
   screenTitle: {
-    fontSize: 27,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "600",
     color: colors.MAIN_BLUE_CLIENT,
     textAlign: "center",
     marginTop: 40,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   titleUpdateProfile: {
     textAlign: "center",

@@ -147,7 +147,7 @@ const FormServiceClearning = ({
               />
               <Label style={styles.title}>Ghi chú</Label>
               <TextArea
-                placeholder="Thêm ghi chú ở đây"
+                placeholder="Thêm lưu ý cho dịch vụ hoặc các dụng cụ cần thiết khác"
                 value={values.note}
                 onChangeText={handleChange("note")}
                 onBlur={handleBlur("note")}

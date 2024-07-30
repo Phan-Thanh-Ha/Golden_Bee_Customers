@@ -32,7 +32,7 @@ const History = () => {
   return (
     <LayoutGradientBlue>
       <LogoBeeBox color={colors.MAIN_COLOR_CLIENT} sizeImage={SCREEN_WIDTH * 0.15} sizeText={18} />
-      <View style={{ height: SCREEN_HEIGHT * 0.73, width: SCREEN_WIDTH }}>
+      <View style={{ height: SCREEN_HEIGHT * 0.74, width: SCREEN_WIDTH }}>
         <View style={styles.container}>
           <View style={styles.tabHeader}>
             <TouchableOpacity

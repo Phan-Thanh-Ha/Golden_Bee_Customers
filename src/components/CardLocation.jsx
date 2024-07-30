@@ -2,14 +2,15 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ic_location, ic_placeholder } from "../assets";
 import { colors } from "../styles/Colors";
 import { useNavigation } from "@react-navigation/native";
+import { SCREEN_WIDTH } from "../styles/MainStyle";
 
 export const CardLocation = ({ location }) => {
   const navi = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => {
-        navi.goBack();
-      }}
+      // onPress={() => {
+      //   // navi.goBack();
+      // }}
       style={styles.container}
     >
       <Image source={ic_location} style={styles.iconLeft} />
@@ -31,11 +32,12 @@ const styles = StyleSheet.create({
     padding: 10,
     marginHorizontal: 10,
     borderRadius: 5,
+    minWidth: SCREEN_WIDTH * 0.95
   },
   containerContent: {},
   title: {
     color: colors.BLACK,
-    paddingRight: 22,
+    paddingRight: 25,
     fontSize: 16,
   },
   subTitle: {

@@ -34,6 +34,7 @@ const Header = ({ title, onBack = () => { }, isGoBack = true }) => {
         alignment="center"
         accessoryLeft={BackAction}
         style={{ backgroundColor: "transparent", marginTop: 30 }}
+        titleStyle={{ color: colors.BLACK }}
       />
     </View>
   );

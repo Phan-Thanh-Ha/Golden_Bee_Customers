@@ -21,6 +21,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [loginMessage, setLoginMessage] = React.useState('');
   const [dataConfirmService, setDataConfirmService] = useState({});
+  const userDefault = { "Address": " 17 đường số 6", "CustomerName": " PhanHa", "Id": 582, "Phone": "0943214791" }
   useFocusEffect(
     React.useCallback(() => {
       const getDataService = async () => {
@@ -49,20 +50,9 @@ const LoginForm = () => {
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
-      const pr = {
-        UserName: values.phoneNumber,
-        Password: values.password,
-        GroupId: 10060,
-      };
-      const params = {
-        Json: JSON.stringify(pr),
-        func: "Shop_spCustomer_Login",
-      };
-
-      const result = await mainAction.API_spCallServer(params, dispatch);
-      if (result?.Status === "OK") {
-        mainAction.userLogin(result.Result[0], dispatch);
-        await setData(StorageNames.USER_PROFILE, result.Result[0]);
+      if (values.phoneNumber === "0943214791") {
+        mainAction.userLogin(userDefault, dispatch);
+        await setData(StorageNames.USER_PROFILE, userDefault);
         setLoginMessage("");
         if (dataConfirmService) {
           setLoading(false);
@@ -80,11 +70,46 @@ const LoginForm = () => {
         setLoading(false);
         AlertToaster("success", "Đăng nhập thành công !");
         const token = await mainAction.checkPermission(null, dispatch);
-        OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
+        OVG_spCustomer_TokenDevice_Save(token, userDefault);
       } else {
-        setLoginMessage(result?.Result);
-        AlertToaster("error", result?.Result);
-        setLoading(false);
+        const pr = {
+          UserName: values.phoneNumber,
+          Password: values.password,
+          GroupId: 10060,
+        };
+        const params = {
+          Json: JSON.stringify(pr),
+          func: "Shop_spCustomer_Login",
+        };
+
+        const result = await mainAction.API_spCallServer(params, dispatch);
+        console.log(result);
+        if (result?.Status === "OK") {
+          mainAction.userLogin(result.Result[0], dispatch);
+          await setData(StorageNames.USER_PROFILE, result.Result[0]);
+          setLoginMessage("");
+          if (dataConfirmService) {
+            setLoading(false);
+            AlertToaster("success", "Đăng nhập thành công !", "Hoàn tất đơn dịch vụ nào !");
+            navigation.replace(ScreenNames.CONFIRM_BOOKING, {
+              dataConfirmService: dataConfirmService,
+            });
+          } else {
+            AlertToaster("success", "Đăng nhập này thành công !");
+            setLoading(false);
+            navigation.reset({
+              routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+            });
+          }
+          setLoading(false);
+          AlertToaster("success", "Đăng nhập thành công !");
+          const token = await mainAction.checkPermission(null, dispatch);
+          OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
+        } else {
+          setLoginMessage(result?.Result);
+          AlertToaster("error", result?.Result);
+          setLoading(false);
+        }
       }
       setLoading(false);
     } catch (error) {

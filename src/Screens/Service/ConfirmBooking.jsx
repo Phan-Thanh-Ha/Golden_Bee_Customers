@@ -1,6 +1,20 @@
-import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { BackHandler, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import {
+  BackHandler,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
 import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../../styles/Colors";
 import BackButton from "../../components/BackButton";
@@ -19,10 +33,9 @@ import ArrowRight from "../../components/svg/ArrowRight";
 import { AlertToaster } from "../../Utils/AlertToaster";
 import VoucherComponent from "../../components/VoucherComponent";
 import { calculateDiscount } from "../../Utils/calculateDiscount";
-import Modal from 'react-native-modal';
+import Modal from "react-native-modal";
 import Loading from "../../components/Loading";
 import ModalRequired from "../../components/modal/ModalRequired";
-import { OVG_FBRT_PlaceOrder } from "../../firebaseService/ListenOrder";
 import ModalSelectOption from "../../components/modal/ModalSelectOption";
 
 const ConfirmBooking = () => {
@@ -34,11 +47,16 @@ const ConfirmBooking = () => {
   const navi = useNavigation();
   const [payment, setPayment] = useState(false);
   const [vouchers, setVouchers] = useState([]);
-  const [priceAfterDiscount, setPriceAfterDiscount] = useState(dataConfirmService?.TotalPrice);
+  const [priceAfterDiscount, setPriceAfterDiscount] = useState(
+    dataConfirmService?.TotalPrice
+  );
+  //vouvher
+  const [selectedVouchers, setSelectedVouchers] = useState([]);
+  const limit = 1;
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalAlertVisible, setIsModalAlertVisible] = useState(false);
-  const [countdown, setCountdown] = useState(8);
+  const [countdown, setCountdown] = useState(5);
   const [isOver, setIsOver] = useState(false);
   const isMounted = useRef(true);
 
@@ -46,6 +64,7 @@ const ConfirmBooking = () => {
     const pr = {
       CustomerId: userLogin?.Id || 0,
       CustomerName: userLogin?.CustomerName || "",
+      CustomerPhone: userLogin?.Phone || 0,
       Lat: dataConfirmService?.Latitude || 0.0,
       Lng: dataConfirmService?.Longitude || 0.0,
       ServiceId: dataConfirmService?.ServiceId || 0,
@@ -65,8 +84,9 @@ const ConfirmBooking = () => {
       Voucher: selectedVouchers || [],
       PriceAfterDiscount: priceAfterDiscount || 0,
       TotalDiscount: totalDiscount || 0,
-      GroupUserId: GroupUserId || 0
+      GroupUserId: GroupUserId || 0,
     };
+    // console.log("pr----------------------------", pr);
     isMounted.current = true;
     setData(StorageNames.SERVICE_PENDING, pr);
     OVG_spService_BookingService_Save();
@@ -93,15 +113,12 @@ const ConfirmBooking = () => {
   };
 
   const resetModalState = () => {
-    setCountdown(8);
-    setSelectedVouchers([]);
+    setCountdown(5);
+    // setSelectedVouchers([]);
   };
   const removeStorage = async () => {
     await removeData(StorageNames.SERVICE_CONFIRM);
   };
-  //vouvher
-  const [selectedVouchers, setSelectedVouchers] = useState([]);
-  const limit = 100;
 
   useFocusEffect(
     useCallback(() => {
@@ -112,10 +129,10 @@ const ConfirmBooking = () => {
         return true;
       };
 
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
 
       return () => {
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
       };
     }, [navi])
   );
@@ -131,7 +148,7 @@ const ConfirmBooking = () => {
   useEffect(() => {
     if (isModalVisible) {
       const timer = setInterval(() => {
-        setCountdown(prev => {
+        setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
             handleBooking();
@@ -144,7 +161,10 @@ const ConfirmBooking = () => {
     }
   }, [isModalVisible]);
   useEffect(() => {
-    setPriceAfterDiscount(calculateDiscount(selectedVouchers, dataConfirmService?.TotalPrice).finalAmount);
+    setPriceAfterDiscount(
+      calculateDiscount(selectedVouchers, dataConfirmService?.TotalPrice)
+        .finalAmount
+    );
     setTotalDiscount(dataConfirmService?.TotalPrice - priceAfterDiscount);
   }, [selectedVouchers, priceAfterDiscount]);
 
@@ -159,6 +179,7 @@ const ConfirmBooking = () => {
         const pr = {
           CustomerId: userLogin?.Id || 0,
           CustomerName: userLogin?.CustomerName || "",
+          CustomerPhone: userLogin?.Phone || 0,
           Lat: dataConfirmService?.Latitude || 0.0,
           Lng: dataConfirmService?.Longitude || 0.0,
           ServiceId: dataConfirmService?.ServiceId || 0,
@@ -178,7 +199,7 @@ const ConfirmBooking = () => {
           Voucher: selectedVouchers || [],
           PriceAfterDiscount: priceAfterDiscount || 0,
           TotalDiscount: totalDiscount || 0,
-          GroupUserId: GroupUserId || 0
+          GroupUserId: GroupUserId || 0,
         };
         const params = {
           Json: JSON.stringify(pr),
@@ -190,41 +211,48 @@ const ConfirmBooking = () => {
           await removeData(StorageNames.SERVICE_PENDING);
           navi.reset({
             index: 0,
-            routes: [{ name: ScreenNames.VIEW_STAFF, params: { data: { OrderId: result?.IdFirebase?.name } } }],
+            routes: [
+              {
+                name: ScreenNames.VIEW_STAFF,
+                params: { data: { OrderId: result?.IdFirebase?.name } },
+              },
+            ],
           });
           setLoading(false);
           setIsModalVisible(false);
           return;
-        }
-        else if (result?.Status === "NOTOK" && retryCount < maxRetries) {
+        } else if (result?.Status === "NOTOK" && retryCount < maxRetries) {
           retryCount++;
-          console.log(`Retry ${retryCount}/${maxRetries}`);
+          // console.log(`Retry ${retryCount}/${maxRetries}`);
           setTimeout(calling, 10000);
         } else {
           if (retryCount >= maxRetries) {
-            console.log(`Exceeded maximum retries (${maxRetries})`);
-            setIsOver(true);
+            // console.log(`Exceeded maximum retries (${maxRetries})`);
             setIsModalVisible(false);
-          }
-          else {
-            AlertToaster("error", "Lỗi đặt đơn, vui lòng thử lại !");
+            setLoading(false);
+            setTimeout(() => {
+              setIsOver(true);
+            }, 1000);
+          } else {
+            AlertToaster("error", "Hệ thống quá tải !");
             await removeStorage();
-            await removeData(StorageNames.SERVICE_PENDING);
+            setIsModalVisible(false);
+            setLoading(false);
           }
           setLoading(false);
           setIsModalVisible(false);
         }
         setLoading(false);
-      } catch (error) {
+      } catch {
         // console.log("error", error);
         await removeStorage();
         await removeData(StorageNames.SERVICE_PENDING);
         setLoading(false);
         setIsModalVisible(false);
       }
-    }
+    };
     calling();
-  }
+  };
 
   // lưa đơn không có nhân viên nhận
   const OVG_spService_BookingService_Save_Not_Officer = async () => {
@@ -239,6 +267,7 @@ const ConfirmBooking = () => {
         Lng: dataConfirmService?.Longitude || 0.0,
         ServiceId: dataConfirmService?.ServiceId || 0,
         ServiceName: dataConfirmService?.ServiceName || "",
+        CustomerPhone: userLogin?.Phone || 0,
         TotalMoney: dataConfirmService?.TotalPrice || 0,
         Payment: payment ? 1 : 0,
         StaffTotal: dataConfirmService?.people || 0,
@@ -254,32 +283,29 @@ const ConfirmBooking = () => {
         Voucher: selectedVouchers || [],
         PriceAfterDiscount: priceAfterDiscount || 0,
         TotalDiscount: totalDiscount || 0,
-        GroupUserId: GroupUserId || 0
+        GroupUserId: GroupUserId || 0,
       };
-      console.log("pr--------------", pr);
       const params = {
         Json: JSON.stringify(pr),
-        func: "OVG_spService_BookingService_Save_Not_Officer",
+        func: "OVG_spService_BookingService_Save_Not_Officer_V_Test",
+        // func: "OVG_spService_BookingService_Save_Not_Officer",
       };
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("result-------------------", result);
       if (result?.Status === "OK") {
         AlertToaster("success", "Đơn dịch vụ đã được gửi tới admin");
-        // await handleNext(result?.BookingCode);
         navi.reset({
           routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
         });
         setLoading(false);
       }
       setLoading(false);
-    } catch (error) {
+    } catch {
       setLoading(false);
       setIsModalVisible(false);
     }
-  }
+  };
 
-  // theem voucher
+  // Thêm voucher
   const OVG_spVoucher_List = async () => {
     try {
       const pr = {
@@ -293,57 +319,6 @@ const ConfirmBooking = () => {
       setVouchers(result);
     } catch (error) {
       console.log("error", error);
-      setLoading(false);
-    }
-  };
-
-  // Lưu bookingService lên firebase
-  const handleNext = async (BookingCode) => {
-    // lưu dữ liệu booking
-    const dataBooking = {
-      CustomerName: userLogin?.CustomerName, // Tên KH
-      CustomerPhone: userLogin?.Phone, // SĐT KH
-      ServiceDetaiil: dataConfirmService?.Detail,
-      ServiceId: dataConfirmService?.ServiceId,
-      ServiceCode: dataConfirmService?.ServiceCode,
-      CustomerId: dataConfirmService?.CustomerId,
-      Address: dataConfirmService?.Address,
-      ServiceName: dataConfirmService?.ServiceName,
-      SelectOption: dataConfirmService?.serviceOption,
-      ServicePrice: dataConfirmService?.ServicePrice,
-      ServiceTime: dataConfirmService?.ServiceTime,
-      TotalPrice: dataConfirmService?.TotalPrice,
-      NoteBooking: dataConfirmService?.note,
-      OtherService: dataConfirmService?.otherService,
-      TotalStaff: dataConfirmService?.people,
-      IsPremium: dataConfirmService?.premium,
-      TotalRoom: dataConfirmService?.room,
-      TimeWorking: dataConfirmService?.workingTime,
-      Latitude: dataConfirmService?.Latitude,
-      Longitude: dataConfirmService?.Longitude,
-      Payment: payment,
-      UsedVoucher: 1, // có sử dụng voucher 
-      Voucher: selectedVouchers, // danh sách voucher áp mã
-      PriceAfterDiscount: priceAfterDiscount, // tổng tiền sau khi áp mã
-      TotalDiscount: totalDiscount // số tiền giảm giá 
-    };
-    // Lưu đơn đặt lên firebase
-    const saveOnFirebase = await OVG_FBRT_PlaceOrder(
-      userLogin.Id, // ClientId
-      BookingCode + "", // BookingCode
-      dataBooking, // DataService
-      dataConfirmService.Latitude, // Lat KH
-      dataConfirmService.Longitude, //Lng KH
-    );
-    if (saveOnFirebase !== null) {
-      // setData(StorageNames.ORDER_SERVICE, saveOnFirebase);
-      navi.reset({
-        routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
-      });
-      await removeStorage();
-      setLoading(false);
-    } else {
-      AlertToaster("error", "Hệ thống đang lỗi !", "Vui lòng thử lại sau !");
       setLoading(false);
     }
   };
@@ -363,7 +338,7 @@ const ConfirmBooking = () => {
             <View style={MainStyles.flexRowFlexStart}>
               <Image source={ic_location} style={{ width: 20, height: 20 }} />
               <View>
-                <Text style={MainStyles.cardTitleConfirm}>
+                <Text style={[MainStyles.cardTitleConfirm, { maxWidth: SCREEN_WIDTH * 0.80 }]}>
                   {dataConfirmService?.Address}
                 </Text>
               </View>
@@ -372,7 +347,6 @@ const ConfirmBooking = () => {
           <Text style={MainStyles.cardLabelConfirm}>Thông tin công việc</Text>
           <View style={MainStyles.cardConfirmContainer}>
             <Text style={MainStyles.cardSubLabelConfirm}>Dịch vụ</Text>
-
             <View style={MainStyles.flexRowSpaceBetween}>
               <Text style={MainStyles.cardTitleConfirm}>Tên dịch vụ</Text>
               <Text style={MainStyles.cardTitleConfirm}>
@@ -446,14 +420,12 @@ const ConfirmBooking = () => {
                 fontWeight: "700",
               }}
             >
-              {FormatMoney(priceAfterDiscount)} vnđ
+              {FormatMoney(priceAfterDiscount)} VND
             </Text>
           </View>
-          {
-            totalDiscount > 0 ? (
-              <Text>Đã giảm : {FormatMoney(totalDiscount)} vnđ</Text>
-            ) : null
-          }
+          {totalDiscount > 0 ? (
+            <Text>Đã giảm : {FormatMoney(totalDiscount)} VND</Text>
+          ) : null}
 
           <Text style={MainStyles.cardLabelConfirm}>
             Phương thức thanh toán
@@ -464,8 +436,12 @@ const ConfirmBooking = () => {
                 style={[
                   styles.button,
                   {
-                    backgroundColor: payment ? colors.WHITE : colors.MAIN_COLOR_CLIENT,
-                    borderColor: payment ? colors.MAIN_BLUE_CLIENT : colors.MAIN_COLOR_CLIENT,
+                    backgroundColor: payment
+                      ? colors.WHITE
+                      : colors.MAIN_COLOR_CLIENT,
+                    borderColor: payment
+                      ? colors.MAIN_BLUE_CLIENT
+                      : colors.MAIN_COLOR_CLIENT,
                     borderWidth: payment ? 1 : 0,
                   },
                 ]}
@@ -486,8 +462,12 @@ const ConfirmBooking = () => {
                 style={[
                   styles.button,
                   {
-                    backgroundColor: payment ? colors.MAIN_COLOR_CLIENT : colors.WHITE,
-                    borderColor: payment ? colors.MAIN_COLOR_CLIENT : colors.MAIN_BLUE_CLIENT,
+                    backgroundColor: payment
+                      ? colors.MAIN_COLOR_CLIENT
+                      : colors.WHITE,
+                    borderColor: payment
+                      ? colors.MAIN_COLOR_CLIENT
+                      : colors.MAIN_BLUE_CLIENT,
                     borderWidth: payment ? 0 : 1,
                   },
                 ]}
@@ -515,7 +495,7 @@ const ConfirmBooking = () => {
         >
           <Text style={MainStyles.txtTotalPrice}>Tổng cộng</Text>
           <Text style={MainStyles.txtTotalPrice}>
-            {FormatMoney(priceAfterDiscount)} VNĐ
+            {FormatMoney(priceAfterDiscount)} VND
           </Text>
         </View>
         <Button
@@ -527,7 +507,7 @@ const ConfirmBooking = () => {
           bgColor={colors.PRIMARY_GREEN}
           icon={() => <ArrowRight color={colors.WHITE} />}
         >
-          <Text>Đặt đơn</Text>
+          <Text>Đặt dịch vụ</Text>
         </Button>
         <Modal
           transparent={true}
@@ -543,7 +523,9 @@ const ConfirmBooking = () => {
               <View style={[MainStyles.flexRowCenter, { marginBottom: 20 }]}>
                 <Text style={styles.headerTitle}>Đã xác nhận đặt dịch vụ</Text>
               </View>
-              <Text style={MainStyles.cardLabelConfirm}>Thông tin công việc</Text>
+              <Text style={MainStyles.cardLabelConfirm}>
+                Thông tin công việc
+              </Text>
               <View style={MainStyles.cardConfirmContainer}>
                 <Text style={MainStyles.cardSubLabelConfirm}>Dịch vụ</Text>
 
@@ -564,7 +546,10 @@ const ConfirmBooking = () => {
               </View>
               <Text style={MainStyles.cardLabelConfirm}>Tổng tiền</Text>
               <View
-                style={[MainStyles.cardConfirmContainer, MainStyles.flexRowCenter]}
+                style={[
+                  MainStyles.cardConfirmContainer,
+                  MainStyles.flexRowCenter,
+                ]}
               >
                 <Image source={ic_coin} style={{ width: 20, height: 20 }} />
                 <Text
@@ -575,20 +560,25 @@ const ConfirmBooking = () => {
                     fontWeight: "700",
                   }}
                 >
-                  {FormatMoney(priceAfterDiscount)} vnđ
+                  {FormatMoney(priceAfterDiscount)} VND
                 </Text>
               </View>
-              <Text style={styles.modalCountdown}>{countdown > 2 && countdown !== 8 ? "Đặt dịch vụ thành công" : "Đơn dịch vụ đã sẵn sàng, vui lòng đợi nhân viên nhận đơn !"}</Text>
+              <Text style={styles.modalCountdown}>
+                {countdown > 2 && countdown !== 5
+                  ? "Đặt dịch vụ thành công"
+                  : "Đơn dịch vụ đã sẵn sàng, vui lòng đợi nhân viên nhận đơn !"}
+              </Text>
               <Loading isLoading={true} />
-              {
-                countdown > 2 && countdown !== 8 && (
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
-                      <Text style={styles.modalButtonText}>Hủy đơn dịch vụ</Text>
-                    </TouchableOpacity>
-                  </View>
-                )
-              }
+              {countdown > 2 && countdown !== 5 && (
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={handleCancel}
+                  >
+                    <Text style={styles.modalButtonText}>Hủy đơn dịch vụ</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           </View>
         </Modal>
@@ -599,14 +589,14 @@ const ConfirmBooking = () => {
         setModalVisible={setIsModalAlertVisible}
         onConfirm1={() => {
           setData(StorageNames.SERVICE_CONFIRM, dataConfirmService);
-          navi.replace(ScreenNames.LOGIN)
+          navi.replace(ScreenNames.LOGIN);
         }}
         onConfirm2={() => setIsModalAlertVisible(false)}
       />
       <ModalSelectOption
-        onClose={() => setIsOver(false)}
+        onClose={() => handleCancel()}
         title="Thông báo"
-        backdropCloseable={false}
+        backdropCloseable={true}
         isVisible={isOver}
         titleBtn1={"Đồng ý"}
         titleBtn2={"Hủy đơn dịch vụ"}
@@ -617,11 +607,11 @@ const ConfirmBooking = () => {
           handleCancel();
           // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
         }}
-
         onConfirm2={async () => {
-          handleCancel();
+          // handleCancel();
           await removeStorage();
           await removeData(StorageNames.SERVICE_PENDING);
+          handleCancel();
           navi.reset({
             routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
           });
@@ -633,8 +623,10 @@ const ConfirmBooking = () => {
               <View style={MainStyles.line} />
             </View>
             <View style={MainStyles.flexRowCenter}>
-              <Text style={[{ textAlign: 'center' }]}>
-                {"Chưa có nhân viên cho đơn dịch vụ của bạn, chúng tôi sẽ gửi đơn dịch vụ tới Admin Ong Vàng để hỗ trợ bạn tìm nhân viên cho dịch vụ này."}
+              <Text style={[{ textAlign: "center" }]}>
+                {
+                  "Chưa có nhân viên cho đơn dịch vụ của bạn, chúng tôi sẽ gửi đơn dịch vụ tới Admin Ong Vàng để hỗ trợ bạn tìm nhân viên cho dịch vụ này."
+                }
               </Text>
             </View>
           </View>
@@ -646,31 +638,30 @@ const ConfirmBooking = () => {
 
 const styles = StyleSheet.create({
   modal: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     margin: 0,
   },
   dragHandle: {
     width: 90,
     height: 5,
-    backgroundColor: '#ccc',
+    backgroundColor: "#ccc",
     borderRadius: 2.5,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: 10,
   },
   modalContainer: {
     width: SCREEN_WIDTH,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingBottom: 20,
     paddingHorizontal: 20,
     paddingTop: 10,
   },
-  modalContent: {
-  },
+  modalContent: {},
   modalTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   modalMessage: {
@@ -681,44 +672,44 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.MAIN_COLOR_CLIENT,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   modalButtons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
   },
   cancelButton: {
-    backgroundColor: '#F44336',
+    backgroundColor: "#F44336",
     padding: 10,
     borderRadius: 4,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 5,
   },
   modalButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
   },
   topLine: {
-    height: 4,  // Chiều cao của thanh line
-    backgroundColor: '#007BFF',  // Màu sắc của thanh line
-    width: '100%',  // Đảm bảo thanh line rộng toàn bộ modal
+    height: 4, // Chiều cao của thanh line
+    backgroundColor: "#007BFF", // Màu sắc của thanh line
+    width: "100%", // Đảm bảo thanh line rộng toàn bộ modal
   },
   header: {
     marginBottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.MAIN_BLUE_CLIENT,
-    textAlign: 'center',
+    textAlign: "center",
   },
   button: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 10,
     borderRadius: 5,
     marginHorizontal: 5,

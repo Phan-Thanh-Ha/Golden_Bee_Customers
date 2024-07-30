@@ -190,7 +190,7 @@ const WaitingStaffScreen = () => {
                   fontWeight: "700",
                 }}
               >
-                {FormatMoney(dataBooking?.PriceAfterDiscount)} vnđ
+                {FormatMoney(dataBooking?.PriceAfterDiscount)} VND
               </Text>
             </View>
             <Text style={MainStyles.cardSubLabelConfirm}>Nhân viên</Text>

@@ -6,34 +6,30 @@ import LinearGradient from "react-native-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "../../components/Box";
-import MainStyles, {
-  SCREEN_HEIGHT,
-} from "../../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT } from "../../styles/MainStyle";
 import UserHeader from "../../components/UserHeader";
 import ServiceCarousel from "../../components/ServiceCarousel";
 import { MenuScroll } from "./Menu/MenuScroll";
-import MyOrders from "../../components/firebaseListen/MyOrders";
 import BtnDouble from "../../components/BtnDouble";
 import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
 import { ScreenNames, StorageNames } from "../../Constants";
 import { mainAction } from "../../Redux/Action";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
-import { getData, removeData } from "../../Utils";
+import { getData, removeData, setData } from "../../Utils";
+import { dataNewServiceDefault, dataSliderDefault } from "../data";
+import { MenuComponent } from "./Menu/MenuComponent ";
 
 const HomeScreen = () => {
   const navi = useNavigation();
   const userLogin = useSelector((state) => state.main.userLogin);
   const acceptedOrder = useSelector((state) => state.main.acceptedOrder);
-  const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
   const dispatch = useDispatch();
-  const [dataCarousel, setDataCarousel] = React.useState([]);
-  const [dataNewService, setDataNewService] = React.useState([]);
-
-  console.log("myOrdersAccepted-------------------", myOrdersAccepted);
+  // const [dataCarousel, setDataCarousel] = React.useState([]);
+  // const [dataNewService, setDataNewService] = React.useState([]);
 
   useEffect(() => {
-    Shop_spWeb_Slides_List();
-    Shop_spWeb_News_List();
+    // Shop_spWeb_Slides_List();
+    // Shop_spWeb_News_List();
     handlePendingService();
   }, []);
 
@@ -48,17 +44,16 @@ const HomeScreen = () => {
         if (result?.Status === "OK") {
           await removeData(StorageNames.SERVICE_PENDING);
           return;
-        }
-        else {
+        } else {
           OVG_spService_BookingService_Save_Not_Officer(pr);
           await removeData(StorageNames.SERVICE_PENDING);
         }
-      } catch (error) {
+      } catch {
         await removeData(StorageNames.SERVICE_PENDING);
       }
-    }
+    };
     calling();
-  }
+  };
 
   // lưa đơn không có nhân viên nhận
   const OVG_spService_BookingService_Save_Not_Officer = async (pr) => {
@@ -67,27 +62,24 @@ const HomeScreen = () => {
         Json: JSON.stringify(pr),
         func: "OVG_spService_BookingService_Save_Not_Officer",
       };
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
       if (result?.Status === "OK") {
         await removeData(StorageNames.SERVICE_PENDING);
       }
-    } catch (error) {
+    } catch {
       await removeData(StorageNames.SERVICE_PENDING);
     }
-  }
+  };
   const handlePendingService = async () => {
     try {
       const serviceParams = await getData(StorageNames.SERVICE_PENDING);
-      console.log("serviceParams", serviceParams);
       if (serviceParams) {
         OVG_spService_BookingService_Save(serviceParams);
       }
-    } catch (error) {
-      console.error("Error pending service:", error);
+    } catch {
+      // console.error("Error pending service:", error);
     }
-  }
+  };
 
   const Shop_spWeb_Slides_List = async () => {
     try {
@@ -100,7 +92,8 @@ const HomeScreen = () => {
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result.length > 0) {
-        setDataCarousel(result);
+        // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+        // setDataCarousel(result);
       }
     } catch {
       //
@@ -118,7 +111,7 @@ const HomeScreen = () => {
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result.length > 0) {
-        setDataNewService(result);
+        // setDataNewService(result);
         // setDataCarousel(result);
       }
     } catch {
@@ -141,67 +134,51 @@ const HomeScreen = () => {
             padding: 10,
           }}
         >
-          <CarouselItem dataCarousel={dataCarousel} />
+          {/* {userLogin?.Phone === "0943214791" || !userLogin?.Phone ? ( */}
+          <CarouselItem dataCarousel={dataSliderDefault} />
+          {/* ) : (
+            <CarouselItem dataCarousel={dataCarousel} />
+          )} */}
         </View>
+
+        <MenuComponent />
+
         {/* <MenuComponent /> */}
-        <MenuScroll />
+        {/* <MenuScroll /> */}
         {/* <ServiceCarousel /> */}
-        <ServiceCarousel dataNewService={dataNewService} />
+        {/* {userLogin?.Phone === "0943214791" || !userLogin?.Phone ? ( */}
+        <ServiceCarousel dataNewService={dataNewServiceDefault} />
+        {/* ) : (
+          <ServiceCarousel dataNewService={dataNewService} />
+        )} */}
         <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
-      {
-        userLogin ? (
-          // <MyOrders isListen={false} />
-          null
-        ) : (
-          <LayoutBottom>
-            <View style={{ backgroundColor: colors.WHITE }}>
-              <BtnDouble
-                title1={"Đăng nhập"}
-                title2={"Đăng ký"}
-                onConfirm1={() => navi.navigate(ScreenNames.LOGIN)}
-                onConfirm2={() => navi.navigate(ScreenNames.REGISTER)}
-              />
-              <View style={MainStyles.flexRowCenter}>
-                <Text style={[styles.title, { marginBottom: 10, width: SCREEN_WIDTH * 0.7, textAlign: 'center' }]}>Bạn cần đăng nhập để sử dụng dịch vụ của Ong Vàng</Text>
-              </View>
+      {userLogin ? null : (
+        <LayoutBottom>
+          <View style={{ backgroundColor: colors.WHITE }}>
+            <BtnDouble
+              title1={"Đăng nhập"}
+              title2={"Đăng ký"}
+              onConfirm1={() => navi.navigate(ScreenNames.LOGIN)}
+              onConfirm2={() => navi.navigate(ScreenNames.REGISTER)}
+            />
+            <View style={MainStyles.flexRowCenter}>
+              <Text
+                style={[
+                  styles.title,
+                  {
+                    marginBottom: 10,
+                    width: SCREEN_WIDTH * 0.7,
+                    textAlign: "center",
+                  },
+                ]}
+              >
+                Bạn cần đăng nhập để sử dụng dịch vụ của Ong Vàng
+              </Text>
             </View>
-          </LayoutBottom>
-        )
-      }
-      {/* {
-        newOrder && (
-          <AlertModal
-            isVisible={modalVisible}
-            onClose={() => setModalVisible(false)}
-            isAuto={false}
-            onConfirm={() => setModalVisible(false)}
-            title="Thông báo dịch vụ"
-            backdropCloseable={true}
-            isCancelable={false}
-          >
-            <View>
-              {newOrder?.OrderId ? (
-                <View style={[MainStyles.cardJob]}>
-                  <View style={MainStyles.flexRowCenter}>
-                    <Text style={[MainStyles.titleCardJob, { textAlign: 'center' }]}>
-                      {newOrder?.ServiceName}
-                    </Text>
-                  </View>
-                  <View style={MainStyles.flexRowCenter}>
-                    <View style={MainStyles.line} />
-                  </View>
-                  <View style={MainStyles.flexRowCenter}>
-                    <Text style={[{ textAlign: 'center' }]}>
-                      {"Nhân viên đã nhân đơn dịch vụ của bạn và sẽ đến làm việc ngay. Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !"}
-                    </Text>
-                  </View>
-                </View>
-              ) : null}
-            </View>
-          </AlertModal >
-        )
-      } */}
+          </View>
+        </LayoutBottom>
+      )}
     </View>
   );
 };
