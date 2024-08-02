@@ -28,9 +28,9 @@ const serviceIcon = {
   8: ic_house_cleaning, // dọn nhà
   9: ic_clean_the_office, // dọn văn phòng
   10: ic_the_machine, // vệ sinh máy giặt
-  11: ic_air_conditioner, // vệ sinh ddiieuf hòa
+  11: ic_repair_the_air_conditioning, // vệ sinh ddiieuf hòa
   12: ic_repair_electricity, // sửa dien
-  13: ic_repair_the_air_conditioning, // sửa ddiieuf hòa
+  13: ic_air_conditioner, // sửa ddiieuf hòa
   14: ic_installing, // sửa oonsg nuoc
   15: ic_repair_the_camera, // sửa camera
   16: ic_interior, // sửa nội thất

@@ -1,4 +1,11 @@
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import MainStyles, { SCREEN_HEIGHT } from "../styles/MainStyle";
 import { colors, themeColors } from "../styles/Colors";
 import { useSelector } from "react-redux";
@@ -13,58 +20,61 @@ const UserHeader = ({ totalService = 0 }) => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const navi = useNavigation();
   return (
-
     <View style={styles.container}>
-      {
-        userLogin ? (
-          <View style={[MainStyles.flexRowSpaceBetween]}>
-            <View style={MainStyles.flexRow}>
-              {
-                userLogin?.Avatar ? (
-                  <Image
-                    source={{
-                      uri: APIImage + userLogin?.Avatar,
-                    }}
-                    style={{
-                      width: SCREEN_WIDTH * 0.11,
-                      height: SCREEN_WIDTH * 0.11,
-                      resizeMode: 'contain',
-                      marginRight: 10,
-                      borderRadius: SCREEN_WIDTH * 0.11
-                    }}
-                  />
-                ) : (
-                  <Image
-                    source={logo_bee_blue}
-                    style={{
-                      width: SCREEN_WIDTH * 0.11,
-                      height: SCREEN_WIDTH * 0.11,
-                      resizeMode: 'contain',
-                      marginRight: 10,
-                    }}
-                  />
-                )
-              }
-              <View>
-                <Text style={styles.title}>Chào {userLogin?.CustomerName},</Text>
-                <Text style={styles.subTitle}>Cùng làm việc nhé !</Text>
-              </View>
+      {userLogin ? (
+        <View style={[MainStyles.flexRowSpaceBetween]}>
+          <View style={MainStyles.flexRow}>
+            {userLogin?.Avatar ? (
+              <Image
+                source={{
+                  uri: APIImage + userLogin?.Avatar,
+                }}
+                style={{
+                  width: SCREEN_WIDTH * 0.11,
+                  height: SCREEN_WIDTH * 0.11,
+                  resizeMode: "contain",
+                  marginRight: 10,
+                  borderRadius: SCREEN_WIDTH * 0.11,
+                }}
+              />
+            ) : (
+              <Image
+                source={logo_bee_blue}
+                style={{
+                  width: SCREEN_WIDTH * 0.11,
+                  height: SCREEN_WIDTH * 0.11,
+                  resizeMode: "contain",
+                  marginRight: 10,
+                }}
+              />
+            )}
+            <View>
+              <Text style={styles.title}>Chào {userLogin?.CustomerName},</Text>
+              <Text style={styles.subTitle}>Cùng làm việc nhé !</Text>
             </View>
-            <TouchableOpacity onPress={() => { navi.navigate(ScreenNames.HISTORY) }}>
-              <View style={styles.main}>
-                <IconWithAnimatedBadge name="shopping-cart" badgeCount={totalService} animation="bounce" />
-              </View>
-            </TouchableOpacity>
           </View>
-        ) : (
-          <View style={[MainStyles.flexRowCenter]}>
-            <Text style={styles.title}>Ong Vàng xin chào 👋</Text>
-          </View>
-        )
-      }
+          <TouchableOpacity
+            onPress={() => {
+              navi.navigate(ScreenNames.HISTORY);
+            }}
+          >
+            <View style={styles.main}>
+              <IconWithAnimatedBadge
+                name="shopping-cart"
+                badgeCount={totalService}
+                animation="bounce"
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={[MainStyles.flexRowCenter]}>
+          <Text style={styles.title}>Ong Vàng xin chào 👋</Text>
+        </View>
+      )}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -83,12 +93,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: themeColors.primary
+    fontWeight: "bold",
+    color: themeColors.primary,
   },
   subTitle: {
     fontSize: 13,
-    color: themeColors.primaryText
-  }
-})
+    color: themeColors.primaryText,
+  },
+});
 export default UserHeader;

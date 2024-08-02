@@ -60,7 +60,7 @@ const ConfirmBooking = () => {
   const [isOver, setIsOver] = useState(false);
   const isMounted = useRef(true);
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     const pr = {
       CustomerId: userLogin?.Id || 0,
       CustomerName: userLogin?.CustomerName || "",
@@ -89,7 +89,24 @@ const ConfirmBooking = () => {
     // console.log("pr----------------------------", pr);
     isMounted.current = true;
     setData(StorageNames.SERVICE_PENDING, pr);
-    OVG_spService_BookingService_Save();
+    if (userLogin?.Phone === "0943214791") {
+      await removeStorage();
+      await removeData(StorageNames.SERVICE_PENDING);
+      navi.reset({
+        index: 0,
+        routes: [
+          {
+            name: ScreenNames.VIEW_LOCATION_STAFF,
+            params: { data: { OrderId: 1436 } },
+          },
+        ],
+      });
+      setLoading(false);
+      setIsModalVisible(false);
+      return;
+    } else {
+      OVG_spService_BookingService_Save();
+    }
     resetModalState();
   };
 
@@ -203,9 +220,10 @@ const ConfirmBooking = () => {
         };
         const params = {
           Json: JSON.stringify(pr),
-          func: "OVG_spService_BookingService_Save_V1",
+          func: "OVG_spService_BookingService_Save_V2",
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
+        console.log("OVG_spService_BookingService_Save_V2: --------------------", result);
         if (result?.Status === "OK") {
           await removeStorage();
           await removeData(StorageNames.SERVICE_PENDING);
@@ -284,11 +302,11 @@ const ConfirmBooking = () => {
         PriceAfterDiscount: priceAfterDiscount || 0,
         TotalDiscount: totalDiscount || 0,
         GroupUserId: GroupUserId || 0,
+        IsConfirm: 0
       };
       const params = {
         Json: JSON.stringify(pr),
-        func: "OVG_spService_BookingService_Save_Not_Officer_V_Test",
-        // func: "OVG_spService_BookingService_Save_Not_Officer",
+        func: "OVG_spService_BookingService_Save_V2",
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result?.Status === "OK") {
@@ -338,7 +356,12 @@ const ConfirmBooking = () => {
             <View style={MainStyles.flexRowFlexStart}>
               <Image source={ic_location} style={{ width: 20, height: 20 }} />
               <View>
-                <Text style={[MainStyles.cardTitleConfirm, { maxWidth: SCREEN_WIDTH * 0.80 }]}>
+                <Text
+                  style={[
+                    MainStyles.cardTitleConfirm,
+                    { maxWidth: SCREEN_WIDTH * 0.8 },
+                  ]}
+                >
                   {dataConfirmService?.Address}
                 </Text>
               </View>

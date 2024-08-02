@@ -9,13 +9,12 @@ import Box from "../../components/Box";
 import MainStyles, { SCREEN_HEIGHT } from "../../styles/MainStyle";
 import UserHeader from "../../components/UserHeader";
 import ServiceCarousel from "../../components/ServiceCarousel";
-import { MenuScroll } from "./Menu/MenuScroll";
 import BtnDouble from "../../components/BtnDouble";
 import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
 import { ScreenNames, StorageNames } from "../../Constants";
 import { mainAction } from "../../Redux/Action";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
-import { getData, removeData, setData } from "../../Utils";
+import { getData, removeData } from "../../Utils";
 import { dataNewServiceDefault, dataSliderDefault } from "../data";
 import { MenuComponent } from "./Menu/MenuComponent ";
 
@@ -32,13 +31,12 @@ const HomeScreen = () => {
     // Shop_spWeb_News_List();
     handlePendingService();
   }, []);
-
   const OVG_spService_BookingService_Save = async (pr) => {
     const calling = async () => {
       try {
         const params = {
           Json: JSON.stringify(pr),
-          func: "OVG_spService_BookingService_Save_V1",
+          func: "OVG_spService_BookingService_Save_V2",
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
         if (result?.Status === "OK") {
@@ -147,7 +145,14 @@ const HomeScreen = () => {
         {/* <MenuScroll /> */}
         {/* <ServiceCarousel /> */}
         {/* {userLogin?.Phone === "0943214791" || !userLogin?.Phone ? ( */}
-        <ServiceCarousel dataNewService={dataNewServiceDefault} />
+        <ServiceCarousel
+          dataNewService={dataNewServiceDefault}
+          onItemPress={(item) => {
+            navi.navigate(ScreenNames.SERVICE_CAROUSEL_DETAIL, {
+              article: item,
+            });
+          }}
+        />
         {/* ) : (
           <ServiceCarousel dataNewService={dataNewService} />
         )} */}

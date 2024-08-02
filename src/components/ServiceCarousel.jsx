@@ -4,16 +4,28 @@ import Carousel from "react-native-snap-carousel";
 import FastImage from "react-native-fast-image";
 import { themeColors } from "../styles/Colors";
 import { limitTitle } from "../Utils/LimitTitle";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const ITEM_WIDTH = SCREEN_WIDTH * 0.8;
 
-const ServiceCarousel = ({ dataNewService = [] }) => {
+const ServiceCarousel = ({ dataNewService = [], onItemPress = () => {} }) => {
   const renderItem = ({ item }) => (
     <View style={styles.cardContainer}>
       <View style={styles.card}>
-        {
-          item?.IsFake ? (
+        <TouchableOpacity
+          onPress={() => {
+            onItemPress(item);
+          }}
+        >
+          <FastImage
+            style={styles.image}
+            source={{ uri: item?.ImageNewsShow }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        </TouchableOpacity>
+
+        {/* {item?.IsFake ? (
             <FastImage
               style={styles.image}
               source={item?.ImageNewsShow}
@@ -25,11 +37,14 @@ const ServiceCarousel = ({ dataNewService = [] }) => {
               source={{ uri: item?.ImageNewsShow }}
               resizeMode={FastImage.resizeMode.cover}
             />
-          )
-        }
+          )} */}
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{limitTitle(item?.MetaDescription, 50)}</Text>
-          <Text style={styles.description}>{limitTitle(item?.NewsDescriptionEn, 120)}</Text>
+          <Text style={styles.title}>
+            {limitTitle(item?.MetaDescription, 50)}
+          </Text>
+          <Text style={styles.description}>
+            {limitTitle(item?.NewsDescriptionEn, 120)}
+          </Text>
         </View>
       </View>
     </View>

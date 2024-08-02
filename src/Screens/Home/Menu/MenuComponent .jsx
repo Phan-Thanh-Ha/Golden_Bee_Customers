@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../../Constants";
 import { getIconById } from "../../../Utils/RoutingService";
 import { SCREEN_WIDTH } from "../../../styles/MainStyle";
-import { themeColors } from "../../../styles/Colors";
+import { colors, themeColors } from "../../../styles/Colors";
 import { data } from "../../data";
 
 export const MenuComponent = () => {
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: SCREEN_WIDTH * 0.19,
+    height: SCREEN_WIDTH * 0.19,
   },
   textContainer: {
     textAlign: "center",
@@ -78,6 +78,8 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     flexWrap: "wrap",
-    fontSize: 12,
+    fontSize: 13,
+    color: colors.BLACK,
+    fontWeight: "500"
   },
 });

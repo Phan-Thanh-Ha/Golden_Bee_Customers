@@ -16,7 +16,7 @@ export const OVG_FBRT_ListenMyOrders = (
   setModalOrderRemoveVisible
 ) => {
   if (!customerId) {
-    console.error("Invalid value for customerId:", customerId);
+    // console.error("Invalid value for customerId:");
     return;
   }
 

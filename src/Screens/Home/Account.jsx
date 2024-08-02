@@ -15,10 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { removeData } from "../../Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
-import MainStyles, {
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-} from "../../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT } from "../../styles/MainStyle";
 import { logo_bee_blue } from "../../assets";
 import Box from "../../components/Box";
 import LinearGradient from "react-native-linear-gradient";
@@ -36,15 +33,13 @@ const Account = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalEditUser, setModalEditUser] = useState(false);
 
-  // console.log("userLogin---------------------------", userLogin);
-
   const handleLogout = async () => {
     try {
       await removeData(StorageNames.USER_PROFILE);
       await removeData(StorageNames.SERVICE_CONFIRM);
       mainAction.userLogin(null, dispatch);
       navi.reset({
-        routes: [{ name: ScreenNames.AUTH_HOME }],
+        routes: [{ name: ScreenNames.LOGIN }],
       });
     } catch (error) {}
   };
@@ -62,63 +57,6 @@ const Account = () => {
       />
       <Text style={MainStyles.screenTitle}>Thông tin tài khoản</Text>
       <ScrollView>
-        {/* <View style={MainStyles.flexRowSpaceBetween}>
-            <Text style={MainStyles.labelTitle}>Thông tin</Text>
-            <TouchableOpacity onPress={() => setModalEditUser(true)}>
-              <EditUser size={25} />
-            </TouchableOpacity>
-          </View>
-          <View style={[MainStyles.flexRowCenter, { paddingHorizontal: 20, alignItems: "center" }]}>
-            {
-              userLogin?.Avatar ? (
-                <Image
-                  source={{
-                    uri: APIImage + userLogin?.Avatar,
-                  }}
-                  style={{
-                    width: 80,
-                    height: 120,
-                    resizeMode: 'contain',
-                    marginRight: 10,
-                  }}
-                />
-              ) : (
-                <Image
-                  source={logo_bee_blue}
-                  style={{
-                    width: 80,
-                    height: 120,
-                    resizeMode: "contain",
-                    marginRight: 40,
-                  }}
-                />
-              )
-            }
-
-            <View>
-              <View style={MainStyles.flexRow}>
-                <Text
-                  style={[MainStyles.labelTitle, { width: SCREEN_WIDTH * 0.6 }]}
-                >
-                  Mã khách hàng : {userLogin?.Id}
-                </Text>
-              </View>
-              <View style={MainStyles.flexRow}>
-                <Text
-                  style={[MainStyles.labelTitle, { width: SCREEN_WIDTH * 0.6 }]}
-                >
-                  Họ tên : {userLogin?.CustomerName}
-                </Text>
-              </View>
-              <View style={MainStyles.flexRow}>
-                <Text
-                  style={[MainStyles.labelTitle, { width: SCREEN_WIDTH * 0.6 }]}
-                >
-                  SĐT :  {userLogin?.Phone}
-                </Text>
-              </View>
-            </View>
-          </View> */}
         <Card style={styles.card}>
           <View style={MainStyles.flexRowSpaceBetween}>
             <Text style={MainStyles.labelTitle}>Thông tin</Text>
@@ -127,12 +65,6 @@ const Account = () => {
             </TouchableOpacity>
           </View>
           <Box height={SCREEN_HEIGHT * 0.02} />
-          {/* <View style={styles.header}>
-            <Text category='h5' style={styles.title}>Thông tin khách hàng</Text>
-            <TouchableOpacity onPress={() => setModalEditUser(true)}>
-              <Icon style={styles.editIcon} fill='#3366FF' name='edit-outline' />
-            </TouchableOpacity>
-          </View> */}
           <View style={styles.content}>
             {userLogin?.Avatar ? (
               <Avatar

@@ -1,51 +1,58 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import LayoutGradientBlue from '../../components/layouts/LayoutGradientBlue';
-import LogoBeeBox from '../../components/LogoBeeBox';
-import { colors } from '../../styles/Colors';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../styles/MainStyle';
-import JobDetailsModal from '../../components/JobDetailsModal';
-import JobDoneModal from '../../components/JobDoneModal';
-import TabPending from '../../components/TabPending';
-import TabHistory from '../../components/TabHistory';
-import { useSelector } from 'react-redux';
-import MyOrders from '../../components/firebaseListen/MyOrders';
+import React, { useRef, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from "react-native";
+import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
+import LogoBeeBox from "../../components/LogoBeeBox";
+import { colors } from "../../styles/Colors";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import JobDetailsModal from "../../components/JobDetailsModal";
+import JobDoneModal from "../../components/JobDoneModal";
+import TabPending from "../../components/TabPending";
+import TabHistory from "../../components/TabHistory";
+import { useSelector } from "react-redux";
+import MyOrders from "../../components/firebaseListen/MyOrders";
 
 const History = () => {
-  const [selectedTab, setSelectedTab] = useState('Đang làm việc');
+  const [selectedTab, setSelectedTab] = useState("Đang làm việc");
   const modalRef = useRef(null);
   const userLogin = useSelector((state) => state.main.userLogin);
   const modalJobDoneRef = useRef(null);
   const [dataPending, setDataPending] = useState([]);
   const renderContent = () => {
-    if (selectedTab === 'Đang làm việc') {
-      return (
-        <TabPending modalRef={modalRef} dataPending={dataPending} />
-      );
-    } else if (selectedTab === 'Dịch vụ đã đặt') {
-      return (
-        <TabHistory modalRef={modalJobDoneRef} />
-      );
+    if (selectedTab === "Đang làm việc") {
+      return <TabPending modalRef={modalRef} dataPending={dataPending} />;
+    } else if (selectedTab === "Dịch vụ đã đặt") {
+      return <TabHistory modalRef={modalJobDoneRef} />;
     }
   };
 
   return (
     <LayoutGradientBlue>
-      <LogoBeeBox color={colors.MAIN_COLOR_CLIENT} sizeImage={SCREEN_WIDTH * 0.15} sizeText={18} />
+      <LogoBeeBox
+        color={colors.MAIN_COLOR_CLIENT}
+        sizeImage={SCREEN_WIDTH * 0.15}
+        sizeText={18}
+      />
       <View style={{ height: SCREEN_HEIGHT * 0.74, width: SCREEN_WIDTH }}>
         <View style={styles.container}>
           <View style={styles.tabHeader}>
             <TouchableOpacity
               style={[
                 styles.tabButton,
-                selectedTab === 'Đang làm việc' && styles.selectedTabButton,
+                selectedTab === "Đang làm việc" && styles.selectedTabButton,
               ]}
-              onPress={() => setSelectedTab('Đang làm việc')}
+              onPress={() => setSelectedTab("Đang làm việc")}
             >
               <Text
                 style={[
                   styles.tabButtonText,
-                  selectedTab === 'Đang làm việc' && styles.selectedTabButtonText,
+                  selectedTab === "Đang làm việc" &&
+                    styles.selectedTabButtonText,
                 ]}
               >
                 Đang làm việc
@@ -54,14 +61,15 @@ const History = () => {
             <TouchableOpacity
               style={[
                 styles.tabButton,
-                selectedTab === 'Dịch vụ đã đặt' && styles.selectedTabButton,
+                selectedTab === "Dịch vụ đã đặt" && styles.selectedTabButton,
               ]}
-              onPress={() => setSelectedTab('Dịch vụ đã đặt')}
+              onPress={() => setSelectedTab("Dịch vụ đã đặt")}
             >
               <Text
                 style={[
                   styles.tabButtonText,
-                  selectedTab === 'Dịch vụ đã đặt' && styles.selectedTabButtonText,
+                  selectedTab === "Dịch vụ đã đặt" &&
+                    styles.selectedTabButtonText,
                 ]}
               >
                 Dịch vụ đã đặt
@@ -73,13 +81,11 @@ const History = () => {
       </View>
       <JobDetailsModal ref={modalRef} />
       <JobDoneModal ref={modalJobDoneRef} />
-      {
-        userLogin ? (
-          <>
-            <MyOrders setOrders={setDataPending} isListen={false} />
-          </>
-        ) : null
-      }
+      {userLogin ? (
+        <>
+          <MyOrders setOrders={setDataPending} isListen={false} />
+        </>
+      ) : null}
     </LayoutGradientBlue>
   );
 };
@@ -91,8 +97,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   tabHeader: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     paddingVertical: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderBottomWidth: 2,
-    borderBottomColor: 'transparent',
+    borderBottomColor: "transparent",
   },
   selectedTabButton: {
     borderBottomColor: colors.WHITE,
@@ -112,7 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   selectedTabButtonText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.MAIN_BLUE_CLIENT,
   },
   flatList: {

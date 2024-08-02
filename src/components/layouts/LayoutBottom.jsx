@@ -13,10 +13,12 @@ const LayoutBottom = ({ children }) => {
 const styles = StyleSheet.create({
   footer: {
     position: 'absolute',
-    bottom: 5,
-    left: 5,
-    right: 5,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 5,
     justifyContent: 'center',
+    backgroundColor: colors.WHITE,
   }
 });
 

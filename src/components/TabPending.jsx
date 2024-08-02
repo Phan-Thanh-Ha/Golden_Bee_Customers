@@ -5,23 +5,19 @@ import CardDefault from "./CardDefault";
 const TabPending = ({ modalRef, dataPending = [] }) => {
   return (
     <>
-      {
-        dataPending?.length > 0 ? (
-          <FlatList
-            style={styles.flatList}
-            data={dataPending}
-            renderItem={({ item }) => (
-              <CardNewJob data={item} modalRef={modalRef} />
-            )}
-            keyExtractor={(item) => item?.BookingCode}
-          />
-        ) : (
-          <CardDefault title={"Bạn chưa đặt dịch vụ nào"} />
-        )
-      }
+      {dataPending?.length > 0 ? (
+        <FlatList
+          style={styles.flatList}
+          data={dataPending}
+          renderItem={({ item }) => (
+            <CardNewJob data={item} modalRef={modalRef} />
+          )}
+          keyExtractor={(item) => item?.BookingId}
+        />
+      ) : (
+        <CardDefault title={"Bạn chưa đặt dịch vụ nào"} />
+      )}
     </>
-
-
   );
 };
 

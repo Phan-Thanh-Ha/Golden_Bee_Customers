@@ -8,6 +8,11 @@ const MainStyles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
+  CardIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
   imageBackground: {
     flex: 1,
     justifyContent: "center",

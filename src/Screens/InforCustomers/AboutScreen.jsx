@@ -18,7 +18,8 @@ const dataSlider = [
   },
   {
     title: "Yêu cầu chi tiết",
-    description1: "Có thể bổ sung các yêu cầu chi tiết hoặc các lưu ý đặc biệt.T ùy theo nhu cầu quý khách hàng.",
+    description1:
+      "Có thể bổ sung các yêu cầu chi tiết hoặc các lưu ý đặc biệt.T ùy theo nhu cầu quý khách hàng.",
     description2: "",
     image: image_banner_3,
   },
@@ -45,7 +46,7 @@ const AboutScreen = ({ navigation }) => {
       await setData(StorageNames.IS_OLD_USER, true);
       navigation.reset({
         routes: [{ name: ScreenNames.AUTH_HOME }],
-      })
+      });
     }
   };
 
@@ -77,5 +78,5 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 20,
   },
-})
+});
 export default AboutScreen;

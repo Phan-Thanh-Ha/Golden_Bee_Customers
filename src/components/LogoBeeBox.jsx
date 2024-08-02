@@ -1,9 +1,9 @@
-import MainStyle, { SCREEN_HEIGHT } from "../styles/MainStyle";
+import MainStyle, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../styles/MainStyle";
 import { Image, Platform, Text, View } from "react-native";
 import { logo_bee_blue } from "../assets";
 import { colors } from "../styles/Colors";
 
-const LogoBeeBox = ({ color = colors.MAIN_BLUE_CLIENT, sizeImage = 120, sizeText = 28 }) => {
+const LogoBeeBox = ({ color = colors.MAIN_BLUE_CLIENT, sizeImage = SCREEN_WIDTH * 0.2, sizeText = 28 }) => {
   return (
     <>
       <View

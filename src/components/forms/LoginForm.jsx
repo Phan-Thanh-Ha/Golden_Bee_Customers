@@ -19,9 +19,14 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-  const [loginMessage, setLoginMessage] = React.useState('');
+  const [loginMessage, setLoginMessage] = React.useState("");
   const [dataConfirmService, setDataConfirmService] = useState({});
-  const userDefault = { "Address": " 17 đường số 6", "CustomerName": " PhanHa", "Id": 582, "Phone": "0943214791" }
+  const userDefault = {
+    Address: " 17 đường số 6",
+    CustomerName: " PhanHa",
+    Id: 582,
+    Phone: "0943214791",
+  };
   useFocusEffect(
     React.useCallback(() => {
       const getDataService = async () => {
@@ -29,8 +34,7 @@ const LoginForm = () => {
         setDataConfirmService(data);
       };
       getDataService();
-      return () => {
-      };
+      return () => {};
     }, [])
   );
 
@@ -38,13 +42,13 @@ const LoginForm = () => {
     phoneNumber: yup
       .string()
       .trim()
-      .matches(/^[0-9]{10}$/, 'Số điện thoại không hợp lệ')
-      .required('Thông tin bắt buộc'),
+      .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ")
+      .required("Thông tin bắt buộc"),
     password: yup
       .string()
       .trim()
-      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
-      .required('Thông tin bắt buộc'),
+      .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
+      .required("Thông tin bắt buộc"),
   });
 
   const handleSubmit = async (values) => {
@@ -56,7 +60,11 @@ const LoginForm = () => {
         setLoginMessage("");
         if (dataConfirmService) {
           setLoading(false);
-          AlertToaster("success", "Đăng nhập thành công !", "Hoàn tất đơn dịch vụ nào !");
+          AlertToaster(
+            "success",
+            "Đăng nhập thành công !",
+            "Hoàn tất đơn dịch vụ nào !"
+          );
           navigation.replace(ScreenNames.CONFIRM_BOOKING, {
             dataConfirmService: dataConfirmService,
           });
@@ -90,7 +98,11 @@ const LoginForm = () => {
           setLoginMessage("");
           if (dataConfirmService) {
             setLoading(false);
-            AlertToaster("success", "Đăng nhập thành công !", "Hoàn tất đơn dịch vụ nào !");
+            AlertToaster(
+              "success",
+              "Đăng nhập thành công !",
+              "Hoàn tất đơn dịch vụ nào !"
+            );
             navigation.replace(ScreenNames.CONFIRM_BOOKING, {
               dataConfirmService: dataConfirmService,
             });
@@ -129,8 +141,9 @@ const LoginForm = () => {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_TokenDevice_Save",
       };
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
 
-      const result = await mainAction.API_spCallServer(params, dispatch);
+      await mainAction.API_spCallServer(params, dispatch);
     } catch (error) {
       console.log(error);
     }
@@ -159,7 +172,9 @@ const LoginForm = () => {
             onChangeText={handleChange("phoneNumber")}
             onBlur={handleBlur("phoneNumber")}
             value={values.phoneNumber}
-            borderColor={touched.phoneNumber && errors.phoneNumber ? 'red' : '#E0E0E0'}
+            borderColor={
+              touched.phoneNumber && errors.phoneNumber ? "red" : "#E0E0E0"
+            }
           />
           <CustomFormError>
             {touched.phoneNumber && errors.phoneNumber}
@@ -168,34 +183,42 @@ const LoginForm = () => {
           <CustomLabel>Mật khẩu:</CustomLabel>
           <CustomInput
             placeholder="Nhập mật khẩu"
-            onChangeText={handleChange('password')}
-            onBlur={handleBlur('password')}
+            onChangeText={handleChange("password")}
+            onBlur={handleBlur("password")}
             value={values.password}
             type="password"
             showPasswordToggle={true}
             borderColor={
-              touched.password && errors.password ? 'red' : '#E0E0E0'
+              touched.password && errors.password ? "red" : "#E0E0E0"
             }
           />
           <CustomFormError>
             {touched.password && errors.password}
           </CustomFormError>
           <View style={MainStyle.viewSubLinkForm}>
-            <Pressable onPress={() => navigation.navigate(ScreenNames.FORGOT_PASSWORD)}>
+            <Pressable
+              onPress={() => navigation.navigate(ScreenNames.FORGOT_PASSWORD)}
+            >
               <Text style={MainStyle.subLinkForm}>Quên mật khẩu ?</Text>
             </Pressable>
           </View>
-          {loginMessage ? <Text style={[MainStyle.textErrFormActive, { textAlign: 'center' }]}>{loginMessage}</Text> : ''}
-          <Button
-            onPress={handleSubmit}
-            isLoading={loading}
-            disable={loading}
-          >
+          {loginMessage ? (
+            <Text
+              style={[MainStyle.textErrFormActive, { textAlign: "center" }]}
+            >
+              {loginMessage}
+            </Text>
+          ) : (
+            ""
+          )}
+          <Button onPress={handleSubmit} isLoading={loading} disable={loading}>
             Đăng nhập
           </Button>
           <View style={MainStyle.regis}>
             <Text style={MainStyle.regisSub}>Bạn chưa có tài khoản ?</Text>
-            <Pressable onPress={() => navigation.navigate(ScreenNames.REGISTER)}>
+            <Pressable
+              onPress={() => navigation.navigate(ScreenNames.REGISTER)}
+            >
               <Text style={MainStyle.regisBtn}>Đăng ký</Text>
             </Pressable>
           </View>

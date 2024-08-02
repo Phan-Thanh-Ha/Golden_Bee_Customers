@@ -66,3 +66,5 @@ export const slide2 = require("./images/slide2.png");
 export const suaongnuoc = require("./images/suaongnuoc.jpg");
 export const suadien = require("./images/suadien.png");
 export const donnha = require("./images/donnha.png");
+
+export const banner_service = require("./images/BannerService.png");

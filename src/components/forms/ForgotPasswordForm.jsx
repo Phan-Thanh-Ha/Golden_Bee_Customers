@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import Toast from 'react-native-toast-message';
-import CustomInput from './CustomInput';
-import CustomLabel from './CustomLabel';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Formik } from "formik";
+import * as yup from "yup";
+import Toast from "react-native-toast-message";
+import CustomInput from "./CustomInput";
+import CustomLabel from "./CustomLabel";
 import { colors } from "../../styles/Colors";
 import CustomFormError from "./CustomFormError";
 import Button from "../buttons/Button";
 import { ScreenNames } from "../../Constants";
 import LogoBeeBox from "../LogoBeeBox";
-import { GroupUserId } from '../../Utils';
-
+import { GroupUserId } from "../../Utils";
 
 const ForgotPasswordForm = ({ setSubmit, navigation }) => {
   const validationSchema = yup.object().shape({
-    phoneNumber: yup.string().matches(/^[0-9]{10}$/, 'Số điện thoại không hợp lệ').required('Thông tin bắt buộc'),
-    password: yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Thông tin bắt buộc'),
-    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Xác nhận mật khẩu không khớp').required('Thông tin bắt buộc'),
+    phoneNumber: yup
+      .string()
+      .matches(/^[0-9]{10}$/, "Số điện thoại không hợp lệ")
+      .required("Thông tin bắt buộc"),
+    password: yup
+      .string()
+      .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
+      .required("Thông tin bắt buộc"),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Xác nhận mật khẩu không khớp")
+      .required("Thông tin bắt buộc"),
   });
   const [loading, setLoading] = useState(false);
-  const [forgotMessage, setForgotMessage] = useState('');
+  const [forgotMessage, setForgotMessage] = useState("");
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -29,8 +37,8 @@ const ForgotPasswordForm = ({ setSubmit, navigation }) => {
         CustomerId: 522,
         Password: "123456",
         PasswordOld: 123123,
-        GroupId: GroupUserId
-      }
+        GroupId: GroupUserId,
+      };
     } catch (error) {
       setLoading(false);
       // console.log(error);
@@ -47,54 +55,74 @@ const ForgotPasswordForm = ({ setSubmit, navigation }) => {
 
   return (
     <Formik
-      initialValues={{ phoneNumber: '', password: '', confirmPassword: '' }}
+      initialValues={{ phoneNumber: "", password: "", confirmPassword: "" }}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        errors,
+        touched,
+      }) => (
         <View>
-          <View
-            style={styles.container}
-          >
+          <View style={styles.container}>
             <LogoBeeBox />
-            <Text style={styles.title}>Vui lòng cung cấp thông tin bên dưới để thay đổi mật khẩu nhé
-              !</Text>
+            <Text style={styles.title}>
+              Vui lòng cung cấp thông tin bên dưới để thay đổi mật khẩu nhé !
+            </Text>
             <CustomLabel>Số điện thoại:</CustomLabel>
             <CustomInput
               placeholder="Nhập số điện thoại"
-              onChangeText={handleChange('phoneNumber')}
-              onBlur={handleBlur('phoneNumber')}
+              onChangeText={handleChange("phoneNumber")}
+              onBlur={handleBlur("phoneNumber")}
               value={values.phoneNumber}
-              borderColor={touched.phoneNumber && errors.phoneNumber ? colors.RED : colors.BLACK}
+              borderColor={
+                touched.phoneNumber && errors.phoneNumber
+                  ? colors.RED
+                  : colors.BLACK
+              }
             />
-            <CustomFormError>{touched.phoneNumber && errors.phoneNumber}</CustomFormError>
+            <CustomFormError>
+              {touched.phoneNumber && errors.phoneNumber}
+            </CustomFormError>
 
             <CustomLabel>Mật khẩu mới:</CustomLabel>
             <CustomInput
               placeholder="Nhập mật khẩu"
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
+              onChangeText={handleChange("password")}
+              onBlur={handleBlur("password")}
               value={values.password}
-              type='password'
+              type="password"
               showPasswordToggle={true}
-              borderColor={touched.password && errors.password ? colors.RED : colors.BLACK}
+              borderColor={
+                touched.password && errors.password ? colors.RED : colors.BLACK
+              }
             />
-            <CustomFormError>{touched.password && errors.password}</CustomFormError>
+            <CustomFormError>
+              {touched.password && errors.password}
+            </CustomFormError>
             <CustomLabel>Xác nhận mật khẩu:</CustomLabel>
             <CustomInput
               placeholder="Xác nhận mật khẩu"
-              onChangeText={handleChange('confirmPassword')}
-              onBlur={handleBlur('confirmPassword')}
+              onChangeText={handleChange("confirmPassword")}
+              onBlur={handleBlur("confirmPassword")}
               value={values.confirmPassword}
-              type='password'
+              type="password"
               showPasswordToggle={true}
-              borderColor={touched.confirmPassword && errors.confirmPassword ? colors.RED : colors.BLACK}
+              borderColor={
+                touched.confirmPassword && errors.confirmPassword
+                  ? colors.RED
+                  : colors.BLACK
+              }
             />
-            <CustomFormError>{touched.confirmPassword && errors.confirmPassword}</CustomFormError>
+            <CustomFormError>
+              {touched.confirmPassword && errors.confirmPassword}
+            </CustomFormError>
 
-            <Button onPress={handleSubmit}>
-              {'Lấy mã OTP'}
-            </Button>
+            <Button onPress={handleSubmit}>{"Lấy mã OTP"}</Button>
             <View style={styles.regis}>
               <Text style={styles.regt}>Bạn có tài khoản ?</Text>
               <Pressable onPress={() => navigation.navigate(ScreenNames.LOGIN)}>
@@ -103,7 +131,6 @@ const ForgotPasswordForm = ({ setSubmit, navigation }) => {
             </View>
           </View>
         </View>
-
       )}
     </Formik>
   );
@@ -111,18 +138,18 @@ const ForgotPasswordForm = ({ setSubmit, navigation }) => {
 
 const styles = StyleSheet.create({
   regis: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "center",
-    margin: 10
+    margin: 10,
   },
   regt: {
     fontSize: 15,
-    marginRight: 10
+    marginRight: 10,
   },
   regtt: {
     fontSize: 15,
-    color: colors.MAIN_BLUE_CLIENT
+    color: colors.MAIN_BLUE_CLIENT,
   },
   container: {
     margin: 15,
@@ -132,12 +159,12 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.MAIN_BLUE_CLIENT,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 10,
     fontSize: 15,
     marginBottom: 60,
     paddingRight: 30,
-    paddingLeft: 30
+    paddingLeft: 30,
   },
   dot: {
     width: 10,
@@ -154,17 +181,17 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   pagination: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 10,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   forgot: {
-    color: colors.MAIN_BLUE_CLIENT
+    color: colors.MAIN_BLUE_CLIENT,
   },
   viewForgot: {
-    alignItems: 'flex-end',
-    marginBottom: 20
-  }
-})
+    alignItems: "flex-end",
+    marginBottom: 20,
+  },
+});
 
 export default ForgotPasswordForm;

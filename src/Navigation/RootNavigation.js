@@ -38,6 +38,8 @@ import RatingServiceScreen from "../Screens/Service/RatingServiceScreen";
 import ViewLocationStaff from "../Screens/Service/ViewLocationStaff";
 import ViewStaff from "../Screens/Service/ViewStaff";
 import { TrainingFeedback } from "../Screens/Admin/TrainingFeedback";
+import ServiceCarouselDetail from "../Screens/Home/ServiceCarouselDetail";
+import ContrubutionsDetailScreen from "../Screens/Home/ContrubutionsDetailScreen";
 
 const MainStack = createStackNavigator();
 
@@ -165,6 +167,14 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.WEB_VIEW_CHECK}
           component={TrainingFeedback}
+        />
+        <MainStack.Screen
+          name={ScreenNames.SERVICE_CAROUSEL_DETAIL}
+          component={ServiceCarouselDetail}
+        />
+        <MainStack.Screen
+          name={ScreenNames.CONTRIBUTIONS_DETAIL}
+          component={ContrubutionsDetailScreen}
         />
         <MainStack.Screen name={ScreenNames.VIEW_STAFF} component={ViewStaff} />
       </MainStack.Navigator>

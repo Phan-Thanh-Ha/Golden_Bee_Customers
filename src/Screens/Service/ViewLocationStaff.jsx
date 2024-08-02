@@ -34,7 +34,6 @@ import MainStyles, {
 import { ScreenNames } from "../../Constants";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import ModalConfirm from "../../components/ModalConfirm";
-import { OVG_FBRT_ListentOrderById } from "../../firebaseService/ListenOrder";
 
 const ViewLocationStaff = () => {
   const navi = useNavigation();
@@ -42,28 +41,56 @@ const ViewLocationStaff = () => {
   const { data } = route.params || {};
   const [timeOut, setTimeOut] = useState({ distance: 0, duration: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isModalReloadVisible, setIsModalReloadVisible] = useState(false);
-  const [clientOrder, setClientOrder] = useState({});
+  // const [clientOrder, setClientOrder] = useState({});
   const [flag, setFlag] = useState(false);
-
-  const handleReload = () => {
-    setTimeout(() => {
-      navi.replace("ViewStaff", { data: data?.OrderId });
-    }, 3000); // Độ trễ 3 giây
+  const clientOrder = {
+    BookingCode: "OVG-30072409591634",
+    ClientId: 874,
+    CreateAt: "2024-07-30 21:59:16",
+    DataService: {
+      Address:
+        "39B Truong Son Street, Phường 4, Tân Bình, Ho Chi Minh City, Vietnam",
+      BookingCode: "OVG-30072409591634",
+      BookingId: 1436,
+      CustomerId: 874,
+      CustomerName: "linh day linh day",
+      GroupUserId: 10060,
+      IsPremium: 0,
+      NoteBooking: "",
+      OtherService: [[Object]],
+      Payment: 0,
+      PriceAfterDiscount: 230000,
+      RoomTotal: 1,
+      ServiceCode: "DV-06062403132645",
+      ServiceId: 8,
+      ServiceName: "Dọn dẹp buồng phòng",
+      TimeWorking: 1,
+      TotalStaff: 2,
+    },
+    LatitudeCustomer: 10.8093,
+    LatitudeStaff: 10.861061781758963,
+    LongitudeCustomer: 106.664,
+    LongitudeStaff: 106.65402435416904,
+    OrderId: 1436,
+    StaffAvatar: "",
+    StaffId: 7410,
+    StaffName: "dev test 00",
+    StaffPhone: "0906702589",
+    StatusOrder: 1,
   };
+
   // Fetch order based on OrderId
-  // const clientOrder = useFilteredOrderById(data?.OrderId);
-  const getOrder = useCallback(() => {
-    if (data?.OrderId) {
-      const unsubscribe = OVG_FBRT_ListentOrderById(
-        data?.OrderId,
-        setClientOrder
-      );
-      return () => {
-        unsubscribe();
-      };
-    }
-  }, [data?.OrderId]);
+  // const getOrder = useCallback(() => {
+  //   if (data?.OrderId) {
+  //     const unsubscribe = OVG_FBRT_ListentOrderById(
+  //       data?.OrderId,
+  //       setClientOrder
+  //     );
+  //     return () => {
+  //       unsubscribe();
+  //     };
+  //   }
+  // }, [data?.OrderId]);
 
   useFocusEffect(
     useCallback(() => {
@@ -84,33 +111,6 @@ const ViewLocationStaff = () => {
       };
     }, [navi])
   );
-  useFocusEffect(
-    useCallback(() => {
-      const unsubscribe = getOrder();
-
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
-        }
-      };
-    }, [getOrder])
-  );
-  // console.log('clientOrder', clientOrder);
-
-  useEffect(() => {
-    if (clientOrder.StatusOrder === 1) {
-      setFlag(true);
-      setTimeout(() => {
-        navi.replace(ScreenNames.VIEW_STAFF, { data: data?.OrderId });
-      }, 3000);
-    }
-    if (clientOrder.StatusOrder === 3) {
-      setIsModalVisible(true);
-    }
-    if (flag && !clientOrder) {
-      navi.replace(ScreenNames.MAIN_NAVIGATOR);
-    }
-  }, [clientOrder.StatusOrder]);
 
   // Memoize the MapView component to avoid unnecessary re-renders
   const mapView = useMemo(
@@ -390,7 +390,11 @@ const ViewLocationStaff = () => {
           <LayoutBottom>
             <BtnDouble
               style={MainStyles.btnConfirm}
-              onConfirm1={() => navi.navigate(ScreenNames.MAIN_NAVIGATOR)}
+              onConfirm1={() =>
+                navi.reset({
+                  routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+                })
+              }
               title1="Về trang chính"
               btn2Visible={false}
             />
@@ -405,13 +409,13 @@ const ViewLocationStaff = () => {
             }}
             backdropClose={false}
           />
-          <ModalConfirm
-            title={`Nhân viên ${clientOrder?.StaffName}  đã nhận đơn dịch vụ và đang chuẩn bị, hãy theo dõi quãng đường để biết vị trí nhân viên!`}
-            isModalVisible={isModalReloadVisible}
-            setModalVisible={setIsModalReloadVisible}
-            onConfirm={handleReload}
-            backdropClose={false}
-          />
+          {/* <ModalConfirm
+              title={`Nhân viên ${clientOrder?.StaffName}  đã nhận đơn dịch vụ và đang chuẩn bị, hãy theo dõi quãng đường để biết vị trí nhân viên!`}
+              isModalVisible={isModalReloadVisible}
+              setModalVisible={setIsModalReloadVisible}
+              onConfirm={handleReload}
+              backdropClose={false}
+            /> */}
         </>
       )}
     </SafeAreaView>

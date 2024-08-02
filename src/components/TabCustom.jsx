@@ -1,13 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Button, Datepicker, Tab, TabView } from '@ui-kitten/components';
-import CardNewJob from './CardNewJob';
-import CardJobDone from './CardJobDone';
-import CardDefault from './CardDefault';
-import { useDispatch, useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
-import { GroupUserId } from '../Utils';
-import { mainAction } from '../Redux/Action';
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Button, Datepicker, Tab, TabView } from "@ui-kitten/components";
+import CardNewJob from "./CardNewJob";
+import CardJobDone from "./CardJobDone";
+import CardDefault from "./CardDefault";
+import { useDispatch, useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
+import { GroupUserId } from "../Utils";
+import { mainAction } from "../Redux/Action";
 
 export const TabCustom = ({ modalRef, modalJobDoneRef, height }) => {
   const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
@@ -48,43 +55,42 @@ export const TabCustom = ({ modalRef, modalJobDoneRef, height }) => {
     <View style={{ height, padding: 10 }}>
       <TabView
         selectedIndex={selectedIndex}
-        onSelect={index => setSelectedIndex(index)}
+        onSelect={(index) => setSelectedIndex(index)}
         style={styles.tabView}
       >
         <Tab style={{ height: 40 }} title="Đang làm việc">
-          {
-            myOrdersAccepted?.length > 0 ?
-              (
-                <>
-                  <FlatList
-                    data={myOrdersAccepted}
-                    renderItem={({ item, index }) => (
-                      <CardNewJob data={item} modalRef={modalRef} />
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                </>
-              ) : (
-                <CardDefault title={"Bạn chưa có đơn dịch vụ nào"} />
-              )
-          }
+          {myOrdersAccepted?.length > 0 ? (
+            <>
+              <FlatList
+                data={myOrdersAccepted}
+                renderItem={({ item, index }) => (
+                  <CardNewJob data={item} modalRef={modalRef} />
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </>
+          ) : (
+            <CardDefault title={"Bạn chưa có đơn dịch vụ nào"} />
+          )}
         </Tab>
         <Tab style={{ height: 40 }} title="Dịch vụ đã đặt">
-          {
-            dataJobDone?.length > 0 ? (
-              <>
-                <FlatList
-                  data={dataJobDone}
-                  renderItem={({ item, index }) => (
-                    <CardJobDone key={index} data={item} modalRef={modalJobDoneRef} />
-                  )}
-                  keyExtractor={(item, index) => index.toString()}
-                />
-              </>
-            ) : (
-              <CardDefault title='Chưa có dịch vụ đã đặt' />
-            )
-          }
+          {dataJobDone?.length > 0 ? (
+            <>
+              <FlatList
+                data={dataJobDone}
+                renderItem={({ item, index }) => (
+                  <CardJobDone
+                    key={index}
+                    data={item}
+                    modalRef={modalJobDoneRef}
+                  />
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </>
+          ) : (
+            <CardDefault title="Chưa có dịch vụ đã đặt" />
+          )}
         </Tab>
       </TabView>
     </View>
