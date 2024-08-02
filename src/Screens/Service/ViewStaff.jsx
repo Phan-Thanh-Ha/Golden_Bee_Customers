@@ -58,6 +58,7 @@ const ViewStaffScreen = () => {
     }
   }, [data?.OrderId]);
 
+  // console.log("---------------------------", clientOrder);
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
