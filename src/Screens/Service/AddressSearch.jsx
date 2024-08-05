@@ -39,7 +39,6 @@ const AddressSearch = () => {
       setInitAddress(result);
     }
   }
-  console.log("initAddress-------------", initAddress);
 
   const OVG_spAddress_List_By_Customer = async () => {
     try {
@@ -120,7 +119,6 @@ const AddressSearch = () => {
 
   return (
     <View style={{ backgroundColor: colors.WHITE }}>
-      {/* <Header title="Chọn vị trí làm việc" onBack={onBackPress} isGoBack={false} /> */}
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
       <Text style={MainStyles.screenTitle}>Thêm vị trí của bạn</Text>
       <InputComponent

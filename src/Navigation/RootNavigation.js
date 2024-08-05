@@ -37,7 +37,7 @@ import CashScreen from "../Screens/Service/CashScreen";
 import RatingServiceScreen from "../Screens/Service/RatingServiceScreen";
 import ViewLocationStaff from "../Screens/Service/ViewLocationStaff";
 import ViewStaff from "../Screens/Service/ViewStaff";
-import { TrainingFeedback } from "../Screens/Admin/TrainingFeedback";
+// import { TrainingFeedback } from "../Screens/Admin/TrainingFeedback";
 import ServiceCarouselDetail from "../Screens/Home/ServiceCarouselDetail";
 import ContrubutionsDetailScreen from "../Screens/Home/ContrubutionsDetailScreen";
 
@@ -164,10 +164,10 @@ const RootNavigator = () => {
           name={ScreenNames.VIEW_LOCATION_STAFF}
           component={ViewLocationStaff}
         />
-        <MainStack.Screen
+        {/* <MainStack.Screen
           name={ScreenNames.WEB_VIEW_CHECK}
           component={TrainingFeedback}
-        />
+        /> */}
         <MainStack.Screen
           name={ScreenNames.SERVICE_CAROUSEL_DETAIL}
           component={ServiceCarouselDetail}

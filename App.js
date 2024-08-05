@@ -13,7 +13,6 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { SetupNotification } from "./src/Firebase/SetupNotification";
 import HealthCheck from "./src/Utils/HealthCheck";
 import RequestPermissionV2 from "./src/Permission/RequestPermissionV2";
-import { RequestPermission } from "./src/Permission/RequestPermission";
 LogBox.ignoreAllLogs();
 
 const App = () => {
@@ -36,7 +35,7 @@ const App = () => {
         <MenuProvider>
           <BottomSheetModalProvider>
             <RootNavigator />
-            <RequestPermission />
+            <RequestPermissionV2 />
             <SetupNotification />
             <HealthCheck />
           </BottomSheetModalProvider>

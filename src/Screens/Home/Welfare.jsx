@@ -33,7 +33,7 @@ const Welfare = () => {
         CustomerId: userLogin?.Id,
         GroupUserId: GroupUserId
       }
-      console.log("pr", pr)
+      // console.log("pr", pr)
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Total_Point",

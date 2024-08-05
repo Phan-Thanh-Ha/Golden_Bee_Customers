@@ -38,7 +38,7 @@ const CardNewJob = ({ data, modalRef }) => {
   const handleGoViewStaff = () => {
     navi.navigate(ScreenNames.VIEW_STAFF, { data: data });
   };
-  console.log("data------------------------", data);
+  // console.log("data------------------------", data);
 
   const HandlePayment = () => {
     if (data?.DataService?.Payment === true) {

@@ -32,6 +32,7 @@ const TabHistory = ({ modalJobDoneRef }) => {
       };
 
       const result = await mainAction.API_spCallServer(params, dispatch);
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
       if (result) {
         setDataJobDone(result);
         setIsLoading(false);

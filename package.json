@@ -78,7 +78,6 @@
     "react-native-svg-transformer": "^1.4.0",
     "react-native-swiper-flatlist": "^3.2.4",
     "react-native-toast-message": "^2.2.0",
-    "react-native-touch-id": "^4.4.1",
     "react-native-webview": "^11.23.0",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",

@@ -8,7 +8,7 @@ import {
   BackHandler,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import MainStyles, {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
@@ -33,7 +33,6 @@ import MapViewDirections from "react-native-maps-directions";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { ScreenNames } from "../../Constants";
 import BtnDouble from "../../components/BtnDouble";
-import { Alert } from "react-native";
 
 const WaitingStaffScreen = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -59,10 +58,6 @@ const WaitingStaffScreen = () => {
       };
     }, [navi])
   );
-  // console.log(
-  //   "-----> 💀💀💀💀💀💀💀💀💀 <-----  dataBookingWatting:",
-  //   dataBooking
-  // );
 
   // handle listen order change
   const [clientOrder, setClientOrder] = useState(null);
@@ -74,6 +69,7 @@ const WaitingStaffScreen = () => {
     distance: 0,
     duration: 0,
   });
+
   return (
     <SafeAreaView style={styles.container}>
       <View>

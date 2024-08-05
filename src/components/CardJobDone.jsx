@@ -3,7 +3,21 @@ import { FlatList, Image, Pressable, View } from "react-native";
 import { Icon, Text } from "@ui-kitten/components";
 import { colors } from "../styles/Colors";
 import MainStyles, { SCREEN_HEIGHT } from "../styles/MainStyle";
-import { ic_coin } from "../assets";
+import {
+  cirtificate,
+  coin_icon,
+  ic_chronometer,
+  ic_clearning,
+  ic_clearning_basic,
+  ic_coin,
+  ic_glass,
+  ic_living_room,
+  ic_location,
+  ic_note,
+  ic_person,
+  ic_schedule,
+} from "../assets";
+import Rating from "./Rating";
 import { FormatMoney, parseTimeSql } from "../Utils";
 import BtnDouble from "./BtnDouble";
 import Box from "./Box";
@@ -20,7 +34,7 @@ export default CardJobDone = ({ data, modalRef }) => {
   const menu = useSelector((state) => state.main.menuService);
 
   const useBeforeLocation = () => {
-    const service = menu.find((item) => item.ServiceId === data?.ServiceId);
+    const service = menu.find((item) => item?.ServiceId === data?.ServiceId);
     navi.navigate(getRouterById(data?.ServiceId), {
       service: {
         ...service,
@@ -33,8 +47,10 @@ export default CardJobDone = ({ data, modalRef }) => {
     });
   };
   const useNewLocation = () => {
+    const service = menu.find((item) => item?.ServiceId === data?.ServiceId);
+
     navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-      service: data?.Service,
+      service: service,
     });
   };
   const openModal = () => {

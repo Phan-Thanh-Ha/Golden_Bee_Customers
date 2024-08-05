@@ -4,8 +4,10 @@ import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from '@ui-kitten/components';
 import { ScrollView } from 'react-native-gesture-handler';
 import Box from './Box';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../styles/MainStyle';
+import RenderHTML from 'react-native-render-html';
 
-const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initialIndex, onChange }) => {
+const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initialIndex, onChange, content }) => {
   const bottomSheetModalRef = useRef(null);
 
   useEffect(() => {
@@ -31,8 +33,13 @@ const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initial
             <Icon name="close" fill="black" style={styles.icon} />
           </TouchableOpacity> */}
           <ScrollView>
-            {children}
-            <Box height={70} />
+            {/* {children} */}
+            <RenderHTML
+              contentWidth={SCREEN_WIDTH}
+              source={{ html: content }}
+              ignoredDomTags={['o:p']}
+            />
+            <Box height={SCREEN_HEIGHT * 0.07} />
           </ScrollView>
         </View>
       </BottomSheetModal>

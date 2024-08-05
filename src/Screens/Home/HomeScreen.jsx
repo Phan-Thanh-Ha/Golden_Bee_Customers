@@ -53,7 +53,7 @@ const HomeScreen = () => {
     calling();
   };
 
-  // lưa đơn không có nhân viên nhận
+  // lưu đơn không có nhân viên nhận
   const OVG_spService_BookingService_Save_Not_Officer = async (pr) => {
     try {
       const params = {
@@ -108,6 +108,7 @@ const HomeScreen = () => {
         func: "Shop_spWeb_News_List",
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
+      // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result[0]);
       if (result.length > 0) {
         // setDataNewService(result);
         // setDataCarousel(result);

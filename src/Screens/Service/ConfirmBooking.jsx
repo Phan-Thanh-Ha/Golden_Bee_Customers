@@ -86,7 +86,6 @@ const ConfirmBooking = () => {
       TotalDiscount: totalDiscount || 0,
       GroupUserId: GroupUserId || 0,
     };
-    // console.log("pr----------------------------", pr);
     isMounted.current = true;
     setData(StorageNames.SERVICE_PENDING, pr);
     if (userLogin?.Phone === "0943214791") {
@@ -218,6 +217,7 @@ const ConfirmBooking = () => {
           TotalDiscount: totalDiscount || 0,
           GroupUserId: GroupUserId || 0,
         };
+        console.log("OVG_spService_BookingService_Save_V2: --------------------", pr);
         const params = {
           Json: JSON.stringify(pr),
           func: "OVG_spService_BookingService_Save_V2",

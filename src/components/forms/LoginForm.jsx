@@ -34,7 +34,7 @@ const LoginForm = () => {
         setDataConfirmService(data);
       };
       getDataService();
-      return () => {};
+      return () => { };
     }, [])
   );
 
@@ -91,7 +91,7 @@ const LoginForm = () => {
         };
 
         const result = await mainAction.API_spCallServer(params, dispatch);
-        console.log(result);
+        // console.log(result);
         if (result?.Status === "OK") {
           mainAction.userLogin(result.Result[0], dispatch);
           await setData(StorageNames.USER_PROFILE, result.Result[0]);
@@ -141,7 +141,7 @@ const LoginForm = () => {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_TokenDevice_Save",
       };
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
+      // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
 
       await mainAction.API_spCallServer(params, dispatch);
     } catch (error) {

@@ -10,10 +10,11 @@ import {
   View,
 } from "react-native";
 import { banner_service } from "../../assets";
-import MainStyles, { SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { Icon } from "@ui-kitten/components";
-import { colors } from "../../styles/Colors";
+import { colors, themeColors } from "../../styles/Colors";
+import Box from "../../components/Box";
 
 const ContrubutionsDetailScreen = () => {
   return (
@@ -124,6 +125,7 @@ const ContrubutionsDetailScreen = () => {
           <Text style={styles.signature}>Trân trọng,</Text>
           <Text style={styles.signature}>Đội ngũ Ong Vàng</Text>
         </View>
+        <Box height={SCREEN_HEIGHT * 0.07} />
       </ScrollView>
       <LayoutBottom>
         <TouchableOpacity
@@ -224,7 +226,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 16,
-    backgroundColor: "#FF9900",
+    backgroundColor: themeColors.confirm,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,

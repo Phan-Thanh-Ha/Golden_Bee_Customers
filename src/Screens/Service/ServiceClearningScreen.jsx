@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../../styles/Colors";
 import LinearGradient from "react-native-linear-gradient";
 import BackButton from "../../components/BackButton";
@@ -17,6 +17,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { FormatMoney } from "../../Utils";
 import { priceClearning } from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
+import { Icon } from "@ui-kitten/components";
 
 const ServiceClearningScreen = () => {
   const route = useRoute();
@@ -60,6 +61,28 @@ const ServiceClearningScreen = () => {
             TotalPrice={totalPrice}
           />
         </KeyboardAwareScrollView>
+        <View style={MainStyles.flexRowCenter}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalOpen(true);
+            }}
+            style={MainStyles.flexRowCenter}
+          >
+            <Icon
+              style={[MainStyles.CardIcon, { marginRight: 0 }]}
+              fill={colors.MAIN_BLUE_CLIENT}
+              name="plus-outline"
+            />
+            <Text
+              style={{
+                fontSize: 16,
+                margin: 10,
+                fontWeight: "600",
+                color: colors.MAIN_BLUE_CLIENT,
+              }}
+            >Chi tiết dịch vụ</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
       <View
         style={{
@@ -104,16 +127,15 @@ const ServiceClearningScreen = () => {
           </View>
         </ButtonInfo>
       </View>
-      {modalOpen && (
-        <ModalInformationDetail
-          isOpen={modalOpen}
-          onClose={modalOnClose}
-          snapPoints={["60%", "80%"]}
-          initialIndex={1}
-        >
-          <CardPremiumInfomation />
-        </ModalInformationDetail>
-      )}
+      <ModalInformationDetail
+        isOpen={modalOpen}
+        onClose={modalOnClose}
+        snapPoints={["60%", "80%"]}
+        initialIndex={1}
+        content={service?.ContentService}
+      >
+        <CardPremiumInfomation />
+      </ModalInformationDetail>
     </View>
   );
 };

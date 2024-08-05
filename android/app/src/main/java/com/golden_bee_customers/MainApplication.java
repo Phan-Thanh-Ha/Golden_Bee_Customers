@@ -1,4 +1,4 @@
-package com.golden_bee_customer;
+package com.golden_bee_customers;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,11 +9,11 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
-import com.golden_bee_customer.newarchitecture.MainApplicationReactNativeHost;
+import com.golden_bee_customers.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.swmansion.rnscreens.RNScreensPackage;  // thêm dòng này
-import com.golden_bee_customer.BuildConfig;
+import com.golden_bee_customers.BuildConfig;
 import org.devio.rn.splashscreen.SplashScreenReactPackage; 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -76,7 +76,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.golden_bee_customer.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.golden_bee_customers.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

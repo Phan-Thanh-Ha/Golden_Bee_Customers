@@ -1,4 +1,4 @@
-package com.golden_bee_customer.newarchitecture.components;
+package com.golden_bee_customers.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

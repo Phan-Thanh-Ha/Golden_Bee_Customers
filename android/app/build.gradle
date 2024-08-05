@@ -140,7 +140,7 @@ android {
         applicationId "com.golden_bee_customer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
+        versionCode 10
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         multiDexEnabled true
@@ -231,7 +231,7 @@ android {
         }
     }
     // netco123
-    namespace 'com.golden_bee_customer'
+    namespace 'com.golden_bee_customers'
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
@@ -247,7 +247,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             ndk {
-                debugSymbolLevel 'SYMBOL_TABLE'
+                debugSymbolLevel 'FULL'
             }
         }
     }

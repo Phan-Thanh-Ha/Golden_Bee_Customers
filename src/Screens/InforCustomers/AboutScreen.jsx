@@ -12,7 +12,7 @@ import { setData } from "../../Utils";
 const dataSlider = [
   {
     title: "Dịch vụ cung cấp đa dạng",
-    description1: "Dễ dàng lựa chọn dịch vụ vệ sinh ngôi nhà của bạn.",
+    description1: "Dễ dàng lựa chọn dịch vụ vệ sinh ngôi nhà của bạn.1",
     description2: "",
     image: image_banner_2,
   },
