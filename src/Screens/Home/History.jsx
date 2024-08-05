@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,8 @@ import TabPending from "../../components/TabPending";
 import TabHistory from "../../components/TabHistory";
 import { useSelector } from "react-redux";
 import MyOrders from "../../components/firebaseListen/MyOrders";
+import BookingsListMiddleware from "../../Utils/BookingsListMiddleware";
+import { OVG_GetOrdersByBookingCode } from "../../firebaseService/ListenOrder";
 
 const History = () => {
   const [selectedTab, setSelectedTab] = useState("Đang làm việc");
@@ -23,6 +25,11 @@ const History = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const modalJobDoneRef = useRef(null);
   const [dataPending, setDataPending] = useState([]);
+  // const [booking, setBooking] = useState(null);
+
+  // useEffect(() => {
+  //   OVG_GetOrdersByBookingCode("OVG-03082402424669", setBooking);
+  // }, [])
   const renderContent = () => {
     if (selectedTab === "Đang làm việc") {
       return <TabPending modalRef={modalRef} dataPending={dataPending} />;
@@ -30,6 +37,13 @@ const History = () => {
       return <TabHistory modalRef={modalJobDoneRef} />;
     }
   };
+
+  // console.log("Data filterOrder------", booking);
+  // console.log("Data filterOrder lenght------", booking.length);
+  // console.log("Data filterOrder group------", BookingsListMiddleware(booking));
+
+  // console.log("Data pending------", dataPending.slice(0, 10));
+  // console.log("Data pending------", dataPending[0].StaffInformation);
 
   return (
     <LayoutGradientBlue>
@@ -52,7 +66,7 @@ const History = () => {
                 style={[
                   styles.tabButtonText,
                   selectedTab === "Đang làm việc" &&
-                    styles.selectedTabButtonText,
+                  styles.selectedTabButtonText,
                 ]}
               >
                 Đang làm việc
@@ -69,7 +83,7 @@ const History = () => {
                 style={[
                   styles.tabButtonText,
                   selectedTab === "Dịch vụ đã đặt" &&
-                    styles.selectedTabButtonText,
+                  styles.selectedTabButtonText,
                 ]}
               >
                 Dịch vụ đã đặt
@@ -79,12 +93,8 @@ const History = () => {
           {renderContent()}
         </View>
       </View>
-      <JobDetailsModal ref={modalRef} />
-      <JobDoneModal ref={modalJobDoneRef} />
       {userLogin ? (
-        <>
-          <MyOrders setOrders={setDataPending} isListen={false} />
-        </>
+        <MyOrders setOrders={setDataPending} isListen={false} />
       ) : null}
     </LayoutGradientBlue>
   );

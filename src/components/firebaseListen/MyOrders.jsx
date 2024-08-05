@@ -6,6 +6,7 @@ import ListenOrderRemove from "./ListenOrderRemove";
 import { mainAction } from "../../Redux/Action";
 import { OVG_FBRT_ListenMyOrders } from "../../firebaseService/ListenOrder";
 import { useNavigation } from "@react-navigation/native";
+import BookingsListMiddleware from "../../Utils/BookingsListMiddleware";
 
 const MyOrders = ({ setOrders = () => { }, isListen = true, isUpdate = true }) => {
   const dispatch = useDispatch();
@@ -43,10 +44,12 @@ const MyOrders = ({ setOrders = () => { }, isListen = true, isUpdate = true }) =
   }, [userLogin?.Id]);
 
   useEffect(() => {
+    console.log("myOrders----------------", myOrders);
     if (isUpdate) {
       if (myOrders?.length > 0) {
-        setOrders(myOrders);
-        mainAction.acceptedOrder(myOrders?.length, dispatch);
+        let bookings = BookingsListMiddleware(myOrders);
+        setOrders(bookings);
+        mainAction.acceptedOrder(bookings?.length, dispatch);
       } else {
         mainAction.acceptedOrder(0, dispatch);
       }

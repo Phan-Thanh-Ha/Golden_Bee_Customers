@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../../styles/Colors";
 import LinearGradient from "react-native-linear-gradient";
 import BackButton from "../../components/BackButton";
@@ -17,6 +17,9 @@ import { FormatMoney } from "../../Utils";
 import { priceOfficeClearning } from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import FormServiceClearningOffice from "./FormServiceClearningOffice";
+import { useDispatch } from "react-redux";
+import { mainAction } from "../../Redux/Action";
+import { Icon } from "@ui-kitten/components";
 
 const ServiceClearningOfficeScreen = () => {
   const route = useRoute();
@@ -28,6 +31,26 @@ const ServiceClearningOfficeScreen = () => {
   const formikSubmitRef = useRef(null);
   const [totalPrice, setTotalPrice] = useState(price);
   const [modalOpen, setModalOpen] = useState(false);
+  const [detailContent, setDetailContent] = useState({});
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    OVG_spStepContent_Service();
+  }, [])
+  const OVG_spStepContent_Service = async () => {
+    try {
+      const pr = {
+        ServiceId: service?.ServiceId || 7,
+        GroupId: 10060,
+      }
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spStepContent_Service",
+      }
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      setDetailContent(result[0]);
+    } catch (error) { }
+  }
   const modalOnClose = () => {
     setModalOpen(false);
   };
@@ -59,6 +82,28 @@ const ServiceClearningOfficeScreen = () => {
             TotalPrice={totalPrice}
           />
         </KeyboardAwareScrollView>
+        <View style={MainStyles.flexRowCenter}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalOpen(true);
+            }}
+            style={MainStyles.flexRowCenter}
+          >
+            <Icon
+              style={[MainStyles.CardIcon, { marginRight: 0 }]}
+              fill={colors.MAIN_BLUE_CLIENT}
+              name="plus-outline"
+            />
+            <Text
+              style={{
+                fontSize: 16,
+                margin: 10,
+                fontWeight: "600",
+                color: colors.MAIN_BLUE_CLIENT,
+              }}
+            >Chi tiết dịch vụ</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
       <View
         style={{
@@ -103,16 +148,14 @@ const ServiceClearningOfficeScreen = () => {
           </View>
         </ButtonInfo>
       </View>
-      {modalOpen && (
-        <ModalInformationDetail
-          isOpen={modalOpen}
-          onClose={modalOnClose}
-          snapPoints={["60%", "80%"]}
-          initialIndex={1}
-        >
-          <CardPremiumInfomation />
-        </ModalInformationDetail>
-      )}
+      <ModalInformationDetail
+        isOpen={modalOpen}
+        onClose={modalOnClose}
+        snapPoints={["60%", "80%"]}
+        initialIndex={1}
+        content={detailContent}
+      >
+      </ModalInformationDetail>
     </View>
   );
 };

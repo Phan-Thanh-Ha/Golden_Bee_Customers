@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../../styles/Colors";
 import LinearGradient from "react-native-linear-gradient";
@@ -12,23 +12,44 @@ import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
 import FormServiceClearning from "./FormServiceClearning";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
-import CardPremiumInfomation from "../../components/CardPremiumInfomation";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { FormatMoney } from "../../Utils";
 import { priceClearning } from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import { Icon } from "@ui-kitten/components";
+import { mainAction } from "../../Redux/Action";
+import { useDispatch } from "react-redux";
 
 const ServiceClearningScreen = () => {
   const route = useRoute();
   const { service } = route.params || {};
-  const price = service.ServicePrice || 11;
-  const workingTime = service.ServiceTime || 11;
+  const price = service?.ServicePrice || 11;
+  const workingTime = service?.ServiceTime || 11;
   const [time, setTime] = useState(workingTime);
   const inset = UseInset();
   const formikSubmitRef = useRef(null);
   const [totalPrice, setTotalPrice] = useState(price);
   const [modalOpen, setModalOpen] = useState(false);
+  const [detailContent, setDetailContent] = useState({});
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    OVG_spStepContent_Service();
+  }, [])
+  const OVG_spStepContent_Service = async () => {
+    try {
+      const pr = {
+        ServiceId: service?.ServiceId || 7,
+        GroupId: 10060,
+      }
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "OVG_spStepContent_Service",
+      }
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      setDetailContent(result[0]);
+    } catch (error) { }
+  }
   const modalOnClose = () => {
     setModalOpen(false);
   };
@@ -39,7 +60,6 @@ const ServiceClearningScreen = () => {
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceClearning(values, price, time));
     values.premium ? setModalOpen(true) : setModalOpen(false);
-    // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  values:", values);
   };
 
   return (
@@ -132,9 +152,8 @@ const ServiceClearningScreen = () => {
         onClose={modalOnClose}
         snapPoints={["60%", "80%"]}
         initialIndex={1}
-        content={service?.ContentService}
+        content={detailContent}
       >
-        <CardPremiumInfomation />
       </ModalInformationDetail>
     </View>
   );

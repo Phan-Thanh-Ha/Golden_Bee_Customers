@@ -3,13 +3,11 @@ import { View, StyleSheet, Image, Text } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import InputNumber from "../../components/InputNumber";
-import BtnToggle from "../../components/BtnToggle";
 import InputCheckBox from "../../components/InputCheckBox";
 import TextArea from "../../components/TextArea";
 import Label from "../../components/Label";
 import { colors } from "../../styles/Colors";
 import MainStyles from "../../styles/MainStyle";
-import { ic_premium } from "../../assets";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import SelectOption from "../../components/SelectOption";
 import { useNavigation } from "@react-navigation/native";
@@ -60,7 +58,6 @@ const FormServiceClearingAir = forwardRef(
           {({
             handleChange,
             handleBlur,
-            handleSubmit,
             setFieldValue,
             values,
             errors,
@@ -110,7 +107,7 @@ const FormServiceClearingAir = forwardRef(
                     Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
                   </Text>
                 </View>
-                <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
+                {/* <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
                   <View
                     style={[
                       MainStyles.flexRowFlexStart,
@@ -127,7 +124,7 @@ const FormServiceClearingAir = forwardRef(
                     value={values.premium}
                     onChange={(checked) => setFieldValue("premium", checked)}
                   />
-                </View>
+                </View> */}
                 {Service?.Detail.length > 0 && (
                   <Label style={styles.title}>Dịch vụ thêm</Label>
                 )}

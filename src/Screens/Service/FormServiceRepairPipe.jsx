@@ -110,7 +110,7 @@ const FormServiceRepairPipe = forwardRef(
                     Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
                   </Text>
                 </View>
-                <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
+                {/* <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
                   <View
                     style={[
                       MainStyles.flexRowFlexStart,
@@ -127,7 +127,7 @@ const FormServiceRepairPipe = forwardRef(
                     value={values.premium}
                     onChange={(checked) => setFieldValue("premium", checked)}
                   />
-                </View>
+                </View> */}
                 {Service?.Detail.length > 0 && (
                   <Label style={styles.title}>Dịch vụ thêm</Label>
                 )}

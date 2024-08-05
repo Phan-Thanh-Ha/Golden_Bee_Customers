@@ -110,8 +110,8 @@ const ViewStaffScreen = () => {
         <MapView
           style={styles.map}
           region={{
-            latitude: clientOrder?.LatitudeCustomer,
-            longitude: clientOrder?.LongitudeCustomer,
+            latitude: parseFloat(clientOrder?.LatitudeCustomer),
+            longitude: parseFloat(clientOrder?.LongitudeCustomer),
             latitudeDelta: 0.03,
             longitudeDelta: 0.03,
           }}
@@ -119,8 +119,8 @@ const ViewStaffScreen = () => {
         >
           <Marker
             coordinate={{
-              latitude: clientOrder?.LatitudeCustomer,
-              longitude: clientOrder?.LongitudeCustomer,
+              latitude: parseFloat(clientOrder?.LatitudeCustomer),
+              longitude: parseFloat(clientOrder?.LongitudeCustomer),
             }}
             title={clientOrder?.DataService?.Address}
           >
@@ -132,8 +132,8 @@ const ViewStaffScreen = () => {
             <>
               <Marker
                 coordinate={{
-                  latitude: clientOrder?.LatitudeStaff,
-                  longitude: clientOrder?.LongitudeStaff,
+                  latitude: parseFloat(clientOrder?.LatitudeStaff),
+                  longitude: parseFloat(clientOrder?.LongitudeStaff),
                 }}
               >
                 <View style={styles.markerContainer}>
@@ -145,12 +145,12 @@ const ViewStaffScreen = () => {
               </Marker>
               <MapViewDirections
                 origin={{
-                  latitude: clientOrder?.LatitudeStaff,
-                  longitude: clientOrder?.LongitudeStaff,
+                  latitude: parseFloat(clientOrder?.LatitudeStaff),
+                  longitude: parseFloat(clientOrder?.LongitudeStaff),
                 }}
                 destination={{
-                  latitude: clientOrder?.LatitudeCustomer,
-                  longitude: clientOrder?.LongitudeCustomer,
+                  latitude: parseFloat(clientOrder?.LatitudeCustomer),
+                  longitude: parseFloat(clientOrder?.LongitudeCustomer),
                 }}
                 apikey={GOOGLE_API_KEY}
                 strokeWidth={3}

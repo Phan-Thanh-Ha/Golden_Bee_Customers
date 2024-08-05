@@ -10,6 +10,8 @@ import RenderHTML from 'react-native-render-html';
 const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initialIndex, onChange, content }) => {
   const bottomSheetModalRef = useRef(null);
 
+  console.log(content);
+
   useEffect(() => {
     if (isOpen) {
       bottomSheetModalRef.current.present();
@@ -29,14 +31,10 @@ const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initial
         onClose={onClose}
       >
         <View style={[styles.contentContainer]}>
-          {/* <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Icon name="close" fill="black" style={styles.icon} />
-          </TouchableOpacity> */}
           <ScrollView>
-            {/* {children} */}
             <RenderHTML
               contentWidth={SCREEN_WIDTH}
-              source={{ html: content }}
+              source={{ html: content?.ContentService }}
               ignoredDomTags={['o:p']}
             />
             <Box height={SCREEN_HEIGHT * 0.07} />

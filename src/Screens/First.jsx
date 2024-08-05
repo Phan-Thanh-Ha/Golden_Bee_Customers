@@ -20,19 +20,16 @@ const First = () => {
           const userLogin = await getData(StorageNames.USER_PROFILE);
           mainAction.userLogin(userLogin, dispatch);
           await ensureMenuData();
-          // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
           if (userLogin) {
             navi.reset({
               index: 0,
               routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
             })
-            // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
           } else {
             navi.reset({
               index: 0,
               routes: [{ name: ScreenNames.HOME }],
             })
-            // navi.navigate(ScreenNames.HOME);
           }
         } else {
           navi.reset({
@@ -67,7 +64,7 @@ const First = () => {
           func: "OVG_spService_List_Menu",
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
-        console.log("🚀 ~ fetchMenuData ~ result:", result);
+        // console.log("🚀 ~ fetchMenuData ~ result:", result);
         if (result.length > 0) {
           mainAction.menuService(result, dispatch);
           await setData(StorageNames.MENU_SERVICE, result);

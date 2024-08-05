@@ -37,6 +37,8 @@ const FormServiceClearning = ({
         initialValues={{
           room: 1,
           people: 1,
+          premium: false,
+          otherService: [],
           note: "",
         }}
         validationSchema={validationSchema}
@@ -122,7 +124,7 @@ const FormServiceClearning = ({
                   onChange={(checked) => setFieldValue("premium", checked)}
                 />
               </View> */}
-              {/* {Service?.Detail.length > 0 && (
+              {Service?.Detail.length > 0 && (
                 <Label style={styles.title}>Dịch vụ thêm</Label>
               )}
               <InputCheckBox
@@ -142,8 +144,7 @@ const FormServiceClearning = ({
                     onChange({ ...values, otherService: newSelectedValues });
                   }
                 }}
-              /> */}
-
+              />
               <Label style={styles.title}>Ghi chú</Label>
               <TextArea
                 placeholder="Thêm lưu ý cho dịch vụ hoặc các dụng cụ cần thiết khác"

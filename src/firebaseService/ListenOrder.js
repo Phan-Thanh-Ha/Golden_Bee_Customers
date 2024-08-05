@@ -1,4 +1,5 @@
 import { firebase } from "@react-native-firebase/database";
+import BookingsListMiddleware from "../Utils/BookingsListMiddleware";
 
 export const databaseOrder = firebase
   .app()
@@ -105,6 +106,37 @@ export const OVG_FBRT_ListenMyOrders = (
     };
   } catch (error) {
     console.error("Error listening for orders: ", error);
+  }
+};
+
+export const OVG_GetOrdersByBookingCode = (bookingCode, callback) => {
+  if (typeof bookingCode !== "string" || !bookingCode.trim()) {
+    console.error("Invalid BookingCode. It should be a non-empty string.");
+    return;
+  }
+
+  if (typeof callback !== "function") {
+    console.error("Invalid callback function.");
+    return;
+  }
+
+  try {
+    databaseOrder.on("value", (snapshot) => {
+      const orders = snapshot.val();
+      const filteredOrders = [];
+
+      if (orders) {
+        for (const orderId in orders) {
+          if (orders[orderId].BookingCode === bookingCode) {
+            filteredOrders.push(orders[orderId]);
+          }
+        }
+      }
+
+      callback(BookingsListMiddleware(filteredOrders));
+    });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
   }
 };
 

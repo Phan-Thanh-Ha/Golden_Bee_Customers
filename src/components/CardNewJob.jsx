@@ -1,7 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   FlatList,
   Image,
+  Modal,
   Pressable,
   TouchableOpacity,
   View,
@@ -12,33 +13,19 @@ import MainStyles, { SCREEN_HEIGHT } from "../styles/MainStyle";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../Constants";
 import {
-  cirtificate,
   coin_icon,
-  ic_chronometer,
-  ic_clearning,
-  ic_clearning_basic,
-  ic_glass,
-  ic_hourse_clearning,
-  ic_human,
-  ic_living_room,
-  ic_location,
-  ic_note,
-  ic_person,
-  ic_phone_call,
-  ic_schedule,
 } from "../assets";
-import { useDispatch, useSelector } from "react-redux";
 import { dateTimeFormat, FormatMoney } from "../Utils";
 import Button from "./buttons/Button";
 import Box from "./Box";
 import { RoundUpNumber } from "../Utils/RoundUpNumber";
+import BtnDouble from "./BtnDouble";
 
-const CardNewJob = ({ data, modalRef }) => {
+const CardNewJob = ({ data, setModalVisible, setStaffInformation }) => {
   const navi = useNavigation();
   const handleGoViewStaff = () => {
     navi.navigate(ScreenNames.VIEW_STAFF, { data: data });
   };
-  // console.log("data------------------------", data);
 
   const HandlePayment = () => {
     if (data?.DataService?.Payment === true) {
@@ -47,10 +34,6 @@ const CardNewJob = ({ data, modalRef }) => {
       navi.navigate(ScreenNames.CASH_SCREEN, { data: data });
     }
   };
-  const openModal = () => {
-    modalRef.current?.openModal(data);
-  };
-  // console.log(data);
   const renderItem = ({ item }) => (
     <View>
       <Text style={[MainStyles.textCardJob, { paddingLeft: 10 }]}>
@@ -61,10 +44,7 @@ const CardNewJob = ({ data, modalRef }) => {
   return (
     <View style={{ marginBottom: 10 }}>
       <View style={MainStyles.cardJob}>
-        <Pressable
-        // onPress={() => {
-        //   navi.navigate(ScreenNames.CASH_SCREEN, { data: data });
-        // }}
+        <View
         >
           <View style={MainStyles.flexRowCenter}>
             <Text style={[MainStyles.titleCardJob, { textAlign: "center" }]}>
@@ -86,36 +66,7 @@ const CardNewJob = ({ data, modalRef }) => {
           <View style={MainStyles.flexRowCenter}>
             <View style={MainStyles.line} />
           </View>
-          {data?.StaffName && (
-            <View style={MainStyles.rowMargin}>
-              <View style={MainStyles.flexRowFlexStart}>
-                <Icon
-                  style={MainStyles.CardIcon}
-                  fill="#3366FF"
-                  name="person-outline"
-                />
-                <Text style={MainStyles.textCardJob}>
-                  Tên nhân viên :{" "}
-                  {data?.StaffName || "Chưa có nhân viên nhận đơn"}
-                </Text>
-              </View>
-            </View>
-          )}
-          {data?.StaffPhone && (
-            <View style={MainStyles.rowMargin}>
-              <View style={MainStyles.flexRowFlexStart}>
-                <Icon
-                  style={MainStyles.CardIcon}
-                  fill="#3366FF"
-                  name="phone-outline"
-                />
-                <Text style={MainStyles.textCardJob}>
-                  Số điện thoại : {data?.StaffPhone || "Chưa có thông tin"}
-                </Text>
-              </View>
-            </View>
-          )}
-          {data?.DataService?.TotalStaff && (
+          {data?.StaffInformation?.length && (
             <View style={MainStyles.rowMargin}>
               <View style={MainStyles.flexRowFlexStart}>
                 <Icon
@@ -124,7 +75,7 @@ const CardNewJob = ({ data, modalRef }) => {
                   name="people-outline"
                 />
                 <Text style={MainStyles.textCardJob}>
-                  Số lượng nhân viên : {data?.DataService?.TotalStaff} Nhân viên
+                  Số lượng nhân viên : {data?.StaffInformation?.length || 1} Nhân viên
                 </Text>
               </View>
             </View>
@@ -188,13 +139,16 @@ const CardNewJob = ({ data, modalRef }) => {
                   : "Không kèm dịch vụ thêm"}
               </Text>
             </View>
-            {data?.DataService?.OtherService?.length > 0 ? (
-              <FlatList
-                data={data?.DataService?.OtherService}
-                renderItem={renderItem}
-                keyExtractor={(item) => item?.ServiceDetailId?.toString()}
-              />
-            ) : null}
+            {data?.DataService?.OtherService?.length > 0 &&
+              data?.DataService?.OtherService.map((item) => (
+                <View key={item?.ServiceDetailId?.toString()}>
+                  <Text
+                    style={[MainStyles.textCardJob, { paddingLeft: 10 }]}
+                  >
+                    🔸{item?.ServiceDetailName}
+                  </Text>
+                </View>
+              ))}
           </View>
           <View style={MainStyles.rowMargin}>
             <View style={MainStyles.flexRowFlexStart}>
@@ -234,17 +188,17 @@ const CardNewJob = ({ data, modalRef }) => {
               </View>
               {data?.DataService?.Voucher?.length > 0
                 ? data?.DataService?.Voucher.map((item) => (
-                    <View key={item?.VoucherId.toString()}>
-                      <Text
-                        style={[MainStyles.textCardJob, { paddingLeft: 10 }]}
-                      >
-                        🔸CODE : {item?.VoucherCode} - giảm{" "}
-                        {item?.TypeDiscount === 1
-                          ? item?.Discount + "%"
-                          : FormatMoney(item?.Discount) + " đ"}
-                      </Text>
-                    </View>
-                  ))
+                  <View key={item?.VoucherId.toString()}>
+                    <Text
+                      style={[MainStyles.textCardJob, { paddingLeft: 10 }]}
+                    >
+                      🔸CODE : {item?.VoucherCode} - giảm{" "}
+                      {item?.TypeDiscount === 1
+                        ? item?.Discount + "%"
+                        : FormatMoney(item?.Discount) + " đ"}
+                    </Text>
+                  </View>
+                ))
                 : null}
             </View>
           )}
@@ -258,35 +212,6 @@ const CardNewJob = ({ data, modalRef }) => {
               <Text style={MainStyles.textCardJob}>
                 Thời gian tạo :{dateTimeFormat(data?.CreateAt, 2)}
               </Text>
-            </View>
-          </View>
-          <View style={MainStyles.rowMargin}>
-            <View style={MainStyles.flexRowFlexStart}>
-              <Icon
-                style={MainStyles.CardIcon}
-                fill="#3366FF"
-                name="flash-outline"
-              />
-              {data?.StatusOrder === 0 && (
-                <Text style={MainStyles.textCardJob}>
-                  Trạng thái : Chưa có nhân viên nhận
-                </Text>
-              )}
-              {data?.StatusOrder === 1 && (
-                <Text style={MainStyles.textCardJob}>
-                  Trạng thái : Nhân viên đã nhận đơn
-                </Text>
-              )}
-              {data?.StatusOrder === 2 && (
-                <Text style={MainStyles.textCardJob}>
-                  Trạng thái : Nhân viên đang tới
-                </Text>
-              )}
-              {data?.StatusOrder === 3 && (
-                <Text style={MainStyles.textCardJob}>
-                  Trạng thái : Đang làm việc
-                </Text>
-              )}
             </View>
           </View>
           <View
@@ -318,68 +243,19 @@ const CardNewJob = ({ data, modalRef }) => {
               </Text>
             </View>
           </View>
-        </Pressable>
+          <Box height={SCREEN_HEIGHT * 0.01} />
+          <BtnDouble
+            title1={"Chi tiết dịch vụ"}
+            title2={"Thông tin nhân viên"}
+            onConfirm1={() => navi.navigate(ScreenNames.CASH_SCREEN, { data: data })}
+            onConfirm2={() => {
+              setStaffInformation(data?.StaffInformation);
+              setModalVisible(true);
+            }}
+            bgColor2="#3366FF"
+          />
+        </View>
         <Box height={SCREEN_HEIGHT * 0.01} />
-        {data?.StatusOrder === 0 ? (
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1 }}>
-              <Button
-                fontSize={14}
-                paddingHorizontal={10}
-                paddingVertical={8}
-                onPress={handleGoViewStaff}
-                bgColor={colors.CONFIRM2}
-              >
-                Chưa có nhân viên nhận đơn
-              </Button>
-            </View>
-          </View>
-        ) : null}
-        {data?.StatusOrder === 1 ? (
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1 }}>
-              <Button
-                fontSize={14}
-                paddingHorizontal={10}
-                paddingVertical={8}
-                bgColor={colors.CONFIRM2}
-                onPress={handleGoViewStaff}
-              >
-                Nhân viên đã nhận đơn
-              </Button>
-            </View>
-          </View>
-        ) : null}
-        {data?.StatusOrder === 2 ? (
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1 }}>
-              <Button
-                fontSize={14}
-                paddingHorizontal={10}
-                paddingVertical={8}
-                bgColor={colors.CONFIRM2}
-                onPress={handleGoViewStaff}
-              >
-                Xem vị trí nhân viên
-              </Button>
-            </View>
-          </View>
-        ) : null}
-        {data?.StatusOrder === 3 ? (
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1 }}>
-              <Button
-                fontSize={14}
-                paddingHorizontal={10}
-                paddingVertical={8}
-                bgColor={colors.CONFIRM2}
-                onPress={HandlePayment}
-              >
-                Xem hóa đơn thanh toán
-              </Button>
-            </View>
-          </View>
-        ) : null}
       </View>
     </View>
   );

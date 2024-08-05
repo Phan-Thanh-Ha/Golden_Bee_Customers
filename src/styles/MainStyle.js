@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { colors } from "./Colors";
+import { colors, themeColors } from "./Colors";
 
 export const SCREEN_WIDTH = Dimensions.get("screen").width;
 export const SCREEN_HEIGHT = Dimensions.get("screen").height;
@@ -375,6 +375,77 @@ const MainStyles = StyleSheet.create({
     color: colors.MAIN_BLUE_CLIENT,
     textAlign: "center",
     paddingHorizontal: 20,
+  },
+  mdBottom_modal: {
+    justifyContent: "flex-end",
+    margin: 0,
+  },
+  mdBottom_modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    minHeight: SCREEN_HEIGHT * 0.6,
+  },
+  mdBottom_dragHandle: {
+    width: 40,
+    height: 5,
+    backgroundColor: "#ccc",
+    borderRadius: 2.5,
+    alignSelf: "center",
+    marginVertical: 10,
+  },
+  mdBottom_option: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  mdBottom_optionText: {
+    fontSize: 16,
+  },
+  mdBottom_noData: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  mdBottom_noDataText: {
+    fontSize: 16,
+    color: "#777",
+  },
+  mdBottom_closeButton: {
+    padding: 15,
+    backgroundColor: "#F44336",
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  mdBottom_closeButtonText: {
+    color: "#fff",
+    textAlign: "center",
+  },
+  cardStaff: {
+    padding: 5,
+    borderWidth: 1,
+    borderColor: colors.MAIN_BLUE_CLIENT,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  cardPhoneCall: {
+    backgroundColor: themeColors.cancel,
+    borderRadius: 5,
+    padding: 10,
+    marginHorizontal: 10,
+  },
+  cardBtnViewLocation: {
+    backgroundColor: themeColors.confirm,
+    borderRadius: 5,
+    padding: 10,
+    marginHorizontal: 10,
+  },
+  textCardPhoneCall: {
+    color: colors.WHITE,
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
 export default MainStyles;

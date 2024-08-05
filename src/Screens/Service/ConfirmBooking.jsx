@@ -217,22 +217,21 @@ const ConfirmBooking = () => {
           TotalDiscount: totalDiscount || 0,
           GroupUserId: GroupUserId || 0,
         };
-        console.log("OVG_spService_BookingService_Save_V2: --------------------", pr);
         const params = {
           Json: JSON.stringify(pr),
           func: "OVG_spService_BookingService_Save_V2",
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
-        console.log("OVG_spService_BookingService_Save_V2: --------------------", result);
         if (result?.Status === "OK") {
           await removeStorage();
           await removeData(StorageNames.SERVICE_PENDING);
+          const id = JSON.parse(result?.ListData[0]?.IdFirebase.IdFirebase)
           navi.reset({
             index: 0,
             routes: [
               {
                 name: ScreenNames.VIEW_STAFF,
-                params: { data: { OrderId: result?.IdFirebase?.name } },
+                params: { data: { OrderId: id?.name } },
               },
             ],
           });
@@ -241,7 +240,7 @@ const ConfirmBooking = () => {
           return;
         } else if (result?.Status === "NOTOK" && retryCount < maxRetries) {
           retryCount++;
-          // console.log(`Retry ${retryCount}/${maxRetries}`);
+          console.log(`Retry ${retryCount}/${maxRetries}`);
           setTimeout(calling, 10000);
         } else {
           if (retryCount >= maxRetries) {
@@ -551,7 +550,6 @@ const ConfirmBooking = () => {
               </Text>
               <View style={MainStyles.cardConfirmContainer}>
                 <Text style={MainStyles.cardSubLabelConfirm}>Dịch vụ</Text>
-
                 <View style={MainStyles.flexRowSpaceBetween}>
                   <Text style={MainStyles.cardTitleConfirm}>Tên dịch vụ</Text>
                   <Text style={MainStyles.cardTitleConfirm}>
