@@ -1,181 +1,133 @@
-import React, { useEffect, useState, useMemo } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import MapViewDirections from "react-native-maps-directions";
-import { GOOGLE_API_KEY } from "../../Utils";
-import { colors } from "../../styles/Colors";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
-import { OVG_GetOrdersByBookingCode } from "../../firebaseService/ListenOrder";
+import React, { useEffect, useState, useCallback } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import MapView, { Marker, Polyline } from "react-native-maps";
+import { OVG_GetStaffInformationByBookingCode } from "../../firebaseService/ListenOrder";
 
-const ViewAllStaff = () => {
-  const BookingCode = "OVG-03082402424669";
-  const [booking, setBooking] = useState(null);
+const ViewAllStaff = ({ route }) => {
+  const { bookingCode } = route.params;
+  const [staffInformation, setStaffInformation] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState(null);
-  const [showAllRoutes, setShowAllRoutes] = useState(false);
+  const customerLocation = {
+    latitude: 10.8827167830537,
+    longitude: 106.6448357887566,
+  };
+
+  const fetchStaffInformation = useCallback(async () => {
+    try {
+      const staffInfoList = await OVG_GetStaffInformationByBookingCode(
+        bookingCode
+      );
+      setStaffInformation(staffInfoList);
+    } catch (error) {
+      console.error("Error fetching staff information:", error);
+    }
+  }, [bookingCode]);
 
   useEffect(() => {
-    OVG_GetOrdersByBookingCode(BookingCode, setBooking);
-  }, []);
+    fetchStaffInformation();
+    const interval = setInterval(fetchStaffInformation, 5000);
 
-  const mapView = useMemo(() => {
-    if (!booking) return null;
+    return () => clearInterval(interval);
+  }, [fetchStaffInformation]);
 
-    const { LatitudeCustomer, LongitudeCustomer, StaffInformation } = booking[0];
-
-    return (
+  return (
+    <View style={styles.container}>
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: parseFloat(LatitudeCustomer),
-          longitude: parseFloat(LongitudeCustomer),
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
+          latitude: customerLocation.latitude,
+          longitude: customerLocation.longitude,
+          latitudeDelta: 0.1,
+          longitudeDelta: 0.1,
         }}
       >
-        <Marker
-          coordinate={{
-            latitude: parseFloat(LatitudeCustomer),
-            longitude: parseFloat(LongitudeCustomer),
-          }}
-          title="Khách hàng"
-          pinColor={colors.MAIN_COLOR_CLIENT}
-        />
-
-        {StaffInformation.map((staff, index) => (
+        <Marker coordinate={customerLocation} title="Customer Location" />
+        {staffInformation.map((staff, index) => (
           <Marker
-            key={staff.StaffId}
+            key={index}
             coordinate={{
-              latitude: parseFloat(staff.LatitudeStaff),
-              longitude: parseFloat(staff.LongitudeStaff),
+              latitude: staff.LatitudeStaff,
+              longitude: staff.LongitudeStaff,
             }}
             title={staff.StaffName}
-            pinColor={colors.SUCCESS}
+            description={staff.StaffPhone}
+            pinColor={selectedStaff === staff.StaffId ? "blue" : "red"}
+            onPress={() => setSelectedStaff(staff.StaffId)}
           />
         ))}
-
-        {(showAllRoutes ? StaffInformation : selectedStaff ? [selectedStaff] : []).map((staff) => (
-          <MapViewDirections
-            key={staff.StaffId}
-            origin={{
-              latitude: parseFloat(staff.LatitudeStaff),
-              longitude: parseFloat(staff.LongitudeStaff),
-            }}
-            destination={{
-              latitude: parseFloat(LatitudeCustomer),
-              longitude: parseFloat(LongitudeCustomer),
-            }}
-            apikey={GOOGLE_API_KEY}
-            strokeWidth={3}
-            strokeColor={colors.MAIN_COLOR_CLIENT}
+        {selectedStaff && (
+          <Polyline
+            coordinates={[
+              {
+                latitude: staffInformation.find(
+                  (staff) => staff.StaffId === selectedStaff
+                ).LatitudeStaff,
+                longitude: staffInformation.find(
+                  (staff) => staff.StaffId === selectedStaff
+                ).LongitudeStaff,
+              },
+              customerLocation,
+            ]}
+            strokeColor="blue"
+            strokeWidth={2}
           />
-        ))}
+        )}
+        {!selectedStaff &&
+          staffInformation.map((staff, index) => (
+            <Polyline
+              key={index}
+              coordinates={[
+                {
+                  latitude: staff.LatitudeStaff,
+                  longitude: staff.LongitudeStaff,
+                },
+                customerLocation,
+              ]}
+              strokeColor="red"
+              strokeWidth={1}
+            />
+          ))}
       </MapView>
-    );
-  }, [booking, selectedStaff, showAllRoutes]);
-
-  const renderStaffItem = ({ item }) => (
-    <TouchableOpacity
-      style={[
-        styles.staffItem,
-        selectedStaff?.StaffId === item.StaffId && styles.selectedStaffItem,
-      ]}
-      onPress={() => setSelectedStaff(item)}
-    >
-      <Text style={styles.staffName}>{item.StaffName}</Text>
-      <Text style={styles.staffPhone}>{item.StaffPhone}</Text>
-      <Text style={styles.staffStatus}>
-        Trạng thái: {item.StatusOrder === 1 ? "Đang chuẩn bị" : "Đang di chuyển"}
-      </Text>
-    </TouchableOpacity>
-  );
-
-  if (!booking) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text>Đang tải...</Text>
-      </SafeAreaView>
-    );
-  }
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.mapContainer}>{mapView}</View>
-      <View style={styles.listContainer}>
-        <TouchableOpacity
-          style={styles.showAllButton}
-          onPress={() => setShowAllRoutes(!showAllRoutes)}
-        >
-          <Text style={styles.showAllButtonText}>
-            {showAllRoutes ? "Ẩn tất cả lộ trình" : "Xem tất cả lộ trình"}
-          </Text>
-        </TouchableOpacity>
-        <FlatList
-          data={booking[0].StaffInformation}
-          renderItem={renderStaffItem}
-          keyExtractor={(item) => item.StaffId.toString()}
-          contentContainerStyle={styles.staffList}
-        />
+      <View style={styles.staffList}>
+        {staffInformation.map((staff, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.staffItem}
+            onPress={() => setSelectedStaff(staff.StaffId)}
+          >
+            <Text style={styles.staffName}>{staff.StaffName}</Text>
+            <Text style={styles.staffPhone}>{staff.StaffPhone}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
-  mapContainer: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.5,
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  listContainer: {
-    flex: 1,
-  },
-  showAllButton: {
-    backgroundColor: colors.MAIN_COLOR_CLIENT,
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  showAllButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    flex: 3,
   },
   staffList: {
+    flex: 1,
+    backgroundColor: "#fff",
     padding: 10,
   },
   staffItem: {
-    backgroundColor: 'white',
     padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-  },
-  selectedStaffItem: {
-    backgroundColor: colors.LIGHT_BLUE,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   staffName: {
-    fontWeight: 'bold',
     fontSize: 16,
+    fontWeight: "bold",
   },
   staffPhone: {
-    color: colors.GRAY,
-  },
-  staffStatus: {
-    marginTop: 5,
-    color: colors.SUCCESS,
+    fontSize: 14,
+    color: "#666",
   },
 });
 

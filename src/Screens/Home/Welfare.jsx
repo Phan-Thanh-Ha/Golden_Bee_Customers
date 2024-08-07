@@ -1,5 +1,5 @@
 import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "../../styles/Colors";
 import Box from "../../components/Box";
 import LogoBeeBox from "../../components/LogoBeeBox";
@@ -7,8 +7,8 @@ import MainStyles, {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
 } from "../../styles/MainStyle";
-import { ic_coin, ic_gift, ic_group, ic_premium } from "../../assets";
-import { FormatMoney, getData, GroupUserId, setData } from "../../Utils";
+import { ic_gift, ic_group } from "../../assets";
+import { FormatMoney, GroupUserId } from "../../Utils";
 import LinearGradient from "react-native-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
@@ -26,14 +26,12 @@ const Welfare = () => {
     OVG_spCustomer_Total_Point();
   }, []);
 
-
   const OVG_spCustomer_Total_Point = async () => {
     try {
       const pr = {
         CustomerId: userLogin?.Id,
         GroupUserId: GroupUserId
       }
-      // console.log("pr", pr)
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Total_Point",
@@ -48,6 +46,7 @@ const Welfare = () => {
       }
     } catch (error) { }
   }
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -66,13 +65,15 @@ const Welfare = () => {
               marginVertical: 10,
             }}
           >
-            <View style={MainStyles.flexRowSpaceBetween}>
+            <View style={MainStyles.flexRowFlexStart}>
               <View style={[{ width: SCREEN_WIDTH * 0.49 }]}>
                 <View style={MainStyles.flexRowFlexStart}>
                   <Text style={[styles.text1]}>Điểm tích lũy : </Text>
                   <Text style={[styles.text2]}>{FormatMoney(benefitValue?.TotalPoint)} Điểm</Text>
                 </View>
               </View>
+            </View>
+            <View style={MainStyles.flexRowFlexStart}>
               <View style={[{ width: SCREEN_WIDTH * 0.49 }]}>
                 <View style={MainStyles.flexRowFlexStart}>
                   <Text style={[styles.text1]}>Hạng : </Text>

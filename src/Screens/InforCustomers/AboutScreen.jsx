@@ -12,14 +12,14 @@ import { setData } from "../../Utils";
 const dataSlider = [
   {
     title: "Dịch vụ cung cấp đa dạng",
-    description1: "Dễ dàng lựa chọn dịch vụ vệ sinh ngôi nhà của bạn.1",
+    description1: "Dễ dàng lựa chọn dịch vụ vệ sinh ngôi nhà của bạn",
     description2: "",
     image: image_banner_2,
   },
   {
     title: "Yêu cầu chi tiết",
     description1:
-      "Có thể bổ sung các yêu cầu chi tiết hoặc các lưu ý đặc biệt.T ùy theo nhu cầu quý khách hàng.",
+      "Có thể bổ sung các yêu cầu chi tiết hoặc các lưu ý đặc biệt.T ùy theo nhu cầu quý khách hàng",
     description2: "",
     image: image_banner_3,
   },

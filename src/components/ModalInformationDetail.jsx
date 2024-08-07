@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { BottomSheetModalProvider, BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Icon } from '@ui-kitten/components';
 import { ScrollView } from 'react-native-gesture-handler';
 import Box from './Box';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../styles/MainStyle';
@@ -9,8 +8,6 @@ import RenderHTML from 'react-native-render-html';
 
 const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initialIndex, onChange, content }) => {
   const bottomSheetModalRef = useRef(null);
-
-  console.log(content);
 
   useEffect(() => {
     if (isOpen) {

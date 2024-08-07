@@ -78,20 +78,18 @@ const TabPending = ({ dataPending = [] }) => {
                       </View>
                     </View>
                   )}
-                  {item?.StatusOrder && (
-                    <View style={MainStyles.rowMargin}>
-                      <View style={MainStyles.flexRowFlexStart}>
-                        <Icon
-                          style={MainStyles.CardIcon}
-                          fill="#3366FF"
-                          name="flash-outline"
-                        />
-                        <Text style={MainStyles.textCardJob}>
-                          Trạng thái: {GenerateStatusOrder(item.StatusOrder || 0)}
-                        </Text>
-                      </View>
+                  <View style={MainStyles.rowMargin}>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Icon
+                        style={MainStyles.CardIcon}
+                        fill="#3366FF"
+                        name="flash-outline"
+                      />
+                      <Text style={MainStyles.textCardJob}>
+                        Trạng thái: {GenerateStatusOrder(item.StatusOrder || 0)}
+                      </Text>
                     </View>
-                  )}
+                  </View>
                   {item?.StaffPhone && (
                     <View style={MainStyles.flexRowCenter}>
                       {
@@ -105,6 +103,12 @@ const TabPending = ({ dataPending = [] }) => {
                                   data: { OrderId: item?.OrderId },
                                 }
                               )
+                              // navi.navigate(
+                              //   ScreenNames.VIEW_ALL_STAFF,
+                              //   {
+                              //     data: { OrderId: item?.OrderId },
+                              //   }
+                              // )
                             }}
                           >
                             <View style={[MainStyles.flexRowCenter, MainStyles.cardBtnViewLocation]}>
@@ -138,12 +142,12 @@ const TabPending = ({ dataPending = [] }) => {
               ))
             }
           </ScrollView>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={MainStyles.mdBottom_closeButton}
             onPress={() => setModalVisible(false)}
           >
             <Text style={MainStyles.mdBottom_closeButtonText}>Đóng</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </Modal>
     </View>

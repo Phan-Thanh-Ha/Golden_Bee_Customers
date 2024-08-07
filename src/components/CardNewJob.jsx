@@ -9,19 +9,18 @@ import {
 } from "react-native";
 import { Icon, Text } from "@ui-kitten/components";
 import { colors } from "../styles/Colors";
-import MainStyles, { SCREEN_HEIGHT } from "../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../styles/MainStyle";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../Constants";
 import {
   coin_icon,
 } from "../assets";
 import { dateTimeFormat, FormatMoney } from "../Utils";
-import Button from "./buttons/Button";
 import Box from "./Box";
 import { RoundUpNumber } from "../Utils/RoundUpNumber";
 import BtnDouble from "./BtnDouble";
 
-const CardNewJob = ({ data, setModalVisible, setStaffInformation }) => {
+const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = () => { } }) => {
   const navi = useNavigation();
   const handleGoViewStaff = () => {
     navi.navigate(ScreenNames.VIEW_STAFF, { data: data });
@@ -119,8 +118,7 @@ const CardNewJob = ({ data, setModalVisible, setStaffInformation }) => {
                 />
                 <Text style={MainStyles.textCardJob}>
                   {" "}
-                  Làm việc trong{" "}
-                  {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
+                  Làm việc trong : {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
                 </Text>
               </View>
             </View>
@@ -141,11 +139,16 @@ const CardNewJob = ({ data, setModalVisible, setStaffInformation }) => {
             </View>
             {data?.DataService?.OtherService?.length > 0 &&
               data?.DataService?.OtherService.map((item) => (
-                <View key={item?.ServiceDetailId?.toString()}>
+                <View key={item?.ServiceDetailId?.toString()} style={MainStyles.flexRowFlexStart}>
+                  <Icon
+                    style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+                    fill="#3366FF"
+                    name="plus-outline"
+                  />
                   <Text
-                    style={[MainStyles.textCardJob, { paddingLeft: 10 }]}
+                    style={[MainStyles.textCardJob]}
                   >
-                    🔸{item?.ServiceDetailName}
+                    {item?.ServiceDetailName}
                   </Text>
                 </View>
               ))}
@@ -184,15 +187,20 @@ const CardNewJob = ({ data, setModalVisible, setStaffInformation }) => {
                   fill="#3366FF"
                   name="pricetags-outline"
                 />
-                <Text style={MainStyles.textCardJob}>Đã sử dụng voucher :</Text>
+                <Text style={MainStyles.textCardJob}>Đã sử dụng voucher : </Text>
               </View>
               {data?.DataService?.Voucher?.length > 0
                 ? data?.DataService?.Voucher.map((item) => (
-                  <View key={item?.VoucherId.toString()}>
+                  <View key={item?.VoucherId.toString()} style={MainStyles.flexRowFlexStart}>
+                    <Icon
+                      style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+                      fill="#3366FF"
+                      name="plus-outline"
+                    />
                     <Text
-                      style={[MainStyles.textCardJob, { paddingLeft: 10 }]}
+                      style={[MainStyles.textCardJob]}
                     >
-                      🔸CODE : {item?.VoucherCode} - giảm{" "}
+                      CODE : {item?.VoucherCode} - giảm{" "}
                       {item?.TypeDiscount === 1
                         ? item?.Discount + "%"
                         : FormatMoney(item?.Discount) + " đ"}
@@ -210,7 +218,7 @@ const CardNewJob = ({ data, setModalVisible, setStaffInformation }) => {
                 name="calendar-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Thời gian tạo :{dateTimeFormat(data?.CreateAt, 2)}
+                Thời gian tạo : {dateTimeFormat(data?.CreateAt, 2)}
               </Text>
             </View>
           </View>
@@ -247,7 +255,9 @@ const CardNewJob = ({ data, setModalVisible, setStaffInformation }) => {
           <BtnDouble
             title1={"Chi tiết dịch vụ"}
             title2={"Thông tin nhân viên"}
-            onConfirm1={() => navi.navigate(ScreenNames.CASH_SCREEN, { data: data })}
+            onConfirm1={() => {
+              navi.navigate(ScreenNames.CASH_SCREEN, { data: data })
+            }}
             onConfirm2={() => {
               setStaffInformation(data?.StaffInformation);
               setModalVisible(true);

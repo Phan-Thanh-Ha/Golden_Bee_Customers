@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { colors } from "../../styles/Colors";
+import { colors, themeColors } from "../../styles/Colors";
 import { ScreenNames, StorageNames } from "../../Constants";
 import { useNavigation } from "@react-navigation/native";
 import { removeData } from "../../Utils";
@@ -41,7 +41,7 @@ const Account = () => {
       navi.reset({
         routes: [{ name: ScreenNames.LOGIN }],
       });
-    } catch (error) {}
+    } catch (error) { }
   };
   const handleClearAccount = async () => {
     await removeData(StorageNames.USER_PROFILE);
@@ -87,7 +87,7 @@ const Account = () => {
                   name="bookmark-outline"
                 />
                 <Text category="s1" style={styles.textT}>
-                  Mã khách hàng: {userLogin?.Id}
+                  Mã khách hàng : {userLogin?.Id}
                 </Text>
               </View>
               <View style={styles.infoRow}>
@@ -97,13 +97,13 @@ const Account = () => {
                   name="person-outline"
                 />
                 <Text category="s1" style={styles.textT}>
-                  Họ tên: {userLogin?.CustomerName}
+                  Họ tên : {userLogin?.CustomerName}
                 </Text>
               </View>
               <View style={styles.infoRow}>
                 <Icon style={styles.icon} fill="#3366FF" name="phone-outline" />
                 <Text category="s1" style={styles.textT}>
-                  SĐT: {userLogin?.Phone}
+                  SĐT : {userLogin?.Phone}
                 </Text>
               </View>
             </View>
@@ -121,8 +121,7 @@ const Account = () => {
                 marginVertical: 10,
               }}
             >
-              Liên hệ tổng đài để được hỗ trợ các thắc mắc liên quan trong quá
-              trình hoạt động và sử dụng ứng dụng.
+              Liên hệ tổng đài để được hỗ trợ các thắc mắc liên quan trong quá trình hoạt động và sử dụng ứng dụng.
             </Text>
           </View>
           <Button
@@ -172,10 +171,10 @@ const Account = () => {
       <ModalEditUser
         isModalVisible={modalEditUser}
         setModalVisible={setModalEditUser}
-        onConfirm1={() => {}}
-        onConfirm2={() => {}}
+        onConfirm1={() => { }}
+        onConfirm2={() => { }}
       />
-      <Box height={SCREEN_HEIGHT * 0.1} />
+      <Box height={SCREEN_HEIGHT * 0.1} bgColor={themeColors.background} />
     </View>
   );
 };
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    maxHeight: SCREEN_HEIGHT * 0.7, // Chiều cao tối đa là 70% màn hình
+    maxHeight: SCREEN_HEIGHT * 0.7,
   },
   scrollViewContent: {
     paddingVertical: 20,

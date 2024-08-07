@@ -28,7 +28,6 @@ const getAddressFromCurrentLocation = async () => {
               });
             }
           } catch (error) {
-            // console.error("Geocoding error: ", error);
             resolve({
               latitude: latitude,
               longitude: longitude,
@@ -43,7 +42,6 @@ const getAddressFromCurrentLocation = async () => {
         }
       },
       (error) => {
-        // console.error("Error getting location:", error);
         resolve({
           coordinates: null,
           address: "Có lỗi xảy ra khi lấy vị trí.",

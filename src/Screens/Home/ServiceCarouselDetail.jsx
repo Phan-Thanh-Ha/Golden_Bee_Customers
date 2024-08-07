@@ -7,7 +7,7 @@ import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
 import HeaderComp from "../../components/HeaderComp";
 import { colors, themeColors } from "../../styles/Colors";
 import ServiceCarousel from "../../components/ServiceCarousel";
-import { dataNewServiceDefault } from "../data";
+import { dataMenu, dataNewServiceDefault } from "../data";
 import { ScreenNames } from "../../Constants";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { Icon } from "@ui-kitten/components";
@@ -18,21 +18,21 @@ const ServiceCarouselDetail = () => {
   const route = useRoute();
   const { article } = route?.params || {};
   const navi = useNavigation();
-  const menu = useSelector((state) => state.main.menuService);
 
   const handleBooking = () => {
     if (article?.ServiceId) {
-      const service = menu.find((item) => item?.ServiceId === article?.ServiceId);
+      const service = dataMenu.find((item) => item?.ServiceId === article?.ServiceId);
       navi.navigate(ScreenNames.ADDRESS_SEARCH, {
         service: service,
       });
     } else {
-      const service = menu.find((item) => item?.ServiceId === 7);
+      const service = dataMenu.find((item) => item?.ServiceId === 7);
       navi.navigate(ScreenNames.ADDRESS_SEARCH, {
         service: service,
       });
     }
   }
+
   return (
     <LayoutGradientBlue>
       <HeaderComp headerTitle={article?.NewsTitleEn} />
@@ -51,13 +51,17 @@ const ServiceCarouselDetail = () => {
         <Box height={SCREEN_HEIGHT * 0.07} />
       </ScrollView>
       <LayoutBottom>
-        <TouchableOpacity style={[styles.button, MainStyles.flexRowCenter]} onPress={handleBooking}>
+        <TouchableOpacity style={[styles.button, MainStyles.flexRowCenter]}
+          onPress={() => {
+            Linking.openURL(`tel:${"0922277782"}`);
+          }}
+        >
           <Icon
             style={MainStyles.CardIcon}
             fill="#FFFFFF"
-            name="plus-outline"
+            name="phone-outline"
           />
-          <Text style={styles.buttonText}>Đặt dịch vụ ngay</Text>
+          <Text style={styles.buttonText}>Liên hệ ngay</Text>
         </TouchableOpacity>
       </LayoutBottom>
     </LayoutGradientBlue>

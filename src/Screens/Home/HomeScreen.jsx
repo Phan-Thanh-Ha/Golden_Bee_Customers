@@ -24,11 +24,11 @@ const HomeScreen = () => {
   const acceptedOrder = useSelector((state) => state.main.acceptedOrder);
   const dispatch = useDispatch();
   // const [dataCarousel, setDataCarousel] = React.useState([]);
-  // const [dataNewService, setDataNewService] = React.useState([]);
+  const [dataNewService, setDataNewService] = React.useState([]);
 
   useEffect(() => {
     // Shop_spWeb_Slides_List();
-    // Shop_spWeb_News_List();
+    Shop_spWeb_News_List();
     handlePendingService();
   }, []);
   const OVG_spService_BookingService_Save = async (pr) => {
@@ -110,7 +110,7 @@ const HomeScreen = () => {
       const result = await mainAction.API_spCallServer(params, dispatch);
       // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result[0]);
       if (result.length > 0) {
-        // setDataNewService(result);
+        setDataNewService(result);
         // setDataCarousel(result);
       }
     } catch {
@@ -147,7 +147,7 @@ const HomeScreen = () => {
         {/* <ServiceCarousel /> */}
         {/* {userLogin?.Phone === "0943214791" || !userLogin?.Phone ? ( */}
         <ServiceCarousel
-          dataNewService={dataNewServiceDefault}
+          dataNewService={dataNewService}
           onItemPress={(item) => {
             navi.navigate(ScreenNames.SERVICE_CAROUSEL_DETAIL, {
               article: item,

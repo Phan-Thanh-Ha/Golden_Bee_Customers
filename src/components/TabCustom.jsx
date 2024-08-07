@@ -1,12 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
 import { Button, Datepicker, Tab, TabView } from "@ui-kitten/components";
 import CardNewJob from "./CardNewJob";
 import CardJobDone from "./CardJobDone";
@@ -43,14 +36,12 @@ export const TabCustom = ({ modalRef, modalJobDoneRef, height }) => {
 
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result) {
-        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
         setDataDoing(result);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log("dataDoing : ", dataDoing);
   return (
     <View style={{ height, padding: 10 }}>
       <TabView

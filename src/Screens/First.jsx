@@ -64,7 +64,7 @@ const First = () => {
           func: "OVG_spService_List_Menu",
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
-        // console.log("🚀 ~ fetchMenuData ~ result:", result);
+        console.log("🚀 ~ fetchMenuData ~ result:------------------", result);
         if (result.length > 0) {
           mainAction.menuService(result, dispatch);
           await setData(StorageNames.MENU_SERVICE, result);

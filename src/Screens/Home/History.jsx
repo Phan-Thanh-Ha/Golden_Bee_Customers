@@ -1,23 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
-  FlatList,
   StyleSheet,
 } from "react-native";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import { colors } from "../../styles/Colors";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
-import JobDetailsModal from "../../components/JobDetailsModal";
-import JobDoneModal from "../../components/JobDoneModal";
 import TabPending from "../../components/TabPending";
 import TabHistory from "../../components/TabHistory";
 import { useSelector } from "react-redux";
 import MyOrders from "../../components/firebaseListen/MyOrders";
-import BookingsListMiddleware from "../../Utils/BookingsListMiddleware";
-import { OVG_GetOrdersByBookingCode } from "../../firebaseService/ListenOrder";
 
 const History = () => {
   const [selectedTab, setSelectedTab] = useState("Đang làm việc");
@@ -25,11 +20,6 @@ const History = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const modalJobDoneRef = useRef(null);
   const [dataPending, setDataPending] = useState([]);
-  // const [booking, setBooking] = useState(null);
-
-  // useEffect(() => {
-  //   OVG_GetOrdersByBookingCode("OVG-03082402424669", setBooking);
-  // }, [])
   const renderContent = () => {
     if (selectedTab === "Đang làm việc") {
       return <TabPending modalRef={modalRef} dataPending={dataPending} />;
@@ -37,13 +27,6 @@ const History = () => {
       return <TabHistory modalRef={modalJobDoneRef} />;
     }
   };
-
-  // console.log("Data filterOrder------", booking);
-  // console.log("Data filterOrder lenght------", booking.length);
-  // console.log("Data filterOrder group------", BookingsListMiddleware(booking));
-
-  // console.log("Data pending------", dataPending.slice(0, 10));
-  // console.log("Data pending------", dataPending[0].StaffInformation);
 
   return (
     <LayoutGradientBlue>

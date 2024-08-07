@@ -44,7 +44,6 @@ const MyOrders = ({ setOrders = () => { }, isListen = true, isUpdate = true }) =
   }, [userLogin?.Id]);
 
   useEffect(() => {
-    console.log("myOrders----------------", myOrders);
     if (isUpdate) {
       if (myOrders?.length > 0) {
         let bookings = BookingsListMiddleware(myOrders);

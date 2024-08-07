@@ -2,22 +2,10 @@ import React from "react";
 import { FlatList, Image, Pressable, View } from "react-native";
 import { Icon, Text } from "@ui-kitten/components";
 import { colors } from "../styles/Colors";
-import MainStyles, { SCREEN_HEIGHT } from "../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../styles/MainStyle";
 import {
-  cirtificate,
-  coin_icon,
-  ic_chronometer,
-  ic_clearning,
-  ic_clearning_basic,
   ic_coin,
-  ic_glass,
-  ic_living_room,
-  ic_location,
-  ic_note,
-  ic_person,
-  ic_schedule,
 } from "../assets";
-import Rating from "./Rating";
 import { FormatMoney, parseTimeSql } from "../Utils";
 import BtnDouble from "./BtnDouble";
 import Box from "./Box";
@@ -26,16 +14,15 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../Constants";
 import { getRouterById } from "../Utils/RoutingService";
 import { useSelector } from "react-redux";
+import { dataMenu } from "../Screens/data";
 
 export default CardJobDone = ({ data, modalRef }) => {
   const navi = useNavigation();
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const userLogin = useSelector((state) => state.main.userLogin);
-  const menu = useSelector((state) => state.main.menuService);
-
   const useBeforeLocation = () => {
-    const service = menu.find((item) => item?.ServiceId === data?.ServiceId);
-    navi.navigate(getRouterById(data?.ServiceId), {
+    const service = dataMenu.find((item) => item?.ServiceId === 9);
+    navi.navigate(getRouterById(service?.ServiceId), {
       service: {
         ...service,
         Address: data?.AddressService,
@@ -46,31 +33,53 @@ export default CardJobDone = ({ data, modalRef }) => {
       },
     });
   };
+
   const useNewLocation = () => {
-    const service = menu.find((item) => item?.ServiceId === data?.ServiceId);
+    const service = dataMenu.find((item) => item?.ServiceId === data?.ServiceId);
 
     navi.navigate(ScreenNames.ADDRESS_SEARCH, {
       service: service,
     });
   };
+
   const openModal = () => {
     modalRef.current?.openModal(data);
   };
+
   const renderItem = ({ item }) => (
-    <View>
-      <Text style={[MainStyles.textCardJob, { paddingLeft: 10 }]}>
-        🔸{item.ServiceDetailName}
+    <View style={MainStyles.flexRowFlexStart}>
+      <Icon
+        style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+        fill="#3366FF"
+        name="plus-outline"
+      />
+      <Text style={[MainStyles.textCardJob]}>
+        {item.ServiceDetailName}
       </Text>
     </View>
   );
 
   const renderItemOfficer = ({ item }) => (
-    <View>
-      <Text style={[MainStyles.textCardJob, { paddingLeft: 10 }]}>
-        🔸{item.OfficerName}
+    <View style={MainStyles.flexRowFlexStart}>
+      <Icon
+        style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+        fill="#3366FF"
+        name="plus-outline"
+      />
+      <Text style={[MainStyles.textCardJob]}>
+        {item.OfficerName}
       </Text>
     </View>
   );
+
+  const handleRating = () => {
+    navi.navigate(ScreenNames.RATING_SERVICE, {
+      data: {
+        BookingId: data?.Id,
+        CustomerId: userLogin?.Id,
+      }
+    });
+  }
   return (
     <View>
       <View style={MainStyles.cardJob}>
@@ -101,64 +110,31 @@ export default CardJobDone = ({ data, modalRef }) => {
               <Icon
                 style={MainStyles.CardIcon}
                 fill="#3366FF"
-                name="person-outline"
+                name="plus-square-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Số lượng nhân viên : {data?.TotalStaff}
+                Dịch vụ thêm :{" "}
+                {data?.DataService?.length > 0
+                  ? ""
+                  : "Không kèm dịch vụ thêm"}
               </Text>
             </View>
+            {data?.DataService?.length > 0 &&
+              data?.DataService.map((item) => (
+                <View key={item?.ServiceDetailId?.toString()} style={MainStyles.flexRowFlexStart}>
+                  <Icon
+                    style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+                    fill="#3366FF"
+                    name="plus-outline"
+                  />
+                  <Text
+                    style={[MainStyles.textCardJob]}
+                  >
+                    {item?.ServiceDetailName}
+                  </Text>
+                </View>
+              ))}
           </View>
-          <View style={MainStyles.rowMargin}>
-            <View style={MainStyles.flexRowFlexStart}>
-              <Icon
-                style={MainStyles.CardIcon}
-                fill="#3366FF"
-                name="pin-outline"
-              />
-              <Text style={MainStyles.textCardJob}>
-                Địa chỉ : {data?.AddressService}
-              </Text>
-            </View>
-          </View>
-          <View style={MainStyles.flexRowFlexStart}>
-            <Icon
-              style={MainStyles.CardIcon}
-              fill="#3366FF"
-              name="plus-square-outline"
-            />
-            <Text style={MainStyles.textCardJob}>
-              Dịch vụ thêm :
-              {data?.DataService?.length > 0 ? "" : "Không kèm dịch vụ thêm"}
-            </Text>
-          </View>
-          {data?.DataService?.length > 0 ? (
-            <FlatList
-              data={data?.DataService}
-              renderItem={renderItem}
-              keyExtractor={(item) => item?.ServiceDetailId?.toString()}
-            />
-          ) : null}
-
-          <View style={MainStyles.flexRowFlexStart}>
-            <Icon
-              style={MainStyles.CardIcon}
-              fill="#3366FF"
-              name="plus-square-outline"
-            />
-            <Text style={MainStyles.textCardJob}>
-              Nhân viên thực hiện :
-              {data?.OfficerServiceDetail?.length > 0
-                ? ""
-                : "Không kèm dịch vụ thêm"}
-            </Text>
-          </View>
-          {data?.OfficerServiceDetail?.length > 0 ? (
-            <FlatList
-              data={data?.OfficerServiceDetail}
-              renderItem={renderItemOfficer}
-              keyExtractor={(item) => item?.OfficerID?.toString()}
-            />
-          ) : null}
           <View style={MainStyles.rowMargin}>
             <View style={MainStyles.flexRowFlexStart}>
               <Icon
@@ -178,13 +154,88 @@ export default CardJobDone = ({ data, modalRef }) => {
               <Icon
                 style={MainStyles.CardIcon}
                 fill="#3366FF"
-                name="calendar-outline"
+                name="pin-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Thời gian tạo :{parseTimeSql(data?.BookingTime, 1)}
+                Địa chỉ : {data?.AddressService}
               </Text>
             </View>
           </View>
+          <View style={MainStyles.rowMargin}>
+            <View style={MainStyles.flexRowFlexStart}>
+              <Icon
+                style={MainStyles.CardIcon}
+                fill="#3366FF"
+                name="calendar-outline"
+              />
+              <Text style={MainStyles.textCardJob}>
+                Thời gian tạo : {parseTimeSql(data?.BookingTime, 1)}
+              </Text>
+            </View>
+          </View>
+          <Text style={MainStyles.titleContentModal}>Thông tin nhân viên</Text>
+          <View style={MainStyles.rowMargin}>
+            <View style={MainStyles.flexRowFlexStart}>
+              <Icon
+                style={MainStyles.CardIcon}
+                fill="#3366FF"
+                name="person-outline"
+              />
+              <Text style={MainStyles.textCardJob}>
+                Số lượng nhân viên : {data?.TotalStaff} Nhân viên
+              </Text>
+            </View>
+          </View>
+          <View style={MainStyles.flexRowFlexStart}>
+            <Icon
+              style={MainStyles.CardIcon}
+              fill="#3366FF"
+              name="person-done-outline"
+            />
+            <Text style={MainStyles.textCardJob}>
+              Nhân viên thực hiện
+              {data?.OfficerServiceDetail?.length > 0
+                ? ""
+                : "Không có dữ liệu"}
+            </Text>
+          </View>
+          {data?.OfficerServiceDetail?.length > 0 && (
+            data?.OfficerServiceDetail?.map((item) => (
+              <View key={item?.ServiceDetailId?.toString()} style={MainStyles.flexRowFlexStart}>
+                <Icon
+                  style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+                  fill="#3366FF"
+                  name="plus-outline"
+                />
+                <Text
+                  style={[MainStyles.textCardJob]}
+                >
+                  {item?.OfficerName}
+                </Text>
+              </View>
+            )))
+          }
+          {
+            data?.RatingNote &&
+            (
+              <View style={MainStyles.rowMargin}>
+                <View style={MainStyles.flexRowFlexStart}>
+                  <Icon
+                    style={MainStyles.CardIcon}
+                    fill="#3366FF"
+                    name="message-square-outline"
+                  />
+                  <Text style={MainStyles.textCardJob}>
+                    {
+                      data?.RatingNote
+                        ? 'Feedback : ' + data?.RatingNote?.trim()
+                        : ' Khách hàng không để lại Feedback'
+                    }
+                  </Text>
+                </View>
+              </View>
+            )
+          }
           <View style={MainStyles.flexRowCenter}>
             <View style={MainStyles.line} />
           </View>
@@ -223,10 +274,12 @@ export default CardJobDone = ({ data, modalRef }) => {
         <Box height={SCREEN_HEIGHT * 0.01} />
         <BtnDouble
           title1={"Đặt lại đơn"}
-          btn2Visible={false}
+          title2={"Đánh giá "}
+          btn2Visible={!data?.RatingNote}
           onConfirm1={() => {
             setIsModalVisible(true);
           }}
+          onConfirm2={handleRating}
         />
       </View>
       <Box height={SCREEN_HEIGHT * 0.01} />

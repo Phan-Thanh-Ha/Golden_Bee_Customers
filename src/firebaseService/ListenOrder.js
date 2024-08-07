@@ -109,6 +109,38 @@ export const OVG_FBRT_ListenMyOrders = (
   }
 };
 
+// Hàm lấy thông tin StaffInformation theo BookingCode
+export const OVG_GetStaffInformationByBookingCode = async (bookingCode) => {
+  try {
+    const snapshot = await databaseOrder.once("value");
+    const orders = snapshot.val();
+    const staffInformation = [];
+
+    if (orders) {
+      for (const orderId in orders) {
+        const order = orders[orderId];
+        if (order.DataService.BookingCode === bookingCode) {
+          const staffInfo = {
+            LatitudeStaff: order.LatitudeStaff,
+            LongitudeStaff: order.LongitudeStaff,
+            OrderId: orderId,
+            StaffId: order.StaffId,
+            StaffName: order.StaffName,
+            StaffPhone: order.StaffPhone,
+            StatusOrder: order.StatusOrder,
+          };
+          staffInformation.push(staffInfo);
+        }
+      }
+    }
+
+    return staffInformation;
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    return { StaffInformation: [] };
+  }
+};
+
 export const OVG_GetOrdersByBookingCode = (bookingCode, callback) => {
   if (typeof bookingCode !== "string" || !bookingCode.trim()) {
     console.error("Invalid BookingCode. It should be a non-empty string.");

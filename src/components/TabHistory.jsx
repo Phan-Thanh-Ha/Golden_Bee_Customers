@@ -32,6 +32,7 @@ const TabHistory = ({ modalJobDoneRef }) => {
       };
 
       const result = await mainAction.API_spCallServer(params, dispatch);
+      // console.log("🚀 ~ ---------------------------", result);
       if (result) {
         setDataJobDone(result);
         setIsLoading(false);
@@ -49,10 +50,10 @@ const TabHistory = ({ modalJobDoneRef }) => {
     <FlatList
       style={styles.flatList}
       data={dataJobDone}
-      renderItem={({ item }) => (
-        <CardJobDone data={item} modalRef={modalJobDoneRef} />
+      renderItem={({ item, index }) => (
+        <CardJobDone data={item} modalRef={modalJobDoneRef} key={index} />
       )}
-      keyExtractor={(item) => item?.BookingServiceCode}
+      keyExtractor={(item, index) => index.toString()}
       ListFooterComponent={renderFooter}
     />
   ) : (

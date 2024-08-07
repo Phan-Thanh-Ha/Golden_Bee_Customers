@@ -128,7 +128,7 @@ const FormServiceRepairPipe = forwardRef(
                     onChange={(checked) => setFieldValue("premium", checked)}
                   />
                 </View> */}
-                {Service?.Detail.length > 0 && (
+                {Service?.Detail?.length > 0 && (
                   <Label style={styles.title}>Dịch vụ thêm</Label>
                 )}
                 <InputCheckBox

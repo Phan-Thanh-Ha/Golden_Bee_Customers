@@ -58,7 +58,6 @@ const ViewStaffScreen = () => {
     }
   }, [data?.OrderId]);
 
-  // console.log("---------------------------", clientOrder);
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
@@ -112,8 +111,8 @@ const ViewStaffScreen = () => {
           region={{
             latitude: parseFloat(clientOrder?.LatitudeCustomer),
             longitude: parseFloat(clientOrder?.LongitudeCustomer),
-            latitudeDelta: 0.03,
-            longitudeDelta: 0.03,
+            latitudeDelta: 0.5,
+            longitudeDelta: 0.5,
           }}
           zoomEnabled={true}
         >

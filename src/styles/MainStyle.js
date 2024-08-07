@@ -330,7 +330,7 @@ const MainStyles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.7,
   },
   rowMargin: {
-    marginVertical: 8,
+    marginVertical: 7,
   },
   textCardJob: {
     color: colors.MAIN_BLUE_CLIENT,
@@ -425,7 +425,7 @@ const MainStyles = StyleSheet.create({
   cardStaff: {
     padding: 5,
     borderWidth: 1,
-    borderColor: colors.MAIN_BLUE_CLIENT,
+    borderColor: colors.GRAY,
     borderRadius: 5,
     marginBottom: 10,
   },

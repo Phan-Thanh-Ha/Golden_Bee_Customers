@@ -3,13 +3,11 @@ import { View, StyleSheet, Image, Text } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import InputNumber from "../../components/InputNumber";
-import BtnToggle from "../../components/BtnToggle";
 import InputCheckBox from "../../components/InputCheckBox";
 import TextArea from "../../components/TextArea";
 import Label from "../../components/Label";
 import { colors } from "../../styles/Colors";
 import MainStyles from "../../styles/MainStyle";
-import { ic_premium } from "../../assets";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../Constants";
@@ -124,7 +122,7 @@ const FormServiceClearning = ({
                   onChange={(checked) => setFieldValue("premium", checked)}
                 />
               </View> */}
-              {Service?.Detail.length > 0 && (
+              {Service?.Detail?.length > 0 && (
                 <Label style={styles.title}>Dịch vụ thêm</Label>
               )}
               <InputCheckBox

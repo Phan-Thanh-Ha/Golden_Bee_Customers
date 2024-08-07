@@ -92,7 +92,7 @@ const RatingServiceScreen = () => {
             </View>
             <Text style={MainStyles.title_1}>Đánh giá dịch vụ</Text>
             <Text style={MainStyles.subtitle_1}>
-              Bạn thấy nhân viên {data?.StaffName} và dịch vụ của chúng tôi như thế nào ? hãy để lại đánh giá cho chúng tôi về chất lượng dịch vụ. Cảm ơn đã tin tưởng và sử dụng dịch vụ của chúng tôi ! Hẹn gặp lại.
+              Bạn thấy dịch vụ của chúng tôi như thế nào ? hãy để lại đánh giá cho chúng tôi về chất lượng dịch vụ. Cảm ơn đã tin tưởng và sử dụng dịch vụ của chúng tôi ! Hẹn gặp lại.
             </Text>
             <View style={[MainStyles.flexRowCenter, { marginTop: 20 }]}>
               <RatingTouch rating={rating} fontSize={[30, 30]} onRate={setRating} />

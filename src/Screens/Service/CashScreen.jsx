@@ -1,50 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View, Image, ScrollView, Linking, TouchableOpacity } from "react-native";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
-import LogoBeeBox from "../../components/LogoBeeBox";
 import { colors } from "../../styles/Colors";
-import MainStyles, { SCREEN_HEIGHT } from "../../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import CustomLabel from "../../components/forms/CustomLabel";
 import {
-  ic_clearning,
-  ic_clearning_basic,
   ic_coin,
-  ic_glass,
-  ic_human,
-  ic_living_room,
-  ic_location,
-  ic_note,
-  ic_person,
-  ic_phone_call,
-  ic_schedule,
 } from "../../assets";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
-import { dateTimeFormat, FormatMoney, parseTimeBE } from "../../Utils";
+import { dateTimeFormat, FormatMoney } from "../../Utils";
 import BackButton from "../../components/BackButton";
-import InputCheckBox from "../../components/InputCheckBox";
 import Box from "../../components/Box";
 import { Icon, Spinner } from "@ui-kitten/components";
-import Button from "../../components/buttons/Button";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import { GenerateStatusOrder } from "../../Utils/GenerateStatusOrder";
+import { ScreenNames } from "../../Constants";
+import { useNavigation } from "@react-navigation/native";
 
 const CashScreen = ({ route }) => {
+  const navi = useNavigation();
   const { data } = route.params || {};
-  const [selectedValues, setSelectedValues] = useState([]);
-  const handleChange = (item) => {
-    setSelectedValues((prevSelected) => {
-      const isSelected = prevSelected.some(
-        (value) => value.ServiceDetailId === item.ServiceDetailId
-      );
-      if (isSelected) {
-        return prevSelected.filter(
-          (value) => value.ServiceDetailId !== item.ServiceDetailId
-        );
-      } else {
-        return [...prevSelected, item];
-      }
-    });
-  };
+
   return (
     <LayoutGradientBlue>
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
@@ -138,8 +114,7 @@ const CashScreen = ({ route }) => {
                         name="clock-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        {" "}
-                        Làm việc trong{" "}
+                        Làm việc trong
                         {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
                       </Text>
                     </View>
@@ -161,11 +136,16 @@ const CashScreen = ({ route }) => {
                   </View>
                   {data?.DataService?.OtherService?.length > 0 &&
                     data?.DataService?.OtherService.map((item) => (
-                      <View key={item?.ServiceDetailId?.toString()}>
+                      <View key={item?.ServiceDetailId?.toString()} style={MainStyles.flexRowFlexStart}>
+                        <Icon
+                          style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+                          fill="#3366FF"
+                          name="plus-outline"
+                        />
                         <Text
-                          style={[MainStyles.textCardJob, { paddingLeft: 10 }]}
+                          style={[MainStyles.textCardJob]}
                         >
-                          🔸{item?.ServiceDetailName}
+                          {item?.ServiceDetailName}
                         </Text>
                       </View>
                     ))}
@@ -208,11 +188,16 @@ const CashScreen = ({ route }) => {
                     </View>
                     {data?.DataService?.Voucher?.length > 0
                       ? data?.DataService?.Voucher.map((item) => (
-                        <View key={item?.VoucherId.toString()}>
+                        <View key={item?.VoucherId.toString()} style={MainStyles.flexRowFlexStart}>
+                          <Icon
+                            style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+                            fill="#3366FF"
+                            name="plus-outline"
+                          />
                           <Text
-                            style={[MainStyles.textCardJob, { paddingLeft: 10 }]}
+                            style={[MainStyles.textCardJob]}
                           >
-                            🔸CODE : {item?.VoucherCode} - giảm{" "}
+                            CODE : {item?.VoucherCode} - giảm{" "}
                             {item?.TypeDiscount === 1
                               ? item?.Discount + "%"
                               : FormatMoney(item?.Discount) + " đ"}
@@ -241,6 +226,8 @@ const CashScreen = ({ route }) => {
                 <Text style={MainStyles.titleContentModal}>
                   Nhân viên nhận đơn
                 </Text>
+
+
                 {data?.DataService?.TotalStaff && (
                   <View style={MainStyles.rowMargin}>
                     <View style={MainStyles.flexRowFlexStart}>
@@ -288,20 +275,18 @@ const CashScreen = ({ route }) => {
                           </View>
                         </View>
                       )}
-                      {item?.StatusOrder && (
-                        <View style={MainStyles.rowMargin}>
-                          <View style={MainStyles.flexRowFlexStart}>
-                            <Icon
-                              style={MainStyles.CardIcon}
-                              fill="#3366FF"
-                              name="flash-outline"
-                            />
-                            <Text style={MainStyles.textCardJob}>
-                              Trạng thái: {GenerateStatusOrder(item.StatusOrder || 0)}
-                            </Text>
-                          </View>
+                      <View style={MainStyles.rowMargin}>
+                        <View style={MainStyles.flexRowFlexStart}>
+                          <Icon
+                            style={MainStyles.CardIcon}
+                            fill="#3366FF"
+                            name="flash-outline"
+                          />
+                          <Text style={MainStyles.textCardJob}>
+                            Trạng thái: {GenerateStatusOrder(item.StatusOrder || 0)}
+                          </Text>
                         </View>
-                      )}
+                      </View>
                       {item?.StaffPhone && (
                         <View style={MainStyles.flexRowCenter}>
                           {
@@ -309,6 +294,12 @@ const CashScreen = ({ route }) => {
                               item?.StatusOrder === 2 ? (
                               <TouchableOpacity
                                 onPress={() => {
+                                  navi.navigate(
+                                    ScreenNames.VIEW_STAFF,
+                                    {
+                                      data: { OrderId: item?.OrderId },
+                                    }
+                                  )
                                 }}
                               >
                                 <View style={[MainStyles.flexRowCenter, MainStyles.cardBtnViewLocation]}>

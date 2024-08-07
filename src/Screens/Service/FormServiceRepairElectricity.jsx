@@ -11,6 +11,7 @@ import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import SelectOption from "../../components/SelectOption";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../Constants";
+import InputCheckBox from "../../components/InputCheckBox";
 
 const validationSchema = Yup.object().shape({
   people: Yup.number()
@@ -124,7 +125,7 @@ const FormServiceRepairElectricity = forwardRef(
                     onChange={(checked) => setFieldValue("premium", checked)}
                   />
                 </View> */}
-                {Service?.Detail.length > 0 && (
+                {Service?.Detail?.length > 0 && (
                   <Label style={styles.title}>Dịch vụ thêm</Label>
                 )}
                 <InputCheckBox

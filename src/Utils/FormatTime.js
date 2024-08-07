@@ -27,13 +27,6 @@ export const FormatTime = (timestamp, type) => {
   }
 };
 
-// Ví dụ sử dụng
-// const timestamp = 1718821492732;
-// const type1 = 1;
-// const type2 = 2;
-
-// console.log(parseTimestamp(timestamp, type1)); // "23/12/2024 06:38" (ví dụ)
-// console.log(parseTimestamp(timestamp, type2)); // "06:38" (ví dụ)
 export const parseTimeSql = (time, type) => {
   const date = new Date(time);
 

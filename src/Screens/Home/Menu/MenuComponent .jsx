@@ -8,7 +8,7 @@ import { ScreenNames } from "../../../Constants";
 import { getIconById } from "../../../Utils/RoutingService";
 import { SCREEN_WIDTH } from "../../../styles/MainStyle";
 import { colors, themeColors } from "../../../styles/Colors";
-import { data } from "../../data";
+import { data, dataMenu } from "../../data";
 
 export const MenuComponent = () => {
   // const data = useSelector((state) => state.main.menuService);
@@ -17,7 +17,7 @@ export const MenuComponent = () => {
   const navi = useNavigation();
   return (
     <View style={styles.container}>
-      {data.map((item, index) => (
+      {dataMenu.map((item, index) => (
         <TouchableOpacity
           key={index}
           onPress={() => {
