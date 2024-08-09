@@ -18,24 +18,26 @@ const First = () => {
         const isOld = await getData(StorageNames.IS_OLD_USER);
         if (isOld) {
           const userLogin = await getData(StorageNames.USER_PROFILE);
+          const customerId = await getData(StorageNames.CUSTOMER_ID);
           mainAction.userLogin(userLogin, dispatch);
+          mainAction.customerId(customerId, dispatch);
           await ensureMenuData();
-          if (userLogin) {
+          if (customerId) {
             navi.reset({
               index: 0,
               routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
-            })
+            });
           } else {
             navi.reset({
               index: 0,
               routes: [{ name: ScreenNames.HOME }],
-            })
+            });
           }
         } else {
           navi.reset({
             index: 0,
             routes: [{ name: ScreenNames.ABOUT }],
-          })
+          });
         }
       } catch (error) {
         console.error("Failed to fetch the user from AsyncStorage:", error);
@@ -64,7 +66,6 @@ const First = () => {
           func: "OVG_spService_List_Menu",
         };
         const result = await mainAction.API_spCallServer(params, dispatch);
-        console.log("🚀 ~ fetchMenuData ~ result:------------------", result);
         if (result.length > 0) {
           mainAction.menuService(result, dispatch);
           await setData(StorageNames.MENU_SERVICE, result);

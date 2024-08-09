@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import CustomInput from "./CustomInput";
@@ -14,6 +14,9 @@ import { mainAction } from "../../Redux/Action";
 import { useDispatch } from "react-redux";
 import { AlertToaster } from "../../Utils/AlertToaster";
 import { getData, setData } from "../../Utils";
+import FastImage from "react-native-fast-image";
+import { ic_face_id } from "../../assets";
+import TouchID from "react-native-touch-id";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -21,20 +24,41 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [loginMessage, setLoginMessage] = React.useState("");
   const [dataConfirmService, setDataConfirmService] = useState({});
+  const [isCheckFaceid, setIsCheckFaceid] = useState(false);
   const userDefault = {
     Address: " 17 đường số 6",
     CustomerName: " PhanHa",
     Id: 582,
     Phone: "0943214791",
   };
+
   useFocusEffect(
     React.useCallback(() => {
+      const checkFaceIDAvailability = () => {
+        TouchID.isSupported()
+          .then((biometryType) => {
+            console.log(
+              "-----> 💀💀💀💀💀💀💀💀💀 <-----  biometryType:",
+              biometryType
+            );
+            if (biometryType === "FaceID") {
+              setIsCheckFaceid(true);
+            } else {
+              setIsCheckFaceid(false);
+            }
+          })
+          .catch((error) => {});
+      };
+
       const getDataService = async () => {
         const data = await getData(StorageNames.SERVICE_CONFIRM);
         setDataConfirmService(data);
       };
+
+      checkFaceIDAvailability();
       getDataService();
-      return () => { };
+
+      return () => {};
     }, [])
   );
 
@@ -95,6 +119,7 @@ const LoginForm = () => {
         if (result?.Status === "OK") {
           mainAction.userLogin(result.Result[0], dispatch);
           await setData(StorageNames.USER_PROFILE, result.Result[0]);
+          await setData(StorageNames.CUSTOMER_ID, result.Result[0].OfficerID);
           setLoginMessage("");
           if (dataConfirmService) {
             setLoading(false);
@@ -141,14 +166,25 @@ const LoginForm = () => {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_TokenDevice_Save",
       };
-      // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
-
       await mainAction.API_spCallServer(params, dispatch);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const loginFaceId = async () => {
+    try {
+      const token = await mainAction.checkPermission(null, dispatch);
+      const data = await getData(StorageNames.USER_PROFILE);
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  data:", data);
+      // OVG_spCustomer_TokenDevice_Save(token, data);
+      // navigation.reset({
+      //   routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+      // });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Formik
       initialValues={{ phoneNumber: "", password: "" }}
@@ -195,13 +231,39 @@ const LoginForm = () => {
           <CustomFormError>
             {touched.password && errors.password}
           </CustomFormError>
-          <View style={MainStyle.viewSubLinkForm}>
-            <Pressable
-              onPress={() => navigation.navigate(ScreenNames.FORGOT_PASSWORD)}
-            >
-              <Text style={MainStyle.subLinkForm}>Quên mật khẩu ?</Text>
-            </Pressable>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            {isCheckFaceid && (
+              <View>
+                <TouchableOpacity onPress={loginFaceId}>
+                  <View style={{ marginBottom: 20, flexDirection: "row" }}>
+                    <FastImage
+                      style={{
+                        width: 20,
+                        height: 20,
+                        alignSelf: "center",
+                      }}
+                      source={ic_face_id}
+                    />
+                    <Text style={MainStyle.subLinkForm}>
+                      Đăng nhập bằng Faceid
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            <View style={MainStyle.viewSubLinkForm}>
+              <Pressable
+                onPress={() => navigation.navigate(ScreenNames.FORGOT_PASSWORD)}
+              >
+                <Text style={MainStyle.subLinkForm}>Quên mật khẩu ?</Text>
+              </Pressable>
+            </View>
           </View>
+
           {loginMessage ? (
             <Text
               style={[MainStyle.textErrFormActive, { textAlign: "center" }]}

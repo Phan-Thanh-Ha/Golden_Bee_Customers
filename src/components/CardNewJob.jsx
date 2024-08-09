@@ -1,10 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import {
-  FlatList,
   Image,
-  Modal,
-  Pressable,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { Icon, Text } from "@ui-kitten/components";
@@ -74,7 +70,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                   name="people-outline"
                 />
                 <Text style={MainStyles.textCardJob}>
-                  Số lượng nhân viên : {data?.StaffInformation?.length || 1} Nhân viên
+                  Số lượng nhân viên: {data?.DataService?.StaffTotal} nhân viên
                 </Text>
               </View>
             </View>
@@ -88,7 +84,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                   name="share-outline"
                 />
                 <Text style={MainStyles.textCardJob}>
-                  Số phòng : {data?.DataService?.TotalRoom} Phòng
+                  Số phòng: {data?.DataService?.TotalRoom} phòng
                 </Text>
               </View>
             </View>
@@ -102,7 +98,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                   name="share-outline"
                 />
                 <Text style={MainStyles.textCardJob}>
-                  Loại công việc :{" "}
+                  Loại:{" "}
                   {data?.DataService?.SelectOption[0]?.OptionName}
                 </Text>
               </View>
@@ -118,7 +114,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                 />
                 <Text style={MainStyles.textCardJob}>
                   {" "}
-                  Làm việc trong : {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
+                  Làm việc trong: {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
                 </Text>
               </View>
             </View>
@@ -131,7 +127,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                 name="plus-square-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Dịch vụ thêm :{" "}
+                Dịch vụ thêm:{" "}
                 {data?.DataService?.OtherService?.length > 0
                   ? ""
                   : "Không kèm dịch vụ thêm"}
@@ -161,7 +157,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                 name="pin-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Địa chỉ : {data?.DataService?.Address}
+                Địa chỉ: {data?.DataService?.Address}
               </Text>
             </View>
           </View>
@@ -187,7 +183,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                   fill="#3366FF"
                   name="pricetags-outline"
                 />
-                <Text style={MainStyles.textCardJob}>Đã sử dụng voucher : </Text>
+                <Text style={MainStyles.textCardJob}>Đã sử dụng voucher: </Text>
               </View>
               {data?.DataService?.Voucher?.length > 0
                 ? data?.DataService?.Voucher.map((item) => (
@@ -200,10 +196,10 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                     <Text
                       style={[MainStyles.textCardJob]}
                     >
-                      CODE : {item?.VoucherCode} - giảm{" "}
+                      CODE: {item?.VoucherCode} - giảm{" "}
                       {item?.TypeDiscount === 1
                         ? item?.Discount + "%"
-                        : FormatMoney(item?.Discount) + " đ"}
+                        : FormatMoney(item?.Discount) + " VND"}
                     </Text>
                   </View>
                 ))
@@ -218,7 +214,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
                 name="calendar-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Thời gian tạo : {dateTimeFormat(data?.CreateAt, 2)}
+                Thời gian tạo: {dateTimeFormat(data?.CreateAt, 2)}
               </Text>
             </View>
           </View>

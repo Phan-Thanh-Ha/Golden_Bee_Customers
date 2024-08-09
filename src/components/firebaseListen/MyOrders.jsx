@@ -13,30 +13,11 @@ const MyOrders = ({ setOrders = () => { }, isListen = true, isUpdate = true }) =
   const userLogin = useSelector((state) => state.main.userLogin);
   const [myOrders, setMyOrders] = useState([]);
   const navi = useNavigation();
-  /* change */
-  const [orderChange, setOrderChange] = useState({});
-  const [modalOrderChangeVisible, setModalOrderChangeVisible] = useState(false);
-
-  const handleConfirmOrderChange = () => {
-    // console.log("handleConfirmOrderChange");
-  };
-
-  /* remove */
-  const [orderRemove, setOrderRemove] = useState({});
-  const [modalOrderRemoveVisible, setModalOrderRemoveVisible] = useState(false);
-
-  const handleConfirmOrderRemove = () => {
-    // console.log("handleConfirmOrderRemove");
-  };
 
   useEffect(() => {
     const unsubscribe = OVG_FBRT_ListenMyOrders(
       userLogin?.Id,
       setMyOrders,
-      setOrderChange,
-      setModalOrderChangeVisible,
-      setOrderRemove,
-      setModalOrderRemoveVisible,
     );
     return () => {
       if (unsubscribe) unsubscribe();
@@ -47,13 +28,12 @@ const MyOrders = ({ setOrders = () => { }, isListen = true, isUpdate = true }) =
     if (isUpdate) {
       if (myOrders?.length > 0) {
         let bookings = BookingsListMiddleware(myOrders);
-        setOrders(bookings);
         mainAction.acceptedOrder(bookings?.length, dispatch);
       } else {
         mainAction.acceptedOrder(0, dispatch);
       }
     }
-  }, [myOrders]);
+  }, [myOrders?.length]);
 
   return (
     <View>

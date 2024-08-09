@@ -68,7 +68,7 @@ const Welfare = () => {
             <View style={MainStyles.flexRowFlexStart}>
               <View style={[{ width: SCREEN_WIDTH * 0.49 }]}>
                 <View style={MainStyles.flexRowFlexStart}>
-                  <Text style={[styles.text1]}>Điểm tích lũy : </Text>
+                  <Text style={[styles.text1]}>Điểm tích lũy: </Text>
                   <Text style={[styles.text2]}>{FormatMoney(benefitValue?.TotalPoint)} Điểm</Text>
                 </View>
               </View>
@@ -76,7 +76,7 @@ const Welfare = () => {
             <View style={MainStyles.flexRowFlexStart}>
               <View style={[{ width: SCREEN_WIDTH * 0.49 }]}>
                 <View style={MainStyles.flexRowFlexStart}>
-                  <Text style={[styles.text1]}>Hạng : </Text>
+                  <Text style={[styles.text1]}>Hạng: </Text>
                   <Text style={[styles.text2]}>{benefitValue?.CustomerRank || "Chưa xếp hạng"}</Text>
                 </View>
               </View>
@@ -174,7 +174,7 @@ const Welfare = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <Box height={SCREEN_HEIGHT * 0.7} />
+        <Box height={SCREEN_HEIGHT * 0.07} />
       </ScrollView>
     </View>
   );

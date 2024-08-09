@@ -15,6 +15,7 @@ import { ScreenNames } from "../Constants";
 import { getRouterById } from "../Utils/RoutingService";
 import { useSelector } from "react-redux";
 import { dataMenu } from "../Screens/data";
+import Rating from "./Rating";
 
 export default CardJobDone = ({ data, modalRef }) => {
   const navi = useNavigation();
@@ -75,11 +76,13 @@ export default CardJobDone = ({ data, modalRef }) => {
   const handleRating = () => {
     navi.navigate(ScreenNames.RATING_SERVICE, {
       data: {
-        BookingId: data?.Id,
+        OrderId: data?.Id,
         CustomerId: userLogin?.Id,
+        ListOfficer: data?.OfficerServiceDetail,
       }
     });
   }
+  console.log(data)
   return (
     <View>
       <View style={MainStyles.cardJob}>
@@ -104,7 +107,61 @@ export default CardJobDone = ({ data, modalRef }) => {
           <View style={MainStyles.flexRowCenter}>
             <View style={MainStyles.line} />
           </View>
+          <Text style={MainStyles.titleContentModal}>Thông tin nhân viên</Text>
+          <View style={MainStyles.rowMargin}>
+            <View style={MainStyles.flexRowFlexStart}>
+              <Icon
+                style={MainStyles.CardIcon}
+                fill="#3366FF"
+                name="person-outline"
+              />
+              <Text style={MainStyles.textCardJob}>
+                Số lượng nhân viên: {data?.TotalStaff} Nhân viên
+              </Text>
+            </View>
+          </View>
+          <View style={MainStyles.flexRowFlexStart}>
+            <Icon
+              style={MainStyles.CardIcon}
+              fill="#3366FF"
+              name="person-done-outline"
+            />
+            <Text style={MainStyles.textCardJob}>
+              Nhân viên đã làm việc:
+              {data?.OfficerServiceDetail?.length > 0
+                ? ""
+                : "Không có dữ liệu"}
+            </Text>
+          </View>
+          {data?.OfficerServiceDetail?.length > 0 && (
+            data?.OfficerServiceDetail?.map((item) => (
+              <View key={item?.ServiceDetailId?.toString()} style={MainStyles.flexRowFlexStart}>
+                <Icon
+                  style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+                  fill="#3366FF"
+                  name="plus-outline"
+                />
+                <Text
+                  style={[MainStyles.textCardJob]}
+                >
+                  {item?.OfficerName}
+                </Text>
+              </View>
+            )))
+          }
           <Text style={MainStyles.titleContentModal}>Thông tin dịch vụ</Text>
+          <View style={MainStyles.rowMargin}>
+            <View style={MainStyles.flexRowFlexStart}>
+              <Icon
+                style={MainStyles.CardIcon}
+                fill="#3366FF"
+                name="pin-outline"
+              />
+              <Text style={MainStyles.textCardJob}>
+                Địa chỉ: {data?.AddressService}
+              </Text>
+            </View>
+          </View>
           <View style={MainStyles.rowMargin}>
             <View style={MainStyles.flexRowFlexStart}>
               <Icon
@@ -113,7 +170,7 @@ export default CardJobDone = ({ data, modalRef }) => {
                 name="plus-square-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Dịch vụ thêm :{" "}
+                Dịch vụ thêm:{" "}
                 {data?.DataService?.length > 0
                   ? ""
                   : "Không kèm dịch vụ thêm"}
@@ -154,67 +211,13 @@ export default CardJobDone = ({ data, modalRef }) => {
               <Icon
                 style={MainStyles.CardIcon}
                 fill="#3366FF"
-                name="pin-outline"
-              />
-              <Text style={MainStyles.textCardJob}>
-                Địa chỉ : {data?.AddressService}
-              </Text>
-            </View>
-          </View>
-          <View style={MainStyles.rowMargin}>
-            <View style={MainStyles.flexRowFlexStart}>
-              <Icon
-                style={MainStyles.CardIcon}
-                fill="#3366FF"
                 name="calendar-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Thời gian tạo : {parseTimeSql(data?.BookingTime, 1)}
+                Thời gian tạo: {parseTimeSql(data?.BookingTime, 1)}
               </Text>
             </View>
           </View>
-          <Text style={MainStyles.titleContentModal}>Thông tin nhân viên</Text>
-          <View style={MainStyles.rowMargin}>
-            <View style={MainStyles.flexRowFlexStart}>
-              <Icon
-                style={MainStyles.CardIcon}
-                fill="#3366FF"
-                name="person-outline"
-              />
-              <Text style={MainStyles.textCardJob}>
-                Số lượng nhân viên : {data?.TotalStaff} Nhân viên
-              </Text>
-            </View>
-          </View>
-          <View style={MainStyles.flexRowFlexStart}>
-            <Icon
-              style={MainStyles.CardIcon}
-              fill="#3366FF"
-              name="person-done-outline"
-            />
-            <Text style={MainStyles.textCardJob}>
-              Nhân viên thực hiện
-              {data?.OfficerServiceDetail?.length > 0
-                ? ""
-                : "Không có dữ liệu"}
-            </Text>
-          </View>
-          {data?.OfficerServiceDetail?.length > 0 && (
-            data?.OfficerServiceDetail?.map((item) => (
-              <View key={item?.ServiceDetailId?.toString()} style={MainStyles.flexRowFlexStart}>
-                <Icon
-                  style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
-                  fill="#3366FF"
-                  name="plus-outline"
-                />
-                <Text
-                  style={[MainStyles.textCardJob]}
-                >
-                  {item?.OfficerName}
-                </Text>
-              </View>
-            )))
-          }
           {
             data?.RatingNote &&
             (
@@ -228,10 +231,26 @@ export default CardJobDone = ({ data, modalRef }) => {
                   <Text style={MainStyles.textCardJob}>
                     {
                       data?.RatingNote
-                        ? 'Feedback : ' + data?.RatingNote?.trim()
+                        ? 'Feedback: ' + data?.RatingNote?.trim()
                         : ' Khách hàng không để lại Feedback'
                     }
                   </Text>
+                </View>
+              </View>
+            )
+          }
+          {
+            data?.RatingNote &&
+            (
+              <View style={MainStyles.rowMargin}>
+                <View style={MainStyles.flexRowFlexStart}>
+                  <Icon
+                    style={MainStyles.CardIcon}
+                    fill="#3366FF"
+                    name="star-outline"
+                  />
+                  <Text style={MainStyles.textCardJob}>Được đánh giá: </Text>
+                  <Rating rating={data?.Star || 5} />
                 </View>
               </View>
             )

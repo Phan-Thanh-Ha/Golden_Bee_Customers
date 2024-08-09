@@ -85,7 +85,7 @@ const CashScreen = ({ route }) => {
                         name="share-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Số phòng : {data?.DataService?.TotalRoom} Phòng
+                        Số phòng: {data?.DataService?.TotalRoom} Phòng
                       </Text>
                     </View>
                   </View>
@@ -99,7 +99,7 @@ const CashScreen = ({ route }) => {
                         name="share-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Loại công việc :{" "}
+                        Loại công việc:{" "}
                         {data?.DataService?.SelectOption[0]?.OptionName}
                       </Text>
                     </View>
@@ -114,8 +114,7 @@ const CashScreen = ({ route }) => {
                         name="clock-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Làm việc trong
-                        {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
+                        Làm việc trong: {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
                       </Text>
                     </View>
                   </View>
@@ -128,7 +127,7 @@ const CashScreen = ({ route }) => {
                       name="plus-square-outline"
                     />
                     <Text style={MainStyles.textCardJob}>
-                      Dịch vụ thêm :{" "}
+                      Dịch vụ thêm:{" "}
                       {data?.DataService?.OtherService?.length > 0
                         ? ""
                         : "Không kèm dịch vụ thêm"}
@@ -158,7 +157,7 @@ const CashScreen = ({ route }) => {
                       name="pin-outline"
                     />
                     <Text style={MainStyles.textCardJob}>
-                      Địa chỉ : {data?.DataService?.Address}
+                      Địa chỉ: {data?.DataService?.Address}
                     </Text>
                   </View>
                 </View>
@@ -184,7 +183,7 @@ const CashScreen = ({ route }) => {
                         fill="#3366FF"
                         name="pricetags-outline"
                       />
-                      <Text style={MainStyles.textCardJob}>Đã sử dụng voucher :</Text>
+                      <Text style={MainStyles.textCardJob}>Đã sử dụng voucher:</Text>
                     </View>
                     {data?.DataService?.Voucher?.length > 0
                       ? data?.DataService?.Voucher.map((item) => (
@@ -197,7 +196,7 @@ const CashScreen = ({ route }) => {
                           <Text
                             style={[MainStyles.textCardJob]}
                           >
-                            CODE : {item?.VoucherCode} - giảm{" "}
+                            CODE: {item?.VoucherCode} - giảm{" "}
                             {item?.TypeDiscount === 1
                               ? item?.Discount + "%"
                               : FormatMoney(item?.Discount) + " đ"}
@@ -215,7 +214,7 @@ const CashScreen = ({ route }) => {
                       name="calendar-outline"
                     />
                     <Text style={MainStyles.textCardJob}>
-                      Thời gian tạo :{dateTimeFormat(data?.CreateAt, 2)}
+                      Thời gian tạo: {dateTimeFormat(data?.CreateAt, 2)}
                     </Text>
                   </View>
                 </View>
@@ -226,8 +225,6 @@ const CashScreen = ({ route }) => {
                 <Text style={MainStyles.titleContentModal}>
                   Nhân viên nhận đơn
                 </Text>
-
-
                 {data?.DataService?.TotalStaff && (
                   <View style={MainStyles.rowMargin}>
                     <View style={MainStyles.flexRowFlexStart}>
@@ -237,7 +234,7 @@ const CashScreen = ({ route }) => {
                         name="people-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Số lượng nhân viên : {data?.StaffInformation?.length || 1} Nhân viên
+                        Số lượng nhân viên: {data?.StaffInformation?.length || 1} Nhân viên
                       </Text>
                     </View>
                   </View>
@@ -255,7 +252,7 @@ const CashScreen = ({ route }) => {
                               name="person-outline"
                             />
                             <Text style={MainStyles.textCardJob}>
-                              Tên nhân viên :
+                              Tên nhân viên:
                               {item?.StaffName || "Chưa có nhân viên nhận đơn"}
                             </Text>
                           </View>
@@ -270,7 +267,7 @@ const CashScreen = ({ route }) => {
                               name="phone-outline"
                             />
                             <Text style={MainStyles.textCardJob}>
-                              Số điện thoại : {item?.StaffPhone || "Chưa có thông tin"}
+                              Số điện thoại: {item?.StaffPhone || "Chưa có thông tin"}
                             </Text>
                           </View>
                         </View>

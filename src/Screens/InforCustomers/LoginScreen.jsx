@@ -32,9 +32,9 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: themeColors.primary,
-    textAlign: 'center',
+    textAlign: "center",
   },
-})
+});
 export default LoginScreen;

@@ -18,10 +18,11 @@ import { APIImage } from "../Config/Api";
 
 const UserHeader = ({ totalService = 0 }) => {
   const userLogin = useSelector((state) => state.main.userLogin);
+  const customerId = useSelector((state) => state.main.customerId);
   const navi = useNavigation();
   return (
     <View style={styles.container}>
-      {userLogin ? (
+      {customerId ? (
         <View style={[MainStyles.flexRowSpaceBetween]}>
           <View style={MainStyles.flexRow}>
             {userLogin?.Avatar ? (

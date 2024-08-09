@@ -25,19 +25,6 @@ const ServiceCarousel = ({ dataNewService = [], onItemPress = () => {} }) => {
           />
         </TouchableOpacity>
 
-        {/* {item?.IsFake ? (
-            <FastImage
-              style={styles.image}
-              source={item?.ImageNewsShow}
-              resizeMode={FastImage.resizeMode.cover}
-            />
-          ) : (
-            <FastImage
-              style={styles.image}
-              source={{ uri: item?.ImageNewsShow }}
-              resizeMode={FastImage.resizeMode.cover}
-            />
-          )} */}
         <View style={styles.textContainer}>
           <Text style={styles.title}>
             {limitTitle(item?.MetaDescription, 50)}

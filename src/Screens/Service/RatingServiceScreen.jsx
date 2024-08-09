@@ -45,16 +45,18 @@ const RatingServiceScreen = () => {
       const pr = {
         BookingId: data?.OrderId,
         CustomerId: userLogin?.Id,
-        OfficerId: data?.StaffId,
+        ListOfficer: data?.ListOfficer,
         StartNumber: rating,
         Note: note,
         GroupUserId: GroupUserId
       };
+      console.log("pr-----------------", pr);
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Review_Save",
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
+      console.log("result-----------------", result);
       if (result.Status === "OK") {
         setIsModalVisible(true);
         setIsLoading(false);
@@ -142,7 +144,7 @@ const RatingServiceScreen = () => {
             setModalVisible={setIsModalAlertVisible}
             onConfirm={() => setIsModalAlertVisible(false)}
             modalTitle="Thông báo"
-            title={`Bạn đã để lại đáng giá thấp cho nhân viên ${data?.StaffName} và dịch vụ của chúng tôi ! Vui lòng viết thêm ghi chú cụ thể về sự không hài lòng này. Chúng tôi sẽ lắng nghe ý kiến đóng góp để cải thiện dịch vụ. Xin cảm ơn !`}
+            title={`Bạn đã để lại đáng giá thấp cho dịch vụ của chúng tôi ! Vui lòng viết thêm ghi chú cụ thể về sự không hài lòng này. Chúng tôi sẽ lắng nghe ý kiến đóng góp để cải thiện dịch vụ. Xin cảm ơn !`}
             btnConfirmTiTle="Thêm ghi chú"
             backdropClose={true}
           />

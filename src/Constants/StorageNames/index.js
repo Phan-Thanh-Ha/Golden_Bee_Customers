@@ -10,4 +10,5 @@ export default StorageNames = {
   BANNER_SLIDE: "BANNER_SLIDE",
   IS_OLD_USER: "IS_OLD_USER",
   IS_BIOMETRIC: "IS_BIOMETRIC",
+  CUSTOMER_ID: "CUSTOMER_ID",
 };

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import React, { useCallback, useEffect } from "react";
+import { View, StyleSheet, ScrollView, Text, Alert } from "react-native";
 import { colors } from "../../styles/Colors";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "../../components/Box";
 import MainStyles, { SCREEN_HEIGHT } from "../../styles/MainStyle";
@@ -17,20 +17,67 @@ import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { getData, removeData } from "../../Utils";
 import { dataNewServiceDefault, dataSliderDefault } from "../data";
 import { MenuComponent } from "./Menu/MenuComponent ";
+import AlertModalFaceId from "../../components/AlertModalFaceId";
+import TouchID from "react-native-touch-id";
+import { OVG_FBRT_GEtTotalOrders } from "../../firebaseService/ListenOrder";
 
 const HomeScreen = () => {
   const navi = useNavigation();
   const userLogin = useSelector((state) => state.main.userLogin);
-  const acceptedOrder = useSelector((state) => state.main.acceptedOrder);
   const dispatch = useDispatch();
-  // const [dataCarousel, setDataCarousel] = React.useState([]);
-  const [dataNewService, setDataNewService] = React.useState([]);
-
+  const acceptedOrder = useSelector((state) => state.main.acceptedOrder);
+  const [dataNewService, setDataNewService] = React.useState(
+    dataNewServiceDefault
+  );
+  const [isVisiableModalFace, setIsVisiableModalFace] = React.useState(false);
+  const [dataCarousel, setDataCarousel] = React.useState(dataSliderDefault);
+  const [customerId, setCustomerId] = React.useState(null);
   useEffect(() => {
-    // Shop_spWeb_Slides_List();
+    Shop_spWeb_Slides_List();
     Shop_spWeb_News_List();
     handlePendingService();
+    checkFaceIDAvailability();
+    getCustomerId();
   }, []);
+
+  useFocusEffect(() => {
+    OVG_FBRT_GEtTotalOrdersGet();
+  });
+
+  const getCustomerId = async () => {
+    try {
+      const officerId = await getData(StorageNames.CUSTOMER_ID);
+      setCustomerId(officerId);
+      return officerId;
+    } catch {
+      return null;
+    }
+  };
+
+  // Get total order
+  const OVG_FBRT_GEtTotalOrdersGet = useCallback(async () => {
+    const total = await OVG_FBRT_GEtTotalOrders(userLogin?.Id);
+    if (total !== acceptedOrder) {
+      mainAction.acceptedOrder(total, dispatch);
+    }
+  }, []);
+
+  // Check Face ID
+  const checkFaceIDAvailability = () => {
+    TouchID.isSupported()
+      .then((biometryType) => {
+        if (biometryType === "FaceID") {
+          setIsVisiableModalFace(false);
+        } else {
+          setIsVisiableModalFace(true);
+        }
+      })
+      .catch((error) => {
+        Alert.alert("Face ID is not supported", error.message);
+      });
+  };
+
+  // Save service
   const OVG_spService_BookingService_Save = async (pr) => {
     const calling = async () => {
       try {
@@ -53,7 +100,6 @@ const HomeScreen = () => {
     calling();
   };
 
-  // lưu đơn không có nhân viên nhận
   const OVG_spService_BookingService_Save_Not_Officer = async (pr) => {
     try {
       const params = {
@@ -68,6 +114,7 @@ const HomeScreen = () => {
       await removeData(StorageNames.SERVICE_PENDING);
     }
   };
+
   const handlePendingService = async () => {
     try {
       const serviceParams = await getData(StorageNames.SERVICE_PENDING);
@@ -90,8 +137,8 @@ const HomeScreen = () => {
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result.length > 0) {
-        // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
-        // setDataCarousel(result);
+        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
+        setDataCarousel(result);
       }
     } catch {
       //
@@ -108,17 +155,39 @@ const HomeScreen = () => {
         func: "Shop_spWeb_News_List",
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
-      // console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result[0]);
       if (result.length > 0) {
         setDataNewService(result);
-        // setDataCarousel(result);
       }
-    } catch {
-      //
-    }
+    } catch {}
   };
 
-  // console.log("dataNewService", dataNewService);
+  const modalFaceId = async () => {
+    setIsVisiableModalFace(false);
+  };
+
+  const handleAuthentication = () => {
+    const optionalConfigObject = {
+      title: "Authentication Required",
+      imageColor: "#e00606",
+      imageErrorColor: "#ff0000",
+      sensorDescription: "Touch sensor",
+      sensorErrorDescription: "Failed",
+      cancelText: "Cancel",
+      fallbackLabel: "Show Passcode",
+      unifiedErrors: false,
+      passcodeFallback: false,
+    };
+
+    TouchID.authenticate("", optionalConfigObject)
+      .then((success) => {
+        setIsVisiableModalFace(false);
+        Alert.alert("Kích hoạt thành công");
+      })
+      .catch((error) => {
+        Alert.alert("Lỗi kích hoạt vui lòng kiểm tra lại", error.message);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -133,19 +202,11 @@ const HomeScreen = () => {
             padding: 10,
           }}
         >
-          {/* {userLogin?.Phone === "0943214791" || !userLogin?.Phone ? ( */}
-          <CarouselItem dataCarousel={dataSliderDefault} />
-          {/* ) : (
-            <CarouselItem dataCarousel={dataCarousel} />
-          )} */}
+          <CarouselItem dataCarousel={dataCarousel} />
         </View>
 
         <MenuComponent />
 
-        {/* <MenuComponent /> */}
-        {/* <MenuScroll /> */}
-        {/* <ServiceCarousel /> */}
-        {/* {userLogin?.Phone === "0943214791" || !userLogin?.Phone ? ( */}
         <ServiceCarousel
           dataNewService={dataNewService}
           onItemPress={(item) => {
@@ -154,12 +215,10 @@ const HomeScreen = () => {
             });
           }}
         />
-        {/* ) : (
-          <ServiceCarousel dataNewService={dataNewService} />
-        )} */}
+
         <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
-      {userLogin ? null : (
+      {customerId ? (
         <LayoutBottom>
           <View style={{ backgroundColor: colors.WHITE }}>
             <BtnDouble
@@ -184,7 +243,18 @@ const HomeScreen = () => {
             </View>
           </View>
         </LayoutBottom>
-      )}
+      ) : null}
+      <AlertModalFaceId
+        Header={"Mở khoá bằng gương mặt"}
+        isVisible={isVisiableModalFace}
+        Title={"Sử dụng gương mặt để mở khoá ứng dụng"}
+        onpressLeftButton={() => {
+          modalFaceId();
+        }}
+        onpressRightButton={() => {
+          handleAuthentication();
+        }}
+      />
     </View>
   );
 };

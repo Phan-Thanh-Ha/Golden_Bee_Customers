@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -13,21 +13,30 @@ import TabPending from "../../components/TabPending";
 import TabHistory from "../../components/TabHistory";
 import { useSelector } from "react-redux";
 import MyOrders from "../../components/firebaseListen/MyOrders";
+import { OVG_RealtimeDataByBookingCode } from "../../firebaseService/ListenOrder";
 
 const History = () => {
   const [selectedTab, setSelectedTab] = useState("Đang làm việc");
   const modalRef = useRef(null);
   const userLogin = useSelector((state) => state.main.userLogin);
   const modalJobDoneRef = useRef(null);
-  const [dataPending, setDataPending] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    // Gọi hàm với CustomerId được truyền vào
+    const unsubscribe = OVG_RealtimeDataByBookingCode(userLogin.Id, setOrders);
+
+    // Hủy đăng ký khi component bị hủy
+    return () => unsubscribe();
+  }, [userLogin.Id]);
+
   const renderContent = () => {
     if (selectedTab === "Đang làm việc") {
-      return <TabPending modalRef={modalRef} dataPending={dataPending} />;
+      return <TabPending modalRef={modalRef} dataPending={orders} />;
     } else if (selectedTab === "Dịch vụ đã đặt") {
       return <TabHistory modalRef={modalJobDoneRef} />;
     }
   };
-
   return (
     <LayoutGradientBlue>
       <LogoBeeBox
@@ -76,9 +85,6 @@ const History = () => {
           {renderContent()}
         </View>
       </View>
-      {userLogin ? (
-        <MyOrders setOrders={setDataPending} isListen={false} />
-      ) : null}
     </LayoutGradientBlue>
   );
 };

@@ -11,8 +11,10 @@ const initialState = {
   acceptedOrder: 0,
   myOrdersAccepted: [],
   serviceConfirm: {},
+  checkPermission: {},
 };
 export default function (state = initialState, action = {}) {
+  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  initialState:", initialState);
   switch (action.type) {
     case mainTypes.LOADING:
       return {
@@ -40,20 +42,19 @@ export default function (state = initialState, action = {}) {
         SERVICELIST: action.payload,
       };
     case mainTypes.ACCEPTED_ORDER:
-      // {
-      //   console.log("oder accepted in redux", action.payload);
-      // }
       return {
         ...state,
         acceptedOrder: action.payload,
       };
     case mainTypes.MY_ORDER_ACCEPTED:
-      // {
-      //   console.log("my oder accepted in redux", action.payload);
-      // }
       return {
         ...state,
         myOrdersAccepted: action.payload,
+      };
+    case mainTypes.CUSTOMER_ID:
+      return {
+        ...state,
+        customerId: action.payload,
       };
     default:
       return state;

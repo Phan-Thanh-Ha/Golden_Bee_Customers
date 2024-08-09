@@ -225,7 +225,7 @@ const ConfirmBooking = () => {
         if (result?.Status === "OK") {
           await removeStorage();
           await removeData(StorageNames.SERVICE_PENDING);
-          const id = JSON.parse(result?.ListData[0]?.IdFirebase.IdFirebase)
+          const id = JSON.parse(result?.ListData[0]?.IdFirebase.IdFirebase);
           navi.reset({
             index: 0,
             routes: [
@@ -301,13 +301,15 @@ const ConfirmBooking = () => {
         PriceAfterDiscount: priceAfterDiscount || 0,
         TotalDiscount: totalDiscount || 0,
         GroupUserId: GroupUserId || 0,
-        IsConfirm: 0
+        IsConfirm: 0,
       };
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spService_BookingService_Save_V2",
       };
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
+      console.log("result--------------------------", result);
       if (result?.Status === "OK") {
         AlertToaster("success", "Đơn dịch vụ đã được gửi tới admin");
         navi.reset({
@@ -534,8 +536,8 @@ const ConfirmBooking = () => {
         <Modal
           transparent={true}
           isVisible={isModalVisible}
-          onBackdropPress={() => { }}
-          onBackButtonPress={() => { }}
+          onBackdropPress={() => {}}
+          onBackButtonPress={() => {}}
           backdropOpacity={0.3}
           style={styles.modal}
         >

@@ -8,67 +8,128 @@ export const databaseOrder = firebase
   )
   .ref("/order");
 
+export const OVG_FBRT_ListenMyOrders_V1 = (customerId, setMyOrders) => {
+  if (!customerId) {
+    console.error("Invalid value for customerId");
+    return;
+  }
+
+  try {
+    console.log("Listening for orders for customer:", customerId);
+
+    const myOrdersRef = databaseOrder
+      .orderByChild("ClientId")
+      .equalTo(customerId);
+
+    const onValueChange = myOrdersRef.on("value", (snapshot) => {
+      const orders = snapshot.val();
+      if (orders) {
+        const updatedOrders = Object.keys(orders).map((orderId) => ({
+          ...orders[orderId],
+          OrderId: orderId,
+        }));
+        const bookings = BookingsListMiddleware(updatedOrders);
+        setMyOrders(bookings);
+        console.log("Orders updated:", bookings);
+      } else {
+        setMyOrders([]);
+        console.log("No orders found.");
+      }
+    });
+
+    // Cleanup listener on unmount
+    return () => {
+      myOrdersRef.off("value", onValueChange);
+    };
+  } catch (error) {
+    console.error("Error listening for orders: ", error);
+  }
+};
+
+export const OVG_FBRT_GEtTotalOrders = async (customerId) => {
+  try {
+    // Lấy dữ liệu từ Firebase
+    const snapshot = await databaseOrder
+      .orderByChild("ClientId")
+      .equalTo(customerId)
+      .once("value");
+
+    const ordersData = snapshot.val();
+    console.log("ordersData", ordersData);
+
+    // Chuyển đổi đối tượng thành mảng
+    const ordersArray = ordersData ? Object.values(ordersData) : [];
+
+    // Xử lý dữ liệu
+    const filltered = BookingsListMiddleware(ordersArray);
+    return filltered.length;
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    return 0;
+  }
+};
+
 export const OVG_FBRT_ListenMyOrders = (
   customerId,
-  setMyOrders,
-  setOrderChange,
-  setModalOrderChangeVisible,
-  setOrderRemove,
-  setModalOrderRemoveVisible
+  setMyOrders
+  // setOrderChange,
+  // setModalOrderChangeVisible,
+  // setOrderRemove,
+  // setModalOrderRemoveVisible
 ) => {
   if (!customerId) {
-    // console.error("Invalid value for customerId:");
+    console.error("Invalid value for customerId:");
     return;
   }
 
   let initialLoadComplete = false;
 
-  const handleOrderChange = (snapshot) => {
-    const order = snapshot.val();
-    const orderId = snapshot.key;
-    const orderChanged = { ...order, orderId };
-    if (orderChanged?.StatusOrder === 1) {
-      setOrderChange({ ...order, orderId });
-    }
-    if (orderChanged?.StatusOrder === 1) {
-      setModalOrderChangeVisible(true);
-    }
-    setMyOrders((prevOrders) => {
-      const existingOrderIndex = prevOrders.findIndex(
-        (o) => o.OrderId === orderId
-      );
+  // const handleOrderChange = (snapshot) => {
+  //   const order = snapshot.val();
+  //   const orderId = snapshot.key;
+  //   const orderChanged = { ...order, orderId };
+  //   if (orderChanged?.StatusOrder === 1) {
+  //     setOrderChange({ ...order, orderId });
+  //   }
+  //   if (orderChanged?.StatusOrder === 1) {
+  //     setModalOrderChangeVisible(true);
+  //   }
+  //   setMyOrders((prevOrders) => {
+  //     const existingOrderIndex = prevOrders.findIndex(
+  //       (o) => o.OrderId === orderId
+  //     );
 
-      if (existingOrderIndex > -1) {
-        const updatedOrders = [...prevOrders];
-        updatedOrders[existingOrderIndex] = { ...order, OrderId: orderId };
-        return updatedOrders;
-      } else {
-        return prevOrders;
-      }
-    });
-  };
+  //     if (existingOrderIndex > -1) {
+  //       const updatedOrders = [...prevOrders];
+  //       updatedOrders[existingOrderIndex] = { ...order, OrderId: orderId };
+  //       return updatedOrders;
+  //     } else {
+  //       return prevOrders;
+  //     }
+  //   });
+  // };
 
-  const handleOrderRemove = (snapshot) => {
-    const order = snapshot.val();
-    const orderId = snapshot.key;
-    const orderRemoved = { ...order, orderId };
-    console.log("Order removed:", orderRemoved);
+  // const handleOrderRemove = (snapshot) => {
+  //   const order = snapshot.val();
+  //   const orderId = snapshot.key;
+  //   const orderRemoved = { ...order, orderId };
+  //   console.log("Order removed:", orderRemoved);
 
-    setMyOrders((prevOrders) => {
-      const updatedOrders = prevOrders.filter((o) => o.OrderId !== orderId);
+  //   setMyOrders((prevOrders) => {
+  //     const updatedOrders = prevOrders.filter((o) => o.OrderId !== orderId);
 
-      if (
-        order?.StatusOrder === 1 ||
-        order?.StatusOrder === 2 ||
-        order?.StatusOrder === 3
-      ) {
-        setModalOrderRemoveVisible(true);
-      }
+  //     if (
+  //       order?.StatusOrder === 1 ||
+  //       order?.StatusOrder === 2 ||
+  //       order?.StatusOrder === 3
+  //     ) {
+  //       setModalOrderRemoveVisible(true);
+  //     }
 
-      setOrderRemove(orderRemoved);
-      return updatedOrders;
-    });
-  };
+  //     setOrderRemove(orderRemoved);
+  //     return updatedOrders;
+  //   });
+  // };
 
   try {
     console.log(
@@ -96,13 +157,16 @@ export const OVG_FBRT_ListenMyOrders = (
 
       initialLoadComplete = true;
 
-      myOrdersRef.on("child_changed", handleOrderChange);
-      myOrdersRef.on("child_removed", handleOrderRemove);
+      // myOrdersRef.on("child_changed", handleOrderChange);
+      // myOrdersRef.on("child_removed", handleOrderRemove);
     });
 
     return () => {
-      myOrdersRef.off("child_changed", handleOrderChange);
-      myOrdersRef.off("child_removed", handleOrderRemove);
+      // myOrdersRef.off("child_changed", handleOrderChange);
+      // myOrdersRef.off("child_removed", handleOrderRemove);
+      return () => {
+        myOrdersRef.off("value", onValueChange);
+      };
     };
   } catch (error) {
     console.error("Error listening for orders: ", error);
@@ -139,6 +203,61 @@ export const OVG_GetStaffInformationByBookingCode = async (bookingCode) => {
     console.error("Error fetching orders:", error);
     return { StaffInformation: [] };
   }
+};
+
+export const OVG_RealtimeDataByBookingCode = (customerId, callback) => {
+  databaseOrder
+    .orderByChild("ClientId")
+    .equalTo(customerId)
+    .on("value", (snapshot) => {
+      const orders = snapshot.val();
+
+      // Tạo một đối tượng để nhóm dữ liệu theo BookingCode
+      const groupedOrders = {};
+
+      if (orders) {
+        Object.keys(orders).forEach((orderKey) => {
+          const order = orders[orderKey];
+          const bookingCode = order.BookingCode;
+
+          // Nếu chưa có BookingCode trong groupedOrders, khởi tạo nó
+          if (!groupedOrders[bookingCode]) {
+            groupedOrders[bookingCode] = {
+              BookingCode: bookingCode,
+              BookingId: order.BookingId,
+              ClientId: order.ClientId,
+              CreateAt: order.CreateAt,
+              DataService: order.DataService,
+              LatitudeCustomer: order.LatitudeCustomer,
+              LongitudeCustomer: order.LongitudeCustomer,
+              StaffInformation: [],
+            };
+          }
+
+          // Thêm thông tin nhân viên vào StaffInformation
+          groupedOrders[bookingCode].StaffInformation.push({
+            OrderId: orderKey,
+            LatitudeStaff: order.LatitudeStaff,
+            LongitudeStaff: order.LongitudeStaff,
+            StaffName: order.StaffName,
+            StaffPhone: order.StaffPhone,
+            StaffId: order.StaffId,
+            StatusOrder: order.StatusOrder,
+          });
+        });
+
+        // Chuyển đổi đối tượng thành mảng để trả về
+        const result = Object.values(groupedOrders);
+        callback(result);
+      } else {
+        callback([]);
+      }
+    });
+
+  // Hủy bỏ lắng nghe khi không cần nữa
+  return () => {
+    databaseOrder.off("value");
+  };
 };
 
 export const OVG_GetOrdersByBookingCode = (bookingCode, callback) => {

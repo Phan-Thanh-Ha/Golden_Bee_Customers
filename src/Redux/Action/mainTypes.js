@@ -11,5 +11,6 @@ const mainTypes = {
   ACCEPTED_ORDER: "ACCEPTED_ORDER",
   SERVICE_CONFIRM: "SERVICE_CONFIRM",
   PostImage: "PostImage",
+  CUSTOMER_ID: "CUSTOMER_ID",
 };
 export default mainTypes;

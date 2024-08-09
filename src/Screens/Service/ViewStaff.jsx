@@ -111,8 +111,8 @@ const ViewStaffScreen = () => {
           region={{
             latitude: parseFloat(clientOrder?.LatitudeCustomer),
             longitude: parseFloat(clientOrder?.LongitudeCustomer),
-            latitudeDelta: 0.5,
-            longitudeDelta: 0.5,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
           }}
           zoomEnabled={true}
         >

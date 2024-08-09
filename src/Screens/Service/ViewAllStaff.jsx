@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import MapView, { Marker, Polyline } from "react-native-maps";
-import { OVG_GetStaffInformationByBookingCode } from "../../firebaseService/ListenOrder";
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import MapView, { Marker, Polyline } from 'react-native-maps';
 
 const ViewAllStaff = ({ route }) => {
   const { bookingCode } = route.params;
@@ -12,27 +11,25 @@ const ViewAllStaff = ({ route }) => {
     longitude: 106.6448357887566,
   };
 
-  const fetchStaffInformation = useCallback(async () => {
-    try {
-      const staffInfoList = await OVG_GetStaffInformationByBookingCode(
-        bookingCode
-      );
-      setStaffInformation(staffInfoList);
-    } catch (error) {
-      console.error("Error fetching staff information:", error);
-    }
-  }, [bookingCode]);
+  // const fetchStaffInformation = useCallback(async () => {
+  //   try {
+  //     const staffInfoList = await OVG_GetStaffInformationByBookingCode(bookingCode);
+  //     setStaffInformation(staffInfoList);
+  //   } catch (error) {
+  //     console.error("Error fetching staff information:", error);
+  //   }
+  // }, [bookingCode]);
 
-  useEffect(() => {
-    fetchStaffInformation();
-    const interval = setInterval(fetchStaffInformation, 5000);
+  // useEffect(() => {
+  //   fetchStaffInformation();
+  //   const interval = setInterval(fetchStaffInformation, 5000);
 
-    return () => clearInterval(interval);
-  }, [fetchStaffInformation]);
+  //   return () => clearInterval(interval);
+  // }, [fetchStaffInformation]);
 
   return (
     <View style={styles.container}>
-      <MapView
+      {/* <MapView
         style={styles.map}
         initialRegion={{
           latitude: customerLocation.latitude,
@@ -45,13 +42,10 @@ const ViewAllStaff = ({ route }) => {
         {staffInformation.map((staff, index) => (
           <Marker
             key={index}
-            coordinate={{
-              latitude: staff.LatitudeStaff,
-              longitude: staff.LongitudeStaff,
-            }}
+            coordinate={{ latitude: staff.LatitudeStaff, longitude: staff.LongitudeStaff }}
             title={staff.StaffName}
             description={staff.StaffPhone}
-            pinColor={selectedStaff === staff.StaffId ? "blue" : "red"}
+            pinColor={selectedStaff === staff.StaffId ? 'blue' : 'red'}
             onPress={() => setSelectedStaff(staff.StaffId)}
           />
         ))}
@@ -59,47 +53,35 @@ const ViewAllStaff = ({ route }) => {
           <Polyline
             coordinates={[
               {
-                latitude: staffInformation.find(
-                  (staff) => staff.StaffId === selectedStaff
-                ).LatitudeStaff,
-                longitude: staffInformation.find(
-                  (staff) => staff.StaffId === selectedStaff
-                ).LongitudeStaff,
+                latitude: staffInformation.find(staff => staff.StaffId === selectedStaff).LatitudeStaff,
+                longitude: staffInformation.find(staff => staff.StaffId === selectedStaff).LongitudeStaff
               },
-              customerLocation,
+              customerLocation
             ]}
             strokeColor="blue"
             strokeWidth={2}
           />
         )}
-        {!selectedStaff &&
-          staffInformation.map((staff, index) => (
-            <Polyline
-              key={index}
-              coordinates={[
-                {
-                  latitude: staff.LatitudeStaff,
-                  longitude: staff.LongitudeStaff,
-                },
-                customerLocation,
-              ]}
-              strokeColor="red"
-              strokeWidth={1}
-            />
-          ))}
+        {!selectedStaff && staffInformation.map((staff, index) => (
+          <Polyline
+            key={index}
+            coordinates={[
+              { latitude: staff.LatitudeStaff, longitude: staff.LongitudeStaff },
+              customerLocation
+            ]}
+            strokeColor="red"
+            strokeWidth={1}
+          />
+        ))}
       </MapView>
       <View style={styles.staffList}>
         {staffInformation.map((staff, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.staffItem}
-            onPress={() => setSelectedStaff(staff.StaffId)}
-          >
+          <TouchableOpacity key={index} style={styles.staffItem} onPress={() => setSelectedStaff(staff.StaffId)}>
             <Text style={styles.staffName}>{staff.StaffName}</Text>
             <Text style={styles.staffPhone}>{staff.StaffPhone}</Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -113,21 +95,21 @@ const styles = StyleSheet.create({
   },
   staffList: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 10,
   },
   staffItem: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: '#ccc',
   },
   staffName: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   staffPhone: {
     fontSize: 14,
-    color: "#666",
+    color: '#666',
   },
 });
 

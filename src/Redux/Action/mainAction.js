@@ -8,7 +8,6 @@ export function closeError(params, cb) {
 }
 
 export function API_spCallPostImage(params, dispatch) {
-  //debugger
   return new Promise((resolve, reject) => {
     dispatch({
       type: mainTypes.PostImage,
@@ -53,7 +52,6 @@ export function menuService(data, dispatch) {
 }
 
 export function saveServiceConfirm(data, dispatch) {
-  // Log để kiểm tra dữ liệu trước khi dispatch
   return dispatch({
     type: mainTypes.SERVICE_CONFIRM,
     payload: data,
@@ -89,5 +87,12 @@ export function acceptedOrder(order, dispatch) {
   return dispatch({
     type: mainTypes.ACCEPTED_ORDER,
     payload: order,
+  });
+}
+
+export function customerId(CustomerId, dispatch) {
+  return dispatch({
+    type: mainTypes.CUSTOMER_ID,
+    payload: CustomerId,
   });
 }

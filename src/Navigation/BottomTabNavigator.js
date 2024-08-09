@@ -16,7 +16,6 @@ import Account from "../Screens/Home/Account";
 import { colors } from "../styles/Colors";
 import { Icon } from "@ui-kitten/components";
 import { ScreenNames } from "../Constants";
-import MyOrders from "../components/firebaseListen/MyOrders";
 
 export const BottomTabNavigator = () => {
   const _renderIcon = (routeName, selectedTab) => {
@@ -90,18 +89,14 @@ export const BottomTabNavigator = () => {
       type="DOWN"
       style={styles.bottomBar}
       shadowStyle={styles.shawdow}
-      height={Platform.OS === "android" ? 55 : 80} // Set height based on platform
-      circleWidth={Platform.OS === "android" ? 50 : 80} // Set circleWidth based on platform
+      height={Platform.OS === "android" ? 55 : 80}
+      circleWidth={Platform.OS === "android" ? 50 : 80}
       bgColor="white"
       initialRouteName={ScreenNames.HOME}
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <Animated.View style={styles.btnCircleUp}>
-          <MyOrders isListen={true} />
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => navigate(ScreenNames.WEB_VIEW_CHECK)}
-          >
+          <TouchableOpacity style={styles.button}>
             <Image source={logo_bee_blue} style={styles.circleIcon} />
           </TouchableOpacity>
         </Animated.View>

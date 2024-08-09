@@ -25,6 +25,7 @@ export const ic_clearning_basic = require("../assets/icons/cleaning-basic.png");
 export const ic_clearning = require("../assets/icons/cleaning.png");
 export const ic_schedule = require("../assets/icons/schedule.png");
 export const ic_note = require("../assets/icons/note.png");
+export const ic_face_id = require("../assets/icons/ic_face_id.png");
 
 // ========================= Images_Gif =========================
 export const ic_star = require("../assets/image_gif/star.gif");
