@@ -45,7 +45,7 @@ const AboutScreen = ({ navigation }) => {
     if (currentIndex === 2) {
       await setData(StorageNames.IS_OLD_USER, true);
       navigation.reset({
-        routes: [{ name: ScreenNames.AUTH_HOME }],
+        routes: [{ name: ScreenNames.LOGIN }],
       });
     }
   };

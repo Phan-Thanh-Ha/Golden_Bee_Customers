@@ -1,1 +1,1 @@
-export const GOOGLE_API_KEY = "AIzaSyDwoP_41zS1Cfgdl0FqOamr6Ya2ikhc8Ds";
+export const GOOGLE_API_KEY = "AIzaSyBUBW5JbPqpurOUq2iV3Ys3rx59IktH1-s";

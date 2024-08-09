@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, Pressable, TouchableOpacity, Alert } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import CustomInput from "./CustomInput";
@@ -118,8 +118,9 @@ const LoginForm = () => {
         // console.log(result);
         if (result?.Status === "OK") {
           mainAction.userLogin(result.Result[0], dispatch);
+          mainAction.customerId(result.Result[0]?.Id, dispatch);
           await setData(StorageNames.USER_PROFILE, result.Result[0]);
-          await setData(StorageNames.CUSTOMER_ID, result.Result[0].OfficerID);
+          await setData(StorageNames.CUSTOMER_ID, result.Result[0]?.Id);
           setLoginMessage("");
           if (dataConfirmService) {
             setLoading(false);
@@ -171,18 +172,45 @@ const LoginForm = () => {
       console.log(error);
     }
   };
+  const handleAuthentication = () => {
+    const optionalConfigObject = {
+      title: "Authentication Required",
+      imageColor: "#e00606",
+      imageErrorColor: "#ff0000",
+      sensorDescription: "Touch sensor",
+      sensorErrorDescription: "Failed",
+      cancelText: "Cancel",
+      fallbackLabel: "Show Passcode",
+      unifiedErrors: false,
+      passcodeFallback: false,
+    };
+    return TouchID.authenticate("", optionalConfigObject);
+  };
 
   const loginFaceId = async () => {
     try {
-      const token = await mainAction.checkPermission(null, dispatch);
-      const data = await getData(StorageNames.USER_PROFILE);
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  data:", data);
-      // OVG_spCustomer_TokenDevice_Save(token, data);
-      // navigation.reset({
-      //   routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
-      // });
+      const success = await handleAuthentication();
+      if (success) {
+        const data = await getData(StorageNames.USER_PROFILE);
+        let passwordEncrypt = await mainAction.DecryptString(
+          { json: data?.Password },
+          dispatch
+        );
+        if (passwordEncrypt === "") {
+          AlertToaster("error", "Mật khẩu không hợp lệ !");
+          return;
+        } else {
+          handleSubmit({
+            phoneNumber: data?.Phone,
+            password: passwordEncrypt,
+          });
+        }
+      } else {
+        Alert.alert("Kích hoạt không thành công");
+      }
     } catch (error) {
-      console.log(error);
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  error:", error.message);
+      Alert.alert("Lỗi kích hoạt vui lòng kiểm tra lại", error.message);
     }
   };
   return (

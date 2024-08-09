@@ -12,7 +12,6 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import TabPending from "../../components/TabPending";
 import TabHistory from "../../components/TabHistory";
 import { useSelector } from "react-redux";
-import MyOrders from "../../components/firebaseListen/MyOrders";
 import { OVG_RealtimeDataByBookingCode } from "../../firebaseService/ListenOrder";
 
 const History = () => {
@@ -24,11 +23,11 @@ const History = () => {
 
   useEffect(() => {
     // Gọi hàm với CustomerId được truyền vào
-    const unsubscribe = OVG_RealtimeDataByBookingCode(userLogin.Id, setOrders);
+    const unsubscribe = OVG_RealtimeDataByBookingCode(userLogin?.Id, setOrders);
 
     // Hủy đăng ký khi component bị hủy
     return () => unsubscribe();
-  }, [userLogin.Id]);
+  }, [userLogin?.Id]);
 
   const renderContent = () => {
     if (selectedTab === "Đang làm việc") {

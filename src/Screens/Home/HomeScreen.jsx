@@ -31,7 +31,7 @@ const HomeScreen = () => {
   );
   const [isVisiableModalFace, setIsVisiableModalFace] = React.useState(false);
   const [dataCarousel, setDataCarousel] = React.useState(dataSliderDefault);
-  const [customerId, setCustomerId] = React.useState(null);
+  const [customerId, setCustomerId] = React.useState("");
   useEffect(() => {
     Shop_spWeb_Slides_List();
     Shop_spWeb_News_List();
@@ -47,6 +47,7 @@ const HomeScreen = () => {
   const getCustomerId = async () => {
     try {
       const officerId = await getData(StorageNames.CUSTOMER_ID);
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  officerId:", officerId);
       setCustomerId(officerId);
       return officerId;
     } catch {
@@ -218,7 +219,7 @@ const HomeScreen = () => {
 
         <Box height={SCREEN_HEIGHT * 0.1} />
       </ScrollView>
-      {customerId ? (
+      {!customerId ? (
         <LayoutBottom>
           <View style={{ backgroundColor: colors.WHITE }}>
             <BtnDouble

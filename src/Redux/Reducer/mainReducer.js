@@ -14,7 +14,6 @@ const initialState = {
   checkPermission: {},
 };
 export default function (state = initialState, action = {}) {
-  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  initialState:", initialState);
   switch (action.type) {
     case mainTypes.LOADING:
       return {

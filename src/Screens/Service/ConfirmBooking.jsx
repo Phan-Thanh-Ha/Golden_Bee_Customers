@@ -309,7 +309,6 @@ const ConfirmBooking = () => {
       };
       console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("result--------------------------", result);
       if (result?.Status === "OK") {
         AlertToaster("success", "Đơn dịch vụ đã được gửi tới admin");
         navi.reset({
