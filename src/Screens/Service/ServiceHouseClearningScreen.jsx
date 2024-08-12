@@ -10,12 +10,10 @@ import { CardLocation } from "../../components";
 import ButtonInfo from "../../components/buttons/ButtonInfo";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
-import FormServiceClearning from "./FormServiceClearning";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
-import CardPremiumInfomation from "../../components/CardPremiumInfomation";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { FormatMoney } from "../../Utils";
-import { priceClearning, priceHourseClearning } from "../../Utils/PriceService";
+import { priceHourseClearning } from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import FormServiceHouseClearning from "./FormServiceHouseClearning";
 import { Icon } from "@ui-kitten/components";
@@ -36,21 +34,23 @@ const ServiceHouseClearningScreen = () => {
 
   useEffect(() => {
     OVG_spStepContent_Service();
-  }, [])
+  }, []);
   const OVG_spStepContent_Service = async () => {
     try {
       const pr = {
         ServiceId: service?.ServiceId || 7,
         GroupId: 10060,
-      }
+      };
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spStepContent_Service",
-      }
+      };
       const result = await mainAction.API_spCallServer(params, dispatch);
       setDetailContent(result[0]);
-    } catch (error) { }
-  }
+    } catch {
+      //
+    }
+  };
 
   const modalOnClose = () => {
     setModalOpen(false);
@@ -102,7 +102,9 @@ const ServiceHouseClearningScreen = () => {
                 fontWeight: "600",
                 color: colors.MAIN_BLUE_CLIENT,
               }}
-            >Chi tiết dịch vụ</Text>
+            >
+              Chi tiết dịch vụ
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -155,8 +157,7 @@ const ServiceHouseClearningScreen = () => {
         snapPoints={["60%", "80%"]}
         initialIndex={1}
         content={detailContent}
-      >
-      </ModalInformationDetail>
+      ></ModalInformationDetail>
     </View>
   );
 };

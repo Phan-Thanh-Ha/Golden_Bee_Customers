@@ -1,3 +1,4 @@
+import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import HeaderComp from "../../components/HeaderComp";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
@@ -10,7 +11,10 @@ import {
   View,
 } from "react-native";
 import { banner_service } from "../../assets";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { Icon } from "@ui-kitten/components";
 import { colors, themeColors } from "../../styles/Colors";
@@ -29,8 +33,8 @@ const ContrubutionsDetailScreen = () => {
         </View>
         <View style={styles.container}>
           <Text style={styles.subtitle}>
-            "Khám phá cơ hội hợp tác và quảng bá thương hiệu của bạn trên ứng
-            dụng Ong Vàng ngay hôm nay!"
+            {`"Khám phá cơ hội hợp tác và quảng bá thương hiệu của bạn trên ứng
+            dụng Ong Vàng ngay hôm nay!"`}
           </Text>
           <View style={styles.divider} />
           <View style={MainStyles.flexRowFlexStart}>

@@ -1,21 +1,25 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { ic_location, ic_placeholder } from "../assets";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../styles/Colors";
 import { useNavigation } from "@react-navigation/native";
-import { SCREEN_WIDTH } from "../styles/MainStyle";
+import MainStyles, { SCREEN_WIDTH } from "../styles/MainStyle";
+import { Icon } from "@ui-kitten/components";
 
 export const CardLocation = ({ location }) => {
-  const navi = useNavigation();
   return (
     <TouchableOpacity
-      // onPress={() => {
-      //   // navi.goBack();
-      // }}
       style={styles.container}
     >
-      <Image source={ic_location} style={styles.iconLeft} />
-      <View style={styles.containerContent}>
-        <Text style={styles.title}>{location}</Text>
+      <View style={MainStyles.rowMargin}>
+        <View style={MainStyles.flexRowFlexStart}>
+          <Icon
+            style={MainStyles.CardIcon}
+            fill="#3366FF"
+            name="pin-outline"
+          />
+          <Text style={MainStyles.textCardJob}>
+            {location}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );

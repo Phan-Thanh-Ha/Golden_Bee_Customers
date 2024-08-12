@@ -1,12 +1,20 @@
 import React from "react";
-import { Text, View, Image, ScrollView, Linking, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Linking,
+  TouchableOpacity,
+} from "react-native";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
 import { colors } from "../../styles/Colors";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
 import CustomLabel from "../../components/forms/CustomLabel";
-import {
-  ic_coin,
-} from "../../assets";
+import { ic_coin } from "../../assets";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { dateTimeFormat, FormatMoney } from "../../Utils";
 import BackButton from "../../components/BackButton";
@@ -16,6 +24,7 @@ import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import { GenerateStatusOrder } from "../../Utils/GenerateStatusOrder";
 import { ScreenNames } from "../../Constants";
 import { useNavigation } from "@react-navigation/native";
+import { PropTypes } from "prop-types";
 
 const CashScreen = ({ route }) => {
   const navi = useNavigation();
@@ -85,7 +94,7 @@ const CashScreen = ({ route }) => {
                         name="share-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Số phòng: {data?.DataService?.TotalRoom} Phòng
+                        Số phòng: {data?.DataService?.TotalRoom} phòng
                       </Text>
                     </View>
                   </View>
@@ -99,8 +108,7 @@ const CashScreen = ({ route }) => {
                         name="share-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Loại công việc:{" "}
-                        {data?.DataService?.SelectOption[0]?.OptionName}
+                        Loại : {data?.DataService?.SelectOption[0]?.OptionName}
                       </Text>
                     </View>
                   </View>
@@ -114,7 +122,8 @@ const CashScreen = ({ route }) => {
                         name="clock-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Làm việc trong: {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
+                        Làm việc trong:{" "}
+                        {RoundUpNumber(data?.DataService?.TimeWorking, 0)} giờ
                       </Text>
                     </View>
                   </View>
@@ -130,20 +139,25 @@ const CashScreen = ({ route }) => {
                       Dịch vụ thêm:{" "}
                       {data?.DataService?.OtherService?.length > 0
                         ? ""
-                        : "Không kèm dịch vụ thêm"}
+                        : "không kèm dịch vụ thêm"}
                     </Text>
                   </View>
                   {data?.DataService?.OtherService?.length > 0 &&
                     data?.DataService?.OtherService.map((item) => (
-                      <View key={item?.ServiceDetailId?.toString()} style={MainStyles.flexRowFlexStart}>
+                      <View
+                        key={item?.ServiceDetailId?.toString()}
+                        style={MainStyles.flexRowFlexStart}
+                      >
                         <Icon
-                          style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
+                          style={{
+                            marginLeft: SCREEN_WIDTH * 0.07,
+                            width: 20,
+                            height: 20,
+                          }}
                           fill="#3366FF"
                           name="plus-outline"
                         />
-                        <Text
-                          style={[MainStyles.textCardJob]}
-                        >
+                        <Text style={[MainStyles.textCardJob]}>
                           {item?.ServiceDetailName}
                         </Text>
                       </View>
@@ -183,26 +197,33 @@ const CashScreen = ({ route }) => {
                         fill="#3366FF"
                         name="pricetags-outline"
                       />
-                      <Text style={MainStyles.textCardJob}>Đã sử dụng voucher:</Text>
+                      <Text style={MainStyles.textCardJob}>
+                        Đã sử dụng voucher:
+                      </Text>
                     </View>
                     {data?.DataService?.Voucher?.length > 0
                       ? data?.DataService?.Voucher.map((item) => (
-                        <View key={item?.VoucherId.toString()} style={MainStyles.flexRowFlexStart}>
-                          <Icon
-                            style={{ marginLeft: SCREEN_WIDTH * 0.07, width: 20, height: 20 }}
-                            fill="#3366FF"
-                            name="plus-outline"
-                          />
-                          <Text
-                            style={[MainStyles.textCardJob]}
+                          <View
+                            key={item?.VoucherId.toString()}
+                            style={MainStyles.flexRowFlexStart}
                           >
-                            CODE: {item?.VoucherCode} - giảm{" "}
-                            {item?.TypeDiscount === 1
-                              ? item?.Discount + "%"
-                              : FormatMoney(item?.Discount) + " đ"}
-                          </Text>
-                        </View>
-                      ))
+                            <Icon
+                              style={{
+                                marginLeft: SCREEN_WIDTH * 0.07,
+                                width: 20,
+                                height: 20,
+                              }}
+                              fill="#3366FF"
+                              name="plus-outline"
+                            />
+                            <Text style={[MainStyles.textCardJob]}>
+                              CODE: {item?.VoucherCode} - giảm{" "}
+                              {item?.TypeDiscount === 1
+                                ? item?.Discount + "%"
+                                : FormatMoney(item?.Discount) + " đ"}
+                            </Text>
+                          </View>
+                        ))
                       : null}
                   </View>
                 )}
@@ -234,14 +255,14 @@ const CashScreen = ({ route }) => {
                         name="people-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Số lượng nhân viên: {data?.StaffInformation?.length || 1} Nhân viên
+                        Số lượng nhân viên:{" "}
+                        {data?.StaffInformation?.length || 0} nhân viên
                       </Text>
                     </View>
                   </View>
                 )}
-                {
-                  data?.StaffInformation?.length > 0
-                  && data?.StaffInformation?.map((item, index) => (
+                {data?.StaffInformation?.length > 0 &&
+                  data?.StaffInformation?.map((item, index) => (
                     <View style={MainStyles.cardStaff} key={index}>
                       {item?.StaffName && (
                         <View style={MainStyles.rowMargin}>
@@ -252,8 +273,8 @@ const CashScreen = ({ route }) => {
                               name="person-outline"
                             />
                             <Text style={MainStyles.textCardJob}>
-                              Tên nhân viên:
-                              {item?.StaffName || "Chưa có nhân viên nhận đơn"}
+                              Tên nhân viên:{" "}
+                              {item?.StaffName || "Không xác định"}
                             </Text>
                           </View>
                         </View>
@@ -267,7 +288,8 @@ const CashScreen = ({ route }) => {
                               name="phone-outline"
                             />
                             <Text style={MainStyles.textCardJob}>
-                              Số điện thoại: {item?.StaffPhone || "Chưa có thông tin"}
+                              Số điện thoại:{" "}
+                              {item?.StaffPhone || "Chưa có thông tin"}
                             </Text>
                           </View>
                         </View>
@@ -280,55 +302,68 @@ const CashScreen = ({ route }) => {
                             name="flash-outline"
                           />
                           <Text style={MainStyles.textCardJob}>
-                            Trạng thái: {GenerateStatusOrder(item.StatusOrder || 0)}
+                            Trạng thái:{" "}
+                            {GenerateStatusOrder(item.StatusOrder || 0)}
                           </Text>
                         </View>
                       </View>
                       {item?.StaffPhone && (
                         <View style={MainStyles.flexRowCenter}>
-                          {
-                            item?.StatusOrder === 1 ||
-                              item?.StatusOrder === 2 ? (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  navi.navigate(
-                                    ScreenNames.VIEW_STAFF,
-                                    {
-                                      data: { OrderId: item?.OrderId },
-                                    }
-                                  )
-                                }}
+                          {item?.StatusOrder === 1 ||
+                          item?.StatusOrder === 2 ? (
+                            <TouchableOpacity
+                              onPress={() => {
+                                navi.navigate(ScreenNames.VIEW_STAFF, {
+                                  data: { OrderId: item?.OrderId },
+                                });
+                              }}
+                            >
+                              <View
+                                style={[
+                                  MainStyles.flexRowCenter,
+                                  { minWidth: 80 },
+                                  MainStyles.cardBtnViewLocation,
+                                ]}
                               >
-                                <View style={[MainStyles.flexRowCenter, MainStyles.cardBtnViewLocation]}>
-                                  <Icon
-                                    style={MainStyles.CardIcon}
-                                    fill="#FFFFFFFF"
-                                    name="navigation-2-outline"
-                                  />
-                                  <Text style={MainStyles.textCardPhoneCall}>Xem vị trí</Text>
-                                </View>
-                              </TouchableOpacity>
-                            ) : null
-                          }
+                                <Icon
+                                  style={[
+                                    MainStyles.CardIcon,
+                                    { marginRight: 0 },
+                                  ]}
+                                  fill="#FFFFFFFF"
+                                  name="navigation-2-outline"
+                                />
+                                {/* <Text style={MainStyles.textCardPhoneCall}>Xem vị trí</Text> */}
+                              </View>
+                            </TouchableOpacity>
+                          ) : null}
                           <TouchableOpacity
                             onPress={() => {
                               Linking.openURL(`tel:${item?.StaffPhone}`);
                             }}
                           >
-                            <View style={[MainStyles.flexRowCenter, MainStyles.cardPhoneCall]}>
+                            <View
+                              style={[
+                                MainStyles.flexRowCenter,
+                                { minWidth: 80 },
+                                MainStyles.cardPhoneCall,
+                              ]}
+                            >
                               <Icon
-                                style={MainStyles.CardIcon}
+                                style={[
+                                  MainStyles.CardIcon,
+                                  { marginRight: 0 },
+                                ]}
                                 fill="#FFFFFFFF"
                                 name="phone-outline"
                               />
-                              <Text style={MainStyles.textCardPhoneCall}>Gọi nhân viên</Text>
+                              {/* <Text style={MainStyles.textCardPhoneCall}>Gọi nhân viên</Text> */}
                             </View>
                           </TouchableOpacity>
                         </View>
                       )}
                     </View>
-                  ))
-                }
+                  ))}
               </View>
             </View>
           ) : (
@@ -346,7 +381,11 @@ const CashScreen = ({ route }) => {
             alignItems: "center",
           }}
         >
-          <CustomLabel color={colors.WHITE}>Thanh toán tiền mặt </CustomLabel>
+          <CustomLabel color={colors.WHITE}>
+            {!data?.DataService?.IsPayment
+              ? "Thanh toán chuyển khoản"
+              : "Thanh toán tiền mặt"}{" "}
+          </CustomLabel>
         </View>
         <View
           style={[
@@ -390,6 +429,10 @@ const CashScreen = ({ route }) => {
       </LayoutBottom>
     </LayoutGradientBlue>
   );
+};
+
+CashScreen.propTypes = {
+  route: PropTypes.object,
 };
 
 export default CashScreen;

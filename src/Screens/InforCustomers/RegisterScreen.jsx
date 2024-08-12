@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, Text } from "react-native";
 import FormRegister from "../../components/forms/RegisterForm";
-import Header from "../../components/Header";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
 import { colors, themeColors } from "../../styles/Colors";
 import Footer from "../../components/Footer";
 import { ScreenNames } from "../../Constants";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { useEffect, useState } from "react";
+import { PropTypes } from "prop-types";
 
 const RegisterScreen = ({ navigation }) => {
   const [submit, setSubmit] = useState(false);
@@ -15,10 +16,8 @@ const RegisterScreen = ({ navigation }) => {
       navigation.navigate(ScreenNames.ACTIVE_ACCOUNT);
       setSubmit(false);
     }
-  }, [submit])
-  const handleNext = () => {
-    navigation.navigate(ScreenNames.ACTIVE_ACCOUNT);
-  }
+  }, [submit]);
+
   return (
     <>
       <LayoutGradientBlue>
@@ -36,13 +35,15 @@ const RegisterScreen = ({ navigation }) => {
     </>
   );
 };
-
+RegisterScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: themeColors.primary,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 20,
   },
   dot: {
@@ -60,9 +61,9 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   pagination: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 10,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
-})
+});
 export default RegisterScreen;

@@ -1,7 +1,5 @@
 import {
-  Image,
   Linking,
-  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -41,7 +39,9 @@ const Account = () => {
       navi.reset({
         routes: [{ name: ScreenNames.LOGIN }],
       });
-    } catch (error) {}
+    } catch {
+      //
+    }
   };
   const handleClearAccount = async () => {
     await removeData(StorageNames.USER_PROFILE);

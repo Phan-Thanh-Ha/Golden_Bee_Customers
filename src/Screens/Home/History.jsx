@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
 import LogoBeeBox from "../../components/LogoBeeBox";
 import { colors } from "../../styles/Colors";
@@ -57,7 +52,7 @@ const History = () => {
                 style={[
                   styles.tabButtonText,
                   selectedTab === "Đang làm việc" &&
-                  styles.selectedTabButtonText,
+                    styles.selectedTabButtonText,
                 ]}
               >
                 Đang làm việc
@@ -74,7 +69,7 @@ const History = () => {
                 style={[
                   styles.tabButtonText,
                   selectedTab === "Dịch vụ đã đặt" &&
-                  styles.selectedTabButtonText,
+                    styles.selectedTabButtonText,
                 ]}
               >
                 Dịch vụ đã đặt

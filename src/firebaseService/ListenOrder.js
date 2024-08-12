@@ -47,6 +47,10 @@ export const OVG_FBRT_ListenMyOrders_V1 = (customerId, setMyOrders) => {
 };
 
 export const OVG_FBRT_GEtTotalOrders = async (customerId) => {
+  if (!customerId) {
+    console.error("Invalid value for customerId:");
+    return 0;
+  }
   try {
     // Lấy dữ liệu từ Firebase
     const snapshot = await databaseOrder
@@ -64,7 +68,7 @@ export const OVG_FBRT_GEtTotalOrders = async (customerId) => {
     const filltered = BookingsListMiddleware(ordersArray);
     return filltered.length;
   } catch (error) {
-    console.error("Error fetching orders:", error);
+    // console.error("Error fetching orders:", error);
     return 0;
   }
 };
@@ -200,7 +204,7 @@ export const OVG_GetStaffInformationByBookingCode = async (bookingCode) => {
 
     return staffInformation;
   } catch (error) {
-    console.error("Error fetching orders:", error);
+    // console.error("Error fetching orders:", error);
     return { StaffInformation: [] };
   }
 };
@@ -287,7 +291,7 @@ export const OVG_GetOrdersByBookingCode = (bookingCode, callback) => {
       callback(BookingsListMiddleware(filteredOrders));
     });
   } catch (error) {
-    console.error("Error fetching orders:", error);
+    // console.error("Error fetching orders:", error);
   }
 };
 

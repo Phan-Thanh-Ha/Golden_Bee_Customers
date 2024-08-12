@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -37,12 +37,8 @@ import ModalConfirm from "../../components/ModalConfirm";
 
 const ViewLocationStaff = () => {
   const navi = useNavigation();
-  const route = useRoute();
-  const { data } = route.params || {};
   const [timeOut, setTimeOut] = useState({ distance: 0, duration: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
-  // const [clientOrder, setClientOrder] = useState({});
-  const [flag, setFlag] = useState(false);
   const clientOrder = {
     BookingCode: "OVG-30072409591634",
     ClientId: 874,
@@ -78,19 +74,6 @@ const ViewLocationStaff = () => {
     StaffPhone: "0906702589",
     StatusOrder: 1,
   };
-
-  // Fetch order based on OrderId
-  // const getOrder = useCallback(() => {
-  //   if (data?.OrderId) {
-  //     const unsubscribe = OVG_FBRT_ListentOrderById(
-  //       data?.OrderId,
-  //       setClientOrder
-  //     );
-  //     return () => {
-  //       unsubscribe();
-  //     };
-  //   }
-  // }, [data?.OrderId]);
 
   useFocusEffect(
     useCallback(() => {

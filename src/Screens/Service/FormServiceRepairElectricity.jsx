@@ -1,4 +1,9 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -12,6 +17,7 @@ import SelectOption from "../../components/SelectOption";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../Constants";
 import InputCheckBox from "../../components/InputCheckBox";
+import { PropTypes } from "prop-types";
 
 const validationSchema = Yup.object().shape({
   people: Yup.number()
@@ -64,7 +70,7 @@ const FormServiceRepairElectricity = forwardRef(
             touched,
           }) => {
             useEffect(() => {
-              if (onChange && typeof onChange === 'function') {
+              if (onChange && typeof onChange === "function") {
                 onChange(values);
               }
             }, [values]);
@@ -82,7 +88,7 @@ const FormServiceRepairElectricity = forwardRef(
                     }
                   }}
                 />
-                <Label style={styles.title}>Số lượng nhân sự</Label>
+                <Label style={styles.title}>Số lượng nhân viên</Label>
                 <InputNumber
                   value={values.people}
                   setFieldValue={setFieldValue}
@@ -93,38 +99,15 @@ const FormServiceRepairElectricity = forwardRef(
                   <Text style={MainStyles.textErr}>{errors.people}</Text>
                 )}
                 <View
-                  style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
+                  style={[
+                    MainStyles.flexRowFlexStart,
+                    { alignItems: "center" },
+                  ]}
                 >
                   <Label style={[{ marginRight: 10 }, styles.title]}>
-                    Thời lượng :
+                    Làm việc trong: {RoundUpNumber(timeWorking, 0)} giờ{" "}
                   </Label>
-                  <Text
-                    style={{
-                      color: colors.MAIN_COLOR_CLIENT,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
-                  </Text>
                 </View>
-                {/* <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
-                  <View
-                    style={[
-                      MainStyles.flexRowFlexStart,
-                      { alignItems: "center" },
-                    ]}
-                  >
-                    <Image
-                      source={ic_premium}
-                      style={{ width: 40, height: 40, marginRight: 10 }}
-                    />
-                    <Label fontSize={18}>Dịch vụ Premium</Label>
-                  </View>
-                  <BtnToggle
-                    value={values.premium}
-                    onChange={(checked) => setFieldValue("premium", checked)}
-                  />
-                </View> */}
                 {Service?.Detail?.length > 0 && (
                   <Label style={styles.title}>Dịch vụ thêm</Label>
                 )}
@@ -136,9 +119,9 @@ const FormServiceRepairElectricity = forwardRef(
                       (value) => value.ServiceDetailId === item.ServiceDetailId
                     )
                       ? values.otherService.filter(
-                        (value) =>
-                          value.ServiceDetailId !== item.ServiceDetailId
-                      )
+                          (value) =>
+                            value.ServiceDetailId !== item.ServiceDetailId
+                        )
                       : [...values.otherService, item];
                     setFieldValue("otherService", newSelectedValues);
                     if (onChange && typeof onChange === "function") {
@@ -161,6 +144,14 @@ const FormServiceRepairElectricity = forwardRef(
     );
   }
 );
+FormServiceRepairElectricity.displayName = "FormServiceRepairElectricity";
+FormServiceRepairElectricity.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  timeWorking: PropTypes.number,
+  Service: PropTypes.object,
+  TotalPrice: PropTypes.number,
+};
 
 const styles = StyleSheet.create({
   container: {

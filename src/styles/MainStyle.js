@@ -11,7 +11,6 @@ const MainStyles = StyleSheet.create({
   CardIcon: {
     width: 24,
     height: 24,
-    marginRight: 8,
   },
   imageBackground: {
     flex: 1,
@@ -425,7 +424,7 @@ const MainStyles = StyleSheet.create({
   cardStaff: {
     padding: 5,
     borderWidth: 1,
-    borderColor: colors.GRAY,
+    borderColor: themeColors.secondary,
     borderRadius: 5,
     marginBottom: 10,
   },
@@ -434,12 +433,14 @@ const MainStyles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginHorizontal: 10,
+    minWidth: 80,
   },
   cardBtnViewLocation: {
     backgroundColor: themeColors.confirm,
     borderRadius: 5,
     padding: 10,
     marginHorizontal: 10,
+    minWidth: 80,
   },
   textCardPhoneCall: {
     color: colors.WHITE,

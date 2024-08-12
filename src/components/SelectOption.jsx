@@ -31,7 +31,7 @@ const SelectOption = ({ data, onChange, value }) => {
       >
         <View style={MainStyles.flexRowSpaceBetween}>
           <Text>
-            {value ? `${value.OptionName} : ${FormatMoney(value.OptionePrice)} VND` : 'Chọn dịch vụ'}
+            {value ? `${value.OptionName}: ${FormatMoney(value.OptionePrice)} VND` : 'Chọn dịch vụ'}
           </Text>
           <Down fill='none' />
         </View>
@@ -56,7 +56,7 @@ const SelectOption = ({ data, onChange, value }) => {
                   onPress={() => handleSelect(item)}
                 >
                   <Text style={styles.optionText}>
-                    {item?.OptionName} : {FormatMoney(item?.OptionePrice)} VND
+                    {item?.OptionName}: {FormatMoney(item?.OptionePrice)} VND
                   </Text>
                 </TouchableOpacity>
               )}

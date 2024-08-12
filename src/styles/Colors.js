@@ -50,7 +50,7 @@ export const colors = {
   TRANSPARENT: "transparent",
   WHITE: "#FFFFFF",
   BLACK: "#000000",
-  PRIMARY_GREEN: "#60a941",
+  PRIMARY_GREEN: "#4CAF50",
   PRIMARY_LIGHT: "#dff0d8",
   DIM_GRAY: "#707070",
   PRIMARY_RED: "#BD0606",

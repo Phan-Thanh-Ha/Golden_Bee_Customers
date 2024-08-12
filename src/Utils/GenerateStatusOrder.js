@@ -1,6 +1,6 @@
 export const GenerateStatusOrder = (status) => {
   if (status === 0) {
-    return "Chưa có nhân viên nhận";
+    return "Chưa có nhân viên nhận đơn";
   }
   if (status === 1) {
     return "Nhân viên đang chuẩn bị";

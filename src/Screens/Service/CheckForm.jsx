@@ -1,10 +1,6 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import React from "react";
 import FormRequirementInfomation from "./FormRequirementInfomation";
-import { UseInset } from "../../Hooks";
-import { colors } from "../../styles/Colors";
-import ItemAddress from "../../components/ItemAddress";
-import { dataLocation } from "../data";
 
 const CheckForm = () => {
   return (

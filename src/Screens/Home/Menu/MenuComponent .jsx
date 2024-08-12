@@ -8,12 +8,9 @@ import { ScreenNames } from "../../../Constants";
 import { getIconById } from "../../../Utils/RoutingService";
 import { SCREEN_WIDTH } from "../../../styles/MainStyle";
 import { colors, themeColors } from "../../../styles/Colors";
-import { data, dataMenu } from "../../data";
+import { dataMenu } from "../../data";
 
 export const MenuComponent = () => {
-  // const data = useSelector((state) => state.main.menuService);
-  // console.log(data);
-
   const navi = useNavigation();
   return (
     <View style={styles.container}>
@@ -80,6 +77,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     fontSize: 13,
     color: colors.BLACK,
-    fontWeight: "500"
+    fontWeight: "500",
   },
 });

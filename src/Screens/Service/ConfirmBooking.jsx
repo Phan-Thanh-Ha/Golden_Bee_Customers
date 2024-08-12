@@ -144,9 +144,7 @@ const ConfirmBooking = () => {
         navi.goBack();
         return true;
       };
-
       BackHandler.addEventListener("hardwareBackPress", onBackPress);
-
       return () => {
         BackHandler.removeEventListener("hardwareBackPress", onBackPress);
       };
@@ -307,7 +305,6 @@ const ConfirmBooking = () => {
         Json: JSON.stringify(pr),
         func: "OVG_spService_BookingService_Save_V2",
       };
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result?.Status === "OK") {
         AlertToaster("success", "Đơn dịch vụ đã được gửi tới admin");

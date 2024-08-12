@@ -11,7 +11,7 @@ import LogoBeeBox from "../LogoBeeBox";
 import MainStyle from "../../styles/MainStyle";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { mainAction } from "../../Redux/Action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AlertToaster } from "../../Utils/AlertToaster";
 import { getData, setData } from "../../Utils";
 import FastImage from "react-native-fast-image";
@@ -25,6 +25,9 @@ const LoginForm = () => {
   const [loginMessage, setLoginMessage] = React.useState("");
   const [dataConfirmService, setDataConfirmService] = useState({});
   const [isCheckFaceid, setIsCheckFaceid] = useState(false);
+  const customerId = useSelector((state) => state.main.customerId);
+  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  customerId:", customerId);
+
   const userDefault = {
     Address: " 17 đường số 6",
     CustomerName: " PhanHa",
@@ -263,7 +266,7 @@ const LoginForm = () => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            {isCheckFaceid && (
+            {customerId !== null && (
               <View>
                 <TouchableOpacity onPress={loginFaceId}>
                   <View style={{ marginBottom: 20, flexDirection: "row" }}>

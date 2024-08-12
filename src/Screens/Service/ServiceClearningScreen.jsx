@@ -35,21 +35,23 @@ const ServiceClearningScreen = () => {
 
   useEffect(() => {
     OVG_spStepContent_Service();
-  }, [])
+  }, []);
   const OVG_spStepContent_Service = async () => {
     try {
       const pr = {
         ServiceId: service?.ServiceId || 7,
         GroupId: 10060,
-      }
+      };
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spStepContent_Service",
-      }
+      };
       const result = await mainAction.API_spCallServer(params, dispatch);
       setDetailContent(result[0]);
-    } catch (error) { }
-  }
+    } catch {
+      //
+    }
+  };
   const modalOnClose = () => {
     setModalOpen(false);
   };
@@ -100,7 +102,9 @@ const ServiceClearningScreen = () => {
                 fontWeight: "600",
                 color: colors.MAIN_BLUE_CLIENT,
               }}
-            >Chi tiết dịch vụ</Text>
+            >
+              Chi tiết dịch vụ
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -153,8 +157,7 @@ const ServiceClearningScreen = () => {
         snapPoints={["60%", "80%"]}
         initialIndex={1}
         content={detailContent}
-      >
-      </ModalInformationDetail>
+      ></ModalInformationDetail>
     </View>
   );
 };

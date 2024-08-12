@@ -1,4 +1,12 @@
-import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { colors } from "../../styles/Colors";
 import Box from "../../components/Box";
@@ -30,8 +38,8 @@ const Welfare = () => {
     try {
       const pr = {
         CustomerId: userLogin?.Id,
-        GroupUserId: GroupUserId
-      }
+        GroupUserId: GroupUserId,
+      };
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spCustomer_Total_Point",
@@ -44,8 +52,10 @@ const Welfare = () => {
       } else {
         setBenefitValue(result[0]);
       }
-    } catch (error) { }
-  }
+    } catch {
+      //
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -53,8 +63,18 @@ const Welfare = () => {
         colors={[colors.PRIMARY_LIGHT, colors.WHITE]}
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
-      <Box height={Platform.OS === "android" ? SCREEN_HEIGHT * 0.03 : SCREEN_HEIGHT * 0.07} />
-      <LogoBeeBox color={colors.MAIN_COLOR_CLIENT} sizeImage={SCREEN_WIDTH * 0.15} sizeText={18} />
+      <Box
+        height={
+          Platform.OS === "android"
+            ? SCREEN_HEIGHT * 0.03
+            : SCREEN_HEIGHT * 0.07
+        }
+      />
+      <LogoBeeBox
+        color={colors.MAIN_COLOR_CLIENT}
+        sizeImage={SCREEN_WIDTH * 0.15}
+        sizeText={18}
+      />
       <ScrollView>
         <View style={{ padding: 10 }}>
           <View
@@ -69,7 +89,9 @@ const Welfare = () => {
               <View style={[{ width: SCREEN_WIDTH * 0.49 }]}>
                 <View style={MainStyles.flexRowFlexStart}>
                   <Text style={[styles.text1]}>Điểm tích lũy: </Text>
-                  <Text style={[styles.text2]}>{FormatMoney(benefitValue?.TotalPoint)} Điểm</Text>
+                  <Text style={[styles.text2]}>
+                    {FormatMoney(benefitValue?.TotalPoint)} Điểm
+                  </Text>
                 </View>
               </View>
             </View>
@@ -77,7 +99,9 @@ const Welfare = () => {
               <View style={[{ width: SCREEN_WIDTH * 0.49 }]}>
                 <View style={MainStyles.flexRowFlexStart}>
                   <Text style={[styles.text1]}>Hạng: </Text>
-                  <Text style={[styles.text2]}>{benefitValue?.CustomerRank || "Chưa xếp hạng"}</Text>
+                  <Text style={[styles.text2]}>
+                    {benefitValue?.CustomerRank || "Chưa xếp hạng"}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -126,7 +150,8 @@ const Welfare = () => {
                   textAlign: "center",
                 }}
               >
-                Nhận vô vàn quà tặng khi tích điểm trên ứng dụng và đổi quà cùng Ong Vàng !
+                Nhận vô vàn quà tặng khi tích điểm trên ứng dụng và đổi quà cùng
+                Ong Vàng !
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -169,7 +194,8 @@ const Welfare = () => {
                   textAlign: "center",
                 }}
               >
-                Cơ hội hợp tác và quảng bá thương hiệu của bạn trên ứng dụng Ong Vàng ngay hôm nay !
+                Cơ hội hợp tác và quảng bá thương hiệu của bạn trên ứng dụng Ong
+                Vàng ngay hôm nay !
               </Text>
             </TouchableOpacity>
           </View>
@@ -196,5 +222,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
     color: colors.MAIN_COLOR_CLIENT,
-  }
+  },
 });

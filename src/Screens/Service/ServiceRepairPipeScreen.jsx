@@ -9,10 +9,9 @@ import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scr
 import { ScrollView } from "react-native-gesture-handler";
 import FormServiceRepairPipe from "./FormServiceRepairPipe";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
-import CardPremiumInfomation from "../../components/CardPremiumInfomation";
 import { useRoute } from "@react-navigation/native";
 import { FormatMoney } from "../../Utils";
-import { priceClearningMachine, priceRepairPipe } from "../../Utils/PriceService";
+import { priceRepairPipe } from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import ButtonInfo from "../../components/buttons/ButtonInfo";
 import ArrowRight from "../../components/svg/ArrowRight";
@@ -35,21 +34,23 @@ const ServiceRepairPipeScreen = () => {
 
   useEffect(() => {
     OVG_spStepContent_Service();
-  }, [])
+  }, []);
   const OVG_spStepContent_Service = async () => {
     try {
       const pr = {
         ServiceId: service?.ServiceId || 7,
         GroupId: 10060,
-      }
+      };
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spStepContent_Service",
-      }
+      };
       const result = await mainAction.API_spCallServer(params, dispatch);
       setDetailContent(result[0]);
-    } catch (error) { }
-  }
+    } catch {
+      //
+    }
+  };
   const modalOnClose = () => {
     setModalOpen(false);
   };
@@ -100,7 +101,9 @@ const ServiceRepairPipeScreen = () => {
                 fontWeight: "600",
                 color: colors.MAIN_BLUE_CLIENT,
               }}
-            >Chi tiết dịch vụ</Text>
+            >
+              Chi tiết dịch vụ
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -153,8 +156,7 @@ const ServiceRepairPipeScreen = () => {
         snapPoints={["60%", "80%"]}
         initialIndex={1}
         content={detailContent}
-      >
-      </ModalInformationDetail>
+      ></ModalInformationDetail>
     </View>
   );
 };

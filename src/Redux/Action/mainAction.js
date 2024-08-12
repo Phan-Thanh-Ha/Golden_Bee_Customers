@@ -1,6 +1,6 @@
 import mainTypes from "./mainTypes";
 
-export function closeError(params, cb) {
+export function closeError(params) {
   return {
     type: mainTypes.ERROR,
     params,
@@ -15,6 +15,12 @@ export function API_spCallPostImage(params, dispatch) {
       resolve,
       reject,
     });
+  });
+}
+export function locationUpdate(location, dispatch) {
+  return dispatch({
+    type: mainTypes.LOCATION_TIME,
+    payload: location,
   });
 }
 
@@ -106,5 +112,12 @@ export function DecryptString(params, dispatch) {
       resolve,
       reject,
     });
+  });
+}
+
+export function checkPermissioniOS(permissions, dispatch) {
+  return dispatch({
+    type: mainTypes.CHECK_PERMISSION_IOS,
+    payload: permissions,
   });
 }

@@ -1,8 +1,16 @@
 // FireBaseRealtimeCheck.jsx
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, ScrollView, StyleSheet } from 'react-native';
-import { placeOrder, listenForOrderUpdates, listenForNewOrders, acceptOrder, checkAndDeleteExpiredOrders, listenForAcceptedOrders, completeOrder } from '../../firebaseService/HandleOrder';
-import { clientId, orderId, staffId } from '../data';
+import React, { useState, useEffect } from "react";
+import { View, Text, Button, ScrollView, StyleSheet } from "react-native";
+import {
+  placeOrder,
+  listenForOrderUpdates,
+  listenForNewOrders,
+  acceptOrder,
+  checkAndDeleteExpiredOrders,
+  listenForAcceptedOrders,
+  completeOrder,
+} from "../../firebaseService/HandleOrder";
+import { clientId, orderId, staffId } from "../data";
 
 const FireBaseRealtimeCheck = () => {
   const [clientOrder, setClientOrder] = useState(null);
@@ -25,7 +33,10 @@ const FireBaseRealtimeCheck = () => {
             <View key={index} style={styles.orderContainer}>
               <Text>Order ID: {order.OrderId}</Text>
               <Text>Client ID: {order.ClientId}</Text>
-              <Button title="Nhận đơn" onPress={() => acceptOrder(order.OrderId, staffId)} />
+              <Button
+                title="Nhận đơn"
+                onPress={() => acceptOrder(order.OrderId, staffId)}
+              />
             </View>
           ))
         ) : (
@@ -37,7 +48,10 @@ const FireBaseRealtimeCheck = () => {
             <View key={index} style={styles.orderContainer}>
               <Text>Order ID: {order.OrderId}</Text>
               <Text>Client ID: {order.ClientId}</Text>
-              <Button title="Hoàn thành đơn" onPress={() => completeOrder(order.OrderId)} />
+              <Button
+                title="Hoàn thành đơn"
+                onPress={() => completeOrder(order.OrderId)}
+              />
             </View>
           ))
         ) : (
@@ -50,7 +64,12 @@ const FireBaseRealtimeCheck = () => {
         {clientOrder ? (
           <View style={styles.orderContainer}>
             <Text>Order ID: {clientOrder.OrderId}</Text>
-            <Text>Trạng thái: {clientOrder.StaffId === "" ? "Đang đợi nhân viên nhận đơn" : `Đã nhận bởi nhân viên ID: ${clientOrder.StaffId}`}</Text>
+            <Text>
+              Trạng thái:{" "}
+              {clientOrder.StaffId === ""
+                ? "Đang đợi nhân viên nhận đơn"
+                : `Đã nhận bởi nhân viên ID: ${clientOrder.StaffId}`}
+            </Text>
           </View>
         ) : (
           <Text>Không có đơn hàng</Text>
@@ -71,19 +90,19 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 16,
   },
   subHeader: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 16,
     marginBottom: 8,
   },
   orderContainer: {
     padding: 16,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderRadius: 8,
     marginBottom: 16,
   },

@@ -1,42 +1,33 @@
-import { useNavigation, useRoute } from "@react-navigation/native"
-import { Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import React from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Linking, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import RenderHTML from "react-native-render-html";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../../styles/MainStyle";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
 import HeaderComp from "../../components/HeaderComp";
 import { colors, themeColors } from "../../styles/Colors";
 import ServiceCarousel from "../../components/ServiceCarousel";
-import { dataMenu, dataNewServiceDefault } from "../data";
+import { dataNewServiceDefault } from "../data";
 import { ScreenNames } from "../../Constants";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { Icon } from "@ui-kitten/components";
 import Box from "../../components/Box";
-import { useSelector } from "react-redux";
 
 const ServiceCarouselDetail = () => {
   const route = useRoute();
   const { article } = route?.params || {};
   const navi = useNavigation();
 
-  const handleBooking = () => {
-    if (article?.ServiceId) {
-      const service = dataMenu.find((item) => item?.ServiceId === article?.ServiceId);
-      navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-        service: service,
-      });
-    } else {
-      const service = dataMenu.find((item) => item?.ServiceId === 7);
-      navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-        service: service,
-      });
-    }
-  }
-
   return (
     <LayoutGradientBlue>
       <HeaderComp headerTitle={article?.NewsTitleEn} />
-      <ScrollView style={{ flex: 1, padding: 10, backgroundColor: colors.WHITE }}>
+      <ScrollView
+        style={{ flex: 1, padding: 10, backgroundColor: colors.WHITE }}
+      >
         <RenderHTML
           contentWidth={SCREEN_WIDTH}
           source={{ html: article?.NewsContentEn }}
@@ -45,13 +36,16 @@ const ServiceCarouselDetail = () => {
         <ServiceCarousel
           dataNewService={dataNewServiceDefault}
           onItemPress={(item) => {
-            navi.navigate(ScreenNames.SERVICE_CAROUSEL_DETAIL, { article: item });
+            navi.navigate(ScreenNames.SERVICE_CAROUSEL_DETAIL, {
+              article: item,
+            });
           }}
         />
         <Box height={SCREEN_HEIGHT * 0.07} />
       </ScrollView>
       <LayoutBottom>
-        <TouchableOpacity style={[styles.button, MainStyles.flexRowCenter]}
+        <TouchableOpacity
+          style={[styles.button, MainStyles.flexRowCenter]}
           onPress={() => {
             Linking.openURL(`tel:${"0922277782"}`);
           }}
@@ -74,14 +68,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
-
 
 export default ServiceCarouselDetail;

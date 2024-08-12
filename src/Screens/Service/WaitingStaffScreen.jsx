@@ -15,7 +15,12 @@ import MainStyles, {
 } from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { CardLocation } from "../../components";
-import { CommonActions, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  CommonActions,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import Box from "../../components/Box";
 import {
   delivery_Golden,
@@ -27,7 +32,10 @@ import {
 import Loading from "../../components/Loading";
 import { FormatMoney, GOOGLE_API_KEY, customRound } from "../../Utils";
 import LayoutPosition from "../../components/layouts/LayoutPosition";
-import { completeOrder, listenForOrderUpdates } from "../../firebaseService/HandleOrder";
+import {
+  completeOrder,
+  listenForOrderUpdates,
+} from "../../firebaseService/HandleOrder";
 import { useSelector } from "react-redux";
 import MapViewDirections from "react-native-maps-directions";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
@@ -51,10 +59,10 @@ const WaitingStaffScreen = () => {
         return true;
       };
 
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
 
       return () => {
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
       };
     }, [navi])
   );
@@ -91,10 +99,7 @@ const WaitingStaffScreen = () => {
             title={dataBooking?.Address}
           >
             <View style={styles.markerContainer}>
-              <Loading
-                source={pin_outline}
-                style={{ width: 64, height: 64 }}
-              />
+              <Loading source={pin_outline} style={{ width: 64, height: 64 }} />
             </View>
           </Marker>
           {clientOrder?.LatitudeStaff ? (
@@ -150,11 +155,15 @@ const WaitingStaffScreen = () => {
             <View style={MainStyles.cardConfirmContainer}>
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Mã dịch vụ </Text>
-                <Text style={MainStyles.cardTitleConfirm}>{clientOrder?.BookingCode}</Text>
+                <Text style={MainStyles.cardTitleConfirm}>
+                  {clientOrder?.BookingCode}
+                </Text>
               </View>
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>tên dịch vụ </Text>
-                <Text style={MainStyles.cardTitleConfirm}>{clientOrder?.DataService?.ServiceName}</Text>
+                <Text style={MainStyles.cardTitleConfirm}>
+                  {clientOrder?.DataService?.ServiceName}
+                </Text>
               </View>
               <View style={MainStyles.flexRowSpaceBetween}>
                 <Text style={MainStyles.cardTitleConfirm}>Ngày làm việc</Text>

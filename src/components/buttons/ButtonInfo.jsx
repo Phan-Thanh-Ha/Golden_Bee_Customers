@@ -1,5 +1,11 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { colors } from "../../styles/Colors";
 
 const ButtonInfo = ({ children, onPress, style = {} }) => {

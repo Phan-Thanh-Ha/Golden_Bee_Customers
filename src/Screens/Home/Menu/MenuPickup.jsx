@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Dimensions } from "react-native";
+import { Text, View, FlatList } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
@@ -8,6 +8,11 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../../Constants";
 import { getIconById } from "../../../Utils/RoutingService";
 import { useSelector } from "react-redux";
+import { PropTypes } from "prop-types";
+
+MenuPickup.propTypes = {
+  onPress: PropTypes.func,
+};
 
 export const MenuPickup = ({ onPress = () => {} }) => {
   const data = useSelector((state) => state.main.menuService);
@@ -64,11 +69,3 @@ export const MenuPickup = ({ onPress = () => {} }) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  item: {
-    flex: 1,
-    margin: 3,
-    height: Dimensions.get("window").width / 5, // approximate a square
-  },
-});

@@ -1,19 +1,23 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
+import { View, StyleSheet, Text } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import InputNumber from "../../components/InputNumber";
-import BtnToggle from "../../components/BtnToggle";
 import InputCheckBox from "../../components/InputCheckBox";
 import TextArea from "../../components/TextArea";
 import Label from "../../components/Label";
 import { colors } from "../../styles/Colors";
 import MainStyles from "../../styles/MainStyle";
-import { ic_premium } from "../../assets";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import SelectOption from "../../components/SelectOption";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../Constants";
+import { PropTypes } from "prop-types";
 
 const validationSchema = Yup.object().shape({
   people: Yup.number()
@@ -60,14 +64,13 @@ const FormServiceRepairInterior = forwardRef(
           {({
             handleChange,
             handleBlur,
-            handleSubmit,
             setFieldValue,
             values,
             errors,
             touched,
           }) => {
             useEffect(() => {
-              if (onChange && typeof onChange === 'function') {
+              if (onChange && typeof onChange === "function") {
                 onChange(values);
               }
             }, [values]);
@@ -85,7 +88,7 @@ const FormServiceRepairInterior = forwardRef(
                     }
                   }}
                 />
-                <Label style={styles.title}>Số lượng nhân sự</Label>
+                <Label style={styles.title}>Số lượng nhân viên</Label>
                 <InputNumber
                   value={values.people}
                   setFieldValue={setFieldValue}
@@ -96,38 +99,15 @@ const FormServiceRepairInterior = forwardRef(
                   <Text style={MainStyles.textErr}>{errors.people}</Text>
                 )}
                 <View
-                  style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
+                  style={[
+                    MainStyles.flexRowFlexStart,
+                    { alignItems: "center" },
+                  ]}
                 >
                   <Label style={[{ marginRight: 10 }, styles.title]}>
-                    Thời lượng :
+                    Làm việc trong: {RoundUpNumber(timeWorking, 0)} giờ{" "}
                   </Label>
-                  <Text
-                    style={{
-                      color: colors.MAIN_COLOR_CLIENT,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
-                  </Text>
                 </View>
-                {/* <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
-                  <View
-                    style={[
-                      MainStyles.flexRowFlexStart,
-                      { alignItems: "center" },
-                    ]}
-                  >
-                    <Image
-                      source={ic_premium}
-                      style={{ width: 40, height: 40, marginRight: 10 }}
-                    />
-                    <Label fontSize={18}>Dịch vụ Premium</Label>
-                  </View>
-                  <BtnToggle
-                    value={values.premium}
-                    onChange={(checked) => setFieldValue("premium", checked)}
-                  />
-                </View> */}
                 {Service?.Detail?.length > 0 && (
                   <Label style={styles.title}>Dịch vụ thêm</Label>
                 )}
@@ -139,9 +119,9 @@ const FormServiceRepairInterior = forwardRef(
                       (value) => value.ServiceDetailId === item.ServiceDetailId
                     )
                       ? values.otherService.filter(
-                        (value) =>
-                          value.ServiceDetailId !== item.ServiceDetailId
-                      )
+                          (value) =>
+                            value.ServiceDetailId !== item.ServiceDetailId
+                        )
                       : [...values.otherService, item];
                     setFieldValue("otherService", newSelectedValues);
                     if (onChange && typeof onChange === "function") {
@@ -164,6 +144,22 @@ const FormServiceRepairInterior = forwardRef(
     );
   }
 );
+
+FormServiceRepairInterior.defaultProps = {
+  onSubmit: () => {},
+  onChange: () => {},
+  timeWorking: 0,
+  Service: {},
+  TotalPrice: 0,
+};
+FormServiceRepairInterior.displayName = "FormServiceRepairInterior";
+FormServiceRepairInterior.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  timeWorking: PropTypes.number,
+  Service: PropTypes.object,
+  TotalPrice: PropTypes.number,
+};
 
 const styles = StyleSheet.create({
   container: {

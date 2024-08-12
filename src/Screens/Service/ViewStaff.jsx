@@ -16,13 +16,12 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import MapViewDirections from "react-native-maps-directions";
-import { FormatMoney, GOOGLE_API_KEY, customRound } from "../../Utils";
+import { FormatMoney, GOOGLE_API_KEY, dateTimeFormat } from "../../Utils";
 import Loading from "../../components/Loading";
 import BtnDouble from "../../components/BtnDouble";
 import {
   delivery_Golden,
   ic_coin,
-  ic_location,
   logo_bee_blue,
   pin_outline,
 } from "../../assets";
@@ -33,18 +32,18 @@ import MainStyles, {
 } from "../../styles/MainStyle";
 import { ScreenNames } from "../../Constants";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
-import ModalConfirm from "../../components/ModalConfirm";
 import { OVG_FBRT_ListentOrderById } from "../../firebaseService/ListenOrder";
+import { Avatar, Icon } from "@ui-kitten/components";
+import { GenerateStatusOrder } from "../../Utils/GenerateStatusOrder";
+import { APIImage } from "../../Config/Api";
 
 const ViewStaffScreen = () => {
   const navi = useNavigation();
   const route = useRoute();
   const { data } = route.params || {};
   const [timeOut, setTimeOut] = useState({ distance: 0, duration: 0 });
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [clientOrder, setClientOrder] = useState({});
   const [flag, setFlag] = useState(false);
-
   // Fetch order based on OrderId
   const getOrder = useCallback(() => {
     if (data?.OrderId) {
@@ -93,9 +92,6 @@ const ViewStaffScreen = () => {
     if (clientOrder.StatusOrder === 1) {
       setFlag(true);
     }
-    if (clientOrder.StatusOrder === 3) {
-      setIsModalVisible(true);
-    }
     if (flag && !clientOrder) {
       navi.replace(ScreenNames.MAIN_NAVIGATOR);
     }
@@ -109,8 +105,8 @@ const ViewStaffScreen = () => {
         <MapView
           style={styles.map}
           region={{
-            latitude: parseFloat(clientOrder?.LatitudeCustomer),
-            longitude: parseFloat(clientOrder?.LongitudeCustomer),
+            latitude: clientOrder?.LatitudeCustomer,
+            longitude: clientOrder?.LongitudeCustomer,
             latitudeDelta: 0.02,
             longitudeDelta: 0.02,
           }}
@@ -118,8 +114,8 @@ const ViewStaffScreen = () => {
         >
           <Marker
             coordinate={{
-              latitude: parseFloat(clientOrder?.LatitudeCustomer),
-              longitude: parseFloat(clientOrder?.LongitudeCustomer),
+              latitude: clientOrder?.LatitudeCustomer,
+              longitude: clientOrder?.LongitudeCustomer,
             }}
             title={clientOrder?.DataService?.Address}
           >
@@ -131,8 +127,8 @@ const ViewStaffScreen = () => {
             <>
               <Marker
                 coordinate={{
-                  latitude: parseFloat(clientOrder?.LatitudeStaff),
-                  longitude: parseFloat(clientOrder?.LongitudeStaff),
+                  latitude: clientOrder?.LatitudeStaff,
+                  longitude: clientOrder?.LongitudeStaff,
                 }}
               >
                 <View style={styles.markerContainer}>
@@ -144,12 +140,12 @@ const ViewStaffScreen = () => {
               </Marker>
               <MapViewDirections
                 origin={{
-                  latitude: parseFloat(clientOrder?.LatitudeStaff),
-                  longitude: parseFloat(clientOrder?.LongitudeStaff),
+                  latitude: clientOrder?.LatitudeStaff,
+                  longitude: clientOrder?.LongitudeStaff,
                 }}
                 destination={{
-                  latitude: parseFloat(clientOrder?.LatitudeCustomer),
-                  longitude: parseFloat(clientOrder?.LongitudeCustomer),
+                  latitude: clientOrder?.LatitudeCustomer,
+                  longitude: clientOrder?.LongitudeCustomer,
                 }}
                 apikey={GOOGLE_API_KEY}
                 strokeWidth={3}
@@ -170,183 +166,156 @@ const ViewStaffScreen = () => {
 
   const renderOrderDetails = useCallback(
     () => (
-      <View style={MainStyles.contentContainerClient}>
-        <Text style={MainStyles.cardSubLabelConfirm}>Thời gian làm việc</Text>
-        <View style={MainStyles.cardConfirmContainer}>
-          <View style={MainStyles.flexRowSpaceBetween}>
-            <Text style={MainStyles.cardTitleConfirm}>Mã dịch vụ </Text>
-            <Text style={MainStyles.cardTitleConfirm}>
-              {clientOrder?.BookingCode}
-            </Text>
-          </View>
-          <View style={MainStyles.flexRowSpaceBetween}>
-            <Text style={MainStyles.cardTitleConfirm}>Tên dịch vụ </Text>
-            <Text style={MainStyles.cardTitleConfirm}>
-              {clientOrder?.DataService?.ServiceName}
-            </Text>
-          </View>
-          <View style={MainStyles.flexRowSpaceBetween}>
-            <Text style={MainStyles.cardTitleConfirm}>Ngày làm việc</Text>
-            <Text style={MainStyles.cardTitleConfirm}>Ngay bây giờ</Text>
-          </View>
-          <View style={MainStyles.flexRowSpaceBetween}>
-            <Text style={MainStyles.cardTitleConfirm}>Loại dịch vụ</Text>
-            <Text style={MainStyles.cardTitleConfirm}>
-              {clientOrder?.DataService?.IsPremium
-                ? "Dịch vụ Premium"
-                : "Dịch vụ thường"}
+      <View style={[MainStyles.contentContainerClient, { paddingBottom: 0 }]}>
+        <View style={MainStyles.flexRowCenter}>
+          <Text style={[MainStyles.titleCardJob, { textAlign: "center" }]}>
+            Dịch vụ {clientOrder?.DataService?.ServiceName.toLowerCase()}
+          </Text>
+        </View>
+        {clientOrder?.BookingCode ? (
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 12,
+              color: colors.primary[700],
+              fontWeight: "bold",
+            }}
+          >
+            {clientOrder?.BookingCode}
+          </Text>
+        ) : null}
+        <View style={MainStyles.flexRowCenter}>
+          <View style={MainStyles.line} />
+        </View>
+        <View style={MainStyles.rowMargin}>
+          <View style={MainStyles.flexRowFlexStart}>
+            <Icon
+              style={MainStyles.CardIcon}
+              fill="#3366FF"
+              name="people-outline"
+            />
+            <Text style={MainStyles.textCardJob}>
+              Số lượng nhân viên: {data?.DataService?.StaffTotal || 0} nhân viên
             </Text>
           </View>
         </View>
-        <Text style={MainStyles.cardLabelConfirm}>Tổng tiền</Text>
-        <View
-          style={[MainStyles.cardConfirmContainer, MainStyles.flexRowCenter]}
-        >
-          <Image source={ic_coin} style={{ width: 20, height: 20 }} />
-          <Text
-            style={{
-              color: colors.MAIN_COLOR_CLIENT,
-              marginLeft: 10,
-              fontSize: 17,
-              fontWeight: "700",
-            }}
-          >
-            {FormatMoney(clientOrder?.DataService?.PriceAfterDiscount)} VND
-          </Text>
+        <View style={MainStyles.rowMargin}>
+          <View style={MainStyles.flexRowFlexStart}>
+            <Icon
+              style={MainStyles.CardIcon}
+              fill="#3366FF"
+              name="pin-outline"
+            />
+            <Text style={MainStyles.textCardJob}>
+              Địa chỉ: {clientOrder?.DataService?.Address}
+            </Text>
+          </View>
+        </View>
+        <View style={MainStyles.rowMargin}>
+          <View style={MainStyles.flexRowFlexStart}>
+            <Icon
+              style={MainStyles.CardIcon}
+              fill="#3366FF"
+              name="calendar-outline"
+            />
+            <Text style={MainStyles.textCardJob}>
+              Thời gian tạo: {dateTimeFormat(clientOrder?.CreateAt, 2)}
+            </Text>
+          </View>
         </View>
       </View>
     ),
     [clientOrder]
   );
-
   const renderStaffInfo = useCallback(
     () =>
       clientOrder && clientOrder?.StaffId !== "" ? (
-        <>
+        <View style={{ padding: 10, paddingTop: 0 }}>
           <View
             style={[
-              MainStyles.flexRowFlexStart,
-              { alignContent: "center" },
-              MainStyles.cardConfirmContainer,
+              MainStyles.cardStaff,
+              { borderWidth: 0, backgroundColor: colors.WHITE },
             ]}
           >
-            <Image
-              source={logo_bee_blue}
-              style={{
-                width: 40,
-                height: 40,
-                resizeMode: "contain",
-                marginRight: 10,
-              }}
-            />
-            <View>
-              <View style={MainStyles.flexRowFlexStart}>
-                <Text
-                  style={{
-                    color: colors.MAIN_BLUE_CLIENT,
-                    fontSize: 15,
-                    width: 120,
-                  }}
-                >
-                  Mã đơn dịch vụ :
-                </Text>
-                <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>
-                  {clientOrder?.BookingCode}
-                </Text>
-              </View>
-              <View style={MainStyles.flexRowFlexStart}>
-                <Text
-                  style={{
-                    color: colors.MAIN_BLUE_CLIENT,
-                    fontSize: 15,
-                    width: 120,
-                  }}
-                >
-                  Nhân viên :
-                </Text>
-                <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>
-                  {clientOrder?.StaffName}
-                </Text>
-              </View>
-              <View style={MainStyles.flexRowFlexStart}>
-                <Text
-                  style={{
-                    color: colors.MAIN_BLUE_CLIENT,
-                    fontSize: 15,
-                    width: 120,
-                  }}
-                >
-                  SĐT :
-                </Text>
-                <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>
-                  {clientOrder?.StaffPhone}
-                </Text>
-              </View>
-              <View style={MainStyles.flexRowFlexStart}>
-                <Text
-                  style={{
-                    color: colors.MAIN_BLUE_CLIENT,
-                    fontSize: 15,
-                    width: 120,
-                  }}
-                >
-                  Mã nhân viên :
-                </Text>
-                <Text style={{ color: colors.MAIN_BLUE_CLIENT, fontSize: 15 }}>
-                  {clientOrder?.StaffId}
-                </Text>
+            <View style={MainStyles.flexRowCenter}>
+              <Text style={[MainStyles.titleCardJob, { textAlign: "center" }]}>
+                Thông tin nhân viên
+              </Text>
+            </View>
+            <View
+              style={[
+                MainStyles.flexRowFlexStart,
+                { justifyContent: "center", alignItems: "center" },
+              ]}
+            >
+              {clientOrder?.StaffAvatar ? (
+                <Avatar
+                  source={{ uri: APIImage + clientOrder?.StaffAvatar }}
+                  size="giant"
+                  style={{ marginRight: 10 }}
+                />
+              ) : (
+                <Avatar
+                  source={logo_bee_blue}
+                  size="giant"
+                  style={{ marginRight: 10 }}
+                />
+              )}
+              <View>
+                {clientOrder?.StaffName && (
+                  <View style={MainStyles.rowMargin}>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Icon
+                        style={MainStyles.CardIcon}
+                        fill="#3366FF"
+                        name="person-outline"
+                      />
+                      <Text style={MainStyles.textCardJob}>
+                        Tên nhân viên:{" "}
+                        {clientOrder?.StaffName || "Không xác định"}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+                {clientOrder?.StaffPhone && (
+                  <View style={MainStyles.rowMargin}>
+                    <View style={MainStyles.flexRowFlexStart}>
+                      <Icon
+                        style={MainStyles.CardIcon}
+                        fill="#3366FF"
+                        name="phone-outline"
+                      />
+                      <Text style={MainStyles.textCardJob}>
+                        Số điện thoại:{" "}
+                        {clientOrder?.StaffPhone || "Chưa có thông tin"}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+                <View style={MainStyles.rowMargin}>
+                  <View style={MainStyles.flexRowFlexStart}>
+                    <Icon
+                      style={MainStyles.CardIcon}
+                      fill="#3366FF"
+                      name="flash-outline"
+                    />
+                    <Text style={MainStyles.textCardJob}>
+                      {GenerateStatusOrder(clientOrder.StatusOrder || 0)}
+                    </Text>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
-          <View
-            style={[
-              MainStyles.flexRowCenter,
-              { alignContent: "center" },
-              MainStyles.cardConfirmContainer,
-            ]}
-          >
-            <Image
-              source={ic_location}
-              style={{
-                width: 20,
-                height: 20,
-                resizeMode: "contain",
-                marginRight: 10,
-              }}
-            />
-            {clientOrder?.StatusOrder === 1 && (
-              <Text>
-                {clientOrder?.StaffName}
-                {clientOrder?.StatusOrder === 1 && " đang chuẩn bị"}
-              </Text>
-            )}
-            {clientOrder?.StatusOrder === 2 && (
-              <>
-                <Text>
-                  {clientOrder?.StaffName}{" "}
-                  {clientOrder?.StatusOrder === 2 &&
-                    customRound(timeOut.duration) > 0 &&
-                    ` sẽ đến trong ${customRound(timeOut.duration)} phút `}
-                </Text>
-                <Text style={{ textAlign: "center" }}>
-                  {timeOut.distance.toFixed(2)} km
-                </Text>
-              </>
-            )}
-            {clientOrder?.StatusOrder === 3 && (
-              <Text>
-                {clientOrder?.StaffName}
-                {clientOrder?.StatusOrder === 3 && " đã bắt đầu làm việc"}
-              </Text>
-            )}
-          </View>
-        </>
+        </View>
       ) : (
         <View
           style={[{ alignContent: "center" }, MainStyles.cardConfirmContainer]}
         >
           <Loading />
-          <Text style={{ textAlign: "center" }}>Đang tìm Nhân viên</Text>
+          <Text style={[MainStyles.textCardJob, { textAlign: "center" }]}>
+            Đang tìm Nhân viên
+          </Text>
         </View>
       ),
     [clientOrder, timeOut]
@@ -371,12 +340,31 @@ const ViewStaffScreen = () => {
     <SafeAreaView style={styles.container}>
       {clientOrder && (
         <>
+          {/* <BackButton color={colors.MAIN_BLUE_CLIENT} /> */}
           <ScrollView>
             <View style={styles.mapContainer}>{mapView}</View>
             {renderOrderDetails()}
             {renderStaffInfo()}
           </ScrollView>
           <LayoutBottom>
+            <View
+              style={[
+                MainStyles.cardConfirmContainer,
+                MainStyles.flexRowCenter,
+              ]}
+            >
+              <Image source={ic_coin} style={{ width: 20, height: 20 }} />
+              <Text
+                style={{
+                  color: colors.MAIN_COLOR_CLIENT,
+                  marginLeft: 10,
+                  fontSize: 17,
+                  fontWeight: "700",
+                }}
+              >
+                {FormatMoney(clientOrder?.DataService?.PriceAfterDiscount)} VND
+              </Text>
+            </View>
             <BtnDouble
               style={MainStyles.btnConfirm}
               onConfirm1={() =>
@@ -388,7 +376,7 @@ const ViewStaffScreen = () => {
               btn2Visible={false}
             />
           </LayoutBottom>
-          <ModalConfirm
+          {/* <ModalConfirm
             title={`Nhân viên ${clientOrder?.StaffName}  đã bắt đầu làm việc, quay về trang chủ !`}
             isModalVisible={isModalVisible}
             setModalVisible={setIsModalVisible}
@@ -397,14 +385,7 @@ const ViewStaffScreen = () => {
               navi.navigate(ScreenNames.MAIN_NAVIGATOR);
             }}
             backdropClose={false}
-          />
-          {/* <ModalConfirm
-              title={`Nhân viên ${clientOrder?.StaffName}  đã nhận đơn dịch vụ và đang chuẩn bị, hãy theo dõi quãng đường để biết vị trí nhân viên!`}
-              isModalVisible={isModalReloadVisible}
-              setModalVisible={setIsModalReloadVisible}
-              onConfirm={handleReload}
-              backdropClose={false}
-            /> */}
+          /> */}
         </>
       )}
     </SafeAreaView>

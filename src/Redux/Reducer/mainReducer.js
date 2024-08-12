@@ -4,14 +4,14 @@ const initialState = {
   error: false,
   loading: false,
   language: "vn",
-  locationTime: [],
+  locationTime: {},
   userLogin: {},
   menuService: [],
   SERVICELIST: [],
   acceptedOrder: 0,
   myOrdersAccepted: [],
   serviceConfirm: {},
-  checkPermission: {},
+  checkPermissioniOS: {},
 };
 export default function (state = initialState, action = {}) {
   switch (action.type) {
@@ -54,6 +54,11 @@ export default function (state = initialState, action = {}) {
       return {
         ...state,
         customerId: action.payload,
+      };
+    case mainTypes.CHECK_PERMISSION_IOS:
+      return {
+        ...state,
+        checkPermissioniOS: action.payload,
       };
     default:
       return state;

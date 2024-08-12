@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { Platform, View } from "react-native";
-import {
-  check,
-  PERMISSIONS,
-  RESULTS,
-  requestMultiple,
-} from "react-native-permissions";
+import { PERMISSIONS, requestMultiple } from "react-native-permissions";
+import { mainAction } from "../Redux/Action";
+import { useDispatch } from "react-redux";
 
 const RequestPermissionV2 = () => {
-  const requestAndroidPermissions = async () => {
+  const dispatch = useDispatch();
+
+  const getAndroidPermissions = () => {
     const permissions = [
       PERMISSIONS.ANDROID.CAMERA,
       PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
@@ -24,29 +23,34 @@ const RequestPermissionV2 = () => {
     }
     permissions.push(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
 
-    const statuses = await requestMultiple(permissions);
-    console.log("Permission statuses:", statuses);
+    return permissions;
   };
 
-  const requestIOSPermissions = async () => {
-    const permissions = [
-      PERMISSIONS.IOS.CAMERA,
-      PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-      // PERMISSIONS.IOS.RECORD_AUDIO,
-      PERMISSIONS.IOS.PHOTO_LIBRARY,
-      // PERMISSIONS.IOS.MICROPHONE,
-      PERMISSIONS.IOS.NOTIFICATIONS,
-    ];
+  const getIOSPermissions = () => [
+    PERMISSIONS.IOS.CAMERA,
+    PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+    PERMISSIONS.IOS.PHOTO_LIBRARY,
+    PERMISSIONS.IOS.NOTIFICATIONS,
+    PERMISSIONS.IOS.FACE_ID,
+  ];
 
-    const statuses = await requestMultiple(permissions);
-    console.log("Permission statuses:", statuses);
+  const requestPermissions = async (permissions) => {
+    try {
+      const statuses = await requestMultiple(permissions);
+      if (Platform.OS === "ios") {
+        mainAction.checkPermissioniOS(statuses, dispatch);
+      }
+      console.log("Permission statuses:", statuses);
+    } catch (error) {
+      console.error("Error requesting permissions:", error);
+    }
   };
 
   useEffect(() => {
     if (Platform.OS === "android") {
-      requestAndroidPermissions();
+      requestPermissions(getAndroidPermissions());
     } else if (Platform.OS === "ios") {
-      requestIOSPermissions();
+      requestPermissions(getIOSPermissions());
     }
   }, []);
 

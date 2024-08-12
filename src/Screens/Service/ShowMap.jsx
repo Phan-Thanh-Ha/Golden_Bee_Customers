@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, ScrollView, SafeAreaView, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  SafeAreaView,
+  Image,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios";
@@ -56,7 +62,7 @@ const ShowMap = () => {
         latitude: location.lat,
         longitude: location.lng,
       });
-    } catch (error) {
+    } catch {
       // console.error("Error fetching place details:", error);
       // Handle error gracefully
     }
@@ -106,12 +112,6 @@ const ShowMap = () => {
           <View style={styles.markerFixed}>
             <Image source={pin_outline} style={{ width: 64, height: 64 }} />
           </View>
-          {/* <View style={styles.topBar}>
-            <CardLocation
-              onPress={() => navigation.goBack()}
-              location={service.Address}
-            />
-          </View> */}
         </View>
         <CardLocation
           onPress={() => navigation.goBack()}

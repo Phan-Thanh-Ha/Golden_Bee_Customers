@@ -11,6 +11,7 @@ import { colors } from "../../styles/Colors";
 import MainStyles from "../../styles/MainStyle";
 import { ic_premium } from "../../assets";
 import { dataOtherService1 } from "../data";
+import { PropTypes } from "prop-types";
 
 const validationSchema = Yup.object().shape({
   room: Yup.string().required("Vui lòng nhập số phòng"),
@@ -28,20 +29,12 @@ const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        // console.log("Form values:", values);
         if (onSubmit && typeof onSubmit === "function") {
           onSubmit(values);
         }
       }}
     >
-      {({
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        setFieldValue,
-        values,
-        errors,
-      }) => {
+      {({ handleChange, handleBlur, handleSubmit, setFieldValue, values }) => {
         onSubmit.current = handleSubmit;
         if (onChange && typeof onChange === "function") {
           onChange(values);
@@ -55,7 +48,7 @@ const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
               setFieldValue={setFieldValue}
               fieldName="room"
             />
-            <Label style={styles.title}>Số lượng nhân sự</Label>
+            <Label style={styles.title}>Số lượng nhân viên</Label>
             <InputNumber
               placeholder="Nhập số nhân sự"
               value={values.people}
@@ -66,12 +59,12 @@ const FormRequirementInfomation = ({ onSubmit, onChange, timeWorking }) => (
               style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
             >
               <Label style={[{ marginRight: 10 }, styles.title]}>
-                Thời lượng :
+                Làm việc trong:
               </Label>
               <Text
                 style={{ color: colors.MAIN_COLOR_CLIENT, fontWeight: "bold" }}
               >
-                Trong {timeWorking}H
+                Trong {timeWorking} giờ
               </Text>
             </View>
             <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
@@ -132,5 +125,11 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
+FormRequirementInfomation.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  timeWorking: PropTypes.number,
+};
 
 export default FormRequirementInfomation;

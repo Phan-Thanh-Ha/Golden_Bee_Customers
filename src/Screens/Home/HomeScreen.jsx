@@ -14,46 +14,49 @@ import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
 import { ScreenNames, StorageNames } from "../../Constants";
 import { mainAction } from "../../Redux/Action";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
-import { getData, removeData } from "../../Utils";
+import { getData, removeData, setData } from "../../Utils";
 import { dataNewServiceDefault, dataSliderDefault } from "../data";
 import { MenuComponent } from "./Menu/MenuComponent ";
 import AlertModalFaceId from "../../components/AlertModalFaceId";
 import TouchID from "react-native-touch-id";
 import { OVG_FBRT_GEtTotalOrders } from "../../firebaseService/ListenOrder";
+import Geolocation from "@react-native-community/geolocation";
 
 const HomeScreen = () => {
   const navi = useNavigation();
   const userLogin = useSelector((state) => state.main.userLogin);
   const dispatch = useDispatch();
   const acceptedOrder = useSelector((state) => state.main.acceptedOrder);
+  const customerId = useSelector((state) => state.main.customerId);
+
   const [dataNewService, setDataNewService] = React.useState(
     dataNewServiceDefault
   );
   const [isVisiableModalFace, setIsVisiableModalFace] = React.useState(false);
   const [dataCarousel, setDataCarousel] = React.useState(dataSliderDefault);
-  const [customerId, setCustomerId] = React.useState("");
+
   useEffect(() => {
     Shop_spWeb_Slides_List();
     Shop_spWeb_News_List();
     handlePendingService();
     checkFaceIDAvailability();
-    getCustomerId();
+    updateLocation();
   }, []);
 
   useFocusEffect(() => {
     OVG_FBRT_GEtTotalOrdersGet();
   });
 
-  const getCustomerId = async () => {
-    try {
-      const officerId = await getData(StorageNames.CUSTOMER_ID);
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  officerId:", officerId);
-      setCustomerId(officerId);
-      return officerId;
-    } catch {
-      return null;
-    }
-  };
+  // const getCustomerId = async () => {
+  //   try {
+  //     const officerId = await getData(StorageNames.CUSTOMER_ID);
+  //     console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  officerId:", officerId);
+  //     setCustomerId(officerId);
+  //     return officerId;
+  //   } catch {
+  //     return null;
+  //   }
+  // };
 
   // Get total order
   const OVG_FBRT_GEtTotalOrdersGet = useCallback(async () => {
@@ -66,18 +69,35 @@ const HomeScreen = () => {
   // Check Face ID
   const checkFaceIDAvailability = () => {
     TouchID.isSupported()
-      .then((biometryType) => {
+      .then(async (biometryType) => {
+        const checkFaceId = await getData(StorageNames.CHECK_FACE_ID_ENABLED);
         if (biometryType === "FaceID") {
-          setIsVisiableModalFace(false);
-        } else {
-          setIsVisiableModalFace(true);
+          customerId !== null && checkFaceId !== true
+            ? setIsVisiableModalFace(true)
+            : setIsVisiableModalFace(false);
         }
       })
       .catch((error) => {
         Alert.alert("Face ID is not supported", error.message);
       });
   };
-
+  const updateLocation = async () => {
+    try {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          if (position?.coords) {
+            const location = {
+              latitude: position?.coords?.latitude,
+              longitude: position?.coords?.longitude,
+            };
+            mainAction.locationUpdate(location, dispatch);
+          }
+        },
+        (error) => {},
+        { enableHighAccuracy: false, timeout: 20000 }
+      );
+    } catch (e) {}
+  };
   // Save service
   const OVG_spService_BookingService_Save = async (pr) => {
     const calling = async () => {
@@ -180,9 +200,9 @@ const HomeScreen = () => {
     };
 
     TouchID.authenticate("", optionalConfigObject)
-      .then((success) => {
+      .then(async (success) => {
+        await setData(StorageNames.CHECK_FACE_ID_ENABLED, success);
         setIsVisiableModalFace(false);
-        Alert.alert("Kích hoạt thành công");
       })
       .catch((error) => {
         Alert.alert("Lỗi kích hoạt vui lòng kiểm tra lại", error.message);

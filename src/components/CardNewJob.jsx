@@ -22,6 +22,7 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
     navi.navigate(ScreenNames.VIEW_STAFF, { data: data });
   };
 
+  console.log(data);
   const HandlePayment = () => {
     if (data?.DataService?.Payment === true) {
       navi.navigate(ScreenNames.CASH_SCREEN, { data: data });
@@ -29,18 +30,10 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
       navi.navigate(ScreenNames.CASH_SCREEN, { data: data });
     }
   };
-  const renderItem = ({ item }) => (
-    <View>
-      <Text style={[MainStyles.textCardJob, { paddingLeft: 10 }]}>
-        🔸{item.ServiceDetailName}
-      </Text>
-    </View>
-  );
   return (
     <View style={{ marginBottom: 10 }}>
       <View style={MainStyles.cardJob}>
-        <View
-        >
+        <View>
           <View style={MainStyles.flexRowCenter}>
             <Text style={[MainStyles.titleCardJob, { textAlign: "center" }]}>
               Dịch vụ {data?.DataService?.ServiceName.toLowerCase()}
@@ -61,20 +54,18 @@ const CardNewJob = ({ data, setStaffInformation = () => { }, setModalVisible = (
           <View style={MainStyles.flexRowCenter}>
             <View style={MainStyles.line} />
           </View>
-          {data?.StaffInformation?.length && (
-            <View style={MainStyles.rowMargin}>
-              <View style={MainStyles.flexRowFlexStart}>
-                <Icon
-                  style={MainStyles.CardIcon}
-                  fill="#3366FF"
-                  name="people-outline"
-                />
-                <Text style={MainStyles.textCardJob}>
-                  Số lượng nhân viên: {data?.DataService?.StaffTotal} nhân viên
-                </Text>
-              </View>
+          <View style={MainStyles.rowMargin}>
+            <View style={MainStyles.flexRowFlexStart}>
+              <Icon
+                style={MainStyles.CardIcon}
+                fill="#3366FF"
+                name="people-outline"
+              />
+              <Text style={MainStyles.textCardJob}>
+                Số lượng nhân viên: {data?.DataService?.StaffTotal || 0} nhân viên
+              </Text>
             </View>
-          )}
+          </View>
           {data?.DataService?.TotalRoom && (
             <View style={MainStyles.rowMargin}>
               <View style={MainStyles.flexRowFlexStart}>

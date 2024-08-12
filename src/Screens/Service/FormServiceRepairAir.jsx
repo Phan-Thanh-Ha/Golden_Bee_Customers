@@ -1,4 +1,9 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -11,6 +16,8 @@ import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import SelectOption from "../../components/SelectOption";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../Constants";
+import { PropTypes } from "prop-types";
+import InputCheckBox from "../../components/InputCheckBox";
 
 const validationSchema = Yup.object().shape({
   people: Yup.number()
@@ -63,7 +70,7 @@ const FormServiceRepairAir = forwardRef(
             touched,
           }) => {
             useEffect(() => {
-              if (onChange && typeof onChange === 'function') {
+              if (onChange && typeof onChange === "function") {
                 onChange(values);
               }
             }, [values]);
@@ -81,7 +88,7 @@ const FormServiceRepairAir = forwardRef(
                     }
                   }}
                 />
-                <Label style={styles.title}>Số lượng nhân sự</Label>
+                <Label style={styles.title}>Số lượng nhân viên</Label>
                 <InputNumber
                   value={values.people}
                   setFieldValue={setFieldValue}
@@ -92,19 +99,14 @@ const FormServiceRepairAir = forwardRef(
                   <Text style={MainStyles.textErr}>{errors.people}</Text>
                 )}
                 <View
-                  style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
+                  style={[
+                    MainStyles.flexRowFlexStart,
+                    { alignItems: "center" },
+                  ]}
                 >
                   <Label style={[{ marginRight: 10 }, styles.title]}>
-                    Thời lượng :
+                    Làm việc trong: {RoundUpNumber(timeWorking, 0)} giờ{" "}
                   </Label>
-                  <Text
-                    style={{
-                      color: colors.MAIN_COLOR_CLIENT,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
-                  </Text>
                 </View>
                 {/* <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
                   <View
@@ -135,9 +137,9 @@ const FormServiceRepairAir = forwardRef(
                       (value) => value.ServiceDetailId === item.ServiceDetailId
                     )
                       ? values.otherService.filter(
-                        (value) =>
-                          value.ServiceDetailId !== item.ServiceDetailId
-                      )
+                          (value) =>
+                            value.ServiceDetailId !== item.ServiceDetailId
+                        )
                       : [...values.otherService, item];
                     setFieldValue("otherService", newSelectedValues);
                     if (onChange && typeof onChange === "function") {
@@ -160,6 +162,15 @@ const FormServiceRepairAir = forwardRef(
     );
   }
 );
+
+FormServiceRepairAir.displayName = "FormServiceRepairAir";
+FormServiceRepairAir.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  timeWorking: PropTypes.number,
+  Service: PropTypes.object,
+  TotalPrice: PropTypes.number,
+};
 
 const styles = StyleSheet.create({
   container: {

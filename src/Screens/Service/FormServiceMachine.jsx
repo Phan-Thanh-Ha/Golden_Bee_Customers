@@ -1,4 +1,9 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -11,6 +16,7 @@ import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import SelectOption from "../../components/SelectOption";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../Constants";
+import { PropTypes } from "prop-types";
 
 const validationSchema = Yup.object().shape({
   people: Yup.number()
@@ -63,7 +69,7 @@ const FormServiceMachine = forwardRef(
             touched,
           }) => {
             useEffect(() => {
-              if (onChange && typeof onChange === 'function') {
+              if (onChange && typeof onChange === "function") {
                 onChange(values);
               }
             }, [values]);
@@ -81,7 +87,7 @@ const FormServiceMachine = forwardRef(
                     }
                   }}
                 />
-                <Label style={styles.title}>Số lượng nhân sự</Label>
+                <Label style={styles.title}>Số lượng nhân viên</Label>
                 <InputNumber
                   value={values.people}
                   setFieldValue={setFieldValue}
@@ -92,19 +98,14 @@ const FormServiceMachine = forwardRef(
                   <Text style={MainStyles.textErr}>{errors.people}</Text>
                 )}
                 <View
-                  style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
+                  style={[
+                    MainStyles.flexRowFlexStart,
+                    { alignItems: "center" },
+                  ]}
                 >
                   <Label style={[{ marginRight: 10 }, styles.title]}>
-                    Thời lượng :
+                    Làm việc trong: {RoundUpNumber(timeWorking, 0)} giờ{" "}
                   </Label>
-                  <Text
-                    style={{
-                      color: colors.MAIN_COLOR_CLIENT,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
-                  </Text>
                 </View>
                 <Label style={styles.title}>Ghi chú</Label>
                 <TextArea
@@ -121,6 +122,15 @@ const FormServiceMachine = forwardRef(
     );
   }
 );
+
+FormServiceMachine.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  timeWorking: PropTypes.number,
+  Service: PropTypes.object,
+  TotalPrice: PropTypes.number,
+};
+FormServiceMachine.displayName = "FormServiceMachine";
 
 const styles = StyleSheet.create({
   container: {

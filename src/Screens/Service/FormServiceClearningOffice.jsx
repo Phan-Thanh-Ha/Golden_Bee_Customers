@@ -1,18 +1,17 @@
 import React from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import InputNumber from "../../components/InputNumber";
-import BtnToggle from "../../components/BtnToggle";
 import InputCheckBox from "../../components/InputCheckBox";
 import TextArea from "../../components/TextArea";
 import Label from "../../components/Label";
 import { colors } from "../../styles/Colors";
 import MainStyles from "../../styles/MainStyle";
-import { ic_premium } from "../../assets";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../Constants";
+import { PropTypes } from "prop-types";
 
 const validationSchema = Yup.object().shape({
   room: Yup.number()
@@ -81,7 +80,7 @@ const FormServiceClearningOffice = ({
               {errors.room && touched.room && (
                 <Text style={MainStyles.textErr}>{errors.room}</Text>
               )}
-              <Label style={styles.title}>Số lượng nhân sự</Label>
+              <Label style={styles.title}>Số lượng nhân viên</Label>
               <InputNumber
                 value={values.people}
                 setFieldValue={setFieldValue}
@@ -95,16 +94,8 @@ const FormServiceClearningOffice = ({
                 style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
               >
                 <Label style={[{ marginRight: 10 }, styles.title]}>
-                  Thời lượng :
+                  Làm việc trong: {RoundUpNumber(timeWorking, 0)} giờ{" "}
                 </Label>
-                <Text
-                  style={{
-                    color: colors.MAIN_COLOR_CLIENT,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
-                </Text>
               </View>
               {/* <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
                 <View
@@ -135,9 +126,9 @@ const FormServiceClearningOffice = ({
                     (value) => value.ServiceDetailId === item.ServiceDetailId
                   )
                     ? values.otherService.filter(
-                      (value) =>
-                        value.ServiceDetailId !== item.ServiceDetailId
-                    )
+                        (value) =>
+                          value.ServiceDetailId !== item.ServiceDetailId
+                      )
                     : [...values.otherService, item];
                   setFieldValue("otherService", newSelectedValues);
                   if (onChange && typeof onChange === "function") {
@@ -159,6 +150,15 @@ const FormServiceClearningOffice = ({
     </View>
   );
 };
+
+FormServiceClearningOffice.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  timeWorking: PropTypes.number,
+  Service: PropTypes.object,
+  TotalPrice: PropTypes.number,
+};
+FormServiceClearningOffice.displayName = "FormServiceClearningOffice";
 
 const styles = StyleSheet.create({
   container: {

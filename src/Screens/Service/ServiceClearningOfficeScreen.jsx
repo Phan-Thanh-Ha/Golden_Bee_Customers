@@ -11,8 +11,6 @@ import ButtonInfo from "../../components/buttons/ButtonInfo";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
 import ModalInformationDetail from "../../components/ModalInformationDetail";
-import CardPremiumInfomation from "../../components/CardPremiumInfomation";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { FormatMoney } from "../../Utils";
 import { priceOfficeClearning } from "../../Utils/PriceService";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
@@ -20,6 +18,7 @@ import FormServiceClearningOffice from "./FormServiceClearningOffice";
 import { useDispatch } from "react-redux";
 import { mainAction } from "../../Redux/Action";
 import { Icon } from "@ui-kitten/components";
+import { useRoute } from "@react-navigation/native";
 
 const ServiceClearningOfficeScreen = () => {
   const route = useRoute();
@@ -36,21 +35,23 @@ const ServiceClearningOfficeScreen = () => {
 
   useEffect(() => {
     OVG_spStepContent_Service();
-  }, [])
+  }, []);
   const OVG_spStepContent_Service = async () => {
     try {
       const pr = {
         ServiceId: service?.ServiceId || 7,
         GroupId: 10060,
-      }
+      };
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spStepContent_Service",
-      }
+      };
       const result = await mainAction.API_spCallServer(params, dispatch);
       setDetailContent(result[0]);
-    } catch (error) { }
-  }
+    } catch {
+      //
+    }
+  };
   const modalOnClose = () => {
     setModalOpen(false);
   };
@@ -70,7 +71,7 @@ const ServiceClearningOfficeScreen = () => {
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
-      <Text style={MainStyles.screenTitle}>Dọn dẹp văn Phòng</Text>
+      <Text style={MainStyles.screenTitle}>Dọn dẹp văn phòng</Text>
       <CardLocation location={service.Address} />
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
@@ -101,7 +102,9 @@ const ServiceClearningOfficeScreen = () => {
                 fontWeight: "600",
                 color: colors.MAIN_BLUE_CLIENT,
               }}
-            >Chi tiết dịch vụ</Text>
+            >
+              Chi tiết dịch vụ
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -154,8 +157,7 @@ const ServiceClearningOfficeScreen = () => {
         snapPoints={["60%", "80%"]}
         initialIndex={1}
         content={detailContent}
-      >
-      </ModalInformationDetail>
+      ></ModalInformationDetail>
     </View>
   );
 };

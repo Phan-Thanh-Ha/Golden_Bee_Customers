@@ -82,11 +82,6 @@ export function* API_spCallPostImage(action) {
 export function* DecryptString(action) {
   try {
     const params = action.params; // Directly use params if it's a JSON object
-    console.log(
-      "-----> 💀💀💀💀💀💀💀💀💀 <-----  params:",
-      API_DECRYPTSTRING,
-      params
-    );
     yield delay(300);
     const response = yield api.post(API_DECRYPTSTRING, params);
 
@@ -101,9 +96,8 @@ export function* DecryptString(action) {
   }
 }
 
-export function* cameraScan(action) {
+export function* cameraScan() {
   yield put({ type: mainTypes.LOADING, payload: true });
-  const params = action && action.params;
   yield delay(300);
 }
 

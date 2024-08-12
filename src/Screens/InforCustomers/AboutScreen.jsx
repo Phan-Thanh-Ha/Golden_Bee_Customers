@@ -3,11 +3,12 @@ import { View, StyleSheet } from "react-native";
 import LayoutAbout from "../../components/layouts/LayoutAbout";
 import { colors, themeColors } from "../../styles/Colors";
 import CustomSwiper from "../../components/about/CustomSwiper";
-import { ScreenNames } from "../../Constants";
+import { ScreenNames, StorageNames } from "../../Constants";
 import { image_banner_2, image_banner_3, image_banner_4 } from "../../assets";
 import Button from "../../components/buttons/Button";
 import ArrowRight from "../../components/svg/ArrowRight";
 import { setData } from "../../Utils";
+import { PropTypes } from "prop-types";
 
 const dataSlider = [
   {
@@ -70,7 +71,9 @@ const AboutScreen = ({ navigation }) => {
     </LayoutAbout>
   );
 };
-
+AboutScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 const styles = StyleSheet.create({
   buttonContainer: {
     position: "absolute",

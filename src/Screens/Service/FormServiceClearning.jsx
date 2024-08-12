@@ -11,6 +11,7 @@ import MainStyles from "../../styles/MainStyle";
 import { RoundUpNumber } from "../../Utils/RoundUpNumber";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../Constants";
+import { PropTypes } from "prop-types";
 
 const validationSchema = Yup.object().shape({
   room: Yup.number()
@@ -79,7 +80,7 @@ const FormServiceClearning = ({
               {errors.room && touched.room && (
                 <Text style={MainStyles.textErr}>{errors.room}</Text>
               )}
-              <Label style={styles.title}>Số lượng nhân sự</Label>
+              <Label style={styles.title}>Số lượng nhân viên</Label>
               <InputNumber
                 value={values.people}
                 setFieldValue={setFieldValue}
@@ -93,16 +94,8 @@ const FormServiceClearning = ({
                 style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}
               >
                 <Label style={[{ marginRight: 10 }, styles.title]}>
-                  Thời lượng :
+                  Làm việc trong: {RoundUpNumber(timeWorking, 0)} giờ{" "}
                 </Label>
-                <Text
-                  style={{
-                    color: colors.MAIN_COLOR_CLIENT,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Trong {RoundUpNumber(timeWorking, 0)} giờ{" "}
-                </Text>
               </View>
               {/* <View style={[MainStyles.flexRowSpaceBetween, styles.premium]}>
                 <View
@@ -133,9 +126,9 @@ const FormServiceClearning = ({
                     (value) => value.ServiceDetailId === item.ServiceDetailId
                   )
                     ? values.otherService.filter(
-                      (value) =>
-                        value.ServiceDetailId !== item.ServiceDetailId
-                    )
+                        (value) =>
+                          value.ServiceDetailId !== item.ServiceDetailId
+                      )
                     : [...values.otherService, item];
                   setFieldValue("otherService", newSelectedValues);
                   if (onChange && typeof onChange === "function") {
@@ -156,6 +149,14 @@ const FormServiceClearning = ({
       </Formik>
     </View>
   );
+};
+FormServiceClearning.displayName = "FormServiceClearning";
+FormServiceClearning.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  timeWorking: PropTypes.number,
+  Service: PropTypes.object,
+  TotalPrice: PropTypes.number,
 };
 
 const styles = StyleSheet.create({

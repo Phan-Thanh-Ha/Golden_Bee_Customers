@@ -13,5 +13,6 @@ const mainTypes = {
   SERVICE_CONFIRM: "SERVICE_CONFIRM",
   PostImage: "PostImage",
   CUSTOMER_ID: "CUSTOMER_ID",
+  CHECK_PERMISSION_IOS: "CHECK_PERMISSION_IOS",
 };
 export default mainTypes;

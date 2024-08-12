@@ -5,6 +5,7 @@ import { themeColors } from "../../styles/Colors";
 import Footer from "../../components/Footer";
 import ForgotPasswordForm from "../../components/forms/ForgotPasswordForm";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
+import { PropTypes } from "prop-types";
 
 const ForgotPasswordScreen = ({ navigation }) => {
   return (
@@ -28,6 +29,9 @@ const ForgotPasswordScreen = ({ navigation }) => {
   );
 };
 
+ForgotPasswordScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,

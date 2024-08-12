@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { colors } from "../../styles/Colors";
 import LinearGradient from "react-native-linear-gradient";
-import { useNavigation } from "@react-navigation/native";
 import FormRequirementInfomation from "./FormRequirementInfomation";
 import Header from "../../components/Header";
 import MainStyles from "../../styles/MainStyle";
@@ -15,7 +14,6 @@ import ArrowRight from "../../components/svg/ArrowRight";
 import { ScrollView } from "react-native-gesture-handler";
 
 const WorkInfomationScreen = () => {
-  const navigation = useNavigation();
   const inset = UseInset();
   const formikSubmitRef = useRef(null);
   const timeWorking = 2;
@@ -25,7 +23,7 @@ const WorkInfomationScreen = () => {
     people: 1,
     premium: false,
     otherService: [],
-    note: '',
+    note: "",
   });
   const handleFormChange = (values) => {
     setFormData(values);
@@ -38,7 +36,11 @@ const WorkInfomationScreen = () => {
       />
       <Header color={colors.MAIN_BLUE_CLIENT} />
       <Text style={MainStyles.screenTitle}>Thông tin công việc</Text>
-      <CardLocation location={"12, Đường Nguyễn Văn Lượng, Quận gò vấp, TP Hồ Chí Minh, Việt Nam"} />
+      <CardLocation
+        location={
+          "12, Đường Nguyễn Văn Lượng, Quận gò vấp, TP Hồ Chí Minh, Việt Nam"
+        }
+      />
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
           <FormRequirementInfomation
@@ -70,15 +72,24 @@ const WorkInfomationScreen = () => {
           }}
           onPress={() => formikSubmitRef.current && formikSubmitRef.current()}
         >
-          <View style={[MainStyles.flexRowSpaceBetween, { backgroundColor: 'transparent' }]}>
-            <Text style={styles.btnTitle}>{FormatMoney(price * timeWorking / parseInt(formData.people))} VND / {timeWorking}H</Text>
-            <View style={[MainStyles.flexRow, { alignItems: 'center' }]}>
-              <Text style={[styles.btnTitle, { marginRight: 10 }]}>Tiếp theo</Text>
+          <View
+            style={[
+              MainStyles.flexRowSpaceBetween,
+              { backgroundColor: "transparent" },
+            ]}
+          >
+            <Text style={styles.btnTitle}>
+              {FormatMoney((price * timeWorking) / parseInt(formData.people))}{" "}
+              VND / {timeWorking}H
+            </Text>
+            <View style={[MainStyles.flexRow, { alignItems: "center" }]}>
+              <Text style={[styles.btnTitle, { marginRight: 10 }]}>
+                Tiếp theo
+              </Text>
               <ArrowRight color={colors.WHITE} />
             </View>
           </View>
         </ButtonInfo>
-
       </View>
     </View>
   );
@@ -95,8 +106,8 @@ const styles = StyleSheet.create({
   },
   btnTitle: {
     fontSize: 18,
-    color: colors.WHITE
-  }
+    color: colors.WHITE,
+  },
 });
 
 export default WorkInfomationScreen;

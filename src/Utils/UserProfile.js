@@ -9,7 +9,7 @@ export const GetUserProfile = async () => {
     } else {
       return null;
     }
-  } catch (error) {
+  } catch {
     return null;
   }
 };

@@ -8,7 +8,7 @@ const ValueTypeNumber = (value, defaultValue = 0) => {
     } else {
       return defaultValue;
     }
-  } catch (error) {
+  } catch {
     return defaultValue;
   }
 };

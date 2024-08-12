@@ -42,9 +42,9 @@ const VoucherComponent = ({ vouchers, selectedVouchers, setSelectedVouchers, lim
         disabled={isDisabled}
       >
         <View style={styles.voucherContent}>
-          <Text style={styles.voucherCode}>⚡ Mã voucher : {item?.VoucherCode}</Text>
+          <Text style={styles.voucherCode}>⚡ Mã voucher: {item?.VoucherCode}</Text>
           <Text style={styles.voucherDiscount}>Giảm {item?.TypeDiscount === 2 ? `${item?.Discount} VND` : `${item?.Discount}%`}</Text>
-          <Text style={styles.voucherDiscount}>Ngày kết thúc : {parseTimeSql(item?.Today, 1)}</Text>
+          <Text style={styles.voucherDiscount}>Ngày kết thúc: {parseTimeSql(item?.Today, 1)}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -54,7 +54,7 @@ const VoucherComponent = ({ vouchers, selectedVouchers, setSelectedVouchers, lim
     <View style={MainStyles.cardConfirmContainer}>
       <TouchableOpacity style={styles.applyButton} onPress={() => setModalVisible(true)}>
         <View style={MainStyles.flexRowSpaceBetween}>
-          <Text style={styles.applyButtonText}>{`Áp mã voucher (${selectedVouchers.length} mã đã chọn)`}</Text>
+          <Text style={MainStyles.textCardJob}>{`Áp mã voucher (${selectedVouchers.length} mã đã chọn)`}</Text>
           <Text style={{ fontSize: 20 }}>🎁</Text>
         </View>
       </TouchableOpacity>

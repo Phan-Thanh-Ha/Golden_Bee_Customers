@@ -19,10 +19,6 @@ const First = () => {
         if (isOld) {
           const userLogin = await getData(StorageNames.USER_PROFILE);
           const customerId = await getData(StorageNames.CUSTOMER_ID);
-          console.log(
-            "-----> 💀💀💀💀💀💀💀💀💀 <-----  customerId:",
-            customerId
-          );
           mainAction.userLogin(userLogin, dispatch);
           mainAction.customerId(customerId, dispatch);
           await ensureMenuData();

@@ -1,3 +1,4 @@
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import ScreenNames from "../Constants/ScreenNames";
@@ -40,7 +41,6 @@ import ViewStaff from "../Screens/Service/ViewStaff";
 // import { TrainingFeedback } from "../Screens/Admin/TrainingFeedback";
 import ServiceCarouselDetail from "../Screens/Home/ServiceCarouselDetail";
 import ContrubutionsDetailScreen from "../Screens/Home/ContrubutionsDetailScreen";
-import ViewAllStaff from "../Screens/Service/ViewAllStaff";
 
 const MainStack = createStackNavigator();
 
@@ -176,10 +176,6 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.CONTRIBUTIONS_DETAIL}
           component={ContrubutionsDetailScreen}
-        />
-        <MainStack.Screen
-          name={ScreenNames.VIEW_ALL_STAFF}
-          component={ViewAllStaff}
         />
         <MainStack.Screen name={ScreenNames.VIEW_STAFF} component={ViewStaff} />
       </MainStack.Navigator>

@@ -117,7 +117,7 @@ const TabPending = ({ dataPending = [] }) => {
                                 fill="#FFFFFFFF"
                                 name="navigation-2-outline"
                               />
-                              <Text style={MainStyles.textCardPhoneCall}>Xem vị trí</Text>
+                              {/* <Text style={MainStyles.textCardPhoneCall}>Xem vị trí</Text> */}
                             </View>
                           </TouchableOpacity>
                         ) : null
@@ -133,7 +133,7 @@ const TabPending = ({ dataPending = [] }) => {
                             fill="#FFFFFFFF"
                             name="phone-outline"
                           />
-                          <Text style={MainStyles.textCardPhoneCall}>Gọi nhân viên</Text>
+                          {/* <Text style={MainStyles.textCardPhoneCall}>Gọi nhân viên</Text> */}
                         </View>
                       </TouchableOpacity>
                     </View>
