@@ -8,15 +8,15 @@ import { ic_face_id } from "../assets";
 import { Button, Layout } from "@ui-kitten/components";
 import { PropTypes } from "prop-types";
 const AlertModalFaceId = ({
-  isVisible = false,
-  Header = "Thông báo",
-  Title = "Vui lòng xác thực bằng gương mặt",
-  styleHeader = {},
-  styleTitle = {},
-  LeftTitleButton = "Để sau",
-  RightTitleButton = "Bật",
-  onpressLeftButton = () => {},
-  onpressRightButton = () => {},
+  isVisible,
+  Header,
+  Title,
+  styleHeader,
+  styleTitle,
+  LeftTitleButton,
+  RightTitleButton,
+  onpressLeftButton,
+  onpressRightButton,
 }) => {
   return (
     <Modal
@@ -34,7 +34,6 @@ const AlertModalFaceId = ({
           backgroundColor: "white",
           padding: 22,
           justifyContent: "center",
-          // alignItems: "center",
           borderRadius: 10,
           borderColor: "rgba(0, 0, 0, 0.1)",
         }}
@@ -103,7 +102,6 @@ export default AlertModalFaceId;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.WHITE,
     flexDirection: "row",
     justifyContent: "space-between",

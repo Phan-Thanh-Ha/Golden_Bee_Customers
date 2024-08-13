@@ -6,7 +6,7 @@ import { GOOGLE_API_KEY } from "./googleApiKey";
 Geocoder.init(GOOGLE_API_KEY);
 
 const getAddressFromCurrentLocation = async () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     Geolocation.getCurrentPosition(
       async (position) => {
         if (position.coords) {
@@ -24,14 +24,12 @@ const getAddressFromCurrentLocation = async () => {
               resolve({
                 latitude: latitude,
                 longitude: longitude,
-                address: address,
               });
             }
-          } catch (error) {
+          } catch {
             resolve({
               latitude: latitude,
               longitude: longitude,
-              address: address,
             });
           }
         } else {
@@ -41,7 +39,7 @@ const getAddressFromCurrentLocation = async () => {
           });
         }
       },
-      (error) => {
+      () => {
         resolve({
           coordinates: null,
           address: "Có lỗi xảy ra khi lấy vị trí.",

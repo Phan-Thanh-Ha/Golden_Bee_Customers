@@ -42,6 +42,7 @@ const AddressSearch = () => {
       setInitAddress(result);
     }
   };
+  // console.log(initAddress);
 
   const OVG_spAddress_List_By_Customer = async () => {
     try {
@@ -93,6 +94,8 @@ const AddressSearch = () => {
 
   // Hàm kiểm tra và gọi tìm kiếm
   const handleChangeText = (text) => {
+    console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  text:", text);
+
     setStatusAddressSearch(text === "" ? "danger" : "basic");
     debouncedHandleSearch(text);
   };
@@ -123,7 +126,7 @@ const AddressSearch = () => {
             },
           });
         }}
-        onLeftIconPress={() => { }}
+        onLeftIconPress={() => {}}
         onChangeText={handleChangeText}
       />
       <ItemAddress

@@ -28,8 +28,6 @@ export const SetupNotification = () => {
     );
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log("FCM Message Data:", remoteMessage);
-
       // Hiển thị thông báo
       if (Platform.OS === "android") {
         notiAndroid(remoteMessage);
@@ -40,8 +38,6 @@ export const SetupNotification = () => {
 
     PushNotification.configure({
       onNotification: function (notification) {
-        console.log("NOTIFICATION:", notification);
-
         // Process the notification here
         if (Platform.OS === "android") {
           notiAndroid(notification);

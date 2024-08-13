@@ -43,10 +43,10 @@ const HomeScreen = () => {
   const [dataCarousel, setDataCarousel] = React.useState(dataSliderDefault);
 
   useEffect(() => {
+    updateLocation();
     Shop_spWeb_Slides_List();
     Shop_spWeb_News_List();
     handlePendingService();
-    updateLocation();
     handleBiometricAuthentication();
   }, []);
   const handleBiometricAuthentication = () => {
@@ -144,7 +144,7 @@ const HomeScreen = () => {
   // Update location
   const updateLocation = async () => {
     try {
-      Geolocation.getCurrentPosition(
+      await Geolocation.getCurrentPosition(
         (position) => {
           if (position?.coords) {
             const location = {
@@ -154,11 +154,13 @@ const HomeScreen = () => {
             mainAction.locationUpdate(location, dispatch);
           }
         },
-
+        (error) => {
+          console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  error:", error);
+        },
         { enableHighAccuracy: false, timeout: 20000 }
       );
-    } catch {
-      //
+    } catch (error) {
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  error:", error);
     }
   };
   // Save service

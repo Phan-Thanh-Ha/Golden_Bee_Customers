@@ -11,7 +11,6 @@ import {
 import Modal from "react-native-modal";
 import { colors } from "../styles/Colors";
 import MainStyles, { SCREEN_WIDTH } from "../styles/MainStyle";
-import { parseTimeSql } from "../Utils";
 import { PropTypes } from "prop-types";
 import { img_Voucher } from "../assets";
 
@@ -67,7 +66,7 @@ const VoucherComponent = ({
             overflow: "hidden", // Đảm bảo lớp phủ không vượt ra ngoài biên
           }}
         >
-          <View style={{ marginHorizontal: 10, marginVertical: 15 }}>
+          <View style={{ marginHorizontal: 10, marginVertical: 50 }}>
             <Text style={styles.voucherCode}>
               ⚡ Mã voucher: {item?.VoucherCode}
             </Text>
@@ -76,9 +75,6 @@ const VoucherComponent = ({
               {item?.TypeDiscount === 2
                 ? `${item?.Discount} VND`
                 : `${item?.Discount}%`}
-            </Text>
-            <Text style={styles.voucherDiscount}>
-              Ngày kết thúc: {parseTimeSql(item?.Today, 1)}
             </Text>
           </View>
         </ImageBackground>
@@ -205,8 +201,7 @@ const styles = StyleSheet.create({
     maxHeight: Dimensions.get("window").height * 0.6,
   },
   voucherItem: {
-    // padding: 15,
-    marginVertical: 10,
+    marginVertical: 1,
     borderWidth: 0.1,
     borderColor: colors.GRAY,
     borderRadius: 10,
@@ -221,7 +216,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   voucherCode: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#555",
   },
   voucherDiscount: {

@@ -38,6 +38,8 @@ const RequestPermissionV2 = () => {
     try {
       const statuses = await requestMultiple(permissions);
       if (Platform.OS === "ios") {
+        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  statuses:", statuses);
+
         mainAction.checkPermissioniOS(statuses, dispatch);
       }
     } catch (error) {

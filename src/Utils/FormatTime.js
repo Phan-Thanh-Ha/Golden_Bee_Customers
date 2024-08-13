@@ -32,26 +32,10 @@ export const FormatDateJsonPro = (date, type = 0) => {
   let d = new Date(date),
     month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),
-    dayNumber = "" + d.getUTCDay(),
     year = d.getFullYear(),
     h = d.getHours() - 7,
     m = d.getMinutes(),
     s = d.getSeconds();
-
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
 
   if (month.toString().length < 2) month = "0" + month;
   if (day.toString().length < 2) day = "0" + day;

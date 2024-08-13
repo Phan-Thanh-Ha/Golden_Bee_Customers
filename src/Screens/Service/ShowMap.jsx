@@ -20,22 +20,21 @@ import Button from "../../components/buttons/Button";
 import Box from "../../components/Box";
 import ArrowRight from "../../components/svg/ArrowRight";
 import BackButton from "../../components/BackButton";
+import Geolocation from "@react-native-community/geolocation";
 
 const ShowMap = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { service } = route.params || {};
   const [region, setRegion] = useState({
-    latitude: service?.latitude || 0,
-    longitude: service?.longitude || 0,
-    latitudeDelta: 0.015,
-    longitudeDelta: 0.0121,
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
   });
   const [region1, setRegion1] = useState({
-    latitude: service?.latitude || 0,
-    longitude: service?.longitude || 0,
-    latitudeDelta: 0.015,
-    longitudeDelta: 0.0121,
+    latitude: region?.latitude || 0,
+    longitude: region?.longitude || 0,
   });
 
   useEffect(() => {
@@ -91,9 +90,27 @@ const ShowMap = () => {
   };
   const onMapMarkerDragEnd = (newRegion) => {
     console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  location:", newRegion);
-    // const region = location.nativeEvent.coordinate;
-    // setRegion(region);
-    // onLocationChange(region);
+  };
+
+  const goToCurrentLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setRegion({
+          ...region,
+          latitude,
+          longitude,
+        });
+        setRegion1({
+          latitude,
+          longitude,
+        });
+      },
+      (error) => {
+        console.error("Error getting current location:", error);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -103,16 +120,17 @@ const ShowMap = () => {
           <MapView
             style={styles.map}
             region={region}
-            onRegionChangeComplete={onRegionChangeComplete}
             zoomEnabled={true}
-            // onPanDrag={(e) => console.log("onPanDrag", e)}
+            onRegionChange={onRegionChangeComplete}
           >
             <Marker
               coordinate={{
                 latitude: region1.latitude,
                 longitude: region1.longitude,
               }}
-              onDragEnd={onMapMarkerDragEnd}
+              onDragEnd={(e) =>
+                onRegionChangeComplete(e.nativeEvent.coordinate)
+              }
               title={service.Address}
               draggable={true}
             >
@@ -128,13 +146,20 @@ const ShowMap = () => {
           <View style={styles.markerFixed}>
             <Image source={pin_outline} style={{ width: 64, height: 64 }} />
           </View>
-          {/* <View style={styles.topBar}>
+          <View style={styles.topBar}>
             <CardLocation
               onPress={() => navigation.goBack()}
               location={service.Address}
             />
-          </View> */}
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Quay lại vị trí hiện tại"
+              onPress={goToCurrentLocation}
+            />
+          </View>
         </View>
+
         <CardLocation
           onPress={() => navigation.goBack()}
           location={service.Address}
@@ -143,6 +168,7 @@ const ShowMap = () => {
           <Box height={80} />
         </View>
       </ScrollView>
+
       <View
         style={{
           position: "absolute",
@@ -210,5 +236,12 @@ const styles = StyleSheet.create({
   markerContainer: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 80,
+    right: 10,
+    zIndex: 10,
+    elevation: 10,
   },
 });

@@ -10,7 +10,6 @@ const Button = ({
   fontWeight = "normal",
   disable = false,
   isLoading = false,
-  boderWidth = 0,
   icon: Icon,
   children = "default",
   onPress,

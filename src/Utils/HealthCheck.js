@@ -49,19 +49,4 @@ const HealthCheck = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  modalView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    padding: 20,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-    color: "white",
-  },
-});
-
 export default HealthCheck;

@@ -8,6 +8,7 @@ import TabPending from "../../components/TabPending";
 import TabHistory from "../../components/TabHistory";
 import { useSelector } from "react-redux";
 import { OVG_RealtimeDataByBookingCode } from "../../firebaseService/ListenOrder";
+import { useIsFocused } from "@react-navigation/native";
 
 const History = () => {
   const [selectedTab, setSelectedTab] = useState("Đang làm việc");
@@ -15,13 +16,15 @@ const History = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const modalJobDoneRef = useRef(null);
   const [orders, setOrders] = useState([]);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     // Gọi hàm với CustomerId được truyền vào
-    const unsubscribe = OVG_RealtimeDataByBookingCode(userLogin?.Id, setOrders);
+    if (isFocused) {
+      const unsubscribe = OVG_RealtimeDataByBookingCode(userLogin?.Id, setOrders);
 
-    // Hủy đăng ký khi component bị hủy
-    return () => unsubscribe();
+      // Hủy đăng ký khi component bị hủy
+      return () => unsubscribe();
+    }
   }, [userLogin?.Id]);
 
   const renderContent = () => {
@@ -52,7 +55,7 @@ const History = () => {
                 style={[
                   styles.tabButtonText,
                   selectedTab === "Đang làm việc" &&
-                    styles.selectedTabButtonText,
+                  styles.selectedTabButtonText,
                 ]}
               >
                 Đang làm việc
@@ -69,7 +72,7 @@ const History = () => {
                 style={[
                   styles.tabButtonText,
                   selectedTab === "Dịch vụ đã đặt" &&
-                    styles.selectedTabButtonText,
+                  styles.selectedTabButtonText,
                 ]}
               >
                 Dịch vụ đã đặt
