@@ -2,7 +2,6 @@ import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../../styles/Colors";
-import { PropTypes } from "prop-types";
 
 const LayoutGradient = ({ children }) => {
   return (
@@ -20,12 +19,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-LayoutGradient.defaultProps = {
-  children: null,
-};
-LayoutGradient.propTypes = {
-  children: PropTypes.node,
-};
 
 export default LayoutGradient;

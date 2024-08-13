@@ -10,7 +10,6 @@ import {
 import React from "react";
 import MainStyles from "../../styles/MainStyle";
 import {
-  cirtificate,
   ic_clearning,
   ic_clearning_basic,
   ic_glass,
@@ -24,6 +23,9 @@ import { parseTimeSql, units } from "../../Utils";
 import Rating from "../Rating";
 import { colors } from "../../styles/Colors";
 
+const openModal = () => {
+  modalRef.current?.openModal(data);
+};
 const layoutComp = ({ data }) => {
   const renderItem = ({ item }) => {
     return (

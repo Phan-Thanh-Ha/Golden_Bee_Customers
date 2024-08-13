@@ -1,34 +1,26 @@
-import { Image, View } from "react-native";
+import MainStyle from "../styles/MainStyle";
+import { Image, Text, View } from "react-native";
 import { logo_bee_blue } from "../assets";
-import React from "react";
-import { PropTypes } from "prop-types";
+import { colors } from "../styles/Colors";
 
 const Logo = ({ sizeImage = 120 }) => {
   return (
     <>
       <View
         style={{
-          alignItems: "center",
-        }}
-      >
+          alignItems: 'center',
+        }}>
         <Image
           source={logo_bee_blue}
           style={{
             with: sizeImage,
             height: sizeImage,
-            resizeMode: "contain",
+            resizeMode: 'contain',
           }}
         />
       </View>
     </>
-  );
-};
-
-Logo.defaultProps = {
-  sizeImage: 120,
-};
-Logo.propTypes = {
-  sizeImage: PropTypes.number,
-};
+  )
+}
 
 export default Logo;

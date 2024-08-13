@@ -1,26 +1,9 @@
-import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Text } from "@ui-kitten/components";
-import LinearGradient from "react-native-linear-gradient";
-import { PropTypes } from "prop-types";
-const ButtonResize = ({
-  bgColor,
-  btnMargin = 8,
-  textColor = "white",
-  fontSize = 20,
-  fontWeight = "normal",
-  textMargin = 20,
-  disable = false,
-  paddingHorizontal = 25,
-  paddingVertical = 12,
-  icon: Icon,
-  children = "default",
-  onPress,
-  ...props
-}) => {
-  const gradientColors = bgColor
-    ? [bgColor, bgColor]
-    : ["#4c669f", "#3b5998", "#192f6a"];
+import React from 'react';
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Text } from '@ui-kitten/components';
+import LinearGradient from 'react-native-linear-gradient';
+const ButtonResize = ({ bgColor, btnMargin = 8, textColor = 'white', fontSize = 20, fontWeight = 'normal', textMargin = 20, disable = false, paddingHorizontal = 25, paddingVertical = 12, icon: Icon, children = 'default', onPress, ...props }) => {
+  const gradientColors = bgColor ? [bgColor, bgColor] : ['#4c669f', '#3b5998', '#192f6a'];
 
   return (
     <TouchableOpacity
@@ -41,15 +24,7 @@ const ButtonResize = ({
           style={[styles.gradient, { paddingHorizontal, paddingVertical }]}
         >
           <View style={styles.content}>
-            <Text
-              style={{
-                ...styles.text,
-                color: textColor,
-                fontSize: fontSize,
-                fontWeight: fontWeight,
-                marginRight: textMargin,
-              }}
-            >
+            <Text style={{ ...styles.text, color: textColor, fontSize: fontSize, fontWeight: fontWeight, marginRight: textMargin }}>
               {children}
             </Text>
             {Icon && <Icon style={{ ...styles.icon }} />}
@@ -63,58 +38,30 @@ const ButtonResize = ({
 const styles = StyleSheet.create({
   button: {
     borderRadius: 5,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   pressed: {
     opacity: 0.75,
   },
   gradientWrapper: {
     borderRadius: 5,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   gradient: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 5,
   },
   content: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  icon: {},
+  icon: {
+  },
   text: {
     fontSize: 16,
   },
 });
-
-ButtonResize.defaultProps = {
-  bgColor: null,
-  btnMargin: 8,
-  textColor: "white",
-  fontSize: 20,
-  fontWeight: "normal",
-  textMargin: 20,
-  disable: false,
-  paddingHorizontal: 25,
-  paddingVertical: 12,
-  icon: null,
-  children: "default",
-  onPress: () => {},
-};
-ButtonResize.propTypes = {
-  bgColor: PropTypes.string,
-  btnMargin: PropTypes.number,
-  textColor: PropTypes.string,
-  fontSize: PropTypes.number,
-  fontWeight: PropTypes.string,
-  textMargin: PropTypes.number,
-  disable: PropTypes.bool,
-  paddingHorizontal: PropTypes.number,
-  paddingVertical: PropTypes.number,
-  icon: PropTypes.elementType,
-  children: PropTypes.node,
-  onPress: PropTypes.func,
-};
 
 export default ButtonResize;

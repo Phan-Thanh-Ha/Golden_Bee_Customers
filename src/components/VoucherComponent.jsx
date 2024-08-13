@@ -6,13 +6,12 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
-  ImageBackground,
 } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../styles/Colors";
 import MainStyles, { SCREEN_WIDTH } from "../styles/MainStyle";
+import { parseTimeSql } from "../Utils";
 import { PropTypes } from "prop-types";
-import { img_Voucher } from "../assets";
 
 const VoucherComponent = ({
   vouchers,
@@ -57,27 +56,20 @@ const VoucherComponent = ({
         style={backgroundColorStyle}
         disabled={isDisabled}
       >
-        <ImageBackground
-          source={img_Voucher}
-          style={{
-            width: SCREEN_WIDTH - 80,
-            height: 160,
-            borderRadius: 10,
-            overflow: "hidden", // Đảm bảo lớp phủ không vượt ra ngoài biên
-          }}
-        >
-          <View style={{ marginHorizontal: 10, marginVertical: 50 }}>
-            <Text style={styles.voucherCode}>
-              ⚡ Mã voucher: {item?.VoucherCode}
-            </Text>
-            <Text style={styles.voucherDiscount}>
-              ↓ Giảm{" "}
-              {item?.TypeDiscount === 2
-                ? `${item?.Discount} VND`
-                : `${item?.Discount}%`}
-            </Text>
-          </View>
-        </ImageBackground>
+        <View style={styles.voucherContent}>
+          <Text style={styles.voucherCode}>
+            ⚡ Mã voucher: {item?.VoucherCode}
+          </Text>
+          <Text style={styles.voucherDiscount}>
+            Giảm{" "}
+            {item?.TypeDiscount === 2
+              ? `${item?.Discount} VND`
+              : `${item?.Discount}%`}
+          </Text>
+          <Text style={styles.voucherDiscount}>
+            Ngày kết thúc: {parseTimeSql(item?.Today, 1)}
+          </Text>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -163,9 +155,6 @@ const VoucherComponent = ({
 };
 VoucherComponent.defaultProps = {
   limit: 1,
-  selectedVouchers: [],
-  setSelectedVouchers: () => {},
-  vouchers: [],
 };
 VoucherComponent.propTypes = {
   vouchers: PropTypes.array.isRequired,
@@ -201,22 +190,22 @@ const styles = StyleSheet.create({
     maxHeight: Dimensions.get("window").height * 0.6,
   },
   voucherItem: {
-    marginVertical: 1,
-    borderWidth: 0.1,
+    padding: 15,
+    marginVertical: 10,
+    borderWidth: 1,
     borderColor: colors.GRAY,
     borderRadius: 10,
     backgroundColor: colors.WHITE,
   },
   voucherContent: {
     flex: 1,
-    justifyContent: "center",
   },
   voucherName: {
     fontSize: 16,
     fontWeight: "bold",
   },
   voucherCode: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#555",
   },
   voucherDiscount: {

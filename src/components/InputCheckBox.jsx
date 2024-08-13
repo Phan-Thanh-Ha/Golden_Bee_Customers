@@ -1,13 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { CheckBox, Layout } from "@ui-kitten/components";
-import { StyleSheet, Text, View } from "react-native";
-import { colors } from "../styles/Colors";
+import React from 'react';
+import { CheckBox, Layout } from '@ui-kitten/components';
+import { StyleSheet, Text, View } from 'react-native';
+import { colors } from '../styles/Colors';
 
 const InputCheckBox = ({ data, selectedValues, onChange }) => {
   // Nếu không có dữ liệu, hiển thị thông báo
   if (!data || data.length === 0) {
-    return null;
+    return (
+      null
+    );
   }
 
   // Chia dữ liệu thành các hàng với 2 cột
@@ -23,9 +24,7 @@ const InputCheckBox = ({ data, selectedValues, onChange }) => {
           {row.map((item) => (
             <View key={item.ServiceDetailId} style={styles.itemContainer}>
               <CheckBox
-                checked={selectedValues.some(
-                  (value) => value.ServiceDetailId === item.ServiceDetailId
-                )}
+                checked={selectedValues.some((value) => value.ServiceDetailId === item.ServiceDetailId)}
                 onChange={() => onChange(item)}
                 style={styles.checkbox}
                 textStyle={styles.itemText}
@@ -40,34 +39,13 @@ const InputCheckBox = ({ data, selectedValues, onChange }) => {
   );
 };
 
-InputCheckBox.defaultProps = {
-  data: [],
-  selectedValues: [],
-  onChange: () => {},
-};
-
-InputCheckBox.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      ServiceDetailId: PropTypes.number.isRequired,
-      ServiceDetailName: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  selectedValues: PropTypes.arrayOf(
-    PropTypes.shape({
-      ServiceDetailId: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-  onChange: PropTypes.func.isRequired,
-};
-
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
   },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   itemContainer: {
     flex: 1,
@@ -83,7 +61,7 @@ const styles = StyleSheet.create({
   noDataText: {
     color: colors.GRAY,
     fontSize: 15,
-    textAlign: "center",
+    textAlign: 'center',
     marginVertical: 20,
   },
 });

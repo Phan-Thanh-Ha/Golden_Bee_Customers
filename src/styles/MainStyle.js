@@ -338,6 +338,13 @@ const MainStyles = StyleSheet.create({
     fontWeight: "600",
     paddingRight: SCREEN_WIDTH * 0.04,
   },
+  textCardLocation: {
+    color: colors.MAIN_BLUE_CLIENT,
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: "600",
+    maxWidth: SCREEN_WIDTH * 0.8,
+  },
   titleContentModal: {
     color: colors.MAIN_COLOR_CLIENT,
     marginLeft: 10,

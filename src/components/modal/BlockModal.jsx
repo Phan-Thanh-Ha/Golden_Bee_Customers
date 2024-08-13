@@ -1,8 +1,7 @@
-import React from "react";
-import { Text, View } from "react-native";
-import AlertModal from "../AlertModal";
-import MainStyles from "../../styles/MainStyle";
-import { PropTypes } from "prop-types";
+import React from 'react';
+import { Text, View } from 'react-native';
+import AlertModal from '../AlertModal';
+import MainStyles from '../../styles/MainStyle';
 
 const BlockModal = ({
   title,
@@ -33,27 +32,12 @@ const BlockModal = ({
             <View style={MainStyles.line} />
           </View>
           <View style={MainStyles.flexRowCenter}>
-            <Text style={[{ textAlign: "center" }]}>{title}</Text>
+            <Text style={[{ textAlign: 'center' }]}>{title}</Text>
           </View>
         </View>
       </View>
     </AlertModal>
   );
-};
-
-BlockModal.defaultProps = {
-  title: "Bạn có chắc chắn muốn thực hiện hành động này?",
-  isModalVisible: false,
-  setModalVisible: () => {},
-  onConfirm: () => {},
-  isConfirmable: true,
-};
-BlockModal.propTypes = {
-  title: PropTypes.string,
-  isModalVisible: PropTypes.bool,
-  setModalVisible: PropTypes.func,
-  onConfirm: PropTypes.func,
-  isConfirmable: PropTypes.bool,
 };
 
 export default BlockModal;

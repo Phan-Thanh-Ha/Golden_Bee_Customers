@@ -28,6 +28,7 @@ const AddressSearch = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
   const [initAddress, setInitAddress] = useState({});
   const locationTime = useSelector((state) => state.main.locationTime);
+  const [inputValue, setInputValue] = useState(""); // Thêm state để lưu trữ giá trị của input
 
   useEffect(() => {
     OVG_spAddress_List_By_Customer();
@@ -42,7 +43,6 @@ const AddressSearch = () => {
       setInitAddress(result);
     }
   };
-  // console.log(initAddress);
 
   const OVG_spAddress_List_By_Customer = async () => {
     try {
@@ -95,8 +95,8 @@ const AddressSearch = () => {
   // Hàm kiểm tra và gọi tìm kiếm
   const handleChangeText = (text) => {
     console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  text:", text);
-
     setStatusAddressSearch(text === "" ? "danger" : "basic");
+    setInputValue(text); // Cập nhật giá trị của input
     debouncedHandleSearch(text);
   };
 
@@ -115,11 +115,12 @@ const AddressSearch = () => {
           width: "98%",
           alignSelf: "center",
         }}
+        value={inputValue}
         onRightIconPress={() => {
           navi.navigate(ScreenNames.SHOW_MAP, {
             service: {
               ...service,
-              Address: initAddress?.address,
+              Address: inputValue,
               place_id: "",
               latitude: initAddress?.latitude,
               longitude: initAddress?.longitude,
@@ -127,7 +128,7 @@ const AddressSearch = () => {
           });
         }}
         onLeftIconPress={() => {}}
-        onChangeText={handleChangeText}
+        onChangeText={handleChangeText} // Cập nhật state khi giá trị của input thay đổi
       />
       <ItemAddress
         data={dataAddressSearch?.length ? dataAddressSearch : oldAddressSearch}

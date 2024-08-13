@@ -1,7 +1,12 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { colors } from "../../styles/Colors";
-import { PropTypes } from "prop-types";
 
 const ButtonInfo = ({ children, onPress, style = {} }) => {
   return (
@@ -44,16 +49,5 @@ const styles = StyleSheet.create({
   },
   arrow: {},
 });
-
-ButtonInfo.defaultProps = {
-  children: null,
-  onPress: () => {},
-  style: {},
-};
-ButtonInfo.propTypes = {
-  children: PropTypes.node,
-  onPress: PropTypes.func,
-  style: PropTypes.object,
-};
 
 export default ButtonInfo;

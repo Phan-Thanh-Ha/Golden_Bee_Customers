@@ -27,7 +27,12 @@ import {
   ic_coin,
 } from "../assets";
 import Box from "./Box";
-import { FormatMoney, parseTimeSql } from "../Utils";
+import {
+  dateTimeFormat,
+  FormatMoney,
+  FormatTime,
+  parseTimeSql,
+} from "../Utils";
 
 const { height: windowHeight } = Dimensions.get("window");
 
@@ -388,7 +393,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
-
-JobDetailsModal.displayName = "JobDetailsModal";
 
 export default JobDetailsModal;

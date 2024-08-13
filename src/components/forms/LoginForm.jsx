@@ -260,7 +260,7 @@ const LoginForm = () => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            {customerId && (
+            {customerId !== null && (
               <View>
                 <TouchableOpacity onPress={loginFaceId}>
                   <View style={{ marginBottom: 20, flexDirection: "row" }}>

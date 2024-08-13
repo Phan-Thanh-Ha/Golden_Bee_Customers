@@ -67,7 +67,7 @@ export const OVG_FBRT_GEtTotalOrders = async (customerId) => {
     // Xử lý dữ liệu
     const filltered = BookingsListMiddleware(ordersArray);
     return filltered.length;
-  } catch {
+  } catch (error) {
     // console.error("Error fetching orders:", error);
     return 0;
   }
@@ -85,6 +85,8 @@ export const OVG_FBRT_ListenMyOrders = (
     console.error("Invalid value for customerId:");
     return;
   }
+
+  let initialLoadComplete = false;
 
   // const handleOrderChange = (snapshot) => {
   //   const order = snapshot.val();
@@ -157,6 +159,8 @@ export const OVG_FBRT_ListenMyOrders = (
         console.log("No initial orders found.");
       }
 
+      initialLoadComplete = true;
+
       // myOrdersRef.on("child_changed", handleOrderChange);
       // myOrdersRef.on("child_removed", handleOrderRemove);
     });
@@ -199,7 +203,7 @@ export const OVG_GetStaffInformationByBookingCode = async (bookingCode) => {
     }
 
     return staffInformation;
-  } catch {
+  } catch (error) {
     // console.error("Error fetching orders:", error);
     return { StaffInformation: [] };
   }
@@ -286,7 +290,7 @@ export const OVG_GetOrdersByBookingCode = (bookingCode, callback) => {
 
       callback(BookingsListMiddleware(filteredOrders));
     });
-  } catch {
+  } catch (error) {
     // console.error("Error fetching orders:", error);
   }
 };

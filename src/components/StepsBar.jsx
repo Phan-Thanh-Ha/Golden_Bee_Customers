@@ -1,15 +1,9 @@
-import React from "react";
-import { View } from "react-native";
-import Svg, { Path } from "react-native-svg";
-import { colors } from "../styles/Colors";
-import { PropTypes } from "prop-types";
+import React from 'react';
+import { View } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
+import { colors } from '../styles/Colors';
 
-const StepsBar = ({
-  rating = 5,
-  fontSize = [20, 20],
-  fillColor = colors.MAIN_BLUE_CLIENT,
-  spa,
-}) => {
+export default StepsBar = ({ rating = 5, fontSize = [20, 20], fillColor = colors.MAIN_BLUE_CLIENT, spa }) => {
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -36,33 +30,19 @@ const StepsBar = ({
   };
 
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        marginBottom: 4,
-        padding: 5,
-        borderColor: colors.GRAY,
-        borderWidth: 1,
-        borderRadius: 10,
-      }}
-    >
+    <View style={{
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      marginBottom: 4,
+      padding: 5,
+      borderColor: colors.GRAY,
+      borderWidth: 1,
+      borderRadius: 10
+    }}>
       {renderStars()}
       {/* <Text>🥇🥈🥉🏅🎖️🏆</Text> */}
     </View>
   );
 };
 
-StepsBar.defaultProps = {
-  rating: 5,
-  fontSize: [20, 20],
-  fillColor: colors.MAIN_BLUE_CLIENT,
-};
-StepsBar.propTypes = {
-  rating: PropTypes.number,
-  fontSize: PropTypes.arrayOf(PropTypes.number),
-  fillColor: PropTypes.string,
-};
-
-export default StepsBar;

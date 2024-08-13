@@ -29,7 +29,6 @@ import { PropTypes } from "prop-types";
 const CashScreen = ({ route }) => {
   const navi = useNavigation();
   const { data } = route.params || {};
-  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  data:", data);
 
   return (
     <LayoutGradientBlue>

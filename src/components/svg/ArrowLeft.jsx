@@ -1,7 +1,6 @@
-import * as React from "react";
-import Svg, { Path } from "react-native-svg";
+import * as React from "react"
+import Svg, { Path } from "react-native-svg"
 import { colors } from "../../styles/Colors";
-import { PropTypes } from "prop-types";
 
 function ArrowLeft({ color = colors.MAIN_BLUE_CLIENT, size = 24 }) {
   return (
@@ -19,16 +18,7 @@ function ArrowLeft({ color = colors.MAIN_BLUE_CLIENT, size = 24 }) {
     >
       <Path d="M12 19l-7-7 7-7M19 12H5" />
     </Svg>
-  );
+  )
 }
-
-ArrowLeft.defaultProps = {
-  color: colors.MAIN_BLUE_CLIENT,
-  size: 24,
-};
-ArrowLeft.propTypes = {
-  color: PropTypes.string,
-  size: PropTypes.number,
-};
 
 export default ArrowLeft;

@@ -1,9 +1,7 @@
 import SwiperFlatList from "react-native-swiper-flatlist";
 import { colors, themeColors } from "../../styles/Colors";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { SCREEN_WIDTH } from "../../styles/MainStyle";
-import React from "react";
-import { PropTypes } from "prop-types";
+import MainStyles, { SCREEN_WIDTH } from "../../styles/MainStyle";
 
 const CustomSwiper = ({
   dataSlider,
@@ -95,17 +93,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-CustomSwiper.defaultProps = {
-  dataSlider: [],
-  currentIndex: 0,
-  setCurrentIndex: () => {},
-  swiperRef: null,
-};
-CustomSwiper.propTypes = {
-  dataSlider: PropTypes.array,
-  currentIndex: PropTypes.number,
-  setCurrentIndex: PropTypes.func,
-  swiperRef: PropTypes.object,
-};
 export default CustomSwiper;

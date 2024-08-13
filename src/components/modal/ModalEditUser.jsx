@@ -12,7 +12,6 @@ import { mainAction } from "../../Redux/Action";
 import { setData } from "../../Utils";
 import { AlertToaster } from "../../Utils/AlertToaster";
 import { PropTypes } from "prop-types";
-import StorageNames from "../../Constants/StorageNames/index";
 
 const ModalEditUser = ({ isModalVisible, setModalVisible }) => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -41,6 +40,7 @@ const ModalEditUser = ({ isModalVisible, setModalVisible }) => {
   const handleConfirm1 = async () => {
     setIsLoading(true);
     const isValid = valid();
+    // onConfirm1();
     if (isValid) {
       try {
         const pr = {
@@ -76,16 +76,19 @@ const ModalEditUser = ({ isModalVisible, setModalVisible }) => {
           setIsLoading(false);
         }
         setIsLoading(false);
-      } catch {
+      } catch (error) {
         setIsLoading(false);
       }
       setIsLoading(false);
     }
 
     setIsLoading(false);
+    // setModalVisible(false);
   };
   const handleConfirm2 = () => {
+    // onConfirm2();
     resetModal();
+    // setModalVisible(false);
   };
 
   return (
@@ -98,6 +101,7 @@ const ModalEditUser = ({ isModalVisible, setModalVisible }) => {
       backdropCloseable={false}
       onConfirm1={handleConfirm1}
       onConfirm2={handleConfirm2}
+      // useLogo={false}
       isBtn1Loading={isLoading}
     >
       <View>

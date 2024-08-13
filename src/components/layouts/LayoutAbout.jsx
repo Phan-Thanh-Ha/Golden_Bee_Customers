@@ -2,8 +2,7 @@ import React from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import MainStyle from "../../styles/MainStyle";
-import { colors } from "../../styles/Colors";
-import { PropTypes } from "prop-types";
+import { colors, themeColors } from "../../styles/Colors";
 
 const LayoutAbout = ({ children }) => {
   return (
@@ -12,6 +11,7 @@ const LayoutAbout = ({ children }) => {
         colors={[colors.WHITE, colors.WHITE]}
         style={styles.gradient}
       />
+      {/* <View style={styles.decorationBox} /> */}
       <SafeAreaView style={MainStyle.safeArea}>{children}</SafeAreaView>
     </View>
   );
@@ -39,12 +39,5 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 500,
   },
 });
-
-LayoutAbout.defaultProps = {
-  children: null,
-};
-LayoutAbout.propTypes = {
-  children: PropTypes.node,
-};
 
 export default LayoutAbout;

@@ -4,7 +4,6 @@ import Carousel from "react-native-snap-carousel";
 import FastImage from "react-native-fast-image";
 import { themeColors } from "../styles/Colors";
 import { limitTitle } from "../Utils/LimitTitle";
-import { PropTypes } from "prop-types";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const ITEM_WIDTH = SCREEN_WIDTH * 0.8;
@@ -125,20 +124,5 @@ const styles = StyleSheet.create({
     backgroundColor: themeColors.primary,
   },
 });
-
-ServiceCarousel.defaultProps = {
-  dataNewService: [],
-  onItemPress: () => {},
-};
-ServiceCarousel.propTypes = {
-  dataNewService: PropTypes.arrayOf(
-    PropTypes.shape({
-      ImageNewsShow: PropTypes.string,
-      MetaDescription: PropTypes.string,
-      NewsDescriptionEn: PropTypes.string,
-    })
-  ).isRequired,
-  onItemPress: PropTypes.func.isRequired,
-};
 
 export default ServiceCarousel;

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from "react-native";
 import { Icon } from "@ui-kitten/components";
 
 const SearchIcon = (props) => <Icon {...props} name="search" />;
@@ -21,6 +26,7 @@ const InputSearch = ({ style = {} }) => {
         style={styles.input}
         value={searchQuery}
         onChangeText={setSearchQuery}
+        placeholder="Tìm kiếm dịch vụ"
       />
       {searchQuery ? (
         <TouchableOpacity onPress={clearInput}>
@@ -31,26 +37,17 @@ const InputSearch = ({ style = {} }) => {
   );
 };
 
-InputSearch.defeaultProps = {
-  style: {},
-};
-
-InputSearch.propTypes = {
-  style: PropTypes.object,
-};
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "gray",
+    backgroundColor: "#fff",
     borderRadius: 5,
     padding: 5,
   },
   input: {
     flex: 1,
-    marginLeft: 5,
+    marginLeft: 10,
   },
 });
 

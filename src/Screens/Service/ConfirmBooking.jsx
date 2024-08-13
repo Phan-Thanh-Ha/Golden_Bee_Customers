@@ -21,13 +21,7 @@ import BackButton from "../../components/BackButton";
 import { ScrollView } from "react-native-gesture-handler";
 import { ic_coin } from "../../assets";
 import Box from "../../components/Box";
-import {
-  FormatMoney,
-  GroupUserId,
-  removeData,
-  setData,
-  todayLogin,
-} from "../../Utils";
+import { FormatMoney, GroupUserId, removeData, setData } from "../../Utils";
 import Button from "../../components/buttons/Button";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
@@ -137,6 +131,7 @@ const ConfirmBooking = () => {
 
   const resetModalState = () => {
     setCountdown(5);
+    // setSelectedVouchers([]);
   };
   const removeStorage = async () => {
     await removeData(StorageNames.SERVICE_CONFIRM);
@@ -336,14 +331,11 @@ const ConfirmBooking = () => {
     try {
       const pr = {
         GroupUserId: 10060,
-        CustomerId: userLogin?.Id,
-        FromDate: todayLogin,
       };
       const params = {
         Json: JSON.stringify(pr),
-        func: "OVG_spVoucher_List",
+        func: "OVG_spVoucher_Customer",
       };
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
       setVouchers(result);
     } catch (error) {

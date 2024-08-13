@@ -1,7 +1,6 @@
 import React from "react";
 import { View } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import { PropTypes } from "prop-types";
 
 const Rating = ({ rating = 5, fontSize = [20, 20] }) => {
   const renderStars = () => {
@@ -30,15 +29,6 @@ const Rating = ({ rating = 5, fontSize = [20, 20] }) => {
       {renderStars()}
     </View>
   );
-};
-
-Rating.defaultProps = {
-  rating: 5,
-  fontSize: [20, 20],
-};
-Rating.propTypes = {
-  rating: PropTypes.number,
-  fontSize: PropTypes.arrayOf(PropTypes.number),
 };
 
 export default Rating;
