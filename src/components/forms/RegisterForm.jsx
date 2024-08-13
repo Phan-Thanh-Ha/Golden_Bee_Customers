@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import CustomInput from "./CustomInput"; // Import CustomInput component
@@ -71,7 +71,7 @@ const RegisterForm = () => {
         setIsLoading(false);
       }
       setIsLoading(false);
-    } catch (error) {
+    } catch {
       setIsLoading(false);
     }
   };
@@ -176,47 +176,5 @@ const RegisterForm = () => {
     </Formik>
   );
 };
-
-const styles = StyleSheet.create({
-  regis: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 10,
-  },
-  regisSub: {
-    fontSize: 15,
-    marginRight: 10,
-  },
-  regisBtn: {
-    fontSize: 15,
-    color: colors.MAIN_BLUE_CLIENT,
-  },
-  container: {
-    margin: 15,
-    backgroundColor: colors.WHITE,
-    padding: 15,
-    borderRadius: 10,
-  },
-  dot: {
-    width: 10,
-    height: 5,
-    borderRadius: 10,
-    margin: 2,
-    backgroundColor: colors.WHITE,
-  },
-  dotActive: {
-    backgroundColor: colors.YELLOW,
-    width: 20,
-    height: 5,
-    borderRadius: 5,
-    margin: 2,
-  },
-  pagination: {
-    flexDirection: "row",
-    marginVertical: 10,
-    justifyContent: "center",
-  },
-});
 
 export default RegisterForm;

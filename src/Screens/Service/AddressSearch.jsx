@@ -123,7 +123,7 @@ const AddressSearch = () => {
             },
           });
         }}
-        onLeftIconPress={() => {}}
+        onLeftIconPress={() => { }}
         onChangeText={handleChangeText}
       />
       <ItemAddress

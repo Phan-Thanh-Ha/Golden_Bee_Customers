@@ -100,6 +100,9 @@ export const placeOrder = async (
     StatusOrder: 0,
   };
   try {
+    setTimeout(() => {
+      
+    })
     await databaseOrder.child(orderId).set(newOrder);
     console.log("Order placed successfully:", newOrder);
     return newOrder;

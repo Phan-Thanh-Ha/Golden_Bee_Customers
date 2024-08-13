@@ -2,6 +2,7 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../styles/Colors";
 import ArrowRight from "../svg/ArrowRight";
+import { PropTypes } from "prop-types";
 
 const BtnPrimary = ({ children, onPress, style = {} }) => {
   return (
@@ -47,5 +48,16 @@ const styles = StyleSheet.create({
   },
   arrow: {},
 });
+
+BtnPrimary.defaultProps = {
+  children: null,
+  onPress: () => {},
+  style: {},
+};
+BtnPrimary.propTypes = {
+  children: PropTypes.node,
+  onPress: PropTypes.func,
+  style: PropTypes.object,
+};
 
 export default BtnPrimary;

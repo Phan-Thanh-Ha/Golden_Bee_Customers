@@ -4,6 +4,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../../styles/Colors";
 import Box from "../Box";
 import { SCREEN_HEIGHT } from "../../styles/MainStyle";
+import { PropTypes } from "prop-types";
 
 const LayoutGradientBlue = ({ children }) => {
   return (
@@ -29,5 +30,12 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
+
+LayoutGradientBlue.defaultProps = {
+  children: null,
+};
+LayoutGradientBlue.propTypes = {
+  children: PropTypes.node,
+};
 
 export default LayoutGradientBlue;

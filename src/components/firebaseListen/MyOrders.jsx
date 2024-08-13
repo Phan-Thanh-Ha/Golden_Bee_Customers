@@ -8,17 +8,18 @@ import { OVG_FBRT_ListenMyOrders } from "../../firebaseService/ListenOrder";
 import { useNavigation } from "@react-navigation/native";
 import BookingsListMiddleware from "../../Utils/BookingsListMiddleware";
 
-const MyOrders = ({ setOrders = () => { }, isListen = true, isUpdate = true }) => {
+const MyOrders = ({
+  setOrders = () => {},
+  isListen = true,
+  isUpdate = true,
+}) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.main.userLogin);
   const [myOrders, setMyOrders] = useState([]);
   const navi = useNavigation();
 
   useEffect(() => {
-    const unsubscribe = OVG_FBRT_ListenMyOrders(
-      userLogin?.Id,
-      setMyOrders,
-    );
+    const unsubscribe = OVG_FBRT_ListenMyOrders(userLogin?.Id, setMyOrders);
     return () => {
       if (unsubscribe) unsubscribe();
     };
@@ -37,27 +38,25 @@ const MyOrders = ({ setOrders = () => { }, isListen = true, isUpdate = true }) =
 
   return (
     <View>
-      {
-        isListen ? (
-          <>
-            <ListenOrderChange
-              orderChange={orderChange}
-              isModalVisible={modalOrderChangeVisible}
-              setModalVisible={setModalOrderChangeVisible}
-              onConfirm={handleConfirmOrderChange}
-            />
-            <ListenOrderRemove
-              orderRemove={orderRemove}
-              isModalVisible={modalOrderRemoveVisible}
-              setModalVisible={setModalOrderRemoveVisible}
-              onConfirm={handleConfirmOrderRemove}
-              navi={navi}
-            />
-          </>
-        ) : null
-      }
+      {isListen ? (
+        <>
+          <ListenOrderChange
+            orderChange={orderChange}
+            isModalVisible={modalOrderChangeVisible}
+            setModalVisible={setModalOrderChangeVisible}
+            onConfirm={handleConfirmOrderChange}
+          />
+          <ListenOrderRemove
+            orderRemove={orderRemove}
+            isModalVisible={modalOrderRemoveVisible}
+            setModalVisible={setModalOrderRemoveVisible}
+            onConfirm={handleConfirmOrderRemove}
+            navi={navi}
+          />
+        </>
+      ) : null}
     </View>
-  )
+  );
 };
 
 export default MyOrders;

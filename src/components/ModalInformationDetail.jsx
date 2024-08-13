@@ -1,12 +1,24 @@
-import React, { useRef, useEffect } from 'react';
-import { BottomSheetModalProvider, BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import Box from './Box';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../styles/MainStyle';
-import RenderHTML from 'react-native-render-html';
+import React, { useRef, useEffect } from "react";
+import {
+  BottomSheetModalProvider,
+  BottomSheetModal,
+  BottomSheetBackdrop,
+} from "@gorhom/bottom-sheet";
+import { View, StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import Box from "./Box";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../styles/MainStyle";
+import RenderHTML from "react-native-render-html";
 
-const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initialIndex, onChange, content }) => {
+const ModalInformationDetail = ({
+  children,
+  isOpen,
+  onClose,
+  snapPoints,
+  initialIndex,
+  onChange,
+  content,
+}) => {
   const bottomSheetModalRef = useRef(null);
 
   useEffect(() => {
@@ -23,7 +35,9 @@ const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initial
         ref={bottomSheetModalRef}
         index={initialIndex}
         snapPoints={snapPoints}
-        backdropComponent={(props) => <BottomSheetBackdrop {...props} pressBehavior="close" />}
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop {...props} pressBehavior="close" />
+        )}
         onChange={onChange}
         onClose={onClose}
       >
@@ -32,7 +46,7 @@ const ModalInformationDetail = ({ children, isOpen, onClose, snapPoints, initial
             <RenderHTML
               contentWidth={SCREEN_WIDTH}
               source={{ html: content?.ContentService }}
-              ignoredDomTags={['o:p']}
+              ignoredDomTags={["o:p"]}
             />
             <Box height={SCREEN_HEIGHT * 0.07} />
           </ScrollView>
@@ -46,10 +60,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     padding: 20,
-    position: 'relative',
+    position: "relative",
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 10,
     right: 10,
     zIndex: 1,
@@ -59,5 +73,22 @@ const styles = StyleSheet.create({
     height: 24,
   },
 });
+
+ModalInformationDetail.defaultProps = {
+  snapPoints: ["50%", "90%"],
+  initialIndex: 0,
+  isOpen: false,
+  onClose: () => {},
+  onChange: () => {},
+  content: {},
+};
+ModalInformationDetail.propTypes = {
+  snapPoints: [],
+  initialIndex: 0,
+  isOpen: false,
+  onClose: () => {},
+  onChange: () => {},
+  content: {},
+};
 
 export default ModalInformationDetail;

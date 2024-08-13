@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import PropTypes from "prop-types";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../styles/Colors";
 import { ic_placeholder } from "../assets";
-import ArrowRight from "./svg/ArrowRight";
 
-const ItemAddress = ({ data = [], onPress = () => { } }) => {
+const ItemAddress = ({ data = [], onPress = () => {} }) => {
   // Giới hạn số lượng item hiển thị tối đa là 7
   const itemsToShow = data.slice(0, 7);
   return (
@@ -25,45 +19,46 @@ const ItemAddress = ({ data = [], onPress = () => { } }) => {
           <View style={styles.containerContent}>
             <Text style={styles.title}>{item?.name}</Text>
           </View>
-          <View style={styles.iconRight}>
-            <ArrowRight color={colors.MAIN_COLOR_CLIENT} />
-          </View>
         </TouchableOpacity>
       ))}
     </View>
   );
 };
 
-export default ItemAddress;
+ItemAddress.defaultProps = {
+  data: [],
+  onPress: () => {},
+};
+
+ItemAddress.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onPress: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.WHITE,
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 2,
-    borderBottomColor: colors.GRAY,
+    padding: 10,
     borderBottomWidth: 1,
-    padding: 12,
-    borderRadius: 5,
-    width: "98%",
-  },
-  containerContent: {
-    width: "80%",
-  },
-  title: {
-    color: colors.BLACK,
-    fontSize: 16,
+    borderBottomColor: colors.GRAY,
   },
   iconLeft: {
+    width: 40,
+    height: 40,
     marginRight: 10,
-    width: 24,
-    height: 24,
   },
-  iconRight: {
-    position: "absolute",
-    right: 10,
-    top: "50%",
-    transform: [{ translateY: -12 }],
+  containerContent: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    color: colors.BLACK,
   },
 });
+
+export default ItemAddress;

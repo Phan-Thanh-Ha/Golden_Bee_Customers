@@ -138,11 +138,7 @@ const HomeScreen = () => {
         }
       })
       .catch((error) => {
-        if (Platform.OS === "ios") {
-          Alert.alert("Face ID is not supported", error.message);
-        } else if (Platform.OS === "android") {
-          Alert.alert("Fingerprint is not supported", error.message);
-        }
+        // Alert.alert("Face ID is not supported", error.message);
       });
   };
   // Update location
@@ -158,7 +154,7 @@ const HomeScreen = () => {
             mainAction.locationUpdate(location, dispatch);
           }
         },
-        () => {},
+
         { enableHighAccuracy: false, timeout: 20000 }
       );
     } catch {

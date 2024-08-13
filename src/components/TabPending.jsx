@@ -1,6 +1,6 @@
-import { FlatList, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Linking, Text, TouchableOpacity, View } from "react-native";
 import CardNewJob from "./CardNewJob";
-import Modal from 'react-native-modal';
+import Modal from "react-native-modal";
 import CardDefault from "./CardDefault";
 import MainStyles from "../styles/MainStyle";
 import { useState } from "react";
@@ -10,6 +10,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import Box from "./Box";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../Constants";
+import PropTypes from "prop-types";
+import React from "react";
 
 const TabPending = ({ dataPending = [] }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -22,7 +24,11 @@ const TabPending = ({ dataPending = [] }) => {
           style={MainStyles.mdBottom_flatList}
           data={dataPending}
           renderItem={({ item }) => (
-            <CardNewJob data={item} setModalVisible={setModalVisible} setStaffInformation={setStaffInformation} />
+            <CardNewJob
+              data={item}
+              setModalVisible={setModalVisible}
+              setStaffInformation={setStaffInformation}
+            />
           )}
           keyExtractor={(item) => item?.BookingId}
         />
@@ -45,9 +51,8 @@ const TabPending = ({ dataPending = [] }) => {
           </View>
           <Box style={{ marginBottom: 10 }} />
           <ScrollView>
-            {
-              StaffInformation?.length > 0
-              && StaffInformation?.map((item, index) => (
+            {StaffInformation?.length > 0 &&
+              StaffInformation?.map((item, index) => (
                 <View style={MainStyles.cardStaff} key={index}>
                   {item?.StaffName && (
                     <View style={MainStyles.rowMargin}>
@@ -73,7 +78,8 @@ const TabPending = ({ dataPending = [] }) => {
                           name="phone-outline"
                         />
                         <Text style={MainStyles.textCardJob}>
-                          Số điện thoại : {item?.StaffPhone || "Chưa có thông tin"}
+                          Số điện thoại :{" "}
+                          {item?.StaffPhone || "Chưa có thông tin"}
                         </Text>
                       </View>
                     </View>
@@ -92,42 +98,46 @@ const TabPending = ({ dataPending = [] }) => {
                   </View>
                   {item?.StaffPhone && (
                     <View style={MainStyles.flexRowCenter}>
-                      {
-                        item?.StatusOrder === 1 ||
-                          item?.StatusOrder === 2 ? (
-                          <TouchableOpacity
-                            onPress={() => {
-                              navi.navigate(
-                                ScreenNames.VIEW_STAFF,
-                                {
-                                  data: { OrderId: item?.OrderId },
-                                }
-                              )
-                              // navi.navigate(
-                              //   ScreenNames.VIEW_ALL_STAFF,
-                              //   {
-                              //     data: { OrderId: item?.OrderId },
-                              //   }
-                              // )
-                            }}
+                      {item?.StatusOrder === 1 || item?.StatusOrder === 2 ? (
+                        <TouchableOpacity
+                          onPress={() => {
+                            navi.navigate(ScreenNames.VIEW_STAFF, {
+                              data: { OrderId: item?.OrderId },
+                            });
+                            // navi.navigate(
+                            //   ScreenNames.VIEW_ALL_STAFF,
+                            //   {
+                            //     data: { OrderId: item?.OrderId },
+                            //   }
+                            // )
+                          }}
+                        >
+                          <View
+                            style={[
+                              MainStyles.flexRowCenter,
+                              MainStyles.cardBtnViewLocation,
+                            ]}
                           >
-                            <View style={[MainStyles.flexRowCenter, MainStyles.cardBtnViewLocation]}>
-                              <Icon
-                                style={MainStyles.CardIcon}
-                                fill="#FFFFFFFF"
-                                name="navigation-2-outline"
-                              />
-                              {/* <Text style={MainStyles.textCardPhoneCall}>Xem vị trí</Text> */}
-                            </View>
-                          </TouchableOpacity>
-                        ) : null
-                      }
+                            <Icon
+                              style={MainStyles.CardIcon}
+                              fill="#FFFFFFFF"
+                              name="navigation-2-outline"
+                            />
+                            {/* <Text style={MainStyles.textCardPhoneCall}>Xem vị trí</Text> */}
+                          </View>
+                        </TouchableOpacity>
+                      ) : null}
                       <TouchableOpacity
                         onPress={() => {
                           Linking.openURL(`tel:${item?.StaffPhone}`);
                         }}
                       >
-                        <View style={[MainStyles.flexRowCenter, MainStyles.cardPhoneCall]}>
+                        <View
+                          style={[
+                            MainStyles.flexRowCenter,
+                            MainStyles.cardPhoneCall,
+                          ]}
+                        >
                           <Icon
                             style={MainStyles.CardIcon}
                             fill="#FFFFFFFF"
@@ -139,8 +149,7 @@ const TabPending = ({ dataPending = [] }) => {
                     </View>
                   )}
                 </View>
-              ))
-            }
+              ))}
           </ScrollView>
           {/* <TouchableOpacity
             style={MainStyles.mdBottom_closeButton}
@@ -152,6 +161,13 @@ const TabPending = ({ dataPending = [] }) => {
       </Modal>
     </View>
   );
+};
+
+TabPending.defaultProps = {
+  dataPending: [],
+};
+TabPending.propTypes = {
+  dataPending: PropTypes.array,
 };
 
 export default TabPending;

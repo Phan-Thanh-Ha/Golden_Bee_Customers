@@ -19,7 +19,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../../styles/Colors";
 import BackButton from "../../components/BackButton";
 import { ScrollView } from "react-native-gesture-handler";
-import { ic_coin, ic_location } from "../../assets";
+import { ic_coin } from "../../assets";
 import Box from "../../components/Box";
 import {
   FormatMoney,
@@ -43,6 +43,7 @@ import Modal from "react-native-modal";
 import Loading from "../../components/Loading";
 import ModalRequired from "../../components/modal/ModalRequired";
 import ModalSelectOption from "../../components/modal/ModalSelectOption";
+import { Icon } from "@ui-kitten/components";
 
 const ConfirmBooking = () => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -149,7 +150,9 @@ const ConfirmBooking = () => {
         navi.goBack();
         return true;
       };
+
       BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
       return () => {
         BackHandler.removeEventListener("hardwareBackPress", onBackPress);
       };
@@ -228,13 +231,14 @@ const ConfirmBooking = () => {
         if (result?.Status === "OK") {
           await removeStorage();
           await removeData(StorageNames.SERVICE_PENDING);
-          const id = JSON.parse(result?.ListData[0]?.IdFirebase.IdFirebase);
+          const idFirebaseObject = JSON.parse(result.ListData[0].IdFirebase.IdFirebase);
+          console.log("idFirebaseObject", idFirebaseObject.name);
           navi.reset({
             index: 0,
             routes: [
               {
                 name: ScreenNames.VIEW_STAFF,
-                params: { data: { OrderId: id?.name } },
+                params: { data: { OrderId: idFirebaseObject.name } },
               },
             ],
           });
@@ -243,9 +247,11 @@ const ConfirmBooking = () => {
           return;
         } else if (result?.Status === "NOTOK" && retryCount < maxRetries) {
           retryCount++;
+          console.log(`Retry ${retryCount}/${maxRetries}`);
           setTimeout(calling, 10000);
         } else {
           if (retryCount >= maxRetries) {
+            // console.log(`Exceeded maximum retries (${maxRetries})`);
             setIsModalVisible(false);
             setLoading(false);
             setTimeout(() => {
@@ -262,6 +268,7 @@ const ConfirmBooking = () => {
         }
         setLoading(false);
       } catch {
+        // console.log("error", error);
         await removeStorage();
         await removeData(StorageNames.SERVICE_PENDING);
         setLoading(false);
@@ -301,13 +308,15 @@ const ConfirmBooking = () => {
         PriceAfterDiscount: priceAfterDiscount || 0,
         TotalDiscount: totalDiscount || 0,
         GroupUserId: GroupUserId || 0,
-        IsConfirm: 0,
+        IsConfirm: 0
       };
+      console.log("pr not officer------------", pr);
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spService_BookingService_Save_V2",
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
+      console.log("result not officer------------", result);
       if (result?.Status === "OK") {
         AlertToaster("success", "Đơn dịch vụ đã được gửi tới admin");
         navi.reset({
@@ -337,7 +346,8 @@ const ConfirmBooking = () => {
       console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
       setVouchers(result);
-    } catch {
+    } catch (error) {
+      console.log("error", error);
       setLoading(false);
     }
   };
@@ -352,76 +362,85 @@ const ConfirmBooking = () => {
       <Text style={MainStyles.screenTitle}>Xác nhận dịch vụ</Text>
       <ScrollView>
         <View style={MainStyles.contentContainerClient}>
-          <Text style={MainStyles.cardLabelConfirm}>Vị trí làm việc</Text>
+          <View style={MainStyles.flexRowCenter}>
+            <Text style={[MainStyles.titleCardJob, { textAlign: "center" }]}>
+              Dịch vụ {dataConfirmService?.ServiceName.toLowerCase()}
+            </Text>
+          </View>
+          <View style={MainStyles.flexRowCenter}>
+            <View style={MainStyles.line} />
+          </View>
+          <Text style={MainStyles.cardLabelConfirm}>Thông tin dịch vụ</Text>
           <View style={MainStyles.cardConfirmContainer}>
-            <View style={MainStyles.flexRowFlexStart}>
-              <Image source={ic_location} style={{ width: 20, height: 20 }} />
-              <View>
-                <Text
-                  style={[
-                    MainStyles.cardTitleConfirm,
-                    { maxWidth: SCREEN_WIDTH * 0.8 },
-                  ]}
-                >
-                  {dataConfirmService?.Address}
+            <View style={MainStyles.rowMargin}>
+              <View style={MainStyles.flexRowFlexStart}>
+                <Icon
+                  style={MainStyles.CardIcon}
+                  fill="#3366FF"
+                  name="people-outline"
+                />
+                <Text style={MainStyles.textCardJob}>
+                  Số lượng nhân viên: {dataConfirmService?.people || 0} nhân viên
                 </Text>
+              </View>
+            </View>
+            {dataConfirmService?.serviceOption?.OptionName && (
+              <View style={MainStyles.rowMargin}>
+                <View style={MainStyles.flexRowFlexStart}>
+                  <Icon
+                    style={MainStyles.CardIcon}
+                    fill="#3366FF"
+                    name="share-outline"
+                  />
+                  <Text style={MainStyles.textCardJob}>
+                    Loại:{" "}
+                    {dataConfirmService?.serviceOption?.OptionName}
+                  </Text>
+                </View>
+              </View>
+            )}
+            {dataConfirmService?.room && (
+              <View style={MainStyles.rowMargin}>
+                <View style={MainStyles.flexRowFlexStart}>
+                  <Icon
+                    style={MainStyles.CardIcon}
+                    fill="#3366FF"
+                    name="share-outline"
+                  />
+                  <Text style={MainStyles.textCardJob}>
+                    Số phòng: {dataConfirmService?.room} phòng
+                  </Text>
+                </View>
+              </View>
+            )}
+            <View style={MainStyles.rowMargin}>
+              <View style={MainStyles.flexRowSpaceBetween}>
+                <View style={MainStyles.flexRowFlexEnd}>
+                  <Icon
+                    style={MainStyles.CardIcon}
+                    fill="#3366FF"
+                    name="clock-outline"
+                  />
+                  <Text style={MainStyles.textCardJob}>
+                    Làm việc trong: {RoundUpNumber(dataConfirmService?.workingTime, 0)} giờ
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
-          <Text style={MainStyles.cardLabelConfirm}>Thông tin công việc</Text>
+          <Text style={MainStyles.cardLabelConfirm}>Nơi làm việc</Text>
           <View style={MainStyles.cardConfirmContainer}>
-            <Text style={MainStyles.cardSubLabelConfirm}>Dịch vụ</Text>
-            <View style={MainStyles.flexRowSpaceBetween}>
-              <Text style={MainStyles.cardTitleConfirm}>Tên dịch vụ</Text>
-              <Text style={MainStyles.cardTitleConfirm}>
-                {dataConfirmService?.ServiceName}
-              </Text>
-            </View>
-            {dataConfirmService?.serviceOption?.OptionName ? (
-              <View style={MainStyles.flexRowSpaceBetween}>
-                <Text style={MainStyles.cardTitleConfirm}>Loại</Text>
-                <Text style={MainStyles.cardTitleConfirm}>
-                  {dataConfirmService?.serviceOption?.OptionName || ""}
+            <View style={MainStyles.rowMargin}>
+              <View style={MainStyles.flexRowFlexStart}>
+                <Icon
+                  style={MainStyles.CardIcon}
+                  fill="#3366FF"
+                  name="pin-outline"
+                />
+                <Text style={MainStyles.textCardJob}>
+                  {dataConfirmService?.Address}
                 </Text>
               </View>
-            ) : null}
-            <Text style={MainStyles.cardSubLabelConfirm}>
-              Thời gian làm việc
-            </Text>
-            <View style={MainStyles.flexRowSpaceBetween}>
-              <Text style={MainStyles.cardTitleConfirm}>Ngày làm việc</Text>
-              <Text style={MainStyles.cardTitleConfirm}>Ngay bây giờ</Text>
-            </View>
-            <View style={MainStyles.flexRowFlexStart}>
-              <Text style={MainStyles.cardTitleConfirm}>Làm trong : </Text>
-              <Text style={MainStyles.cardTitleConfirm}>
-                {RoundUpNumber(dataConfirmService?.workingTime, 0)} giờ
-              </Text>
-            </View>
-            <Box height={10} />
-            <Text style={MainStyles.cardSubLabelConfirm}>
-              Chi tiết công việc
-            </Text>
-            <View style={MainStyles.flexRowSpaceBetween}>
-              {dataConfirmService?.room && (
-                <>
-                  <Text style={MainStyles.cardTitleConfirm}>
-                    Khối lượng công việc
-                  </Text>
-                  <Text style={MainStyles.cardTitleConfirm}>
-                    {dataConfirmService?.room} phòng/
-                    {dataConfirmService?.people} nhân sự
-                  </Text>
-                </>
-              )}
-            </View>
-            <View style={MainStyles.flexRowSpaceBetween}>
-              <Text style={MainStyles.cardTitleConfirm}>Loại dịch vụ</Text>
-              <Text style={MainStyles.cardTitleConfirm}>
-                {dataConfirmService?.premium
-                  ? "Dịch vụ Premium"
-                  : "Dịch vụ thường"}
-              </Text>
             </View>
           </View>
           <Text style={MainStyles.cardLabelConfirm}>Thêm mã giảm giá</Text>
@@ -442,15 +461,17 @@ const ConfirmBooking = () => {
                 marginLeft: 10,
                 fontSize: 17,
                 fontWeight: "700",
+                textAlign: "center",
               }}
             >
               {FormatMoney(priceAfterDiscount)} VND
             </Text>
           </View>
-          {totalDiscount > 0 ? (
-            <Text>Đã giảm : {FormatMoney(totalDiscount)} VND</Text>
-          ) : null}
-
+          <View style={MainStyles.flexRowFlexEnd}>
+            {totalDiscount > 0 ? (
+              <Text>Đã giảm : {FormatMoney(totalDiscount)} VND</Text>
+            ) : null}
+          </View>
           <Text style={MainStyles.cardLabelConfirm}>
             Phương thức thanh toán
           </Text>
@@ -536,8 +557,8 @@ const ConfirmBooking = () => {
         <Modal
           transparent={true}
           isVisible={isModalVisible}
-          onBackdropPress={() => {}}
-          onBackButtonPress={() => {}}
+          onBackdropPress={() => { }}
+          onBackButtonPress={() => { }}
           backdropOpacity={0.3}
           style={styles.modal}
         >
@@ -548,10 +569,9 @@ const ConfirmBooking = () => {
                 <Text style={styles.headerTitle}>Đã xác nhận đặt dịch vụ</Text>
               </View>
               <Text style={MainStyles.cardLabelConfirm}>
-                Thông tin công việc
+                Dịch vụ
               </Text>
               <View style={MainStyles.cardConfirmContainer}>
-                <Text style={MainStyles.cardSubLabelConfirm}>Dịch vụ</Text>
                 <View style={MainStyles.flexRowSpaceBetween}>
                   <Text style={MainStyles.cardTitleConfirm}>Tên dịch vụ</Text>
                   <Text style={MainStyles.cardTitleConfirm}>

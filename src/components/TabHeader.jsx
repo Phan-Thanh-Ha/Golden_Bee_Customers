@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { colors } from '../../styles/Colors';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { colors } from "../../styles/Colors";
+import { PropTypes } from "prop-types";
 
 const TabHeader = ({ selectedTab, setSelectedTab }) => {
   return (
@@ -8,14 +9,14 @@ const TabHeader = ({ selectedTab, setSelectedTab }) => {
       <TouchableOpacity
         style={[
           styles.tabButton,
-          selectedTab === 'Đang Làm Việc' && styles.selectedTabButton,
+          selectedTab === "Đang Làm Việc" && styles.selectedTabButton,
         ]}
-        onPress={() => setSelectedTab('Đang Làm Việc')}
+        onPress={() => setSelectedTab("Đang Làm Việc")}
       >
         <Text
           style={[
             styles.tabButtonText,
-            selectedTab === 'Đang Làm Việc' && styles.selectedTabButtonText,
+            selectedTab === "Đang Làm Việc" && styles.selectedTabButtonText,
           ]}
         >
           Đang Làm Việc
@@ -24,14 +25,14 @@ const TabHeader = ({ selectedTab, setSelectedTab }) => {
       <TouchableOpacity
         style={[
           styles.tabButton,
-          selectedTab === 'Dịch Vụ Đã Đặt' && styles.selectedTabButton,
+          selectedTab === "Dịch Vụ Đã Đặt" && styles.selectedTabButton,
         ]}
-        onPress={() => setSelectedTab('Dịch Vụ Đã Đặt')}
+        onPress={() => setSelectedTab("Dịch Vụ Đã Đặt")}
       >
         <Text
           style={[
             styles.tabButtonText,
-            selectedTab === 'Dịch Vụ Đã Đặt' && styles.selectedTabButtonText,
+            selectedTab === "Dịch Vụ Đã Đặt" && styles.selectedTabButtonText,
           ]}
         >
           Dịch Vụ Đã Đặt
@@ -43,8 +44,8 @@ const TabHeader = ({ selectedTab, setSelectedTab }) => {
 
 const styles = StyleSheet.create({
   tabHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     backgroundColor: colors.DARK_BLUE,
     paddingVertical: 10,
     borderTopLeftRadius: 10,
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderBottomWidth: 2,
-    borderBottomColor: 'transparent',
+    borderBottomColor: "transparent",
   },
   selectedTabButton: {
     borderBottomColor: colors.WHITE,
@@ -64,8 +65,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   selectedTabButtonText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
+
+TabHeader.defaultProps = {
+  selectedTab: "Đang Làm Việc",
+  setSelectedTab: () => {},
+};
+TabHeader.propTypes = {
+  selectedTab: PropTypes.string,
+  setSelectedTab: PropTypes.func,
+};
 
 export default TabHeader;

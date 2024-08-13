@@ -211,18 +211,23 @@ const ViewStaffScreen = () => {
             </Text>
           </View>
         </View>
-        <View style={MainStyles.rowMargin}>
-          <View style={MainStyles.flexRowFlexStart}>
-            <Icon
-              style={MainStyles.CardIcon}
-              fill="#3366FF"
-              name="calendar-outline"
-            />
-            <Text style={MainStyles.textCardJob}>
-              Thời gian tạo: {dateTimeFormat(clientOrder?.CreateAt, 2)}
-            </Text>
-          </View>
-        </View>
+        {
+          clientOrder?.CreateAt && (
+            <View style={MainStyles.rowMargin}>
+              <View style={MainStyles.flexRowFlexStart}>
+                <Icon
+                  style={MainStyles.CardIcon}
+                  fill="#3366FF"
+                  name="calendar-outline"
+                />
+                <Text style={MainStyles.textCardJob}>
+                  Thời gian tạo: {dateTimeFormat(clientOrder?.CreateAt, 2)}
+                </Text>
+              </View>
+            </View>
+          )
+        }
+
       </View>
     ),
     [clientOrder]

@@ -3,12 +3,9 @@ import { Platform, View } from "react-native";
 import messaging from "@react-native-firebase/messaging";
 import PushNotification from "react-native-push-notification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import { useDispatch } from "react-redux";
 import moment from "moment";
 
 export const SetupNotification = () => {
-  const dispatch = useDispatch();
-
   const parseDate = useCallback((date) => {
     return moment(new Date(parseInt(date))).format("DD-MM-YYYY hh:mm:ss");
   }, []);

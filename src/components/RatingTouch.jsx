@@ -2,8 +2,14 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { colors } from "../styles/Colors";
+import { PropTypes } from "prop-types";
 
-const RatingTouch = ({ rating = 5, fontSize = [20, 20], color = [colors.WHITE, colors.MAIN_COLOR_CLIENT], onRate }) => {
+const RatingTouch = ({
+  rating = 5,
+  fontSize = [20, 20],
+  color = [colors.WHITE, colors.MAIN_COLOR_CLIENT],
+  onRate,
+}) => {
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -25,10 +31,25 @@ const RatingTouch = ({ rating = 5, fontSize = [20, 20], color = [colors.WHITE, c
   };
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 4 }}>
+    <View
+      style={{ flexDirection: "row", alignItems: "center", marginBottom: 4 }}
+    >
       {renderStars()}
     </View>
   );
+};
+
+RatingTouch.defaultProps = {
+  rating: 5,
+  fontSize: [20, 20],
+  color: [colors.WHITE, colors.MAIN_COLOR_CLIENT],
+  onRate: () => {},
+};
+RatingTouch.propTypes = {
+  rating: PropTypes.number,
+  fontSize: PropTypes.arrayOf(PropTypes.number),
+  color: PropTypes.arrayOf(PropTypes.string),
+  onRate: PropTypes.func,
 };
 
 export default RatingTouch;

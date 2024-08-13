@@ -1,12 +1,11 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Icon } from '@ui-kitten/components';
-import * as Animatable from 'react-native-animatable';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import * as Animatable from "react-native-animatable";
+import { PropTypes } from "prop-types";
 
-const IconWithAnimatedBadge = ({ name, badgeCount }) => {
+const IconWithAnimatedBadge = ({ badgeCount }) => {
   return (
     <View style={styles.container}>
-      {/* <Icon name={name} width={35} height={35} fill="#000" /> */}
       <Text style={styles.icon}>🔔</Text>
       {badgeCount > 0 && (
         <Animatable.View
@@ -24,32 +23,40 @@ const IconWithAnimatedBadge = ({ name, badgeCount }) => {
   );
 };
 
+IconWithAnimatedBadge.defaultProps = {
+  badgeCount: 0,
+};
+IconWithAnimatedBadge.propTypes = {
+  name: PropTypes.string,
+  badgeCount: PropTypes.number,
+};
+
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
+    position: "relative",
     width: 32,
     height: 32,
   },
   badge: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     top: -35,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     borderRadius: 6,
     width: 16,
     height: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   badgeText: {
-    color: 'white',
+    color: "white",
     fontSize: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   main: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   icon: {
     fontSize: 24,

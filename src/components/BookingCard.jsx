@@ -12,6 +12,7 @@ import GroupPerson from "./svg/GroupPerson";
 import { FormatMoney } from "../Utils";
 import Box from "./Box";
 import Money from "./svg/Money";
+import { PropTypes } from "prop-types";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -119,5 +120,14 @@ const styles = StyleSheet.create({
     height: SCREEN_WIDTH * 0.07,
   },
 });
+
+BookingCard.defaultProps = {
+  data: {},
+  onPress: () => {},
+};
+BookingCard.propTypes = {
+  data: PropTypes.object,
+  onPress: PropTypes.func,
+};
 
 export default BookingCard;

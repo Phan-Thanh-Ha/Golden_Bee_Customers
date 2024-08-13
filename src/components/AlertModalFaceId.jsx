@@ -6,6 +6,7 @@ import { colors } from "../styles/Colors";
 import FastImage from "react-native-fast-image";
 import { ic_face_id } from "../assets";
 import { Button, Layout } from "@ui-kitten/components";
+import { PropTypes } from "prop-types";
 const AlertModalFaceId = ({
   isVisible = false,
   Header = "Thông báo",
@@ -75,14 +76,35 @@ const AlertModalFaceId = ({
   );
 };
 
+AlertModalFaceId.defaultProps = {
+  isVisible: false,
+  Header: "Thông báo",
+  Title: "Vui lòng xác thực bằng gương mặt",
+  LeftTitleButton: "Để sau",
+  RightTitleButton: "Bật",
+  onpressLeftButton: () => {},
+  onpressRightButton: () => {},
+  styleHeader: {},
+  styleTitle: {},
+};
+AlertModalFaceId.propTypes = {
+  isVisible: PropTypes.bool,
+  Header: PropTypes.string,
+  Title: PropTypes.string,
+  LeftTitleButton: PropTypes.string,
+  RightTitleButton: PropTypes.string,
+  onpressLeftButton: PropTypes.func,
+  onpressRightButton: PropTypes.func,
+  styleHeader: PropTypes.object,
+  styleTitle: PropTypes.object,
+};
+
 export default AlertModalFaceId;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.WHITE,
-  },
-  container: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 18,

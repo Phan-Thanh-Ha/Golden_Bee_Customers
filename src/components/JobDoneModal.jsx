@@ -22,13 +22,12 @@ import {
   ic_location,
   ic_note,
   ic_schedule,
-  ic_human,
-  ic_phone_call,
   ic_coin,
 } from "../assets";
 import Box from "./Box";
-import { FormatMoney, FormatTime, parseTimeBE, parseTimeSql } from "../Utils";
+import { FormatMoney, parseTimeBE } from "../Utils";
 import LayoutBottom from "./layouts/LayoutBottom";
+import Rating from "./Rating";
 
 const { height: windowHeight } = Dimensions.get("window");
 
@@ -324,5 +323,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
+
+JobDoneModal.displayName = "JobDoneModal";
 
 export default JobDoneModal;

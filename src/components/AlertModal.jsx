@@ -1,11 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Modal from 'react-native-modal';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../styles/MainStyle';
-import { colors } from '../styles/Colors';
-import Logo from './Logo';
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import Modal from "react-native-modal";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../styles/MainStyle";
+import { colors } from "../styles/Colors";
+import Logo from "./Logo";
+import { PropTypes } from "prop-types";
 
-const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000, onConfirm, title, backdropCloseable = true, isCancelable = true, isConfirmable = true, btnConfirmTiTle = 'Xác nhận', useLogo = true }) => {
+const AlertModal = ({
+  isVisible,
+  onClose,
+  children,
+  isAuto,
+  autoCloseTime = 3000,
+  onConfirm,
+  title,
+  backdropCloseable = true,
+  isCancelable = true,
+  isConfirmable = true,
+  btnConfirmTiTle = "Xác nhận",
+  useLogo = true,
+}) => {
   const [countdown, setCountdown] = useState(autoCloseTime / 1000);
 
   useEffect(() => {
@@ -20,7 +34,7 @@ const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000
       }, autoCloseTime);
 
       countdownInterval = setInterval(() => {
-        setCountdown(prev => {
+        setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(countdownInterval);
             return 0;
@@ -53,32 +67,30 @@ const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000
       backdropColor="black"
     >
       <View style={styles.modalContent}>
-        {
-          useLogo &&
+        {useLogo && (
           <View style={styles.logoContainer}>
             <Logo sizeImage={SCREEN_WIDTH * 0.18} />
           </View>
-        }
+        )}
         {title && <Text style={styles.title}>{title}</Text>}
         {children}
         {isAuto ? (
           <Text style={styles.countdown}>Đóng trong {countdown} giây</Text>
         ) : (
           <View style={styles.buttonContainer}>
-            {
-              isConfirmable ? (
-                <TouchableOpacity style={styles.confirmButton} onPress={onConfirm}>
-                  <Text style={styles.buttonText}>{btnConfirmTiTle}</Text>
-                </TouchableOpacity>
-              ) : null
-            }
-            {
-              isCancelable ? (
-                <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-                  <Text style={styles.buttonText}>Hủy</Text>
-                </TouchableOpacity>
-              ) : null
-            }
+            {isConfirmable ? (
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={onConfirm}
+              >
+                <Text style={styles.buttonText}>{btnConfirmTiTle}</Text>
+              </TouchableOpacity>
+            ) : null}
+            {isCancelable ? (
+              <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+                <Text style={styles.buttonText}>Hủy</Text>
+              </TouchableOpacity>
+            ) : null}
           </View>
         )}
       </View>
@@ -88,56 +100,85 @@ const AlertModal = ({ isVisible, onClose, children, isAuto, autoCloseTime = 3000
 
 const styles = StyleSheet.create({
   logoContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: -40, // Điều chỉnh độ lệch lên trên
-    alignSelf: 'center', // Đưa logo về giữa theo chiều ngang
+    alignSelf: "center", // Đưa logo về giữa theo chiều ngang
   },
   modalContent: {
     paddingTop: SCREEN_HEIGHT * 0.05,
     width: SCREEN_WIDTH * 0.9,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 10,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 12,
-    color: colors.MAIN_BLUE_CLIENT
+    color: colors.MAIN_BLUE_CLIENT,
   },
   countdown: {
     marginTop: 12,
-    color: 'red',
+    color: "red",
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 20,
-    justifyContent: 'space-between',
-    width: '100%',
+    justifyContent: "space-between",
+    width: "100%",
   },
   confirmButton: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
     padding: 10,
     borderRadius: 4,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 5,
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#F44336',
+    backgroundColor: "#F44336",
     padding: 10,
     borderRadius: 4,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 5,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
+AlertModal.defaultProps = {
+  isVisible: false,
+  onClose: () => {},
+  isAuto: false,
+  autoCloseTime: 3000,
+  onConfirm: () => {},
+  title: "",
+  backdropCloseable: true,
+  isCancelable: true,
+  isConfirmable: true,
+  btnConfirmTiTle: "Xác nhận",
+  useLogo: true,
+  children: null,
+};
+
+AlertModal.propTypes = {
+  isVisible: PropTypes.bool,
+  onClose: PropTypes.func,
+  isAuto: PropTypes.bool,
+  autoCloseTime: PropTypes.number,
+  onConfirm: PropTypes.func,
+  title: PropTypes.string,
+  backdropCloseable: PropTypes.bool,
+  isCancelable: PropTypes.bool,
+  isConfirmable: PropTypes.bool,
+  btnConfirmTiTle: PropTypes.string,
+  useLogo: PropTypes.bool,
+  children: PropTypes.node,
+};
 
 export default AlertModal;

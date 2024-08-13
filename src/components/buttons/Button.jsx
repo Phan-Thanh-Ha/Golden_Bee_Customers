@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Spinner, Text } from "@ui-kitten/components";
 import LinearGradient from "react-native-linear-gradient";
+import { PropTypes } from "prop-types";
 const Button = ({
   bgColor,
   textColor = "white",
@@ -87,5 +88,30 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
 });
+
+Button.defaultProps = {
+  bgColor: null,
+  textColor: "white",
+  fontSize: 20,
+  fontWeight: "normal",
+  disable: false,
+  isLoading: false,
+  boderWidth: 0,
+  icon: null,
+  children: "default",
+  onPress: () => {},
+};
+Button.propTypes = {
+  bgColor: PropTypes.string,
+  textColor: PropTypes.string,
+  fontSize: PropTypes.number,
+  fontWeight: PropTypes.string,
+  disable: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  boderWidth: PropTypes.number,
+  icon: PropTypes.any,
+  children: PropTypes.node,
+  onPress: PropTypes.func,
+};
 
 export default Button;

@@ -1,8 +1,15 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { ic_bronze, ic_diamond, ic_gold, ic_platinum, ic_silver } from '../assets';
-import { SCREEN_WIDTH } from '../styles/MainStyle';
-import { colors } from '../styles/Colors';
+import React from "react";
+import { View, Text, StyleSheet, Image } from "react-native";
+import {
+  ic_bronze,
+  ic_diamond,
+  ic_gold,
+  ic_platinum,
+  ic_silver,
+} from "../assets";
+import { SCREEN_WIDTH } from "../styles/MainStyle";
+import { colors } from "../styles/Colors";
+import { PropTypes } from "prop-types";
 
 // Icons cho các mức hạng
 const icons = {
@@ -14,15 +21,21 @@ const icons = {
 };
 
 const ranks = [
-  { name: 'Hạng Đồng', icon: icons.bronze, minPoints: 0, maxPoints: 999 },
-  { name: 'Hạng Bạc', icon: icons.silver, minPoints: 1000, maxPoints: 4999 },
-  { name: 'Hạng Vàng', icon: icons.gold, minPoints: 5000, maxPoints: 9999 },
-  { name: 'Bạch Kim', icon: icons.platinum, minPoints: 10000, maxPoints: Infinity },
-  // { name: 'Kim Cương', icon: icons.diamond, minPoints: 10000, maxPoints: Infinity },
+  { name: "Hạng Đồng", icon: icons.bronze, minPoints: 0, maxPoints: 999 },
+  { name: "Hạng Bạc", icon: icons.silver, minPoints: 1000, maxPoints: 4999 },
+  { name: "Hạng Vàng", icon: icons.gold, minPoints: 5000, maxPoints: 9999 },
+  {
+    name: "Bạch Kim",
+    icon: icons.platinum,
+    minPoints: 10000,
+    maxPoints: Infinity,
+  },
 ];
 
 const getRankInfo = (points) => {
-  return ranks?.find(rank => points >= rank?.minPoints && points <= rank?.maxPoints);
+  return ranks?.find(
+    (rank) => points >= rank?.minPoints && points <= rank?.maxPoints
+  );
 };
 
 const RankProgress = ({ points }) => {
@@ -38,7 +51,9 @@ const RankProgress = ({ points }) => {
 
           if (isAchieved) {
             if (isCurrentRank) {
-              progress = (points - rank?.minPoints) / (rank?.maxPoints - rank?.minPoints);
+              progress =
+                (points - rank?.minPoints) /
+                (rank?.maxPoints - rank?.minPoints);
             } else {
               progress = 1;
             }
@@ -46,7 +61,17 @@ const RankProgress = ({ points }) => {
 
           return (
             <View key={index} style={styles.progressSegment}>
-              <View style={[styles.progress, { width: `${progress * 100}%`, backgroundColor: isCurrentRank ? colors.MAIN_COLOR_CLIENT : '#3b82f6' }]} />
+              <View
+                style={[
+                  styles.progress,
+                  {
+                    width: `${progress * 100}%`,
+                    backgroundColor: isCurrentRank
+                      ? colors.MAIN_COLOR_CLIENT
+                      : "#3b82f6",
+                  },
+                ]}
+              />
             </View>
           );
         })}
@@ -59,7 +84,11 @@ const RankProgress = ({ points }) => {
           return (
             <View key={index} style={styles.rankItem}>
               <Image source={rank?.icon} style={iconSize} />
-              <Text style={isCurrentRank ? styles.currentRankText : styles.rankText}>{rank?.name}</Text>
+              <Text
+                style={isCurrentRank ? styles.currentRankText : styles.rankText}
+              >
+                {rank?.name}
+              </Text>
             </View>
           );
         })}
@@ -70,23 +99,23 @@ const RankProgress = ({ points }) => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
   },
   progressBarContainer: {
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: "row",
+    width: "100%",
     height: 10,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: "#e0e0e0",
     borderRadius: 5,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginBottom: 8,
   },
   progressSegment: {
@@ -94,16 +123,16 @@ const styles = StyleSheet.create({
     marginRight: 2,
   },
   progress: {
-    height: '100%',
+    height: "100%",
   },
   ranksContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginBottom: 8,
   },
   rankItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   icon: {
     width: SCREEN_WIDTH * 0.06,
@@ -121,9 +150,16 @@ const styles = StyleSheet.create({
   },
   currentRankText: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.MAIN_COLOR_CLIENT,
   },
 });
+
+RankProgress.defaultProps = {
+  points: 0,
+};
+RankProgress.propTypes = {
+  points: PropTypes.number.isRequired,
+};
 
 export default RankProgress;

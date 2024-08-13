@@ -1,12 +1,20 @@
-import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions } from 'react-native';
-import Modal from 'react-native-modal';
-import { FormatMoney } from '../Utils/FormatMoney';
-import { colors } from '../styles/Colors';
-import Down from './svg/Down';
-import MainStyles from '../styles/MainStyle';
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
+import Modal from "react-native-modal";
+import { FormatMoney } from "../Utils/FormatMoney";
+import { colors } from "../styles/Colors";
+import Down from "./svg/Down";
+import MainStyles from "../styles/MainStyle";
+import { PropTypes } from "prop-types";
 
-const { height } = Dimensions.get('window');
+const { height } = Dimensions.get("window");
 
 const SelectOption = ({ data, onChange, value }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -31,9 +39,11 @@ const SelectOption = ({ data, onChange, value }) => {
       >
         <View style={MainStyles.flexRowSpaceBetween}>
           <Text>
-            {value ? `${value.OptionName}: ${FormatMoney(value.OptionePrice)} VND` : 'Chọn dịch vụ'}
+            {value
+              ? `${value.OptionName}: ${FormatMoney(value.OptionePrice)} VND`
+              : "Chọn dịch vụ"}
           </Text>
-          <Down fill='none' />
+          <Down fill="none" />
         </View>
       </TouchableOpacity>
 
@@ -87,15 +97,15 @@ const styles = StyleSheet.create({
     borderColor: colors.GRAY,
   },
   buttonText: {
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
   },
   modal: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     margin: 0,
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -104,27 +114,27 @@ const styles = StyleSheet.create({
   dragHandle: {
     width: 40,
     height: 5,
-    backgroundColor: '#ccc',
+    backgroundColor: "#ccc",
     borderRadius: 2.5,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: 10,
   },
   option: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   optionText: {
     fontSize: 16,
   },
   noData: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   noDataText: {
     fontSize: 16,
-    color: '#777',
+    color: "#777",
   },
   closeButton: {
     padding: 15,
@@ -133,9 +143,28 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   closeButtonText: {
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
   },
 });
+
+SelectOption.defaultProps = {
+  data: [],
+  onChange: () => {},
+  value: null,
+};
+SelectOption.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      OptionName: PropTypes.string.isRequired,
+      OptionePrice: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.shape({
+    OptionName: PropTypes.string.isRequired,
+    OptionePrice: PropTypes.number.isRequired,
+  }),
+};
 
 export default SelectOption;

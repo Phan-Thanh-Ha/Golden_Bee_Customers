@@ -4,7 +4,7 @@ import { Icon, Text } from "@ui-kitten/components";
 import { colors } from "../styles/Colors";
 import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../styles/MainStyle";
 import { ic_coin } from "../assets";
-import { FormatMoney, parseTimeSql } from "../Utils";
+import { FormatDateJsonPro, FormatMoney } from "../Utils";
 import BtnDouble from "./BtnDouble";
 import Box from "./Box";
 import ModalAlertSelectOption from "./modal/ModalAlertSelectOption";
@@ -189,7 +189,7 @@ const CardJobDone = ({ data }) => {
                 name="calendar-outline"
               />
               <Text style={MainStyles.textCardJob}>
-                Thời gian tạo: {parseTimeSql(data?.BookingTime, 1)}
+                Thời gian tạo: {FormatDateJsonPro(data?.BookingTime, 21)}
               </Text>
             </View>
           </View>

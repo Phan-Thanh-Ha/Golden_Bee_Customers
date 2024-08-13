@@ -1,12 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Modal from 'react-native-modal';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../styles/MainStyle';
-import { colors } from '../../styles/Colors';
-import Logo from '../Logo';
-import { Spinner } from '@ui-kitten/components';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import Modal from "react-native-modal";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import { colors } from "../../styles/Colors";
+import Logo from "../Logo";
+import { Spinner } from "@ui-kitten/components";
+import { PropTypes } from "prop-types";
 
-const ModalSelectOption = ({ isVisible, onClose, children, onConfirm1, onConfirm2, titleBtn1, titleBtn2, title, backdropCloseable = true, isBtn2Visible = true, isBtn1Visible = true, useLogo = true, isBtn1Loading = false }) => {
+const ModalSelectOption = ({
+  isVisible,
+  onClose,
+  children,
+  onConfirm1,
+  onConfirm2,
+  titleBtn1,
+  titleBtn2,
+  title,
+  backdropCloseable = true,
+  isBtn2Visible = true,
+  isBtn1Visible = true,
+  useLogo = true,
+  isBtn1Loading = false,
+}) => {
   return (
     <Modal
       isVisible={isVisible}
@@ -18,35 +33,32 @@ const ModalSelectOption = ({ isVisible, onClose, children, onConfirm1, onConfirm
       backdropColor="black"
     >
       <View style={styles.modalContent}>
-        {
-          useLogo &&
+        {useLogo && (
           <View style={styles.logoContainer}>
             <Logo sizeImage={SCREEN_WIDTH * 0.18} />
           </View>
-        }
+        )}
         {title && <Text style={styles.title}>{title}</Text>}
         {children}
         <View style={styles.buttonContainer}>
-          {
-            isBtn1Visible ? (
-              <TouchableOpacity style={styles.confirmButton} onPress={onConfirm1} disabled={isBtn1Loading}>
-                {
-                  isBtn1Loading ? (
-                    <Spinner />
-                  ) : (
-                    <Text style={styles.buttonText}>{titleBtn1}</Text>
-                  )
-                }
-              </TouchableOpacity>
-            ) : null
-          }
-          {
-            isBtn2Visible ? (
-              <TouchableOpacity style={styles.cancelButton} onPress={onConfirm2}>
-                <Text style={styles.buttonText}>{titleBtn2}</Text>
-              </TouchableOpacity>
-            ) : null
-          }
+          {isBtn1Visible ? (
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={onConfirm1}
+              disabled={isBtn1Loading}
+            >
+              {isBtn1Loading ? (
+                <Spinner />
+              ) : (
+                <Text style={styles.buttonText}>{titleBtn1}</Text>
+              )}
+            </TouchableOpacity>
+          ) : null}
+          {isBtn2Visible ? (
+            <TouchableOpacity style={styles.cancelButton} onPress={onConfirm2}>
+              <Text style={styles.buttonText}>{titleBtn2}</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
     </Modal>
@@ -55,56 +67,85 @@ const ModalSelectOption = ({ isVisible, onClose, children, onConfirm1, onConfirm
 
 const styles = StyleSheet.create({
   logoContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: -40, // Điều chỉnh độ lệch lên trên
-    alignSelf: 'center', // Đưa logo về giữa theo chiều ngang
+    alignSelf: "center", // Đưa logo về giữa theo chiều ngang
   },
   modalContent: {
     paddingTop: SCREEN_HEIGHT * 0.05,
     width: SCREEN_WIDTH * 0.9,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 10,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 12,
-    color: colors.MAIN_BLUE_CLIENT
+    color: colors.MAIN_BLUE_CLIENT,
   },
   countdown: {
     marginTop: 12,
-    color: 'red',
+    color: "red",
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 20,
-    justifyContent: 'space-between',
-    width: '100%',
+    justifyContent: "space-between",
+    width: "100%",
   },
   confirmButton: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
     padding: 10,
     borderRadius: 4,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 5,
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#F44336',
+    backgroundColor: "#F44336",
     padding: 10,
     borderRadius: 4,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 5,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
+
+ModalSelectOption.defaultProps = {
+  isVisible: false,
+  onClose: () => {},
+  onConfirm1: () => {},
+  onConfirm2: () => {},
+  titleBtn1: "OK",
+  titleBtn2: "Cancel",
+  title: "",
+  backdropCloseable: true,
+  isBtn2Visible: true,
+  isBtn1Visible: true,
+  useLogo: true,
+  isBtn1Loading: false,
+};
+ModalSelectOption.propTypes = {
+  isVisible: PropTypes.bool,
+  onClose: PropTypes.func,
+  onConfirm1: PropTypes.func,
+  onConfirm2: PropTypes.func,
+  titleBtn1: PropTypes.string,
+  titleBtn2: PropTypes.string,
+  title: PropTypes.string,
+  backdropCloseable: PropTypes.bool,
+  isBtn2Visible: PropTypes.bool,
+  isBtn1Visible: PropTypes.bool,
+  useLogo: PropTypes.bool,
+  isBtn1Loading: PropTypes.bool,
+};
 
 export default ModalSelectOption;

@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-} from 'react-native';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { useDispatch } from 'react-redux';
-import { Image } from 'react-native-compressor';
-import FastImage from 'react-native-fast-image';
-import ProgressImage from 'react-native-image-progress';
-import { ProgressBar } from '@ui-kitten/components';
-import Modal from 'react-native-modal';
-import { colors } from '../styles/Colors';
-import MainStyles from '../styles/MainStyle';
-import { API_IMAGE, APIImage } from '../Config/Api';
-import { ic_upload_image } from '../assets';
-import { mainAction } from '../Redux/Action';
+} from "react-native";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import { useDispatch } from "react-redux";
+import { Image } from "react-native-compressor";
+import FastImage from "react-native-fast-image";
+import ProgressImage from "react-native-image-progress";
+import { ProgressBar } from "@ui-kitten/components";
+import Modal from "react-native-modal";
+import { colors } from "../styles/Colors";
+import MainStyles from "../styles/MainStyle";
+import { APIImage } from "../Config/Api";
+import { ic_upload_image } from "../assets";
+import { mainAction } from "../Redux/Action";
+import { PropTypes } from "prop-types";
 
-const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPreview = "" }) => {
+const BtnGetImageModal = ({
+  setImageUrl,
+  btnWidth,
+  btnHeight,
+  total = 1,
+  imgPreview = "",
+}) => {
   const dispatch = useDispatch();
   const [isUpload, setIsUpload] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -30,19 +37,19 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
 
   const optionsMedia = {
     quality: 0.5,
-    format: 'JPEG',
+    format: "JPEG",
   };
 
   const choosePhoto = async () => {
     // setIsOptionsModalVisible(false);
     try {
       const image = await launchImageLibrary({
-        mediaType: 'photo',
+        mediaType: "photo",
         selectionLimit: total,
       });
       if (image && image.assets && image.assets.length > 0) {
-        setSelectedImages(image.assets.map(asset => asset.uri));
-        uploadImage(image.assets.map(asset => asset.uri));
+        setSelectedImages(image.assets.map((asset) => asset.uri));
+        uploadImage(image.assets.map((asset) => asset.uri));
       }
     } catch (error) {
       // console.error('Error choosing photo:', error);
@@ -53,8 +60,8 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
     // setIsOptionsModalVisible(false);
     try {
       const result = await launchCamera({
-        mediaType: 'photo',
-        presentationStyle: 'overFullScreen',
+        mediaType: "photo",
+        presentationStyle: "overFullScreen",
       });
       if (result && result.assets && result.assets.length > 0) {
         setSelectedImages([result.assets[0].uri]);
@@ -65,11 +72,11 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
     }
   };
 
-  const uploadImage = async imageUris => {
+  const uploadImage = async (imageUris) => {
     setIsLoadingMedia(true);
     try {
       const compressedImages = await Promise.all(
-        imageUris.map(uri => Image.compress(uri, optionsMedia)),
+        imageUris.map((uri) => Image.compress(uri, optionsMedia))
       );
       if (compressedImages.length === 0) {
         setIsLoadingMedia(false);
@@ -78,37 +85,37 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
         setIsUpload(true);
         API_spCallPostImage(arrayTempImage);
       }
-    } catch (error) {
+    } catch {
       // console.error('Lỗi trong quá trình nén ảnh: ', error);
       setIsLoadingMedia(false);
     }
   };
 
-  const API_spCallPostImage = async arrayTempImage => {
+  const API_spCallPostImage = async (arrayTempImage) => {
     try {
       const formData = new FormData();
-      formData.append('AppAPIKey', 'netcoApikey2025');
-      formData.append('Code', '1234564');
-      formData.append('OfficerId', '123456');
-      formData.append('Key', `OVG_Booking`);
-      formData.append('Type', `1`);
-      formData.append('CustomerCode', '73333');
+      formData.append("AppAPIKey", "netcoApikey2025");
+      formData.append("Code", "1234564");
+      formData.append("OfficerId", "123456");
+      formData.append("Key", `OVG_Booking`);
+      formData.append("Type", `1`);
+      formData.append("CustomerCode", "73333");
 
       arrayTempImage.map((img, i) => {
-        formData.append('myFile' + i, {
+        formData.append("myFile" + i, {
           uri: img,
-          type: 'image/jpeg',
-          name: img.slice(img.lastIndexOf('/') + 1),
+          type: "image/jpeg",
+          name: img.slice(img.lastIndexOf("/") + 1),
         });
       });
 
       const result = await mainAction.API_spCallPostImage(
         formData,
         dispatch,
-        event => {
+        (event) => {
           const progress = event.loaded / event.total;
           setUploadProgress(progress);
-        },
+        }
       );
       setIsOptionsModalVisible(false);
       if (result.length > 0) {
@@ -120,13 +127,13 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
       if (result.length > 0) {
         setIsLoadingMedia(false);
         setImageUrl(result);
-        setImageList(prevList => [
+        setImageList((prevList) => [
           ...prevList,
           { id: 1, source: APIImage + result[0] },
         ]);
-        setCurrentID(prevID => prevID + 1);
+        setCurrentID((prevID) => prevID + 1);
       }
-    } catch (error) {
+    } catch {
       setIsLoadingMedia(false);
       setIsOptionsModalVisible(false);
     }
@@ -136,7 +143,9 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
     setImageUrl([]);
     setIsUpload(false);
     setSelectedImages([]);
-    setImageList(imageList.filter(image => image.source !== selectedImages[0]));
+    setImageList(
+      imageList.filter((image) => image.source !== selectedImages[0])
+    );
   };
 
   const toggleOptionsModal = () => {
@@ -154,33 +163,33 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
                 backgroundColor: colors.WHITE,
                 width: btnWidth,
                 height: btnHeight,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
               },
-            ]}>
-            {
-              imgPreview ? (
-                <FastImage
-                  source={{
-                    uri: "https://api-crmcak.vps.vn/upload" + imgPreview,
-                  }}
-                  style={{ width: 150, height: 150 }}
-                />
-              ) : (
-                <View>
-                  <View style={MainStyles.flexRowCenter}>
-                    <FastImage source={ic_upload_image} style={{ width: 45, height: 45 }} />
-                  </View>
-                  <View style={MainStyles.flexRowCenter}>
-                    <Text style={{ textAlign: 'center' }}>
-                      Tải lên hoặc chụp hình ảnh
-                    </Text>
-                  </View>
+            ]}
+          >
+            {imgPreview ? (
+              <FastImage
+                source={{
+                  uri: "https://api-crmcak.vps.vn/upload" + imgPreview,
+                }}
+                style={{ width: 150, height: 150 }}
+              />
+            ) : (
+              <View>
+                <View style={MainStyles.flexRowCenter}>
+                  <FastImage
+                    source={ic_upload_image}
+                    style={{ width: 45, height: 45 }}
+                  />
                 </View>
-              )
-            }
-            {/* <FastImage source={ic_upload} style={{ width: 45, height: 45 }} /> */}
-
+                <View style={MainStyles.flexRowCenter}>
+                  <Text style={{ textAlign: "center" }}>
+                    Tải lên hoặc chụp hình ảnh
+                  </Text>
+                </View>
+              </View>
+            )}
           </View>
         </TouchableOpacity>
       )}
@@ -200,8 +209,8 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
               indicatorProps={{
                 size: 80,
                 borderWidth: 0,
-                color: 'rgba(150, 150, 150, 1)',
-                unfilledColor: 'rgba(200, 200, 200, 0.2)',
+                color: "rgba(150, 150, 150, 1)",
+                unfilledColor: "rgba(200, 200, 200, 0.2)",
               }}
               style={styles.image}
             />
@@ -213,7 +222,7 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
       {selectedImages.length > 0 && !isLoadingMedia && (
         <View style={styles.imageContainer}>
           <TouchableOpacity onPress={toggleOptionsModal}>
-            <View style={{ position: 'relative' }}>
+            <View style={{ position: "relative" }}>
               <FastImage
                 source={{ uri: selectedImages[0] }}
                 style={{ width: btnWidth, height: btnHeight, borderRadius: 5 }}
@@ -236,15 +245,17 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
       <Modal
         isVisible={isOptionsModalVisible}
         onBackdropPress={toggleOptionsModal}
-        style={styles.bottomModal}>
+        style={styles.bottomModal}
+      >
         <View style={styles.modalContent}>
           <TouchableOpacity style={styles.option} onPress={choosePhoto}>
             <Text
               style={{
                 color: colors.MAIN_BLUE_CLIENT,
                 fontSize: 16,
-                fontWeight: '700',
-              }}>
+                fontWeight: "700",
+              }}
+            >
               Chọn ảnh từ thư viện
             </Text>
           </TouchableOpacity>
@@ -253,14 +264,16 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
               style={{
                 color: colors.MAIN_BLUE_CLIENT,
                 fontSize: 16,
-                fontWeight: '700',
-              }}>
+                fontWeight: "700",
+              }}
+            >
               Chụp ảnh
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option} onPress={toggleOptionsModal}>
             <Text
-              style={{ color: colors.ERROR, fontSize: 16, fontWeight: '700' }}>
+              style={{ color: colors.ERROR, fontSize: 16, fontWeight: "700" }}
+            >
               Hủy
             </Text>
           </TouchableOpacity>
@@ -272,13 +285,13 @@ const BtnGetImageModal = ({ setImageUrl, btnWidth, btnHeight, total = 1, imgPrev
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   imageContainer: {
     marginTop: 20,
-    alignItems: 'center',
-    position: 'relative',
+    alignItems: "center",
+    position: "relative",
   },
   image: {
     width: 200,
@@ -286,21 +299,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   deleteButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 5,
     right: 5,
     borderRadius: 15,
     width: 30,
     height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   deleteButtonText: {
     color: colors.MAIN_COLOR_CLIENT,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   bottomModal: {
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     margin: 0,
   },
   modalContent: {
@@ -308,24 +321,39 @@ const styles = StyleSheet.create({
     padding: 22,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    alignItems: 'center',
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    alignItems: "center",
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   option: {
     padding: 15,
   },
   multipleImageIndicator: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: "rgba(0,0,0,0.5)",
     borderRadius: 5,
     padding: 5,
   },
   multipleImageText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
+
+BtnGetImageModal.defaultProps = {
+  setImageUrl: () => {},
+  btnWidth: 200,
+  btnHeight: 200,
+  total: 1,
+  imgPreview: "",
+};
+BtnGetImageModal.propTypes = {
+  setImageUrl: PropTypes.func,
+  btnWidth: PropTypes.number,
+  btnHeight: PropTypes.number,
+  total: PropTypes.number,
+  imgPreview: PropTypes.string,
+};
 
 export default BtnGetImageModal;

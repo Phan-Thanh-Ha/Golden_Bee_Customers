@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import MainStyles from '../../styles/MainStyle';
-import AlertModal from '../AlertModal';
-import ModalSelectOption from './ModalSelectOption';
+import React from "react";
+import { Text, View } from "react-native";
+import MainStyles from "../../styles/MainStyle";
+import ModalSelectOption from "./ModalSelectOption";
+import { PropTypes } from "prop-types";
 
 const ModalAlertSelectOption = ({
   title,
@@ -37,9 +37,7 @@ const ModalAlertSelectOption = ({
             <View style={MainStyles.line} />
           </View>
           <View style={MainStyles.flexRowCenter}>
-            <Text style={[{ textAlign: 'center' }]}>
-              {title}
-            </Text>
+            <Text style={[{ textAlign: "center" }]}>{title}</Text>
           </View>
         </View>
       </View>
@@ -47,4 +45,19 @@ const ModalAlertSelectOption = ({
   );
 };
 
-export default ModalAlertSelectOption
+ModalAlertSelectOption.defaultProps = {
+  title: "Bạn có chắc chắn muốn thực hiện hành động này?",
+  isModalVisible: false,
+  setModalVisible: () => {},
+  onConfirm1: () => {},
+  onConfirm2: () => {},
+};
+ModalAlertSelectOption.propTypes = {
+  title: PropTypes.string,
+  isModalVisible: PropTypes.bool,
+  setModalVisible: PropTypes.func,
+  onConfirm1: PropTypes.func,
+  onConfirm2: PropTypes.func,
+};
+
+export default ModalAlertSelectOption;

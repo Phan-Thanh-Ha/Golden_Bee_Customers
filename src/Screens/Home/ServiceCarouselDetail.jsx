@@ -16,18 +16,36 @@ import { ScreenNames } from "../../Constants";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
 import { Icon } from "@ui-kitten/components";
 import Box from "../../components/Box";
+import { useRef } from "react";
 
 const ServiceCarouselDetail = () => {
   const route = useRoute();
   const { article } = route?.params || {};
   const navi = useNavigation();
+  const scrollViewRef = useRef(null);
+
+  const scrollToTop = () => {
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  };
+
+  const handleBooking = () => {
+    if (article?.ServiceId) {
+      const service = dataMenu.find((item) => item?.ServiceId === article?.ServiceId);
+      navi.navigate(ScreenNames.ADDRESS_SEARCH, {
+        service: service,
+      });
+    } else {
+      const service = dataMenu.find((item) => item?.ServiceId === 7);
+      navi.navigate(ScreenNames.ADDRESS_SEARCH, {
+        service: service,
+      });
+    }
+  }
 
   return (
     <LayoutGradientBlue>
       <HeaderComp headerTitle={article?.NewsTitleEn} />
-      <ScrollView
-        style={{ flex: 1, padding: 10, backgroundColor: colors.WHITE }}
-      >
+      <ScrollView style={{ flex: 1, padding: 10, backgroundColor: colors.WHITE }} ref={scrollViewRef}>
         <RenderHTML
           contentWidth={SCREEN_WIDTH}
           source={{ html: article?.NewsContentEn }}
@@ -36,9 +54,8 @@ const ServiceCarouselDetail = () => {
         <ServiceCarousel
           dataNewService={dataNewServiceDefault}
           onItemPress={(item) => {
-            navi.navigate(ScreenNames.SERVICE_CAROUSEL_DETAIL, {
-              article: item,
-            });
+            scrollToTop();
+            navi.navigate(ScreenNames.SERVICE_CAROUSEL_DETAIL, { article: item });
           }}
         />
         <Box height={SCREEN_HEIGHT * 0.07} />
@@ -71,7 +88,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "#fff",
+    paddingLeft: 8,
+    color: '#fff',
     fontSize: 16,
     fontWeight: "bold",
   },

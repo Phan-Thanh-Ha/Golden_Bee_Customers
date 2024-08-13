@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Modal from 'react-native-modal';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../styles/MainStyle';
-import { colors } from '../styles/Colors';
-import Logo from './Logo';
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import Modal from "react-native-modal";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../styles/MainStyle";
+import { colors } from "../styles/Colors";
+import Logo from "./Logo";
+import { PropTypes } from "prop-types";
 
 const ModalOption = ({
   isVisible,
@@ -14,8 +15,8 @@ const ModalOption = ({
   onConfirm,
   title,
   backdropCloseable = true,
-  textCancel = 'Hủy',
-  textConfirm = 'Xác nhận',
+  textCancel = "Hủy",
+  textConfirm = "Xác nhận",
 }) => {
   const [countdown, setCountdown] = useState(autoCloseTime / 1000);
 
@@ -31,7 +32,7 @@ const ModalOption = ({
       }, autoCloseTime);
 
       countdownInterval = setInterval(() => {
-        setCountdown(prev => {
+        setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(countdownInterval);
             return 0;
@@ -88,58 +89,77 @@ const ModalOption = ({
 
 const styles = StyleSheet.create({
   logoContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: -40, // Điều chỉnh độ lệch lên trên
-    alignSelf: 'center', // Đưa logo về giữa theo chiều ngang
+    alignSelf: "center", // Đưa logo về giữa theo chiều ngang
   },
   modalContent: {
     paddingTop: SCREEN_HEIGHT * 0.05,
     width: SCREEN_WIDTH * 0.9,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 10,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 12,
-    color: colors.MAIN_BLUE_CLIENT
+    color: colors.MAIN_BLUE_CLIENT,
   },
   countdown: {
     marginTop: 12,
-    color: 'red',
+    color: "red",
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 20,
-    justifyContent: 'space-between',
-    width: '100%',
+    justifyContent: "space-between",
+    width: "100%",
   },
   confirmButton: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#4CAF50",
     padding: 10,
     borderRadius: 4,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 5,
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#F44336',
+    backgroundColor: "#F44336",
     padding: 10,
     borderRadius: 4,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 5,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
 
-
+ModalOption.defaultProps = {
+  isVisible: false,
+  isAuto: false,
+  autoCloseTime: 3000,
+  backdropCloseable: true,
+  textCancel: "Hủy",
+  textConfirm: "Xác nhận",
+};
+ModalOption.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+  isAuto: PropTypes.bool,
+  autoCloseTime: PropTypes.number,
+  onConfirm: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  backdropCloseable: PropTypes.bool,
+  textCancel: PropTypes.string,
+  textConfirm: PropTypes.string,
+};
 
 export default ModalOption;
