@@ -93,6 +93,11 @@ export const FormatDateJson = (date, key = 0) => {
 };
 
 export function dateTimeFormat(dateTimeString, type) {
+  if (typeof dateTimeString !== "string") {
+    console.error("Invalid dateTimeString:", dateTimeString);
+    return ""; // hoặc giá trị mặc định khác
+  }
+
   // Tách chuỗi thời gian thành ngày và giờ
   const [datePart, timePart] = dateTimeString.split(" ");
 
@@ -128,6 +133,7 @@ export function dateTimeFormat(dateTimeString, type) {
 // const type1 = 1;
 // const type2 = 2;
 import { format } from "date-fns";
+import moment from "moment/moment";
 
 export const parseTimeBE = (time, type) => {
   const date = new Date(time);
@@ -139,3 +145,6 @@ export const parseTimeBE = (time, type) => {
     throw new Error("sai định dạng");
   }
 };
+
+const todayNow = new Date(Date.now());
+export const todayLogin = moment(todayNow).format("YYYY/MM/DD");

@@ -9,9 +9,6 @@ import { ScreenNames } from "../../Constants";
 import Box from "../../components/Box";
 import { PropTypes } from "prop-types";
 
-AuthHome.propTypes = {
-  navigation: PropTypes.object,
-};
 const AuthHome = ({ navigation }) => {
   const handleLogin = () => {
     navigation.navigate(ScreenNames.LOGIN);
@@ -48,5 +45,7 @@ const AuthHome = ({ navigation }) => {
     </LayoutAbout>
   );
 };
-
+AuthHome.propTypes = {
+  navigation: PropTypes.object,
+};
 export default AuthHome;

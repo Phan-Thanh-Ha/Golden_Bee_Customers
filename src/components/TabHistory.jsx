@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { SCREEN_HEIGHT } from "../styles/MainStyle";
 import React from "react";
+import { PropTypes } from "prop-types";
 
 const TabHistory = ({ modalJobDoneRef }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,9 +37,8 @@ const TabHistory = ({ modalJobDoneRef }) => {
         setDataJobDone(result);
         setIsLoading(false);
       }
-    } catch (error) {
+    } catch {
       setIsLoading(false);
-      console.log(error);
     }
     setIsLoading(false);
   };
@@ -65,5 +65,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
 });
+TabHistory.defaultProps = {
+  modalJobDoneRef: null,
+};
+TabHistory.propTypes = {
+  modalJobDoneRef: PropTypes.object,
+};
 
 export default TabHistory;

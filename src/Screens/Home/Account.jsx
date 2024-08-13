@@ -87,7 +87,7 @@ const Account = () => {
                   name="bookmark-outline"
                 />
                 <Text category="s1" style={styles.textT}>
-                  Mã khách hàng: {userLogin?.Id}
+                  Mã khách hàng: {userLogin?.CustomerCode}
                 </Text>
               </View>
               <View style={styles.infoRow}>

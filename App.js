@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { Store } from "./src/Redux";
-import { LogBox, Platform, StatusBar } from "react-native";
+import { LogBox, StatusBar } from "react-native";
 import { MenuProvider } from "react-native-popup-menu";
 import RootNavigator from "./src/Navigation/RootNavigation";
 import * as eva from "@eva-design/eva";

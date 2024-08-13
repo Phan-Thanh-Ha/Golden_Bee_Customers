@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import FastImage from "react-native-fast-image";
 import { useNavigation } from "@react-navigation/native";

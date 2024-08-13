@@ -40,7 +40,6 @@ const RequestPermissionV2 = () => {
       if (Platform.OS === "ios") {
         mainAction.checkPermissioniOS(statuses, dispatch);
       }
-      console.log("Permission statuses:", statuses);
     } catch (error) {
       console.error("Error requesting permissions:", error);
     }

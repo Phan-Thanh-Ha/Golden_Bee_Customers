@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Image,
   Platform,
@@ -7,7 +8,7 @@ import {
   View,
 } from "react-native";
 import MainStyles, { SCREEN_HEIGHT } from "../styles/MainStyle";
-import { colors, themeColors } from "../styles/Colors";
+import { themeColors } from "../styles/Colors";
 import { useSelector } from "react-redux";
 import { logo_bee_blue } from "../assets";
 import IconWithAnimatedBadge from "./IconWithBadge";
@@ -15,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../Constants";
 import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
 import { APIImage } from "../Config/Api";
+import { PropTypes } from "prop-types";
 
 const UserHeader = ({ totalService = 0 }) => {
   const userLogin = useSelector((state) => state.main.userLogin);
@@ -77,6 +79,13 @@ const UserHeader = ({ totalService = 0 }) => {
   );
 };
 
+UserHeader.defaultProps = {
+  totalService: 0,
+};
+UserHeader.propTypes = {
+  totalService: PropTypes.number,
+};
+
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.select({
@@ -86,7 +95,6 @@ const styles = StyleSheet.create({
     // paddingTop: SCREEN_HEIGHT * 0.04,
     paddingBottom: SCREEN_HEIGHT * 0.04,
     paddingHorizontal: 20,
-    paddingBottom: 20,
     backgroundColor: themeColors.lightBackground,
     // backgroundColor: colors.summer[200],
     borderBottomLeftRadius: 15,

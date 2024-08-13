@@ -31,6 +31,12 @@ const ShowMap = () => {
     latitudeDelta: 0.015,
     longitudeDelta: 0.0121,
   });
+  const [region1, setRegion1] = useState({
+    latitude: service?.latitude || 0,
+    longitude: service?.longitude || 0,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.0121,
+  });
 
   useEffect(() => {
     if (!service.latitude || !service.longitude) {
@@ -62,7 +68,7 @@ const ShowMap = () => {
         latitude: location.lat,
         longitude: location.lng,
       });
-    } catch {
+    } catch (error) {
       // console.error("Error fetching place details:", error);
       // Handle error gracefully
     }
@@ -79,9 +85,16 @@ const ShowMap = () => {
   };
 
   const onRegionChangeComplete = (newRegion) => {
-    setRegion(newRegion);
+    console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  newRegion:", newRegion);
+    setRegion1(newRegion);
+    // setRegion(newRegion);
   };
-
+  const onMapMarkerDragEnd = (newRegion) => {
+    console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  location:", newRegion);
+    // const region = location.nativeEvent.coordinate;
+    // setRegion(region);
+    // onLocationChange(region);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <BackButton color={colors.BLACK} />
@@ -92,13 +105,16 @@ const ShowMap = () => {
             region={region}
             onRegionChangeComplete={onRegionChangeComplete}
             zoomEnabled={true}
+            // onPanDrag={(e) => console.log("onPanDrag", e)}
           >
             <Marker
               coordinate={{
-                latitude: region.latitude,
-                longitude: region.longitude,
+                latitude: region1.latitude,
+                longitude: region1.longitude,
               }}
+              onDragEnd={onMapMarkerDragEnd}
               title={service.Address}
+              draggable={true}
             >
               <View style={styles.markerContainer}>
                 <Loading
@@ -112,6 +128,12 @@ const ShowMap = () => {
           <View style={styles.markerFixed}>
             <Image source={pin_outline} style={{ width: 64, height: 64 }} />
           </View>
+          {/* <View style={styles.topBar}>
+            <CardLocation
+              onPress={() => navigation.goBack()}
+              location={service.Address}
+            />
+          </View> */}
         </View>
         <CardLocation
           onPress={() => navigation.goBack()}

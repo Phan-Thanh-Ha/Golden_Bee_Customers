@@ -33,12 +33,10 @@ import ConfirmBooking from "../Screens/Service/ConfirmBooking";
 import WaitingStaffScreen from "../Screens/Service/WaitingStaffScreen";
 import FireBaseRealtimeCheck from "../Screens/firebaseCheck/FireBaseRealtimeCheck";
 import ServiceRepairElectricityScreen from "../Screens/Service/ServiceRepairElectricityScreen";
-import PaymentScreen from "../Screens/Service/PaymentScreen";
 import CashScreen from "../Screens/Service/CashScreen";
 import RatingServiceScreen from "../Screens/Service/RatingServiceScreen";
 import ViewLocationStaff from "../Screens/Service/ViewLocationStaff";
 import ViewStaff from "../Screens/Service/ViewStaff";
-// import { TrainingFeedback } from "../Screens/Admin/TrainingFeedback";
 import ServiceCarouselDetail from "../Screens/Home/ServiceCarouselDetail";
 import ContrubutionsDetailScreen from "../Screens/Home/ContrubutionsDetailScreen";
 
@@ -72,10 +70,6 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.MAIN_NAVIGATOR}
           component={BottomTabNavigator}
-        />
-        <MainStack.Screen
-          name={ScreenNames.PAYMENT_SCREEN}
-          component={PaymentScreen}
         />
         <MainStack.Screen
           name={ScreenNames.RATING_SERVICE}
@@ -165,10 +159,6 @@ const RootNavigator = () => {
           name={ScreenNames.VIEW_LOCATION_STAFF}
           component={ViewLocationStaff}
         />
-        {/* <MainStack.Screen
-          name={ScreenNames.WEB_VIEW_CHECK}
-          component={TrainingFeedback}
-        /> */}
         <MainStack.Screen
           name={ScreenNames.SERVICE_CAROUSEL_DETAIL}
           component={ServiceCarouselDetail}

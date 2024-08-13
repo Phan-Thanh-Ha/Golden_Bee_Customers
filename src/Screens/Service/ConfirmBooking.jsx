@@ -21,7 +21,13 @@ import BackButton from "../../components/BackButton";
 import { ScrollView } from "react-native-gesture-handler";
 import { ic_coin, ic_location } from "../../assets";
 import Box from "../../components/Box";
-import { FormatMoney, GroupUserId, removeData, setData } from "../../Utils";
+import {
+  FormatMoney,
+  GroupUserId,
+  removeData,
+  setData,
+  todayLogin,
+} from "../../Utils";
 import Button from "../../components/buttons/Button";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
@@ -130,7 +136,6 @@ const ConfirmBooking = () => {
 
   const resetModalState = () => {
     setCountdown(5);
-    // setSelectedVouchers([]);
   };
   const removeStorage = async () => {
     await removeData(StorageNames.SERVICE_CONFIRM);
@@ -238,11 +243,9 @@ const ConfirmBooking = () => {
           return;
         } else if (result?.Status === "NOTOK" && retryCount < maxRetries) {
           retryCount++;
-          console.log(`Retry ${retryCount}/${maxRetries}`);
           setTimeout(calling, 10000);
         } else {
           if (retryCount >= maxRetries) {
-            // console.log(`Exceeded maximum retries (${maxRetries})`);
             setIsModalVisible(false);
             setLoading(false);
             setTimeout(() => {
@@ -259,7 +262,6 @@ const ConfirmBooking = () => {
         }
         setLoading(false);
       } catch {
-        // console.log("error", error);
         await removeStorage();
         await removeData(StorageNames.SERVICE_PENDING);
         setLoading(false);
@@ -325,15 +327,17 @@ const ConfirmBooking = () => {
     try {
       const pr = {
         GroupUserId: 10060,
+        CustomerId: userLogin?.Id,
+        FromDate: todayLogin,
       };
       const params = {
         Json: JSON.stringify(pr),
-        func: "OVG_spVoucher_Customer",
+        func: "OVG_spVoucher_List",
       };
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  params:", params);
       const result = await mainAction.API_spCallServer(params, dispatch);
       setVouchers(result);
-    } catch (error) {
-      console.log("error", error);
+    } catch {
       setLoading(false);
     }
   };

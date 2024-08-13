@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { Button, Datepicker, Tab, TabView } from "@ui-kitten/components";
+import { Tab, TabView } from "@ui-kitten/components";
 import CardNewJob from "./CardNewJob";
 import CardJobDone from "./CardJobDone";
 import CardDefault from "./CardDefault";
@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 import { GroupUserId } from "../Utils";
 import { mainAction } from "../Redux/Action";
+import { PropTypes } from "prop-types";
 
-export const TabCustom = ({ modalRef, modalJobDoneRef, height }) => {
+const TabCustom = ({ modalRef, modalJobDoneRef, height }) => {
   const myOrdersAccepted = useSelector((state) => state.main.myOrdersAccepted);
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.main.userLogin);
   const [dataDoing, setDataDoing] = useState([]);
   const [dataJobDone, setDataJobDone] = useState([]);
-  console.log("acceptedOrder redux : ", myOrdersAccepted);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useFocusEffect(
@@ -38,8 +38,8 @@ export const TabCustom = ({ modalRef, modalJobDoneRef, height }) => {
       if (result) {
         setDataDoing(result);
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      //
     }
   };
   return (
@@ -54,7 +54,7 @@ export const TabCustom = ({ modalRef, modalJobDoneRef, height }) => {
             <>
               <FlatList
                 data={myOrdersAccepted}
-                renderItem={({ item, index }) => (
+                renderItem={({ item }) => (
                   <CardNewJob data={item} modalRef={modalRef} />
                 )}
                 keyExtractor={(item, index) => index.toString()}
@@ -93,5 +93,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+TabCustom.defaultProps = {
+  height: 300,
+  modalRef: {},
+  modalJobDoneRef: {},
+};
+TabCustom.propTypes = {
+  height: PropTypes.number,
+  modalRef: PropTypes.object.isRequired,
+  modalJobDoneRef: PropTypes.object.isRequired,
+};
 
 export default TabCustom;

@@ -26,7 +26,6 @@ const LoginForm = () => {
   const [dataConfirmService, setDataConfirmService] = useState({});
   const [isCheckFaceid, setIsCheckFaceid] = useState(false);
   const customerId = useSelector((state) => state.main.customerId);
-  console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  customerId:", customerId);
 
   const userDefault = {
     Address: " 17 đường số 6",
@@ -40,17 +39,15 @@ const LoginForm = () => {
       const checkFaceIDAvailability = () => {
         TouchID.isSupported()
           .then((biometryType) => {
-            console.log(
-              "-----> 💀💀💀💀💀💀💀💀💀 <-----  biometryType:",
-              biometryType
-            );
             if (biometryType === "FaceID") {
               setIsCheckFaceid(true);
             } else {
               setIsCheckFaceid(false);
             }
           })
-          .catch((error) => {});
+          .catch(() => {
+            // Handle error
+          });
       };
 
       const getDataService = async () => {
@@ -118,7 +115,6 @@ const LoginForm = () => {
         };
 
         const result = await mainAction.API_spCallServer(params, dispatch);
-        // console.log(result);
         if (result?.Status === "OK") {
           mainAction.userLogin(result.Result[0], dispatch);
           mainAction.customerId(result.Result[0]?.Id, dispatch);
@@ -153,9 +149,8 @@ const LoginForm = () => {
         }
       }
       setLoading(false);
-    } catch (error) {
+    } catch {
       setLoading(false);
-      console.log(error);
     }
   };
 
@@ -171,8 +166,8 @@ const LoginForm = () => {
         func: "OVG_spCustomer_TokenDevice_Save",
       };
       await mainAction.API_spCallServer(params, dispatch);
-    } catch (error) {
-      console.log(error);
+    } catch {
+      //
     }
   };
   const handleAuthentication = () => {
@@ -212,7 +207,6 @@ const LoginForm = () => {
         Alert.alert("Kích hoạt không thành công");
       }
     } catch (error) {
-      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  error:", error.message);
       Alert.alert("Lỗi kích hoạt vui lòng kiểm tra lại", error.message);
     }
   };
@@ -266,7 +260,7 @@ const LoginForm = () => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            {customerId !== null && (
+            {customerId && (
               <View>
                 <TouchableOpacity onPress={loginFaceId}>
                   <View style={{ marginBottom: 20, flexDirection: "row" }}>

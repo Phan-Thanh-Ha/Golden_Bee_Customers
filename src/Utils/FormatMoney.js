@@ -10,7 +10,7 @@ export const FormatMoney = (num, fix) => {
   return p
     .split("")
     .reverse()
-    .reduce(function (acc, num, i, orig) {
+    .reduce(function (acc, num, i) {
       return num + (i && !(i % 3) ? "," : "") + acc;
     }, "");
 };

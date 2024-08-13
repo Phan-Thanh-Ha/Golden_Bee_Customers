@@ -1,6 +1,4 @@
 import { firebase } from "@react-native-firebase/database";
-import { removeData } from "../Utils";
-import { StorageNames } from "../Constants";
 
 export const databaseOrder = firebase
   .app()
@@ -11,13 +9,13 @@ export const databaseOrder = firebase
 
 // Lắng nghe thay đổi đơn hàng cho khách hàng
 export const listenForOrderUpdates = (clientId, setClientOrder) => {
-  console.log("Listening for order updates for client:", clientId);
+  // console.log("Listening for order updates for client:", clientId);
   databaseOrder
     .orderByChild("ClientId")
     .equalTo(clientId)
     .on("value", (snapshot) => {
       const orders = snapshot.val();
-      console.log("Orders snapshot received:", orders);
+      // console.log("Orders snapshot received:", orders);
       if (orders) {
         Object.keys(orders).forEach((orderId) => {
           const order = orders[orderId];

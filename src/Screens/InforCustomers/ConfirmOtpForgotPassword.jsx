@@ -10,11 +10,6 @@ import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scr
 import { ScreenNames } from "../../Constants";
 import { PropTypes } from "prop-types";
 
-ConfirmOtpForgotPassword.propTypes = {
-  navigation: PropTypes.object,
-  route: PropTypes.object,
-};
-
 const ConfirmOtpForgotPassword = ({ navigation, route }) => {
   const [isSubmit, setIsSubmit] = useState(false);
   useEffect(() => {
@@ -58,4 +53,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
+ConfirmOtpForgotPassword.propTypes = {
+  navigation: PropTypes.object,
+  route: PropTypes.object,
+};
 export default ConfirmOtpForgotPassword;

@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect } from "react";
-import { View, StyleSheet, ScrollView, Text, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  Alert,
+  Platform,
+} from "react-native";
 import { colors } from "../../styles/Colors";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
@@ -39,24 +46,21 @@ const HomeScreen = () => {
     Shop_spWeb_Slides_List();
     Shop_spWeb_News_List();
     handlePendingService();
-    checkFaceIDAvailability();
     updateLocation();
+    handleBiometricAuthentication();
   }, []);
+  const handleBiometricAuthentication = () => {
+    checkBiometric();
+    // if (Platform.OS === "ios") {
+    //   checkBiometric();
+    // } else {
+    //   authenticateFaceID();
+    // }
+  };
 
   useFocusEffect(() => {
     OVG_FBRT_GEtTotalOrdersGet();
   });
-
-  // const getCustomerId = async () => {
-  //   try {
-  //     const officerId = await getData(StorageNames.CUSTOMER_ID);
-  //     console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  officerId:", officerId);
-  //     setCustomerId(officerId);
-  //     return officerId;
-  //   } catch {
-  //     return null;
-  //   }
-  // };
 
   // Get total order
   const OVG_FBRT_GEtTotalOrdersGet = useCallback(async () => {
@@ -66,21 +70,82 @@ const HomeScreen = () => {
     }
   }, []);
 
+  const authenticateFaceID = async () => {
+    const checkFaceId = await getData(StorageNames.CHECK_FACE_ID_ENABLED);
+    console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  checkFaceId:", checkFaceId);
+    try {
+      TouchID.authenticate(
+        "\nVui lòng xác thực tài khoản",
+        handleAuthentication
+      )
+        .then(async (success) => {
+          customerId !== null && checkFaceId !== true
+            ? setIsVisiableModalFace(true)
+            : setIsVisiableModalFace(false);
+        })
+        .catch((err) => {
+          if (Platform.OS == "android") {
+            if (
+              err.code == "NOT_SUPPORTED" ||
+              err.code == "NOT_AVAILABLE" ||
+              err.code == "NOT_PRESENT" ||
+              err.code == "NOT_ENROLLED"
+            ) {
+              Alert.alert(
+                "Xác thực Sinh Trắc Học không khả dụng",
+                "\nVui lòng nhập mật khẩu để đăng nhập."
+              );
+            } else if (
+              err.code == "AUTHENTICATION_FAILED" ||
+              err.code == "AUTHENTICATION_CANCELED"
+            ) {
+              return;
+            } else if (
+              err.code == "FINGERPRINT_ERROR_LOCKOUT" ||
+              err.code == "FINGERPRINT_ERROR_LOCKOUT_PERMANENT"
+            ) {
+              Alert.alert(
+                "Không tìm thấy dữ liệu Xác thực Sinh Trắc Học",
+                "\nVui lòng nhập mật khẩu để đăng nhập."
+              );
+            } else {
+              Alert.alert("Lỗi !!!", `\nLỗi bất ngờ. (${err.code})`);
+            }
+          }
+        });
+    } catch (error) {
+      console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  error:", error);
+    }
+  };
+
   // Check Face ID
-  const checkFaceIDAvailability = () => {
+
+  const checkBiometric = () => {
     TouchID.isSupported()
       .then(async (biometryType) => {
         const checkFaceId = await getData(StorageNames.CHECK_FACE_ID_ENABLED);
-        if (biometryType === "FaceID") {
+        if (Platform.OS === "ios" && biometryType === "FaceID") {
+          customerId !== null && checkFaceId !== true
+            ? setIsVisiableModalFace(true)
+            : setIsVisiableModalFace(false);
+        } else if (
+          Platform.OS === "android" &&
+          biometryType === "Fingerprint"
+        ) {
           customerId !== null && checkFaceId !== true
             ? setIsVisiableModalFace(true)
             : setIsVisiableModalFace(false);
         }
       })
       .catch((error) => {
-        Alert.alert("Face ID is not supported", error.message);
+        if (Platform.OS === "ios") {
+          Alert.alert("Face ID is not supported", error.message);
+        } else if (Platform.OS === "android") {
+          Alert.alert("Fingerprint is not supported", error.message);
+        }
       });
   };
+  // Update location
   const updateLocation = async () => {
     try {
       Geolocation.getCurrentPosition(
@@ -93,10 +158,12 @@ const HomeScreen = () => {
             mainAction.locationUpdate(location, dispatch);
           }
         },
-        (error) => {},
+        () => {},
         { enableHighAccuracy: false, timeout: 20000 }
       );
-    } catch (e) {}
+    } catch {
+      //
+    }
   };
   // Save service
   const OVG_spService_BookingService_Save = async (pr) => {
@@ -121,6 +188,7 @@ const HomeScreen = () => {
     calling();
   };
 
+  // Save service not officer
   const OVG_spService_BookingService_Save_Not_Officer = async (pr) => {
     try {
       const params = {
@@ -136,6 +204,7 @@ const HomeScreen = () => {
     }
   };
 
+  // Handle pending service
   const handlePendingService = async () => {
     try {
       const serviceParams = await getData(StorageNames.SERVICE_PENDING);
@@ -147,6 +216,7 @@ const HomeScreen = () => {
     }
   };
 
+  // Shop_spWeb_Slides_List
   const Shop_spWeb_Slides_List = async () => {
     try {
       const pr = {
@@ -158,7 +228,6 @@ const HomeScreen = () => {
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
       if (result.length > 0) {
-        console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  result:", result);
         setDataCarousel(result);
       }
     } catch {
@@ -166,6 +235,7 @@ const HomeScreen = () => {
     }
   };
 
+  // Shop_spWeb_News_List
   const Shop_spWeb_News_List = async () => {
     try {
       const pr = {
@@ -179,13 +249,17 @@ const HomeScreen = () => {
       if (result.length > 0) {
         setDataNewService(result);
       }
-    } catch {}
+    } catch {
+      //
+    }
   };
 
+  // Modal Face ID
   const modalFaceId = async () => {
     setIsVisiableModalFace(false);
   };
 
+  // Handle Authentication
   const handleAuthentication = () => {
     const optionalConfigObject = {
       title: "Authentication Required",

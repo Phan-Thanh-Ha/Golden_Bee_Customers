@@ -10,10 +10,6 @@ import { getIconById } from "../../../Utils/RoutingService";
 import { useSelector } from "react-redux";
 import { PropTypes } from "prop-types";
 
-MenuPickup.propTypes = {
-  onPress: PropTypes.func,
-};
-
 export const MenuPickup = ({ onPress = () => {} }) => {
   const data = useSelector((state) => state.main.menuService);
   const navi = useNavigation();
@@ -68,4 +64,7 @@ export const MenuPickup = ({ onPress = () => {} }) => {
       numColumns={5}
     />
   );
+};
+MenuPickup.propTypes = {
+  onPress: PropTypes.func,
 };

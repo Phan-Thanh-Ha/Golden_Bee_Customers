@@ -56,8 +56,8 @@ const AddressSearch = () => {
       if (result) {
         setOldAddressSearch(result);
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      //
     }
   };
 

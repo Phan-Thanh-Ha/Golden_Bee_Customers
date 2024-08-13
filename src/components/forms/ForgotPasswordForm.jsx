@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
-import Toast from "react-native-toast-message";
 import CustomInput from "./CustomInput";
 import CustomLabel from "./CustomLabel";
 import { colors } from "../../styles/Colors";
@@ -10,9 +9,9 @@ import CustomFormError from "./CustomFormError";
 import Button from "../buttons/Button";
 import { ScreenNames } from "../../Constants";
 import LogoBeeBox from "../LogoBeeBox";
-import { GroupUserId } from "../../Utils";
+import { PropTypes } from "prop-types";
 
-const ForgotPasswordForm = ({ setSubmit, navigation }) => {
+const ForgotPasswordForm = ({ navigation }) => {
   const validationSchema = yup.object().shape({
     phoneNumber: yup
       .string()
@@ -27,30 +26,18 @@ const ForgotPasswordForm = ({ setSubmit, navigation }) => {
       .oneOf([yup.ref("password"), null], "Xác nhận mật khẩu không khớp")
       .required("Thông tin bắt buộc"),
   });
-  const [loading, setLoading] = useState(false);
-  const [forgotMessage, setForgotMessage] = useState("");
 
-  const handleSubmit = async (values) => {
-    setLoading(true);
+  const handleSubmit = async () => {
     try {
-      const pr = {
-        CustomerId: 522,
-        Password: "123456",
-        PasswordOld: 123123,
-        GroupId: GroupUserId,
-      };
-    } catch (error) {
-      setLoading(false);
-      // console.log(error);
+      // const pr = {
+      //   CustomerId: 522,
+      //   Password: "123456",
+      //   PasswordOld: 123123,
+      //   GroupId: GroupUserId,
+      // };
+    } catch {
+      //
     }
-    // Toast.show({
-    //   type: 'success',
-    //   text1: 'Thông tin đăng ký',
-    //   text2: JSON.stringify(values),
-    // });
-    // navigation.navigate(ScreenNames.CONFIRM_OTP_PASSWORD, {
-    //   data: values
-    // });
   };
 
   return (
@@ -193,5 +180,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
+ForgotPasswordForm.defaultProps = {
+  setSubmit: () => {},
+  navigation: {},
+};
+ForgotPasswordForm.propTypes = {
+  setSubmit: PropTypes.func,
+  navigation: PropTypes.object,
+};
 
 export default ForgotPasswordForm;
