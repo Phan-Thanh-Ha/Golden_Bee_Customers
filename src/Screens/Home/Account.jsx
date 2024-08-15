@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { colors, themeColors } from "../../styles/Colors";
 import { ScreenNames, StorageNames } from "../../Constants";
 import { useNavigation } from "@react-navigation/native";
-import { removeData } from "../../Utils";
+import { removeData, Version_Customer } from "../../Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { mainAction } from "../../Redux/Action";
 import MainStyles, { SCREEN_HEIGHT } from "../../styles/MainStyle";
@@ -66,7 +66,7 @@ const Account = () => {
           </View>
           <Box height={SCREEN_HEIGHT * 0.02} />
           <View style={styles.content}>
-            {userLogin?.Avatar ? (
+            {userLogin?.Avatar ? (P
               <Avatar
                 source={{ uri: APIImage + userLogin?.Avatar }}
                 size="giant"
@@ -84,17 +84,17 @@ const Account = () => {
                 <Icon
                   style={styles.icon}
                   fill="#3366FF"
-                  name="bookmark-outline"
+                  name="person-outline"
                 />
                 <Text category="s1" style={styles.textT}>
-                  Mã khách hàng: {userLogin?.CustomerCode}
+                  {userLogin?.CustomerCode}
                 </Text>
               </View>
               <View style={styles.infoRow}>
                 <Icon
                   style={styles.icon}
                   fill="#3366FF"
-                  name="person-outline"
+                  name="bookmark-outline"
                 />
                 <Text category="s1" style={styles.textT}>
                   Tên khách hàng: {userLogin?.CustomerName}
@@ -146,6 +146,9 @@ const Account = () => {
             Đăng xuất
           </Button>
         </View>
+        <View style={MainStyles.flexRowCenter}>
+          <Text style={MainStyles.version}>{Version_Customer}</Text>
+        </View>
         {userLogin?.Phone === "0943214791" && (
           <View style={{ margin: 10 }}>
             <Button
@@ -172,10 +175,10 @@ const Account = () => {
       <ModalEditUser
         isModalVisible={modalEditUser}
         setModalVisible={setModalEditUser}
-        onConfirm1={() => {}}
-        onConfirm2={() => {}}
+        onConfirm1={() => { }}
+        onConfirm2={() => { }}
       />
-      <Box height={SCREEN_HEIGHT * 0.1} bgColor={themeColors.background} />
+      <Box height={SCREEN_HEIGHT * 0.1} bgColor={colors.WHITE} />
     </View>
   );
 };

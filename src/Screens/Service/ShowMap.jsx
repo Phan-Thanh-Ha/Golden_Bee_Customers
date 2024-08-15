@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   View,
   ScrollView,
   SafeAreaView,
   Image,
+  Text,
+  Touchable,
+  TouchableOpacity,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { GOOGLE_API_KEY } from "../../Utils";
 import { CardLocation } from "../../components";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
-import Loading from "../../components/Loading";
 import { pin_outline } from "../../assets";
 import { getRouterById } from "../../Utils/RoutingService";
 import Button from "../../components/buttons/Button";
@@ -21,20 +23,34 @@ import Box from "../../components/Box";
 import ArrowRight from "../../components/svg/ArrowRight";
 import BackButton from "../../components/BackButton";
 import Geolocation from "@react-native-community/geolocation";
+import { useSelector } from "react-redux";
+import Loading from "../../components/Loading";
+import { Icon } from "@ui-kitten/components";
+import GetLocationTitle from "../../Utils/GetLocationTitle";
 
 const ShowMap = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { service } = route.params || {};
+  // ref điều khiển MapView
+  const mapRef = useRef(null);
+  // xác định trạng thái onRegionChange
+  const [move, setMove] = useState(false);
+
+  // Lấy thông tin vị trí hiện tại từ redux gồm {address, latitude, longitude}
+  // const locationTime = useSelector((state) => state.main.locationTime);
+
   const [region, setRegion] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: service?.latitude || 0,
+    longitude: service?.longitude || 0,
+    latitudeDelta: 0.015,
+    longitudeDelta: 0.0121,
   });
+
   const [region1, setRegion1] = useState({
     latitude: region?.latitude || 0,
     longitude: region?.longitude || 0,
+    address: service.Address
   });
 
   useEffect(() => {
@@ -68,101 +84,121 @@ const ShowMap = () => {
         longitude: location.lng,
       });
     } catch (error) {
-      // console.error("Error fetching place details:", error);
-      // Handle error gracefully
+      console.error("Error fetching location:", error);
     }
   };
 
+  // Xác nhận chọn vị trí này
   const handleNext = () => {
     navigation.navigate(getRouterById(service.ServiceId), {
       service: {
         ...service,
-        Latitude: region.latitude,
-        Longitude: region.longitude,
+        Latitude: region1.latitude,
+        Longitude: region1.longitude,
+        Address: region1?.address,
       },
     });
   };
 
-  const onRegionChangeComplete = (newRegion) => {
-    console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  newRegion:", newRegion);
-    setRegion1(newRegion);
-    // setRegion(newRegion);
-  };
-  const onMapMarkerDragEnd = (newRegion) => {
-    console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  location:", newRegion);
+  // Khi bản đồ bắt đầu di chuyển
+  const onRegionChangeStart = () => {
+    if (!move) {
+      setMove(true);
+    }
   };
 
+  // Hàm xử lý khi dừng di chuyển mao
+  const onRegionChangeComplete = async (newRegion) => {
+    if (move) setMove(false);
+    // lấy tên địa chỉ từ lat long nhận được
+    const locationTitle = await GetLocationTitle(newRegion.latitude, newRegion.longitude);
+    setRegion1(locationTitle);
+  };
+
+  // Xử lý focus màn hình về lại vị trí hiện tại
   const goToCurrentLocation = () => {
     Geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setRegion({
-          ...region,
+
+        const newRegion = {
           latitude,
           longitude,
-        });
-        setRegion1({
-          latitude,
-          longitude,
-        });
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        };
+
+        setRegion(newRegion);
+        if (mapRef.current) {
+          mapRef.current.animateToRegion(newRegion, 1000);
+        }
       },
       (error) => {
-        console.error("Error getting current location:", error);
+        console.error("Error getting location:", error);
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      { enableHighAccuracy: false, timeout: 20000 }
     );
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <BackButton color={colors.BLACK} />
+      <View style={styles.fixedCenter}>
+        <Loading
+          source={pin_outline}
+          style={{ width: 64, height: 64 }}
+        />
+      </View>
       <ScrollView>
         <View>
           <MapView
+            ref={mapRef}  // ref điều khiển map
             style={styles.map}
             region={region}
+            onRegionChange={onRegionChangeStart}
+            onRegionChangeComplete={onRegionChangeComplete}
             zoomEnabled={true}
-            onRegionChange={onRegionChangeComplete}
           >
+            {/* Đánh dấu vị trí hiện tại */}
             <Marker
               coordinate={{
-                latitude: region1.latitude,
-                longitude: region1.longitude,
+                latitude: region.latitude,
+                longitude: region.longitude,
               }}
-              onDragEnd={(e) =>
-                onRegionChangeComplete(e.nativeEvent.coordinate)
-              }
               title={service.Address}
-              draggable={true}
             >
               <View style={styles.markerContainer}>
-                <Loading
-                  source={pin_outline}
-                  style={{ width: 64, height: 64 }}
-                />
+                <View style={styles.circle}>
+                  <Icon
+                    style={styles.icon}
+                    fill="#3366FF"
+                    name="radio-button-on"
+                    animation={"pulse"}
+                  />
+                </View>
               </View>
             </Marker>
           </MapView>
-          {/* Center marker icon */}
-          <View style={styles.markerFixed}>
-            <Image source={pin_outline} style={{ width: 64, height: 64 }} />
-          </View>
-          <View style={styles.topBar}>
-            <CardLocation
-              onPress={() => navigation.goBack()}
-              location={service.Address}
-            />
-          </View>
+          {/* Nút đưa màn hình focus về vị trí hiện tại */}
           <View style={styles.buttonContainer}>
-            <Button
-              title="Quay lại vị trí hiện tại"
+            <TouchableOpacity
               onPress={goToCurrentLocation}
-            />
+            >
+              <View style={styles.buttonNowLocation}>
+                <Icon
+                  style={styles.icon}
+                  fill="#3366FF"
+                  name="navigation-2"
+                  animation={"pulse"}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
 
         <CardLocation
           onPress={() => navigation.goBack()}
-          location={service.Address}
+          location={region1?.address}
         />
         <View style={styles.bodyContainer}>
           <Box height={80} />
@@ -193,9 +229,22 @@ const ShowMap = () => {
   );
 };
 
-export default ShowMap;
-
 const styles = StyleSheet.create({
+  buttonNowLocation: {
+    backgroundColor: 'rgba(51, 102, 255, 0.2)',
+    padding: 10,
+    borderRadius: 50,
+  },
+  fixedCenter: {
+    position: "absolute",
+    top: '37%',
+    left: '50%',
+    transform: [{ translateX: -50 }, { translateY: -50 }],
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    zIndex: 9999,
+  },
   map: {
     height: SCREEN_HEIGHT / 1.3,
   },
@@ -237,6 +286,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  circle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'rgba(51, 102, 255, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icon: {
+    width: 24,
+    height: 24,
+  },
   buttonContainer: {
     position: "absolute",
     bottom: 80,
@@ -245,3 +306,4 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
 });
+export default ShowMap;

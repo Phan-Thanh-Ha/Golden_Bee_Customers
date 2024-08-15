@@ -114,7 +114,7 @@ const Welfare = () => {
               alignItems: "center",
             }}
           >
-            <TouchableOpacity
+            <View
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -153,7 +153,7 @@ const Welfare = () => {
                 Nhận vô vàn quà tặng khi tích điểm trên ứng dụng và đổi quà cùng
                 Ong Vàng !
               </Text>
-            </TouchableOpacity>
+            </View>
             <TouchableOpacity
               style={{
                 flex: 1,

@@ -62,36 +62,36 @@ const ConfirmBooking = () => {
   const isMounted = useRef(true);
 
   const handleBooking = async () => {
-    const pr = {
-      CustomerId: userLogin?.Id || 0,
-      CustomerName: userLogin?.CustomerName || "",
-      CustomerPhone: userLogin?.Phone || 0,
-      Lat: dataConfirmService?.Latitude || 0.0,
-      Lng: dataConfirmService?.Longitude || 0.0,
-      ServiceId: dataConfirmService?.ServiceId || 0,
-      ServiceName: dataConfirmService?.ServiceName || "",
-      TotalMoney: dataConfirmService?.TotalPrice || 0,
-      Payment: payment ? 1 : 0,
-      StaffTotal: dataConfirmService?.people || 0,
-      RoomTotal: dataConfirmService?.room || 0,
-      Premium: dataConfirmService?.premium ? 1 : 0,
-      TimeService: RoundUpNumber(dataConfirmService?.workingTime, 0) || 0,
-      ServiceCode: dataConfirmService?.ServiceCode || "",
-      Note: dataConfirmService?.note || "",
-      ListServiceAdditional: dataConfirmService?.otherService || [],
-      AddressService: dataConfirmService?.Address || "",
-      SelectOption: dataConfirmService?.serviceOption || {},
-      UsedVoucher: selectedVouchers.length > 0 ? 1 : 0,
-      Voucher: selectedVouchers || [],
-      PriceAfterDiscount: priceAfterDiscount || 0,
-      TotalDiscount: totalDiscount || 0,
-      GroupUserId: GroupUserId || 0,
-    };
+    // const pr = {
+    //   CustomerId: userLogin?.Id || 0,
+    //   CustomerName: userLogin?.CustomerName || "",
+    //   CustomerPhone: userLogin?.Phone || 0,
+    //   Lat: dataConfirmService?.Latitude || 0.0,
+    //   Lng: dataConfirmService?.Longitude || 0.0,
+    //   ServiceId: dataConfirmService?.ServiceId || 0,
+    //   ServiceName: dataConfirmService?.ServiceName || "",
+    //   TotalMoney: dataConfirmService?.TotalPrice || 0,
+    //   Payment: payment ? 1 : 0,
+    //   StaffTotal: dataConfirmService?.people || 0,
+    //   RoomTotal: dataConfirmService?.room || 0,
+    //   Premium: dataConfirmService?.premium ? 1 : 0,
+    //   TimeService: RoundUpNumber(dataConfirmService?.workingTime, 0) || 0,
+    //   ServiceCode: dataConfirmService?.ServiceCode || "",
+    //   Note: dataConfirmService?.note || "",
+    //   ListServiceAdditional: dataConfirmService?.otherService || [],
+    //   AddressService: dataConfirmService?.Address || "",
+    //   SelectOption: dataConfirmService?.serviceOption || {},
+    //   UsedVoucher: selectedVouchers.length > 0 ? 1 : 0,
+    //   Voucher: selectedVouchers || [],
+    //   PriceAfterDiscount: priceAfterDiscount || 0,
+    //   TotalDiscount: totalDiscount || 0,
+    //   GroupUserId: GroupUserId || 0,
+    // };
     isMounted.current = true;
-    setData(StorageNames.SERVICE_PENDING, pr);
+    // setData(StorageNames.SERVICE_PENDING, pr);
     if (userLogin?.Phone === "0943214791") {
       await removeStorage();
-      await removeData(StorageNames.SERVICE_PENDING);
+      // await removeData(StorageNames.SERVICE_PENDING);
       navi.reset({
         index: 0,
         routes: [
@@ -113,7 +113,7 @@ const ConfirmBooking = () => {
   const handleCancel = async () => {
     setIsOver(false);
     await removeStorage();
-    await removeData(StorageNames.SERVICE_PENDING);
+    // await removeData(StorageNames.SERVICE_PENDING);
     setIsModalVisible(false);
     isMounted.current = false;
     resetModalState();
@@ -141,7 +141,7 @@ const ConfirmBooking = () => {
     useCallback(() => {
       const onBackPress = async () => {
         await removeStorage();
-        await removeData(StorageNames.SERVICE_PENDING);
+        // await removeData(StorageNames.SERVICE_PENDING);
         navi.goBack();
         return true;
       };
@@ -225,7 +225,7 @@ const ConfirmBooking = () => {
         const result = await mainAction.API_spCallServer(params, dispatch);
         if (result?.Status === "OK") {
           await removeStorage();
-          await removeData(StorageNames.SERVICE_PENDING);
+          // await removeData(StorageNames.SERVICE_PENDING);
           const idFirebaseObject = JSON.parse(result.ListData[0].IdFirebase.IdFirebase);
           console.log("idFirebaseObject", idFirebaseObject.name);
           navi.reset({
@@ -265,7 +265,7 @@ const ConfirmBooking = () => {
       } catch {
         // console.log("error", error);
         await removeStorage();
-        await removeData(StorageNames.SERVICE_PENDING);
+        // await removeData(StorageNames.SERVICE_PENDING);
         setLoading(false);
         setIsModalVisible(false);
       }
@@ -276,7 +276,7 @@ const ConfirmBooking = () => {
   // lưa đơn không có nhân viên nhận
   const OVG_spService_BookingService_Save_Not_Officer = async () => {
     setLoading(true);
-    await removeData(StorageNames.SERVICE_PENDING);
+    // await removeData(StorageNames.SERVICE_PENDING);
     await removeStorage();
     try {
       const pr = {
@@ -305,13 +305,11 @@ const ConfirmBooking = () => {
         GroupUserId: GroupUserId || 0,
         IsConfirm: 0
       };
-      console.log("pr not officer------------", pr);
       const params = {
         Json: JSON.stringify(pr),
         func: "OVG_spService_BookingService_Save_V2",
       };
       const result = await mainAction.API_spCallServer(params, dispatch);
-      console.log("result not officer------------", result);
       if (result?.Status === "OK") {
         AlertToaster("success", "Đơn dịch vụ đã được gửi tới admin");
         navi.reset({
@@ -637,7 +635,7 @@ const ConfirmBooking = () => {
         titleBtn2={"Hủy đơn dịch vụ"}
         onConfirm1={async () => {
           await removeStorage();
-          await removeData(StorageNames.SERVICE_PENDING);
+          // await removeData(StorageNames.SERVICE_PENDING);
           OVG_spService_BookingService_Save_Not_Officer();
           handleCancel();
           // navi.navigate(ScreenNames.MAIN_NAVIGATOR);
@@ -645,7 +643,7 @@ const ConfirmBooking = () => {
         onConfirm2={async () => {
           // handleCancel();
           await removeStorage();
-          await removeData(StorageNames.SERVICE_PENDING);
+          // await removeData(StorageNames.SERVICE_PENDING);
           handleCancel();
           navi.reset({
             routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],

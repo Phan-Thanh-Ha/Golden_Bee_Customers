@@ -96,9 +96,9 @@ export const BottomTabNavigator = () => {
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <Animated.View style={styles.btnCircleUp}>
-          <TouchableOpacity style={styles.button}>
-            <Image source={logo_bee_blue} style={styles.circleIcon} />
-          </TouchableOpacity>
+          {/* <TouchableOpacity style={styles.button}> */}
+          <Image source={logo_bee_blue} style={styles.circleIcon} />
+          {/* </TouchableOpacity> */}
         </Animated.View>
       )}
       tabBar={renderTabBar}

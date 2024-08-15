@@ -6,12 +6,14 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
+  Image,
 } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../styles/Colors";
 import MainStyles, { SCREEN_WIDTH } from "../styles/MainStyle";
 import { parseTimeSql } from "../Utils";
 import { PropTypes } from "prop-types";
+import { ic_gift } from "../assets";
 
 const VoucherComponent = ({
   vouchers,
@@ -56,19 +58,30 @@ const VoucherComponent = ({
         style={backgroundColorStyle}
         disabled={isDisabled}
       >
-        <View style={styles.voucherContent}>
-          <Text style={styles.voucherCode}>
-            ⚡ Mã voucher: {item?.VoucherCode}
-          </Text>
-          <Text style={styles.voucherDiscount}>
-            Giảm{" "}
-            {item?.TypeDiscount === 2
-              ? `${item?.Discount} VND`
-              : `${item?.Discount}%`}
-          </Text>
-          <Text style={styles.voucherDiscount}>
-            Ngày kết thúc: {parseTimeSql(item?.Today, 1)}
-          </Text>
+        <View style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}>
+          {/* <Image
+            source={ic_gift}
+            width={30}
+            height={30}
+            marginRight={10}
+          /> */}
+          <Text
+            style={{
+              marginRight: 10,
+              fontSize: 23,
+            }}
+          >🎁</Text>
+          <View style={styles.voucherContent}>
+            <Text style={styles.voucherCode}>
+              Mã voucher: {item?.VoucherCode}
+            </Text>
+            <Text style={styles.voucherDiscount}>
+              Giảm{" "}
+              {item?.TypeDiscount === 2
+                ? `${item?.Discount} VND`
+                : `${item?.Discount}%`}
+            </Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -131,7 +144,7 @@ const VoucherComponent = ({
               style={[styles.footerButton, styles.applyButtonColor]}
               onPress={handleApplyVouchers}
             >
-              <Text style={styles.footerButtonText}>Sử dụng</Text>
+              <Text style={styles.footerButtonText}>Áp dụng</Text>
             </TouchableOpacity>
             {selectedVouchers.length > 0 && (
               <TouchableOpacity
@@ -193,7 +206,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 10,
     borderWidth: 1,
-    borderColor: colors.GRAY,
+    borderColor: "#E7F7F7",
     borderRadius: 10,
     backgroundColor: colors.WHITE,
   },
@@ -234,7 +247,7 @@ const styles = StyleSheet.create({
     borderColor: "#ffd700", // Màu vàng
   },
   disabledVoucher: {
-    backgroundColor: "#e0e0e0", // Màu xám
+    backgroundColor: "#E7F7F7", // Màu xám
     borderColor: "#cccccc", // Màu xám
   },
   applyButtonColor: {

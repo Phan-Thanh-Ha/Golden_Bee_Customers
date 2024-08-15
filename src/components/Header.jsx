@@ -5,16 +5,19 @@ import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { colors } from "../styles/Colors";
+import { PropTypes } from "prop-types";
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
-const Header = ({ title, onBack = () => { }, isGoBack = true }) => {
+const Header = ({ title, onBack = () => {}, isGoBack = true }) => {
   const navi = useNavigation();
 
   const BackAction = () => (
-    <TopNavigationAction icon={BackIcon} onPress={() => {
-
-      isGoBack ? navi.goBack() : onBack();
-    }} />
+    <TopNavigationAction
+      icon={BackIcon}
+      onPress={() => {
+        isGoBack ? navi.goBack() : onBack();
+      }}
+    />
   );
 
   return (
@@ -38,6 +41,17 @@ const Header = ({ title, onBack = () => { }, isGoBack = true }) => {
       />
     </View>
   );
+};
+
+Header.defaultProps = {
+  title: "",
+  onBack: () => {},
+  isGoBack: true,
+};
+Header.propTypes = {
+  title: PropTypes.string,
+  onBack: PropTypes.func,
+  isGoBack: PropTypes.bool,
 };
 
 export default Header;

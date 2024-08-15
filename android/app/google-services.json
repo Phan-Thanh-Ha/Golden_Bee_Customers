@@ -45,6 +45,43 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:616914078130:android:e981b79519a29fc42ebcab",
+        "android_client_info": {
+          "package_name": "com.golden_bee_custome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616914078130-a3aov3d404l2sf0v6hmacvi29a7tgd0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANLQ5mDcjbOoMJjmzZj7KZLrVhWIYpmhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616914078130-a3aov3d404l2sf0v6hmacvi29a7tgd0q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "616914078130-05h8l1da6sadsdi8klrjk0iketl79gb9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cak-solution.golden-bee-customers",
+                "app_store_id": "6504387024"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:616914078130:android:dea2397db2498c0a2ebcab",
         "android_client_info": {
           "package_name": "com.golden_bee_customer"

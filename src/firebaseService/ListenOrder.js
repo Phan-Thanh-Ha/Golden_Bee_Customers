@@ -59,7 +59,7 @@ export const OVG_FBRT_GEtTotalOrders = async (customerId) => {
       .once("value");
 
     const ordersData = snapshot.val();
-    console.log("ordersData", ordersData);
+    // console.log("ordersData", ordersData);
 
     // Chuyển đổi đối tượng thành mảng
     const ordersArray = ordersData ? Object.values(ordersData) : [];

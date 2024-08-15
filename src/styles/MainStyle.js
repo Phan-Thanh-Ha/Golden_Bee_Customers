@@ -8,6 +8,12 @@ const MainStyles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
+  version: {
+    marginTop: 10,
+    textAlign: "center",
+    fontSize: 10,
+    color: colors.BLACK,
+  },
   CardIcon: {
     width: 24,
     height: 24,

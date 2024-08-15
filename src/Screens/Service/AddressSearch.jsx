@@ -13,7 +13,6 @@ import { mainAction } from "../../Redux/Action";
 import { limitTitle } from "../../Utils/LimitTitle";
 import BackButton from "../../components/BackButton";
 import MainStyles from "../../styles/MainStyle";
-import GetLocationTitle from "../../Utils/GetLocationTitle";
 
 const AddressSearch = () => {
   const navi = useNavigation();
@@ -26,23 +25,12 @@ const AddressSearch = () => {
   const [oldAddressSearch, setOldAddressSearch] = useState([]);
   const [statusAddressSearch, setStatusAddressSearch] = useState("basic");
   const userLogin = useSelector((state) => state.main.userLogin);
-  const [initAddress, setInitAddress] = useState({});
   const locationTime = useSelector((state) => state.main.locationTime);
-  const [inputValue, setInputValue] = useState(""); // Thêm state để lưu trữ giá trị của input
+  const [inputValue, setInputValue] = useState(locationTime?.address || "");
 
   useEffect(() => {
     OVG_spAddress_List_By_Customer();
-    GetInitialAddress();
   }, []);
-  const GetInitialAddress = async () => {
-    const result = await GetLocationTitle(
-      locationTime?.latitude,
-      locationTime?.longitude
-    );
-    if (result) {
-      setInitAddress(result);
-    }
-  };
 
   const OVG_spAddress_List_By_Customer = async () => {
     try {
@@ -94,9 +82,8 @@ const AddressSearch = () => {
 
   // Hàm kiểm tra và gọi tìm kiếm
   const handleChangeText = (text) => {
-    console.log("-----> 💀💀💀💀💀💀💀💀💀 <-----  text:", text);
     setStatusAddressSearch(text === "" ? "danger" : "basic");
-    setInputValue(text); // Cập nhật giá trị của input
+    setInputValue(text);
     debouncedHandleSearch(text);
   };
 
@@ -106,9 +93,9 @@ const AddressSearch = () => {
       <Text style={MainStyles.screenTitle}>Thêm vị trí của bạn</Text>
       <InputComponent
         placeholder={
-          limitTitle(initAddress?.address || "", 30) || "Nhập địa chỉ"
+          limitTitle(locationTime?.address || "", 30) || "Nhập địa chỉ"
         }
-        iconRight="pin"
+        iconRight="navigation-2"
         inputStatus={statusAddressSearch}
         txtWarning="Vui lòng nhập địa chỉ"
         style={{
@@ -122,8 +109,8 @@ const AddressSearch = () => {
               ...service,
               Address: inputValue,
               place_id: "",
-              latitude: initAddress?.latitude,
-              longitude: initAddress?.longitude,
+              latitude: locationTime?.latitude,
+              longitude: locationTime?.longitude,
             },
           });
         }}

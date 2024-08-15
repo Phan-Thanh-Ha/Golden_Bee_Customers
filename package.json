@@ -15,7 +15,7 @@
     "postinstall": "patch-package",
     "apk": "cd android && ./gradlew clean && ./gradlew assembleRelease && open app/build/outputs/apk/release",
     "abb": "cd android && ./gradlew clean && ./gradlew bundleRelease && open app/build/outputs/bundle/release",
-    "remove-app": "adb uninstall com.golden_bee_customer"
+    "remove-app": "adb uninstall com.golden_bee_custome"
   },
   "dependencies": {
     "@codler/react-native-keyboard-aware-scroll-view": "^2.0.1",
@@ -61,7 +61,7 @@
     "react-native-iphone-x-helper": "^1.3.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.8.3",
-    "react-native-maps": "1.2.0",
+    "react-native-maps": "1.14.0",
     "react-native-maps-directions": "^1.9.0",
     "react-native-modal": "^13.0.1",
     "react-native-permissions": "^4.1.5",

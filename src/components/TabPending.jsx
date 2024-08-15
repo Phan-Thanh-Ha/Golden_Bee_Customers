@@ -58,8 +58,7 @@ const TabPending = ({ dataPending = [] }) => {
                           name="person-outline"
                         />
                         <Text style={MainStyles.textCardJob}>
-                          Tên nhân viên :
-                          {item?.StaffName || "Chưa có nhân viên nhận đơn"}
+                          Tên nhân viên: {item?.StaffName || "Chưa có nhân viên nhận đơn"}
                         </Text>
                       </View>
                     </View>
@@ -73,7 +72,7 @@ const TabPending = ({ dataPending = [] }) => {
                           name="phone-outline"
                         />
                         <Text style={MainStyles.textCardJob}>
-                          Số điện thoại : {item?.StaffPhone || "Chưa có thông tin"}
+                          Số điện thoại: {item?.StaffPhone || "Chưa có thông tin"}
                         </Text>
                       </View>
                     </View>
@@ -86,7 +85,7 @@ const TabPending = ({ dataPending = [] }) => {
                         name="flash-outline"
                       />
                       <Text style={MainStyles.textCardJob}>
-                        Trạng thái: {GenerateStatusOrder(item.StatusOrder || 0)}
+                        {GenerateStatusOrder(item.StatusOrder || 0)}
                       </Text>
                     </View>
                   </View>
@@ -142,12 +141,6 @@ const TabPending = ({ dataPending = [] }) => {
               ))
             }
           </ScrollView>
-          {/* <TouchableOpacity
-            style={MainStyles.mdBottom_closeButton}
-            onPress={() => setModalVisible(false)}
-          >
-            <Text style={MainStyles.mdBottom_closeButtonText}>Đóng</Text>
-          </TouchableOpacity> */}
         </View>
       </Modal>
     </View>

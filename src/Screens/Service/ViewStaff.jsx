@@ -195,7 +195,7 @@ const ViewStaffScreen = () => {
               name="people-outline"
             />
             <Text style={MainStyles.textCardJob}>
-              Số lượng nhân viên: {data?.DataService?.StaffTotal || 0} nhân viên
+              Số lượng nhân viên: {clientOrder?.DataService?.StaffTotal || 0} nhân viên
             </Text>
           </View>
         </View>

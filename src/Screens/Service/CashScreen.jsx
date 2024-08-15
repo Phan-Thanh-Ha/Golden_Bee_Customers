@@ -203,27 +203,27 @@ const CashScreen = ({ route }) => {
                     </View>
                     {data?.DataService?.Voucher?.length > 0
                       ? data?.DataService?.Voucher.map((item) => (
-                          <View
-                            key={item?.VoucherId.toString()}
-                            style={MainStyles.flexRowFlexStart}
-                          >
-                            <Icon
-                              style={{
-                                marginLeft: SCREEN_WIDTH * 0.07,
-                                width: 20,
-                                height: 20,
-                              }}
-                              fill="#3366FF"
-                              name="plus-outline"
-                            />
-                            <Text style={[MainStyles.textCardJob]}>
-                              CODE: {item?.VoucherCode} - giảm{" "}
-                              {item?.TypeDiscount === 1
-                                ? item?.Discount + "%"
-                                : FormatMoney(item?.Discount) + " đ"}
-                            </Text>
-                          </View>
-                        ))
+                        <View
+                          key={item?.VoucherId.toString()}
+                          style={MainStyles.flexRowFlexStart}
+                        >
+                          <Icon
+                            style={{
+                              marginLeft: SCREEN_WIDTH * 0.07,
+                              width: 20,
+                              height: 20,
+                            }}
+                            fill="#3366FF"
+                            name="plus-outline"
+                          />
+                          <Text style={[MainStyles.textCardJob]}>
+                            CODE: {item?.VoucherCode} - giảm{" "}
+                            {item?.TypeDiscount === 1
+                              ? item?.Discount + "%"
+                              : FormatMoney(item?.Discount) + " đ"}
+                          </Text>
+                        </View>
+                      ))
                       : null}
                   </View>
                 )}
@@ -302,7 +302,6 @@ const CashScreen = ({ route }) => {
                             name="flash-outline"
                           />
                           <Text style={MainStyles.textCardJob}>
-                            Trạng thái:{" "}
                             {GenerateStatusOrder(item.StatusOrder || 0)}
                           </Text>
                         </View>
@@ -310,7 +309,7 @@ const CashScreen = ({ route }) => {
                       {item?.StaffPhone && (
                         <View style={MainStyles.flexRowCenter}>
                           {item?.StatusOrder === 1 ||
-                          item?.StatusOrder === 2 ? (
+                            item?.StatusOrder === 2 ? (
                             <TouchableOpacity
                               onPress={() => {
                                 navi.navigate(ScreenNames.VIEW_STAFF, {
