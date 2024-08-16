@@ -46,8 +46,8 @@ const TabPending = ({ dataPending = [] }) => {
           <Box style={{ marginBottom: 10 }} />
           <ScrollView>
             {
-              StaffInformation?.length > 0
-              && StaffInformation?.map((item, index) => (
+              StaffInformation?.StaffInformation?.length > 0
+              && StaffInformation?.StaffInformation?.map((item, index) => (
                 <View style={MainStyles.cardStaff} key={index}>
                   {item?.StaffName && (
                     <View style={MainStyles.rowMargin}>
@@ -99,15 +99,12 @@ const TabPending = ({ dataPending = [] }) => {
                               navi.navigate(
                                 ScreenNames.VIEW_STAFF,
                                 {
-                                  data: { OrderId: item?.OrderId },
+                                  data: {
+                                    ...StaffInformation,
+                                    OrderId: item?.OrderId
+                                  },
                                 }
                               )
-                              // navi.navigate(
-                              //   ScreenNames.VIEW_ALL_STAFF,
-                              //   {
-                              //     data: { OrderId: item?.OrderId },
-                              //   }
-                              // )
                             }}
                           >
                             <View style={[MainStyles.flexRowCenter, MainStyles.cardBtnViewLocation]}>
@@ -116,7 +113,6 @@ const TabPending = ({ dataPending = [] }) => {
                                 fill="#FFFFFFFF"
                                 name="navigation-2-outline"
                               />
-                              {/* <Text style={MainStyles.textCardPhoneCall}>Xem vị trí</Text> */}
                             </View>
                           </TouchableOpacity>
                         ) : null

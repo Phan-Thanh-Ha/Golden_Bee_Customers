@@ -4,9 +4,6 @@ import {
   View,
   ScrollView,
   SafeAreaView,
-  Image,
-  Text,
-  Touchable,
   TouchableOpacity,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
@@ -14,7 +11,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { GOOGLE_API_KEY } from "../../Utils";
 import { CardLocation } from "../../components";
-import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { pin_outline } from "../../assets";
 import { getRouterById } from "../../Utils/RoutingService";
@@ -23,7 +20,6 @@ import Box from "../../components/Box";
 import ArrowRight from "../../components/svg/ArrowRight";
 import BackButton from "../../components/BackButton";
 import Geolocation from "@react-native-community/geolocation";
-import { useSelector } from "react-redux";
 import Loading from "../../components/Loading";
 import { Icon } from "@ui-kitten/components";
 import GetLocationTitle from "../../Utils/GetLocationTitle";

@@ -39,6 +39,8 @@ import ViewLocationStaff from "../Screens/Service/ViewLocationStaff";
 import ViewStaff from "../Screens/Service/ViewStaff";
 import ServiceCarouselDetail from "../Screens/Home/ServiceCarouselDetail";
 import ContrubutionsDetailScreen from "../Screens/Home/ContrubutionsDetailScreen";
+import ViewAllStaff from "../Screens/Service/ViewAllStaff";
+import GiftDetailScreen from "../Screens/Home/GiftDetailScreen";
 
 const MainStack = createStackNavigator();
 
@@ -160,12 +162,20 @@ const RootNavigator = () => {
           component={ViewLocationStaff}
         />
         <MainStack.Screen
+          name={ScreenNames.VIEW_ALL_STAFF}
+          component={ViewAllStaff}
+        />
+        <MainStack.Screen
           name={ScreenNames.SERVICE_CAROUSEL_DETAIL}
           component={ServiceCarouselDetail}
         />
         <MainStack.Screen
           name={ScreenNames.CONTRIBUTIONS_DETAIL}
           component={ContrubutionsDetailScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.GIFT_DETAIL}
+          component={GiftDetailScreen}
         />
         <MainStack.Screen name={ScreenNames.VIEW_STAFF} component={ViewStaff} />
       </MainStack.Navigator>

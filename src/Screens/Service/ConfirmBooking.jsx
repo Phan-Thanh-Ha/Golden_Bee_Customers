@@ -89,7 +89,7 @@ const ConfirmBooking = () => {
     // };
     isMounted.current = true;
     // setData(StorageNames.SERVICE_PENDING, pr);
-    if (userLogin?.Phone === "0943214791") {
+    if (userLogin?.Phone === "1900561558") {
       await removeStorage();
       // await removeData(StorageNames.SERVICE_PENDING);
       navi.reset({
@@ -226,13 +226,14 @@ const ConfirmBooking = () => {
         if (result?.Status === "OK") {
           await removeStorage();
           // await removeData(StorageNames.SERVICE_PENDING);
-          const idFirebaseObject = JSON.parse(result.ListData[0].IdFirebase.IdFirebase);
-          console.log("idFirebaseObject", idFirebaseObject.name);
+          const idFirebaseObject = JSON.parse(
+            result.ListData[0].IdFirebase.IdFirebase
+          );
           navi.reset({
             index: 0,
             routes: [
               {
-                name: ScreenNames.VIEW_STAFF,
+                name: ScreenNames.VIEW_ALL_STAFF,
                 params: { data: { OrderId: idFirebaseObject.name } },
               },
             ],
@@ -303,7 +304,7 @@ const ConfirmBooking = () => {
         PriceAfterDiscount: priceAfterDiscount || 0,
         TotalDiscount: totalDiscount || 0,
         GroupUserId: GroupUserId || 0,
-        IsConfirm: 0
+        IsConfirm: 0,
       };
       const params = {
         Json: JSON.stringify(pr),
@@ -370,7 +371,8 @@ const ConfirmBooking = () => {
                   name="people-outline"
                 />
                 <Text style={MainStyles.textCardJob}>
-                  Số lượng nhân viên: {dataConfirmService?.people || 0} nhân viên
+                  Số lượng nhân viên: {dataConfirmService?.people || 0} nhân
+                  viên
                 </Text>
               </View>
             </View>
@@ -383,8 +385,7 @@ const ConfirmBooking = () => {
                     name="share-outline"
                   />
                   <Text style={MainStyles.textCardJob}>
-                    Loại:{" "}
-                    {dataConfirmService?.serviceOption?.OptionName}
+                    Loại: {dataConfirmService?.serviceOption?.OptionName}
                   </Text>
                 </View>
               </View>
@@ -412,7 +413,8 @@ const ConfirmBooking = () => {
                     name="clock-outline"
                   />
                   <Text style={MainStyles.textCardJob}>
-                    Làm việc trong: {RoundUpNumber(dataConfirmService?.workingTime, 0)} giờ
+                    Làm việc trong:{" "}
+                    {RoundUpNumber(dataConfirmService?.workingTime, 0)} giờ
                   </Text>
                 </View>
               </View>
@@ -480,7 +482,10 @@ const ConfirmBooking = () => {
                     borderWidth: payment ? 1 : 0,
                   },
                 ]}
-                onPress={() => setPayment(false)}
+                onPress={() => {
+                  setPayment(false);
+                  AlertToaster("success", "Đổi hình thức thanh toán", "Thanh toán tiền mặt");
+                }}
               >
                 <Text
                   style={[
@@ -506,7 +511,10 @@ const ConfirmBooking = () => {
                     borderWidth: payment ? 0 : 1,
                   },
                 ]}
-                onPress={() => setPayment(true)}
+                onPress={() => {
+                  setPayment(true);
+                  AlertToaster("success", "Đổi hình thức thanh toán", "Thanh toán chuyển khoản");
+                }}
               >
                 <Text
                   style={[
@@ -547,20 +555,23 @@ const ConfirmBooking = () => {
         <Modal
           transparent={true}
           isVisible={isModalVisible}
-          onBackdropPress={() => { }}
-          onBackButtonPress={() => { }}
+          onBackdropPress={() => {}}
+          onBackButtonPress={() => {}}
           backdropOpacity={0.3}
           style={styles.modal}
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <View style={styles.dragHandle} />
+              {userLogin?.Id === 789 && (
+                <TouchableOpacity onPress={handleCancel}>
+                  <Text style={{ fontSize: 20 }}>X</Text>
+                </TouchableOpacity>
+              )}
               <View style={[MainStyles.flexRowCenter, { marginBottom: 20 }]}>
                 <Text style={styles.headerTitle}>Đã xác nhận đặt dịch vụ</Text>
               </View>
-              <Text style={MainStyles.cardLabelConfirm}>
-                Dịch vụ
-              </Text>
+              <Text style={MainStyles.cardLabelConfirm}>Dịch vụ</Text>
               <View style={MainStyles.cardConfirmContainer}>
                 <View style={MainStyles.flexRowSpaceBetween}>
                   <Text style={MainStyles.cardTitleConfirm}>Tên dịch vụ</Text>

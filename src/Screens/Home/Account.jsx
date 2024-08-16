@@ -57,7 +57,7 @@ const Account = () => {
       />
       <Text style={MainStyles.screenTitle}>Thông tin tài khoản</Text>
       <ScrollView>
-        <Card style={styles.card}>
+        <Card style={styles.card} disabled>
           <View style={MainStyles.flexRowSpaceBetween}>
             <Text style={MainStyles.labelTitle}>Thông tin</Text>
             <TouchableOpacity onPress={() => setModalEditUser(true)}>
@@ -66,7 +66,7 @@ const Account = () => {
           </View>
           <Box height={SCREEN_HEIGHT * 0.02} />
           <View style={styles.content}>
-            {userLogin?.Avatar ? (P
+            {userLogin?.Avatar ? (
               <Avatar
                 source={{ uri: APIImage + userLogin?.Avatar }}
                 size="giant"
@@ -146,10 +146,7 @@ const Account = () => {
             Đăng xuất
           </Button>
         </View>
-        <View style={MainStyles.flexRowCenter}>
-          <Text style={MainStyles.version}>{Version_Customer}</Text>
-        </View>
-        {userLogin?.Phone === "0943214791" && (
+        {userLogin?.Phone === "1900561558" ? (
           <View style={{ margin: 10 }}>
             <Button
               onPress={() => setIsModalVisible(true)}
@@ -160,7 +157,14 @@ const Account = () => {
               Xóa tài khoản
             </Button>
           </View>
+        ) : (
+          <View style={MainStyles.flexRowCenter}>
+            <Text style={MainStyles.version}>{Version_Customer}</Text>
+          </View>
         )}
+        <View style={MainStyles.flexRowCenter}>
+          <Text style={MainStyles.version}>{Version_Customer}</Text>
+        </View>
         <Box height={SCREEN_HEIGHT * 0.2} />
       </ScrollView>
       <ModalConfirm
@@ -175,8 +179,8 @@ const Account = () => {
       <ModalEditUser
         isModalVisible={modalEditUser}
         setModalVisible={setModalEditUser}
-        onConfirm1={() => { }}
-        onConfirm2={() => { }}
+        onConfirm1={() => {}}
+        onConfirm2={() => {}}
       />
       <Box height={SCREEN_HEIGHT * 0.1} bgColor={colors.WHITE} />
     </View>

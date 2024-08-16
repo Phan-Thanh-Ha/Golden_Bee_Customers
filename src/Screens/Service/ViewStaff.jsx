@@ -44,6 +44,7 @@ const ViewStaffScreen = () => {
   const [timeOut, setTimeOut] = useState({ distance: 0, duration: 0 });
   const [clientOrder, setClientOrder] = useState({});
   const [flag, setFlag] = useState(false);
+  console.log("-----------data---------------", data);
   // Fetch order based on OrderId
   const getOrder = useCallback(() => {
     if (data?.OrderId) {
@@ -99,68 +100,66 @@ const ViewStaffScreen = () => {
 
   // Memoize the MapView component to avoid unnecessary re-renders
   const mapView = useMemo(
-    () =>
-      clientOrder?.LatitudeCustomer &&
-      clientOrder?.LongitudeCustomer && (
-        <MapView
-          style={styles.map}
-          region={{
-            latitude: clientOrder?.LatitudeCustomer,
-            longitude: clientOrder?.LongitudeCustomer,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
+    () => (
+      <MapView
+        style={styles.map}
+        region={{
+          latitude: data?.LatitudeCustomer,
+          longitude: data?.LongitudeCustomer,
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
+        }}
+        zoomEnabled={true}
+      >
+        <Marker
+          coordinate={{
+            latitude: data?.LatitudeCustomer,
+            longitude: data?.LongitudeCustomer,
           }}
-          zoomEnabled={true}
+          title={data?.DataService?.Address}
         >
-          <Marker
-            coordinate={{
-              latitude: clientOrder?.LatitudeCustomer,
-              longitude: clientOrder?.LongitudeCustomer,
-            }}
-            title={clientOrder?.DataService?.Address}
-          >
-            <View style={styles.markerContainer}>
-              <Loading source={pin_outline} style={{ width: 64, height: 64 }} />
-            </View>
-          </Marker>
-          {clientOrder?.LatitudeStaff && (
-            <>
-              <Marker
-                coordinate={{
-                  latitude: clientOrder?.LatitudeStaff,
-                  longitude: clientOrder?.LongitudeStaff,
-                }}
-              >
-                <View style={styles.markerContainer}>
-                  <Loading
-                    source={delivery_Golden}
-                    style={{ width: 64, height: 64 }}
-                  />
-                </View>
-              </Marker>
-              <MapViewDirections
-                origin={{
-                  latitude: clientOrder?.LatitudeStaff,
-                  longitude: clientOrder?.LongitudeStaff,
-                }}
-                destination={{
-                  latitude: clientOrder?.LatitudeCustomer,
-                  longitude: clientOrder?.LongitudeCustomer,
-                }}
-                apikey={GOOGLE_API_KEY}
-                strokeWidth={3}
-                strokeColor={colors.SUCCESS}
-                onReady={(result) => {
-                  setTimeOut({
-                    distance: result?.distance,
-                    duration: result?.duration,
-                  });
-                }}
-              />
-            </>
-          )}
-        </MapView>
-      ),
+          <View style={styles.markerContainer}>
+            <Loading source={pin_outline} style={{ width: 64, height: 64 }} />
+          </View>
+        </Marker>
+        {clientOrder?.LatitudeStaff && (
+          <>
+            <Marker
+              coordinate={{
+                latitude: clientOrder?.LatitudeStaff,
+                longitude: clientOrder?.LongitudeStaff,
+              }}
+            >
+              <View style={styles.markerContainer}>
+                <Loading
+                  source={delivery_Golden}
+                  style={{ width: 64, height: 64 }}
+                />
+              </View>
+            </Marker>
+            <MapViewDirections
+              origin={{
+                latitude: clientOrder?.LatitudeStaff,
+                longitude: clientOrder?.LongitudeStaff,
+              }}
+              destination={{
+                latitude: data?.LatitudeCustomer,
+                longitude: data?.LongitudeCustomer,
+              }}
+              apikey={GOOGLE_API_KEY}
+              strokeWidth={3}
+              strokeColor={colors.SUCCESS}
+              onReady={(result) => {
+                setTimeOut({
+                  distance: result?.distance,
+                  duration: result?.duration,
+                });
+              }}
+            />
+          </>
+        )}
+      </MapView>
+    ),
     [clientOrder]
   );
 
@@ -169,10 +168,10 @@ const ViewStaffScreen = () => {
       <View style={[MainStyles.contentContainerClient, { paddingBottom: 0 }]}>
         <View style={MainStyles.flexRowCenter}>
           <Text style={[MainStyles.titleCardJob, { textAlign: "center" }]}>
-            Dịch vụ {clientOrder?.DataService?.ServiceName.toLowerCase()}
+            Dịch vụ {data?.DataService?.ServiceName.toLowerCase()}
           </Text>
         </View>
-        {clientOrder?.BookingCode ? (
+        {data?.BookingCode ? (
           <Text
             style={{
               textAlign: "center",
@@ -181,7 +180,7 @@ const ViewStaffScreen = () => {
               fontWeight: "bold",
             }}
           >
-            {clientOrder?.BookingCode}
+            {data?.BookingCode}
           </Text>
         ) : null}
         <View style={MainStyles.flexRowCenter}>
@@ -195,7 +194,7 @@ const ViewStaffScreen = () => {
               name="people-outline"
             />
             <Text style={MainStyles.textCardJob}>
-              Số lượng nhân viên: {clientOrder?.DataService?.StaffTotal || 0} nhân viên
+              Số lượng nhân viên: {data?.DataService?.StaffTotal || 0} nhân viên
             </Text>
           </View>
         </View>
@@ -207,12 +206,12 @@ const ViewStaffScreen = () => {
               name="pin-outline"
             />
             <Text style={MainStyles.textCardJob}>
-              Địa chỉ: {clientOrder?.DataService?.Address}
+              Địa chỉ: {data?.DataService?.Address}
             </Text>
           </View>
         </View>
         {
-          clientOrder?.CreateAt && (
+          data?.CreateAt && (
             <View style={MainStyles.rowMargin}>
               <View style={MainStyles.flexRowFlexStart}>
                 <Icon
@@ -221,7 +220,7 @@ const ViewStaffScreen = () => {
                   name="calendar-outline"
                 />
                 <Text style={MainStyles.textCardJob}>
-                  Thời gian tạo: {dateTimeFormat(clientOrder?.CreateAt, 2)}
+                  Thời gian tạo: {dateTimeFormat(data?.CreateAt, 2)}
                 </Text>
               </View>
             </View>
@@ -234,7 +233,7 @@ const ViewStaffScreen = () => {
   );
   const renderStaffInfo = useCallback(
     () =>
-      clientOrder && clientOrder?.StaffId !== "" ? (
+      (clientOrder && clientOrder?.StaffId !== "") ? (
         <View style={{ padding: 10, paddingTop: 0 }}>
           <View
             style={[
@@ -345,7 +344,6 @@ const ViewStaffScreen = () => {
     <SafeAreaView style={styles.container}>
       {clientOrder && (
         <>
-          {/* <BackButton color={colors.MAIN_BLUE_CLIENT} /> */}
           <ScrollView>
             <View style={styles.mapContainer}>{mapView}</View>
             {renderOrderDetails()}
@@ -367,7 +365,7 @@ const ViewStaffScreen = () => {
                   fontWeight: "700",
                 }}
               >
-                {FormatMoney(clientOrder?.DataService?.PriceAfterDiscount)} VND
+                {FormatMoney(data?.DataService?.PriceAfterDiscount)} VND
               </Text>
             </View>
             <BtnDouble

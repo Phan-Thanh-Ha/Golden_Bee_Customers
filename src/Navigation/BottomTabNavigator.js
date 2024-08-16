@@ -6,6 +6,7 @@ import {
   Animated,
   Image,
   Platform,
+  View,
 } from "react-native";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
 import { logo_bee_blue } from "../assets";
@@ -96,9 +97,9 @@ export const BottomTabNavigator = () => {
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <Animated.View style={styles.btnCircleUp}>
-          {/* <TouchableOpacity style={styles.button}> */}
-          <Image source={logo_bee_blue} style={styles.circleIcon} />
-          {/* </TouchableOpacity> */}
+          <View style={styles.button}>
+            <Image source={logo_bee_blue} style={styles.circleIcon} />
+          </View>
         </Animated.View>
       )}
       tabBar={renderTabBar}

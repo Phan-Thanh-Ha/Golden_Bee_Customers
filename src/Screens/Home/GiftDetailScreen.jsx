@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { banner_service } from "../../assets";
+import { slide1 } from "../../assets";
 import MainStyles, {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
@@ -20,21 +20,20 @@ import { Icon } from "@ui-kitten/components";
 import { colors, themeColors } from "../../styles/Colors";
 import Box from "../../components/Box";
 
-const ContrubutionsDetailScreen = () => {
+const GiftDetailScreen = () => {
   return (
     <LayoutGradientBlue>
-      <HeaderComp headerTitle="Dịch vụ Quảng bá Thương hiệu" />
+      <HeaderComp headerTitle="Chương Trình Tặng Quà" />
       <ScrollView style={{ flex: 1 }}>
         <View>
           <Image
-            source={banner_service}
+            source={slide1}
             style={{ width: SCREEN_WIDTH, height: 210 }}
           />
         </View>
         <View style={styles.container}>
           <Text style={styles.subtitle}>
-            {`"Khám phá cơ hội hợp tác và quảng bá thương hiệu của bạn trên ứng
-            dụng Ong Vàng ngay hôm nay!"`}
+            {`"Tham gia ngay chương trình tặng quà đặc biệt từ ứng dụng Ong Vàng và nhận những phần quà hấp dẫn!"`}
           </Text>
           <View style={styles.divider} />
           <View style={MainStyles.flexRowFlexStart}>
@@ -48,83 +47,69 @@ const ContrubutionsDetailScreen = () => {
                 },
               ]}
             >
-              Giới thiệu Dịch vụ Quảng bá Thương hiệu trên Ứng dụng Ong Vàng
+              Giới thiệu Chương Trình Tặng Quà Ong Vàng
             </Text>
           </View>
-          <Text style={styles.paragraph}>Quý Đối tác Kính mến,</Text>
+          <Text style={styles.paragraph}>Kính gửi Quý Khách Hàng,</Text>
           <Text style={[styles.paragraph]}>
-            Chúng tôi rất vui mừng giới thiệu dịch vụ Quảng bá Thương hiệu trên
-            ứng dụng Ong Vàng – giải pháp tối ưu giúp quý đối tác doanh nghiệp
-            dễ dàng tiếp cận và kết nối với hàng ngàn người dùng của chúng tôi.
+            Chúng tôi rất vui mừng giới thiệu đến quý khách hàng chương trình
+            tặng quà đặc biệt trên ứng dụng Ong Vàng – cơ hội nhận những phần
+            quà giá trị khi sử dụng dịch vụ của chúng tôi.
           </Text>
           <View style={MainStyles.flexRowFlexStart}>
-            <Text style={styles.sectionTitle}>
-              Dịch vụ Quảng bá Thương hiệu
-            </Text>
+            <Text style={styles.sectionTitle}>Lợi Ích Của Chương Trình</Text>
           </View>
           <Text style={styles.paragraph}>
-            Tại Ong Vàng, chúng tôi cung cấp các banner quảng cáo chiến lược
-            trên ứng dụng của mình, giúp quý đối tác doanh nghiệp tăng cường sự
-            hiện diện thương hiệu và quảng bá sản phẩm, dịch vụ một cách hiệu
-            quả. Dưới đây là những lợi ích mà dịch vụ quảng bá của chúng tôi
-            mang lại:
+            Tham gia chương trình tặng quà của Ong Vàng, quý khách sẽ nhận được
+            nhiều ưu đãi đặc biệt và những phần quà giá trị khi thực hiện các
+            giao dịch trên ứng dụng. Dưới đây là những lợi ích cụ thể:
           </Text>
           <View style={styles.listItem}>
-            <Text style={styles.listItemTitle}>
-              1. Tiếp Cận Đối Tượng Khách Hàng Rộng Rãi
-            </Text>
+            <Text style={styles.listItemTitle}>1. Nhận Quà Tặng Hấp Dẫn</Text>
             <Text style={styles.paragraph}>
-              Ứng dụng Ong Vàng với hàng ngàn người dùng thường xuyên sẽ giúp
-              thương hiệu của quý đối tác được nhìn thấy bởi nhiều khách hàng
-              tiềm năng.
+              Quý khách có thể nhận được các phần quà hấp dẫn khi đạt các mốc sử
+              dụng dịch vụ nhất định trên ứng dụng Ong Vàng.
             </Text>
           </View>
           <View style={styles.listItem}>
-            <Text style={styles.listItemTitle}>2. Hiệu Quả Tương Tác Cao</Text>
+            <Text style={styles.listItemTitle}>2. Ưu Đãi Đặc Biệt</Text>
             <Text style={styles.paragraph}>
-              Banner quảng cáo được thiết kế đẹp mắt, đặt tại vị trí chiến lược
-              trên ứng dụng, thu hút sự chú ý và tương tác từ người dùng.
+              Ngoài quà tặng, quý khách còn có cơ hội nhận được các mã giảm giá
+              và ưu đãi đặc biệt từ các đối tác của Ong Vàng.
             </Text>
           </View>
           <View style={styles.listItem}>
             <Text style={styles.listItemTitle}>3. Kết Nối Trực Tiếp</Text>
             <Text style={styles.paragraph}>
-              Khách hàng có thể dễ dàng nhấp vào banner để tìm hiểu thêm về sản
-              phẩm, dịch vụ của quý đối tác, và liên hệ trực tiếp để đặt mua
-              hoặc sử dụng dịch vụ.
+              Quý khách có thể dễ dàng sử dụng các phần quà và ưu đãi trực tiếp
+              trên ứng dụng, mang lại trải nghiệm thuận tiện và nhanh chóng.
             </Text>
           </View>
           <View style={MainStyles.flexRowFlexStart}>
             <Text style={styles.sectionTitle}>
-              Đối Tác Kết Nối Cung Cấp Dịch Vụ Mua Bán Đồ Gia Dụng
+              Cách Thức Tham Gia Chương Trình
             </Text>
           </View>
           <Text style={styles.paragraph}>
-            Ngoài việc quảng bá thương hiệu, Ong Vàng còn hỗ trợ các doanh
-            nghiệp kết nối cung cấp dịch vụ mua bán đồ gia dụng. Nếu quý đối tác
-            kinh doanh các sản phẩm gia dụng và muốn mở rộng thị trường, đây là
-            cơ hội tuyệt vời để tiếp cận khách hàng thông qua nền tảng của chúng
-            tôi.
+            Để tham gia chương trình tặng quà, quý khách chỉ cần thực hiện các
+            giao dịch trên ứng dụng Ong Vàng và đạt các mốc nhất định. Hãy đảm
+            bảo rằng bạn đã cập nhật phiên bản mới nhất của ứng dụng để nhận
+            thông báo về các chương trình và sự kiện mới nhất.
           </Text>
           <View style={MainStyles.flexRowFlexStart}>
             <Text style={styles.sectionTitle}>
-              Liên Hệ Trực Tiếp Với Tổng Đài Viên
+              Liên Hệ Để Biết Thêm Chi Tiết
             </Text>
           </View>
           <Text style={styles.paragraph}>
-            Để tìm hiểu thêm chi tiết về dịch vụ và các gói quảng cáo, quý đối
-            tác vui lòng liên hệ trực tiếp với tổng đài viên của chúng tôi:
+            Nếu quý khách cần thêm thông tin về chương trình hoặc gặp bất kỳ vấn
+            đề nào, vui lòng liên hệ trực tiếp với tổng đài viên của chúng tôi:
           </Text>
           <Text style={styles.contactInfo}>Hotline: 09 222 777 82</Text>
           <Text style={styles.contactInfo}>Email: ongvangpro@gmail.com</Text>
           <Text style={styles.paragraph}>
             Tổng đài viên của chúng tôi luôn sẵn sàng hỗ trợ và tư vấn giúp quý
-            đối tác lựa chọn gói dịch vụ phù hợp nhất.
-          </Text>
-          <Text style={styles.paragraph}>
-            Chúng tôi mong muốn được hợp tác và cùng quý đối tác tạo nên những
-            chiến dịch quảng bá thành công, nâng cao giá trị thương hiệu và tăng
-            cường hiệu quả kinh doanh.
+            khách hàng.
           </Text>
           <Text style={styles.signature}>Trân trọng,</Text>
           <Text style={styles.signature}>Đội ngũ Ong Vàng</Text>
@@ -149,6 +134,7 @@ const ContrubutionsDetailScreen = () => {
     </LayoutGradientBlue>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -197,6 +183,8 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "bold",
+    // marginTop: 16,
+    // marginBottom: 8,
     color: "#FF9900",
   },
   paragraph: {
@@ -242,4 +230,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContrubutionsDetailScreen;
+export default GiftDetailScreen;

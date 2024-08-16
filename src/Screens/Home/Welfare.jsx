@@ -114,7 +114,8 @@ const Welfare = () => {
               alignItems: "center",
             }}
           >
-            <View
+            <TouchableOpacity
+              onPress={() => navi.navigate(ScreenNames.GIFT_DETAIL)}
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -153,7 +154,7 @@ const Welfare = () => {
                 Nhận vô vàn quà tặng khi tích điểm trên ứng dụng và đổi quà cùng
                 Ong Vàng !
               </Text>
-            </View>
+            </TouchableOpacity>
             <TouchableOpacity
               style={{
                 flex: 1,

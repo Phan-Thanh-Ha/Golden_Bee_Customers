@@ -28,10 +28,14 @@ const LoginForm = () => {
   const customerId = useSelector((state) => state.main.customerId);
 
   const userDefault = {
-    Address: " 17 đường số 6",
-    CustomerName: " PhanHa",
-    Id: 582,
-    Phone: "0943214791",
+    "Address": "",
+    "Avatar": "/OVG_Booking/2024/082024/16/_2024-08-16-10-24-06_1.jpg",
+    "CustomerCode": "KH-OVG-29072411082958",
+    "CustomerName": "Phan Thanh Hà",
+    "Email": "",
+    "Id": 789,
+    "Password": "MN4J4MDO/7s=",
+    "Phone": "1900561558"
   };
 
   useFocusEffect(
@@ -58,7 +62,7 @@ const LoginForm = () => {
       checkFaceIDAvailability();
       getDataService();
 
-      return () => {};
+      return () => { };
     }, [])
   );
 
@@ -78,9 +82,48 @@ const LoginForm = () => {
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
-      if (values.phoneNumber === "0943214791") {
-        mainAction.userLogin(userDefault, dispatch);
-        await setData(StorageNames.USER_PROFILE, userDefault);
+      // if (values.phoneNumber === "1900561558" && values.password === "123456") {
+      //   mainAction.userLogin(userDefault, dispatch);
+      //   await setData(StorageNames.USER_PROFILE, userDefault);
+      //   setLoginMessage("");
+      //   if (dataConfirmService) {
+      //     setLoading(false);
+      //     AlertToaster(
+      //       "success",
+      //       "Đăng nhập thành công !",
+      //       "Hoàn tất đơn dịch vụ nào !"
+      //     );
+      //     navigation.replace(ScreenNames.CONFIRM_BOOKING, {
+      //       dataConfirmService: dataConfirmService,
+      //     });
+      //   } else {
+      //     AlertToaster("success", "Đăng nhập này thành công !");
+      //     setLoading(false);
+      //     navigation.reset({
+      //       routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+      //     });
+      //   }
+      //   setLoading(false);
+      //   AlertToaster("success", "Đăng nhập thành công !");
+      //   const token = await mainAction.checkPermission(null, dispatch);
+      //   OVG_spCustomer_TokenDevice_Save(token, userDefault);
+      // } else {
+      const pr = {
+        UserName: values.phoneNumber,
+        Password: values.password,
+        GroupId: 10060,
+      };
+      const params = {
+        Json: JSON.stringify(pr),
+        func: "Shop_spCustomer_Login",
+      };
+
+      const result = await mainAction.API_spCallServer(params, dispatch);
+      if (result?.Status === "OK") {
+        mainAction.userLogin(result.Result[0], dispatch);
+        mainAction.customerId(result.Result[0]?.Id, dispatch);
+        await setData(StorageNames.USER_PROFILE, result.Result[0]);
+        await setData(StorageNames.CUSTOMER_ID, result.Result[0]?.Id);
         setLoginMessage("");
         if (dataConfirmService) {
           setLoading(false);
@@ -102,52 +145,13 @@ const LoginForm = () => {
         setLoading(false);
         AlertToaster("success", "Đăng nhập thành công !");
         const token = await mainAction.checkPermission(null, dispatch);
-        OVG_spCustomer_TokenDevice_Save(token, userDefault);
+        OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
       } else {
-        const pr = {
-          UserName: values.phoneNumber,
-          Password: values.password,
-          GroupId: 10060,
-        };
-        const params = {
-          Json: JSON.stringify(pr),
-          func: "Shop_spCustomer_Login",
-        };
-
-        const result = await mainAction.API_spCallServer(params, dispatch);
-        if (result?.Status === "OK") {
-          mainAction.userLogin(result.Result[0], dispatch);
-          mainAction.customerId(result.Result[0]?.Id, dispatch);
-          await setData(StorageNames.USER_PROFILE, result.Result[0]);
-          await setData(StorageNames.CUSTOMER_ID, result.Result[0]?.Id);
-          setLoginMessage("");
-          if (dataConfirmService) {
-            setLoading(false);
-            AlertToaster(
-              "success",
-              "Đăng nhập thành công !",
-              "Hoàn tất đơn dịch vụ nào !"
-            );
-            navigation.replace(ScreenNames.CONFIRM_BOOKING, {
-              dataConfirmService: dataConfirmService,
-            });
-          } else {
-            AlertToaster("success", "Đăng nhập này thành công !");
-            setLoading(false);
-            navigation.reset({
-              routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
-            });
-          }
-          setLoading(false);
-          AlertToaster("success", "Đăng nhập thành công !");
-          const token = await mainAction.checkPermission(null, dispatch);
-          OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
-        } else {
-          setLoginMessage(result?.Result);
-          AlertToaster("error", result?.Result);
-          setLoading(false);
-        }
+        setLoginMessage(result?.Result);
+        AlertToaster("error", result?.Result);
+        setLoading(false);
       }
+      // }
       setLoading(false);
     } catch {
       setLoading(false);

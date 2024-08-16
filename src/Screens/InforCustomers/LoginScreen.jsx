@@ -24,7 +24,6 @@ const LoginScreen = () => {
           <LoginForm />
         </KeyboardAwareScrollView>
       </LayoutGradientBlue>
-      <Footer />
     </View>
   );
 };

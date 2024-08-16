@@ -366,6 +366,36 @@ export const OVG_FBRT_ListentOrderById = (orderId, callback) => {
   return () => orderRef.off();
 };
 
+// Hàm lấy thông tin các orders dựa trên mảng orderIds
+export const OVG_FBRT_GetOrdersByIds = async (orderIds) => {
+  if (!Array.isArray(orderIds) || orderIds.length === 0) {
+    console.error("Invalid orderIds array. It should be a non-empty array.");
+    return [];
+  }
+
+  try {
+    const orderInfoPromises = orderIds.map(async (orderId) => {
+      const orderRef = database().ref(`/order/${orderId}`);
+      const snapshot = await orderRef.once("value");
+      if (snapshot.exists()) {
+        return { id: orderId, ...snapshot.val() };
+      } else {
+        console.warn(`Order with ID ${orderId} not found.`);
+        return null;
+      }
+    });
+
+    // Chờ tất cả các promises hoàn tất
+    const ordersInfo = await Promise.all(orderInfoPromises);
+
+    // Lọc ra những giá trị null (những order không tồn tại)
+    return ordersInfo.filter((order) => order !== null);
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    return [];
+  }
+};
+
 // Hàm lắng nghe danh sách đơn hàng theo CustomerId
 export const OVG_FBRT_ListentOrderByCustomerId = (customerId, callback) => {
   const myOrdersRef = databaseOrder

@@ -14,8 +14,8 @@ import { PropTypes } from "prop-types";
 
 const CardNewJob = ({
   data,
-  setStaffInformation = () => {},
-  setModalVisible = () => {},
+  setStaffInformation = () => { },
+  setModalVisible = () => { },
 }) => {
   const navi = useNavigation();
 
@@ -173,27 +173,27 @@ const CardNewJob = ({
               </View>
               {data?.DataService?.Voucher?.length > 0
                 ? data?.DataService?.Voucher.map((item) => (
-                    <View
-                      key={item?.VoucherId.toString()}
-                      style={MainStyles.flexRowFlexStart}
-                    >
-                      <Icon
-                        style={{
-                          marginLeft: SCREEN_WIDTH * 0.07,
-                          width: 20,
-                          height: 20,
-                        }}
-                        fill="#3366FF"
-                        name="plus-outline"
-                      />
-                      <Text style={[MainStyles.textCardJob]}>
-                        CODE: {item?.VoucherCode} - giảm{" "}
-                        {item?.TypeDiscount === 1
-                          ? item?.Discount + "%"
-                          : FormatMoney(item?.Discount) + " VND"}
-                      </Text>
-                    </View>
-                  ))
+                  <View
+                    key={item?.VoucherId.toString()}
+                    style={MainStyles.flexRowFlexStart}
+                  >
+                    <Icon
+                      style={{
+                        marginLeft: SCREEN_WIDTH * 0.07,
+                        width: 20,
+                        height: 20,
+                      }}
+                      fill="#3366FF"
+                      name="plus-outline"
+                    />
+                    <Text style={[MainStyles.textCardJob]}>
+                      CODE: {item?.VoucherCode} - giảm{" "}
+                      {item?.TypeDiscount === 1
+                        ? item?.Discount + "%"
+                        : FormatMoney(item?.Discount) + " VND"}
+                    </Text>
+                  </View>
+                ))
                 : null}
             </View>
           )}
@@ -246,7 +246,7 @@ const CardNewJob = ({
               navi.navigate(ScreenNames.CASH_SCREEN, { data: data });
             }}
             onConfirm2={() => {
-              setStaffInformation(data?.StaffInformation);
+              setStaffInformation(data);
               setModalVisible(true);
             }}
             bgColor2="#3366FF"
@@ -260,8 +260,8 @@ const CardNewJob = ({
 
 CardNewJob.defaultProps = {
   data: {},
-  setStaffInformation: () => {},
-  setModalVisible: () => {},
+  setStaffInformation: () => { },
+  setModalVisible: () => { },
 };
 CardNewJob.propTypes = {
   data: PropTypes.object,

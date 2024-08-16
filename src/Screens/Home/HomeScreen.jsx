@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-  Alert,
-  Platform,
-} from "react-native";
+import { View, StyleSheet, ScrollView, Text, Platform } from "react-native";
 import { colors } from "../../styles/Colors";
 import { CarouselItem } from "../../components/ImageSliderBox";
 import LinearGradient from "react-native-linear-gradient";
