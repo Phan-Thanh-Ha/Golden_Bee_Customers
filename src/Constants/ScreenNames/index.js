@@ -52,6 +52,7 @@ const ScreenNames = {
   CONTRIBUTIONS_DETAIL: "CONTRIBUTIONS_DETAIL",
   VIEW_ALL_STAFF: "VIEW_ALL_STAFF",
   GIFT_DETAIL: "GIFT_DETAIL",
+  VIEW_MY_MAP: "VIEW_MY_MAP",
 };
 
 export default ScreenNames;

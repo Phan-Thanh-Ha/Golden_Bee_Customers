@@ -44,7 +44,6 @@ const ViewStaffScreen = () => {
   const [timeOut, setTimeOut] = useState({ distance: 0, duration: 0 });
   const [clientOrder, setClientOrder] = useState({});
   const [flag, setFlag] = useState(false);
-  console.log("-----------data---------------", data);
   // Fetch order based on OrderId
   const getOrder = useCallback(() => {
     if (data?.OrderId) {

@@ -6,13 +6,14 @@ import Footer from "../../components/Footer";
 import ForgotPasswordForm from "../../components/forms/ForgotPasswordForm";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { PropTypes } from "prop-types";
+import MainStyles from "../../styles/MainStyle";
 
 const ForgotPasswordScreen = ({ navigation }) => {
   return (
     <>
       <LayoutGradientBlue>
         <KeyboardAwareScrollView
-          contentContainerStyle={styles.container}
+          contentContainerStyle={MainStyles.containerLogin}
           resetScrollToCoords={{ x: 0, y: 0 }}
           scrollEnabled={true}
           keyboardShouldPersistTaps="handled"
@@ -20,24 +21,12 @@ const ForgotPasswordScreen = ({ navigation }) => {
           extraScrollHeight={140}
           enableOnAndroid={true}
         >
-          <Text style={styles.title}>Quên mật khẩu</Text>
+          <Text style={MainStyles.pageTitle}>Quên mật khẩu</Text>
           <ForgotPasswordForm navigation={navigation} />
         </KeyboardAwareScrollView>
       </LayoutGradientBlue>
-      <Footer />
     </>
   );
 };
 
-ForgotPasswordScreen.propTypes = {
-  navigation: PropTypes.object,
-};
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: themeColors.primary,
-    textAlign: "center",
-  },
-});
 export default ForgotPasswordScreen;

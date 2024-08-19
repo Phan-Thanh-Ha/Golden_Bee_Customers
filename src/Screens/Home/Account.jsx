@@ -84,17 +84,17 @@ const Account = () => {
                 <Icon
                   style={styles.icon}
                   fill="#3366FF"
-                  name="person-outline"
+                  name="bookmark-outline"
                 />
                 <Text category="s1" style={styles.textT}>
-                  {userLogin?.CustomerCode}
+                  Mã khách hàng: {userLogin?.CustomerCode}
                 </Text>
               </View>
               <View style={styles.infoRow}>
                 <Icon
                   style={styles.icon}
                   fill="#3366FF"
-                  name="bookmark-outline"
+                  name="person-outline"
                 />
                 <Text category="s1" style={styles.textT}>
                   Tên khách hàng: {userLogin?.CustomerName}

@@ -20,14 +20,14 @@ const dataSlider = [
   {
     title: "Yêu cầu chi tiết",
     description1:
-      "Có thể bổ sung các yêu cầu chi tiết hoặc các lưu ý đặc biệt.T ùy theo nhu cầu quý khách hàng",
+      "Có thể bổ sung các yêu cầu chi tiết hoặc các lưu ý đặc biệt. Tùy theo nhu cầu quý khách hàng",
     description2: "",
     image: image_banner_3,
   },
   {
     title: "Xác nhận nhanh chóng",
     description1:
-      "Dịch vụ sẽ thông báo đến nhân viên ở khu vực gần bạn, Để đảm bảo thời gian phục vụ nhanh nhất có thể",
+      "Dịch vụ sẽ thông báo đến nhân viên ở khu vực gần bạn, để đảm bảo thời gian phục vụ nhanh nhất có thể",
     description2: "",
     image: image_banner_4,
   },

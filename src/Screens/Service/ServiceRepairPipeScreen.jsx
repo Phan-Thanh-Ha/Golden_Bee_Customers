@@ -61,7 +61,6 @@ const ServiceRepairPipeScreen = () => {
     // console.log(values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceRepairPipe(values, price, time));
-    values.premium ? setModalOpen(true) : setModalOpen(false);
   };
 
   return (

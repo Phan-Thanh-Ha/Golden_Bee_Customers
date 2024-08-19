@@ -61,7 +61,6 @@ const ServiceHouseClearningScreen = () => {
   const handleFormChange = (values) => {
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceHourseClearning(values, price, time));
-    values.premium ? setModalOpen(true) : setModalOpen(false);
   };
 
   return (

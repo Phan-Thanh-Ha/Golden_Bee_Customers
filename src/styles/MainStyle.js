@@ -8,6 +8,12 @@ const MainStyles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
+  pageTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: colors.MAIN_BLUE_CLIENT,
+    textAlign: "center",
+  },
   version: {
     marginTop: 10,
     textAlign: "center",

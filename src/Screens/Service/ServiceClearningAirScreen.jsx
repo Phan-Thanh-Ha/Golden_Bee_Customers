@@ -62,7 +62,6 @@ const ServiceClearningAirScreen = () => {
     // console.log(values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceClearningAirConditioner(values, price, time));
-    values.premium ? setModalOpen(true) : setModalOpen(false);
   };
 
   return (

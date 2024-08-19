@@ -8,6 +8,7 @@ import { ScreenNames } from "../../Constants";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
+import MainStyles from "../../styles/MainStyle";
 
 const RegisterScreen = ({ navigation }) => {
   const [submit, setSubmit] = useState(false);
@@ -22,48 +23,17 @@ const RegisterScreen = ({ navigation }) => {
     <>
       <LayoutGradientBlue>
         <KeyboardAwareScrollView
-          contentContainerStyle={styles.container}
+          contentContainerStyle={MainStyles.containerLogin}
           resetScrollToCoords={{ x: 0, y: 0 }}
           scrollEnabled={true}
           keyboardShouldPersistTaps="handled"
         >
-          <Text style={styles.title}>Đăng ký</Text>
+          <Text style={MainStyles.pageTitle}>Đăng ký</Text>
           <FormRegister setSubmit={setSubmit} navigation={navigation} />
         </KeyboardAwareScrollView>
       </LayoutGradientBlue>
-      <Footer />
     </>
   );
 };
-RegisterScreen.propTypes = {
-  navigation: PropTypes.object,
-};
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: themeColors.primary,
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  dot: {
-    width: 10,
-    height: 5,
-    borderRadius: 10,
-    margin: 2,
-    backgroundColor: colors.WHITE,
-  },
-  dotActive: {
-    backgroundColor: colors.YELLOW,
-    width: 20,
-    height: 5,
-    borderRadius: 5,
-    margin: 2,
-  },
-  pagination: {
-    flexDirection: "row",
-    marginVertical: 10,
-    justifyContent: "center",
-  },
-});
+
 export default RegisterScreen;

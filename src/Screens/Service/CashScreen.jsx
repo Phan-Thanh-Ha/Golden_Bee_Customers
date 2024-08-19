@@ -313,7 +313,10 @@ const CashScreen = ({ route }) => {
                             <TouchableOpacity
                               onPress={() => {
                                 navi.navigate(ScreenNames.VIEW_STAFF, {
-                                  data: { OrderId: item?.OrderId },
+                                  data: {
+                                    ...data,
+                                    OrderId: item?.OrderId
+                                  },
                                 });
                               }}
                             >

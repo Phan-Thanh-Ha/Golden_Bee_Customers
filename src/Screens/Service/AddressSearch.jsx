@@ -73,7 +73,6 @@ const AddressSearch = () => {
         setDataAddressSearch([]);
       }
     } catch {
-      // console.error("Lỗi khi lấy dữ liệu từ Google Places API:", error);
     }
   };
 
@@ -115,7 +114,7 @@ const AddressSearch = () => {
           });
         }}
         onLeftIconPress={() => {}}
-        onChangeText={handleChangeText} // Cập nhật state khi giá trị của input thay đổi
+        onChangeText={handleChangeText}
       />
       <ItemAddress
         data={dataAddressSearch?.length ? dataAddressSearch : oldAddressSearch}

@@ -97,9 +97,12 @@ export const BottomTabNavigator = () => {
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <Animated.View style={styles.btnCircleUp}>
-          <View style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigate(ScreenNames.VIEW_MY_MAP)}
+          >
             <Image source={logo_bee_blue} style={styles.circleIcon} />
-          </View>
+          </TouchableOpacity>
         </Animated.View>
       )}
       tabBar={renderTabBar}

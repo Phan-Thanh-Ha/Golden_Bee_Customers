@@ -61,7 +61,6 @@ const ServiceClearningOfficeScreen = () => {
   const handleFormChange = (values) => {
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceOfficeClearning(values, price, time));
-    values.premium ? setModalOpen(true) : setModalOpen(false);
   };
 
   return (

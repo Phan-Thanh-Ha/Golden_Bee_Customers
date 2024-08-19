@@ -18,6 +18,7 @@ import { PropTypes } from "prop-types";
 
 const CardJobDone = ({ data }) => {
   const navi = useNavigation();
+  const locationTime = useSelector((state) => state.main.locationTime);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const userLogin = useSelector((state) => state.main.userLogin);
   const useBeforeLocation = () => {
@@ -25,11 +26,11 @@ const CardJobDone = ({ data }) => {
     navi.navigate(getRouterById(service?.ServiceId), {
       service: {
         ...service,
-        Address: data?.AddressService,
+        Address: data?.AddressService || locationTime?.address,
         CustomerId: userLogin.Id,
         CustomerName: userLogin.CustomerName,
-        Latitude: data?.LatService,
-        Longitude: data?.LngService,
+        Latitude: data?.LatService || locationTime?.latitude,
+        Longitude: data?.LngService || locationTime?.longitude,
       },
     });
   };

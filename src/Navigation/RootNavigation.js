@@ -41,6 +41,7 @@ import ServiceCarouselDetail from "../Screens/Home/ServiceCarouselDetail";
 import ContrubutionsDetailScreen from "../Screens/Home/ContrubutionsDetailScreen";
 import ViewAllStaff from "../Screens/Service/ViewAllStaff";
 import GiftDetailScreen from "../Screens/Home/GiftDetailScreen";
+import ViewMyMap from "../Screens/Service/ViewMyMap";
 
 const MainStack = createStackNavigator();
 
@@ -176,6 +177,10 @@ const RootNavigator = () => {
         <MainStack.Screen
           name={ScreenNames.GIFT_DETAIL}
           component={GiftDetailScreen}
+        />
+        <MainStack.Screen
+          name={ScreenNames.VIEW_MY_MAP}
+          component={ViewMyMap}
         />
         <MainStack.Screen name={ScreenNames.VIEW_STAFF} component={ViewStaff} />
       </MainStack.Navigator>

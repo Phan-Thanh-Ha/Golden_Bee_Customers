@@ -32,6 +32,7 @@ const ServiceRepairInteriorScreen = () => {
   const [detailContent, setDetailContent] = useState({});
   const dispatch = useDispatch();
 
+  console.log("modalOpen----------", modalOpen);
   useEffect(() => {
     OVG_spStepContent_Service();
   }, []);
@@ -58,10 +59,8 @@ const ServiceRepairInteriorScreen = () => {
     formikSubmitRef.current?.submitForm();
   };
   const handleFormChange = (values) => {
-    // console.log(values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceRepairInterior(values, price, time));
-    values.premium ? setModalOpen(true) : setModalOpen(false);
   };
 
   return (

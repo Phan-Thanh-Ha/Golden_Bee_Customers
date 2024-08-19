@@ -38,7 +38,6 @@ const ConfirmOtpForgotPassword = ({ navigation, route }) => {
           />
         </KeyboardAwareScrollView>
       </LayoutGradientBlue>
-      <Footer />
     </>
   );
 };

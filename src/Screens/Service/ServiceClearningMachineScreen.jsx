@@ -62,7 +62,6 @@ const ServiceClearningMachineScreen = () => {
     // console.log(values);
     values.people ? setTime(workingTime / values.people) : setTime(workingTime);
     setTotalPrice(priceClearningMachine(values, price, time));
-    values.premium ? setModalOpen(true) : setModalOpen(false);
   };
 
   return (
@@ -72,7 +71,7 @@ const ServiceClearningMachineScreen = () => {
         style={{ position: "absolute", width: "100%", height: "100%" }}
       />
       <BackButton color={colors.MAIN_BLUE_CLIENT} />
-      <Text style={MainStyles.screenTitle}>Sửa chữa máy giặt</Text>
+      <Text style={MainStyles.screenTitle}>Vệ sinh máy giặt</Text>
       <ScrollView>
         <KeyboardAwareScrollView extraScrollHeight={40} enableOnAndroid>
           <FormServiceMachine

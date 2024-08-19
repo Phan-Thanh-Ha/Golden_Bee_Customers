@@ -41,7 +41,6 @@ const AuthHome = ({ navigation }) => {
         </Text>
         <BtnAuth onPress={handleRegister}>{"Đăng ký"}</BtnAuth>
       </View>
-      <Footer />
     </LayoutAbout>
   );
 };
