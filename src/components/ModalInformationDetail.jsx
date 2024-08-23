@@ -75,18 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-ModalInformationDetail.defaultProps = {
-  initialIndex: 0,
-  onChange: () => {},
-};
-
-ModalInformationDetail.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  snapPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
-  initialIndex: PropTypes.number,
-  onChange: PropTypes.func,
-  content: PropTypes.string.isRequired,
-};
-
 export default ModalInformationDetail;
