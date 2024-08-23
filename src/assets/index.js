@@ -69,7 +69,7 @@ import donnha from "./images/donnha.png";
 
 import banner_service from "./images/BannerService.png";
 
-import img_Voucher from "./Voucher/Voucher.png";
+// import img_Voucher from "./Voucher/Voucher.png";
 
 export {
   image_banner_1,
@@ -128,5 +128,5 @@ export {
   suadien,
   donnha,
   banner_service,
-  img_Voucher,
+  // img_Voucher,
 };

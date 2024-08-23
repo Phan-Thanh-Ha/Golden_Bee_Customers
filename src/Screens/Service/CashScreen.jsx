@@ -384,9 +384,9 @@ const CashScreen = ({ route }) => {
           }}
         >
           <CustomLabel color={colors.WHITE}>
-            {!data?.DataService?.IsPayment
+            {data?.DataService?.Payment
               ? "Thanh toán chuyển khoản"
-              : "Thanh toán tiền mặt"}{" "}
+              : "Thanh toán tiền mặt"}
           </CustomLabel>
         </View>
         <View

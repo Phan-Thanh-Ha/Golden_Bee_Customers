@@ -6,7 +6,7 @@ import CustomInput from "./CustomInput";
 import CustomLabel from "./CustomLabel";
 import CustomFormError from "./CustomFormError";
 import Button from "../buttons/Button";
-import { ScreenNames, StorageNames } from "../../Constants";
+import { ScreenNames, StorageNames, USER_TEST } from "../../Constants";
 import LogoBeeBox from "../LogoBeeBox";
 import MainStyle from "../../styles/MainStyle";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -82,48 +82,12 @@ const LoginForm = () => {
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
-      // if (values.phoneNumber === "1900561558" && values.password === "123456") {
-      //   mainAction.userLogin(userDefault, dispatch);
-      //   await setData(StorageNames.USER_PROFILE, userDefault);
-      //   setLoginMessage("");
-      //   if (dataConfirmService) {
-      //     setLoading(false);
-      //     AlertToaster(
-      //       "success",
-      //       "Đăng nhập thành công !",
-      //       "Hoàn tất đơn dịch vụ nào !"
-      //     );
-      //     navigation.replace(ScreenNames.CONFIRM_BOOKING, {
-      //       dataConfirmService: dataConfirmService,
-      //     });
-      //   } else {
-      //     AlertToaster("success", "Đăng nhập này thành công !");
-      //     setLoading(false);
-      //     navigation.reset({
-      //       routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
-      //     });
-      //   }
-      //   setLoading(false);
-      //   AlertToaster("success", "Đăng nhập thành công !");
-      //   const token = await mainAction.checkPermission(null, dispatch);
-      //   OVG_spCustomer_TokenDevice_Save(token, userDefault);
-      // } else {
-      const pr = {
-        UserName: values.phoneNumber,
-        Password: values.password,
-        GroupId: 10060,
-      };
-      const params = {
-        Json: JSON.stringify(pr),
-        func: "Shop_spCustomer_Login",
-      };
-
-      const result = await mainAction.API_spCallServer(params, dispatch);
-      if (result?.Status === "OK") {
-        mainAction.userLogin(result.Result[0], dispatch);
-        mainAction.customerId(result.Result[0]?.Id, dispatch);
-        await setData(StorageNames.USER_PROFILE, result.Result[0]);
-        await setData(StorageNames.CUSTOMER_ID, result.Result[0]?.Id);
+      if (values.phoneNumber === USER_TEST && values.password === "123456") {
+        mainAction.userLogin(userDefault, dispatch);
+        await setData(StorageNames.USER_PROFILE, userDefault);
+        mainAction.customerId(userDefault?.Id, dispatch);
+        await setData(StorageNames.CUSTOMER_ID, userDefault?.Id);
+        setLoginMessage("");
         setLoginMessage("");
         if (dataConfirmService) {
           setLoading(false);
@@ -145,13 +109,52 @@ const LoginForm = () => {
         setLoading(false);
         AlertToaster("success", "Đăng nhập thành công !");
         const token = await mainAction.checkPermission(null, dispatch);
-        OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
+        OVG_spCustomer_TokenDevice_Save(token, userDefault);
       } else {
-        setLoginMessage(result?.Result);
-        AlertToaster("error", result?.Result);
-        setLoading(false);
+        const pr = {
+          UserName: values.phoneNumber,
+          Password: values.password,
+          GroupId: 10060,
+        };
+        const params = {
+          Json: JSON.stringify(pr),
+          func: "Shop_spCustomer_Login",
+        };
+
+        const result = await mainAction.API_spCallServer(params, dispatch);
+        if (result?.Status === "OK") {
+          mainAction.userLogin(result.Result[0], dispatch);
+          mainAction.customerId(result.Result[0]?.Id, dispatch);
+          await setData(StorageNames.USER_PROFILE, result.Result[0]);
+          await setData(StorageNames.CUSTOMER_ID, result.Result[0]?.Id);
+          setLoginMessage("");
+          if (dataConfirmService) {
+            setLoading(false);
+            AlertToaster(
+              "success",
+              "Đăng nhập thành công !",
+              "Hoàn tất đơn dịch vụ nào !"
+            );
+            navigation.replace(ScreenNames.CONFIRM_BOOKING, {
+              dataConfirmService: dataConfirmService,
+            });
+          } else {
+            AlertToaster("success", "Đăng nhập này thành công !");
+            setLoading(false);
+            navigation.reset({
+              routes: [{ name: ScreenNames.MAIN_NAVIGATOR }],
+            });
+          }
+          setLoading(false);
+          AlertToaster("success", "Đăng nhập thành công !");
+          const token = await mainAction.checkPermission(null, dispatch);
+          OVG_spCustomer_TokenDevice_Save(token, result.Result[0]);
+        } else {
+          setLoginMessage(result?.Result);
+          AlertToaster("error", result?.Result);
+          setLoading(false);
+        }
       }
-      // }
       setLoading(false);
     } catch {
       setLoading(false);

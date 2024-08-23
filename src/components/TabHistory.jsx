@@ -42,6 +42,7 @@ const TabHistory = ({ modalJobDoneRef }) => {
     }
     setIsLoading(false);
   };
+
   const renderFooter = () => <View style={{ height: SCREEN_HEIGHT * 0.05 }} />;
   return isLoading ? (
     <ActivityIndicator size="large" color="#0000ff" />

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, Text, Alert } from "react-native";
 import { colors } from "../../styles/Colors";
 import { CarouselItem } from "../../components/ImageSliderBox";
@@ -11,10 +11,10 @@ import UserHeader from "../../components/UserHeader";
 import ServiceCarousel from "../../components/ServiceCarousel";
 import BtnDouble from "../../components/BtnDouble";
 import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
-import { ScreenNames, StorageNames } from "../../Constants";
+import { ScreenNames, StorageNames, USER_TEST } from "../../Constants";
 import { mainAction } from "../../Redux/Action";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
-import { getData, setData } from "../../Utils";
+import { getData, removeData, setData } from "../../Utils";
 import { dataNewServiceDefault, dataSliderDefault } from "../data";
 import { MenuComponent } from "./Menu/MenuComponent ";
 import AlertModalFaceId from "../../components/AlertModalFaceId";
@@ -22,6 +22,7 @@ import TouchID from "react-native-touch-id";
 import { OVG_FBRT_GEtTotalOrders } from "../../firebaseService/ListenOrder";
 import Geolocation from "@react-native-community/geolocation";
 import GetLocationTitle from "../../Utils/GetLocationTitle";
+import BlockModal from "../../components/modal/BlockModal";
 
 const HomeScreen = () => {
   const navi = useNavigation();
@@ -30,35 +31,21 @@ const HomeScreen = () => {
   const acceptedOrder = useSelector((state) => state.main.acceptedOrder);
   const customerId = useSelector((state) => state.main.customerId);
 
-  const [dataNewService, setDataNewService] = React.useState(
+  const [dataNewService, setDataNewService] = useState(
     dataNewServiceDefault
   );
 
-  const [isVisiableModalFace, setIsVisiableModalFace] = React.useState(false);
-  const [dataCarousel, setDataCarousel] = React.useState(dataSliderDefault);
+  const [isVisiableModalFace, setIsVisiableModalFace] = useState(false);
+  const [dataCarousel, setDataCarousel] = useState(dataSliderDefault);
+
+  /* Xử lý yêu cầu lấy vị tri */
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  /* end xử lý yêu cầu lấy vị trí */
 
   useEffect(() => {
-    const updateLocation = async () => {
-      try {
-        Geolocation.getCurrentPosition(
-          async (position) => {
-            if (position?.coords) {
-              const result = await GetLocationTitle(
-                position?.coords?.latitude,
-                position?.coords?.longitude
-              );
-              mainAction.locationUpdate(result, dispatch);
-            }
-          },
-          (error) => {},
-          { enableHighAccuracy: false, timeout: 20000 }
-        );
-      } catch (e) {}
-    };
-
     Shop_spWeb_Slides_List();
     Shop_spWeb_News_List();
-    // handlePendingService();
     checkFaceIDAvailability();
     updateLocation();
   }, []);
@@ -66,6 +53,31 @@ const HomeScreen = () => {
   useFocusEffect(() => {
     OVG_FBRT_GEtTotalOrdersGet();
   });
+
+  const updateLocation = async () => {
+    try {
+      Geolocation.getCurrentPosition(
+        async (position) => {
+          if (position?.coords) {
+            const result = await GetLocationTitle(
+              position?.coords?.latitude,
+              position?.coords?.longitude
+            );
+            mainAction.locationUpdate(result, dispatch);
+            setModalMessage("");
+            setModalVisible(false);
+          }
+        },
+        (error) => {
+          if (userLogin?.Phone !== USER_TEST) {
+            setModalMessage("Không thể lấy được vị trí hiện tại, vui lòng kiểm tra quyền truy cập vị trí trên thiết bị.");
+            setModalVisible(true);
+          }
+        },
+        { enableHighAccuracy: false, timeout: 20000 }
+      );
+    } catch (e) { }
+  };
 
   // Get total order
   const OVG_FBRT_GEtTotalOrdersGet = useCallback(async () => {
@@ -90,54 +102,6 @@ const HomeScreen = () => {
         // Alert.alert("Face ID is not supported", error.message);
       });
   };
-  // Save service
-  // const OVG_spService_BookingService_Save = async (pr) => {
-  //   const calling = async () => {
-  //     try {
-  //       const params = {
-  //         Json: JSON.stringify(pr),
-  //         func: "OVG_spService_BookingService_Save_V2",
-  //       };
-  //       const result = await mainAction.API_spCallServer(params, dispatch);
-  //       if (result?.Status === "OK") {
-  //         await removeData(StorageNames.SERVICE_PENDING);
-  //         return;
-  //       } else {
-  //         OVG_spService_BookingService_Save_Not_Officer(pr);
-  //         await removeData(StorageNames.SERVICE_PENDING);
-  //       }
-  //     } catch {
-  //       await removeData(StorageNames.SERVICE_PENDING);
-  //     }
-  //   };
-  //   calling();
-  // };
-
-  // const OVG_spService_BookingService_Save_Not_Officer = async (pr) => {
-  //   try {
-  //     const params = {
-  //       Json: JSON.stringify(pr),
-  //       func: "OVG_spService_BookingService_Save_Not_Officer",
-  //     };
-  //     const result = await mainAction.API_spCallServer(params, dispatch);
-  //     if (result?.Status === "OK") {
-  //       await removeData(StorageNames.SERVICE_PENDING);
-  //     }
-  //   } catch {
-  //     await removeData(StorageNames.SERVICE_PENDING);
-  //   }
-  // };
-
-  // const handlePendingService = async () => {
-  //   try {
-  //     const serviceParams = await getData(StorageNames.SERVICE_PENDING);
-  //     if (serviceParams) {
-  //       OVG_spService_BookingService_Save(serviceParams);
-  //     }
-  //   } catch {
-  //     // console.error("Error pending service:", error);
-  //   }
-  // };
 
   const Shop_spWeb_Slides_List = async () => {
     try {
@@ -170,7 +134,7 @@ const HomeScreen = () => {
       if (result.length > 0) {
         setDataNewService(result);
       }
-    } catch {}
+    } catch { }
   };
 
   const modalFaceId = async () => {
@@ -266,6 +230,14 @@ const HomeScreen = () => {
         onpressRightButton={() => {
           handleAuthentication();
         }}
+      />
+      <BlockModal
+        title={modalMessage}
+        isModalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        onConfirm={() => { }}
+        onRetry={updateLocation}
+        isConfirmable={true}
       />
     </View>
   );

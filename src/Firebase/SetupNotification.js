@@ -1,56 +1,49 @@
-import React, { useEffect, useCallback } from "react";
-import { Platform, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Button, Platform, StyleSheet, Text, View } from "react-native";
 import messaging from "@react-native-firebase/messaging";
 import PushNotification from "react-native-push-notification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import moment from "moment";
+import { useDispatch } from "react-redux";
+// import moment from "moment";
 
 export const SetupNotification = () => {
-  const parseDate = useCallback((date) => {
-    return moment(new Date(parseInt(date))).format("DD-MM-YYYY hh:mm:ss");
-  }, []);
-
+  const dispatch = useDispatch();
+  const parseDate = (date) => {
+    const newDate = new Date(parseInt(date));
+    // return moment(new Date(parseInt(date))).format("DD-MM-YYYY hh:mm:ss");
+  };
+  // const checkPermission = async () => {
+  //     const token = await notiActions.checkPermission(dispatch);
+  //     const user = await getData(StorageNames.USER_PROFILE);
+  //     const userProfile = JSON.parse(user);
+  //     if (token) {
+  //         const params = {
+  //             CustomerID: userProfile.CustomerId,
+  //             TokenDevices: token
+  //         }
+  //         await mainAction.setTokenDeives(params, dispatch)
+  //     }
+  // }
   useEffect(() => {
-    if (Platform.OS === "ios") {
-      showPermissions();
-    }
-
+    // checkPermission();
+    Platform.OS === "ios" && showPermissions();
     PushNotification.createChannel(
       {
-        channelId: "rn-push-notification-channel-id-4-default-300",
-        channelName: "My channel",
-        channelDescription: "A channel to categorise your notifications",
-        soundName: "default",
-        importance: 4,
-        vibrate: true,
+        channelId: "rn-push-notification-channel-id-4-default-300", // (required)
+        channelName: "My channel", // (required)
+        channelDescription: "A channel to categorise your notifications", // (optional) default: undefined.
+        soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
+        importance: 4, // (optional) default: 4. Int value of the Android notification importance
+        vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
       },
-      (created) => console.log(`createChannel returned '${created}'`)
+      (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
     );
-
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      // Hiển thị thông báo
-      if (Platform.OS === "android") {
-        notiAndroid(remoteMessage);
-      } else {
-        notifyiOS(remoteMessage);
-      }
+    messaging().onMessage(async (remoteMessage) => {
+      Platform.OS === "android"
+        ? notiAndroid(remoteMessage)
+        : notifyiOS(remoteMessage);
+      // countBadge();
     });
-
-    PushNotification.configure({
-      onNotification: function (notification) {
-        // Process the notification here
-        if (Platform.OS === "android") {
-          notiAndroid(notification);
-        } else {
-          notifyiOS(notification);
-        }
-
-        // Required on iOS only
-        notification.finish(PushNotificationIOS.FetchResult.NoData);
-      },
-    });
-
-    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -61,9 +54,12 @@ export const SetupNotification = () => {
         onRegistrationError
       );
       PushNotificationIOS.requestPermissions().then(
-        (data) => console.log("PushNotificationIOS.requestPermissions", data),
-        (data) =>
-          console.log("PushNotificationIOS.requestPermissions failed", data)
+        (data) => {
+          // console.log('PushNotificationIOS.requestPermissions', data);
+        },
+        (data) => {
+          // console.log('PushNotificationIOS.requestPermissions failed', data);
+        }
       );
 
       return () => {
@@ -73,62 +69,67 @@ export const SetupNotification = () => {
     }
   }, []);
 
-  const notifyiOS = useCallback(async (remoteMessage) => {
+  // ***************** iOS ***********************
+
+  const notifyiOS = async (remoteMessage) => {
     const noti = remoteMessage.notification;
-    PushNotificationIOS.addNotificationRequest({
-      id: "notificationWithSound",
-      title: noti?.title || "",
-      body: noti?.body || "",
-      badge: 1,
-    });
-    PushNotificationIOS.setApplicationIconBadgeNumber(noti?.badge || 1);
-  }, []);
+    PushNotificationIOS.addNotificationRequest(
+      {
+        id: "notificationWithSound",
+        title: noti && noti.title ? noti.title : "",
+        body: noti && noti.body ? noti.body : "",
+        badge: 1,
+      },
+      () => PushNotificationIOS.setApplicationIconBadgeNumber(noti.badge)
+    );
+  };
 
-  const onRegistered = useCallback((deviceToken) => {
-    console.log(deviceToken);
-  }, []);
+  const onRegistered = (deviceToken) => {
+    // console.log(deviceToken)
+  };
 
-  const onRegistrationError = useCallback((error) => {
-    console.log(error.message);
-  }, []);
-
-  const showPermissions = useCallback(() => {
+  const onRegistrationError = (error) => {
+    // console.log(error.message)
+  };
+  const showPermissions = () => {
     PushNotificationIOS.checkPermissions((permissions) => {
-      console.log(permissions);
+      // console.log(permissions)
     });
-  }, []);
+  };
 
-  const notiAndroid = useCallback(
-    (remoteMessage) => {
-      console.log("remoteMessage", remoteMessage);
-      const noti = remoteMessage.notification;
-      PushNotification.localNotification({
-        channelId: "rn-push-notification-channel-id-4-default-300",
-        autoCancel: true,
-        id: Date.now().toString(),
-        showWhen: true,
-        largeIconUrl: noti?.android?.imageUrl,
-        smallIcon: "ic_stat_name",
-        vibrate: true,
-        vibration: 600,
-        invokeApp: true,
-        alertAction: "view",
-        category: "",
-        userInfo: remoteMessage || {},
-        title: noti?.title || "",
-        message: noti?.body || "",
-        onlyAlertOnce: false,
-        playSound: true,
-        priority: "max",
-        soundName: "default",
-        number: 1,
-        largeIcon: "null",
-        subText: parseDate(remoteMessage.sentTime),
-        color: "#60a941",
-      });
-    },
-    [parseDate]
-  );
+  // ***************** iOS ***********************
+
+  const notiAndroid = (remoteMessage) => {
+    const noti = remoteMessage.notification;
+    PushNotification.localNotification({
+      /* Android Only Properties */
+      channelId: "rn-push-notification-channel-id-4-default-300",
+      autoCancel: true,
+      id: this.lastId,
+      showWhen: true,
+      largeIconUrl: noti.android.imageUrl,
+      smallIcon: "ic_stat_name",
+      vibrate: true,
+      vibration: 600,
+      invokeApp: true,
+      alertAction: "view",
+      category: "",
+      userInfo: remoteMessage ? remoteMessage : {},
+      title: noti && noti.title ? noti.title : "",
+      message: noti && noti.body ? noti.body : "",
+      onlyAlertOnce: false,
+      playSound: true,
+      priority: "max",
+      soundName: "notifi_sound_1",
+      number: 1,
+      largeIcon: "null",
+      subText: parseDate(remoteMessage.sentTime),
+      // bigLargeIcon: "ic_stat_name",
+      color: "#60a941",
+    });
+  };
 
   return <View />;
 };
+
+const styles = StyleSheet.create({});

@@ -122,8 +122,8 @@ const ModalEditUser = ({ isModalVisible, setModalVisible }) => {
           <View style={MainStyles.flexRowCenter}>
             <BtnGetImageModal
               setImageUrl={setAvatar}
-              btnWidth={SCREEN_WIDTH * 0.3}
-              btnHeight={SCREEN_HEIGHT * 0.18}
+              btnWidth={SCREEN_WIDTH * 0.5}
+              btnHeight={SCREEN_HEIGHT * 0.25}
               imgPreview={userLogin?.Avatar}
             />
           </View>
@@ -162,9 +162,9 @@ const ModalEditUser = ({ isModalVisible, setModalVisible }) => {
 
 ModalEditUser.defaultProps = {
   isModalVisible: false,
-  setModalVisible: () => {},
-  onConfirm1: () => {},
-  onConfirm2: () => {},
+  setModalVisible: () => { },
+  onConfirm1: () => { },
+  onConfirm2: () => { },
 };
 ModalEditUser.propTypes = {
   isModalVisible: PropTypes.bool,

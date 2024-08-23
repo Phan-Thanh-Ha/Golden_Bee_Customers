@@ -1,3 +1,23 @@
+import {
+  donnha,
+  ic_air_conditioner,
+  ic_clean_the_office,
+  ic_cleanin,
+  ic_cleaning,
+  ic_house_cleaning,
+  ic_installing,
+  ic_interior,
+  ic_repair_electricity,
+  ic_repair_the_air_conditioning,
+  ic_repair_the_camera,
+  ic_the_machine,
+  slide1,
+  slide2,
+  suadien,
+  suaongnuoc,
+} from "../../assets";
+
+
 export const ProductLike = [
   {
     id: 1,
@@ -172,6 +192,7 @@ export const checkBoxData = [
   { name: "Check 2", id: 2 },
   { name: "Check 3", id: 3 },
 ];
+
 
 export const dataSlider = [
   {
@@ -596,674 +617,674 @@ export const dataNewServiceDefault = [
 ];
 export const data = [
   {
-    ServiceId: 7,
-    ServiceCode: "DV-05062405025764",
-    ServiceName: "Giúp việc theo giờ",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [
+    "ServiceId": 7,
+    "ServiceCode": "DV-05062405025764",
+    "ServiceName": "Giúp việc theo giờ",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
       {
-        ServiceId: 7,
-        ServiceDetailName: "Mang theo dụng cụ",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 2,
+        "ServiceId": 7,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 2
       },
       {
-        ServiceId: 7,
-        ServiceDetailName: "Nấu ăn",
-        ServicePriceDetail: 60000,
-        ServiceDetailId: 3,
+        "ServiceId": 7,
+        "ServiceDetailName": "Nấu ăn",
+        "ServicePriceDetail": 60000,
+        "ServiceDetailId": 3
       },
       {
-        ServiceId: 7,
-        ServiceDetailName: "Ủi + Phơi quần áo",
-        ServicePriceDetail: 60000,
-        ServiceDetailId: 4,
+        "ServiceId": 7,
+        "ServiceDetailName": "Ủi + Phơi quần áo",
+        "ServicePriceDetail": 60000,
+        "ServiceDetailId": 4
       },
       {
-        ServiceId: 7,
-        ServiceDetailName: "Mang theo hoá chất tẩy rửa, nước lau kính",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 5,
-      },
+        "ServiceId": 7,
+        "ServiceDetailName": "Mang theo hoá chất tẩy rửa, nước lau kính",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 5
+      }
     ],
-    ServiceOption: [],
+    "ServiceOption": []
   },
   {
-    ServiceId: 8,
-    ServiceCode: "DV-06062403132645",
-    ServiceName: "Dọn dẹp buồng phòng",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [
+    "ServiceId": 8,
+    "ServiceCode": "DV-06062403132645",
+    "ServiceName": "Dọn dẹp buồng phòng",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
       {
-        ServiceId: 8,
-        ServiceDetailName: "Mang theo dụng cụ",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 6,
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 6
       },
       {
-        ServiceId: 8,
-        ServiceDetailName: "Mang theo máy hút bụi",
-        ServicePriceDetail: 60000,
-        ServiceDetailId: 7,
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo máy hút bụi",
+        "ServicePriceDetail": 60000,
+        "ServiceDetailId": 7
       },
       {
-        ServiceId: 8,
-        ServiceDetailName: "Mang theo máy trà sàn",
-        ServicePriceDetail: 90000,
-        ServiceDetailId: 8,
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo máy trà sàn",
+        "ServicePriceDetail": 90000,
+        "ServiceDetailId": 8
       },
       {
-        ServiceId: 8,
-        ServiceDetailName: "Mang theo hoá chất tẩy rửa, nước lau kính",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 9,
-      },
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo hoá chất tẩy rửa, nước lau kính",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 9
+      }
     ],
-    ServiceOption: [],
+    "ServiceOption": []
   },
   {
-    ServiceId: 9,
-    ServiceCode: "DV-11062403162006",
-    ServiceName: "Dọn dẹp văn phòng",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [
+    "ServiceId": 9,
+    "ServiceCode": "DV-11062403162006",
+    "ServiceName": "Dọn dẹp văn phòng",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
       {
-        ServiceId: 9,
-        ServiceDetailName: "Mang theo dụng cụ",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 11,
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 11
       },
       {
-        ServiceId: 9,
-        ServiceDetailName: "Mang theo máy hút bụi",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 12,
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo máy hút bụi",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 12
       },
       {
-        ServiceId: 9,
-        ServiceDetailName: "Mang theo chất tẩy rửa",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 13,
-      },
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo chất tẩy rửa",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 13
+      }
     ],
-    ServiceOption: [],
+    "ServiceOption": []
   },
   {
-    ServiceId: 10,
-    ServiceCode: "DV-11062403163572",
-    ServiceName: "Vệ sinh máy giặt",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 10,
+    "ServiceCode": "DV-11062403163572",
+    "ServiceName": "Vệ sinh máy giặt",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 10,
-        OptionName: "7 KG",
-        OptionePrice: 10000,
-        Id: 1,
+        "ServiceId": 10,
+        "OptionName": "7 KG",
+        "OptionePrice": 10000,
+        "Id": 1
       },
       {
-        ServiceId: 10,
-        OptionName: "9 Kg",
-        OptionePrice: 20000,
-        Id: 2,
+        "ServiceId": 10,
+        "OptionName": "9 Kg",
+        "OptionePrice": 20000,
+        "Id": 2
       },
       {
-        ServiceId: 10,
-        OptionName: "9Kg >",
-        OptionePrice: 30000,
-        Id: 3,
-      },
-    ],
+        "ServiceId": 10,
+        "OptionName": "9Kg >",
+        "OptionePrice": 30000,
+        "Id": 3
+      }
+    ]
   },
   {
-    ServiceId: 11,
-    ServiceCode: "DV-11062403165042",
-    ServiceName: "Vệ sinh máy lạnh",
-    ServiceTime: 3,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 11,
+    "ServiceCode": "DV-11062403165042",
+    "ServiceName": "Vệ sinh máy lạnh",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 11,
-        OptionName: "1 HP",
-        OptionePrice: 100000,
-        Id: 4,
+        "ServiceId": 11,
+        "OptionName": "1 HP",
+        "OptionePrice": 100000,
+        "Id": 4
       },
       {
-        ServiceId: 11,
-        OptionName: "2 HP",
-        OptionePrice: 200000,
-        Id: 5,
+        "ServiceId": 11,
+        "OptionName": "2 HP",
+        "OptionePrice": 200000,
+        "Id": 5
       },
       {
-        ServiceId: 11,
-        OptionName: "2 HP >",
-        OptionePrice: 300000,
-        Id: 6,
-      },
-    ],
+        "ServiceId": 11,
+        "OptionName": "2 HP >",
+        "OptionePrice": 300000,
+        "Id": 6
+      }
+    ]
   },
   {
-    ServiceId: 12,
-    ServiceCode: "DV-11062403174078",
-    ServiceName: "Sửa chữa điện",
-    ServiceTime: 4,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 12,
+    "ServiceCode": "DV-11062403174078",
+    "ServiceName": "Sửa chữa điện",
+    "ServiceTime": 4,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 12,
-        OptionName: "Thay bóng đèn",
-        OptionePrice: 150000,
-        Id: 7,
+        "ServiceId": 12,
+        "OptionName": "Thay bóng đèn",
+        "OptionePrice": 150000,
+        "Id": 7
       },
       {
-        ServiceId: 12,
-        OptionName: "Thay sabi",
-        OptionePrice: 300000,
-        Id: 8,
+        "ServiceId": 12,
+        "OptionName": "Thay sabi",
+        "OptionePrice": 300000,
+        "Id": 8
       },
       {
-        ServiceId: 12,
-        OptionName: "Thay ổ điện",
-        OptionePrice: 100000,
-        Id: 9,
+        "ServiceId": 12,
+        "OptionName": "Thay ổ điện",
+        "OptionePrice": 100000,
+        "Id": 9
       },
       {
-        ServiceId: 12,
-        OptionName: "Thay thế dụng cụ máy",
-        OptionePrice: 50000,
-        Id: 10,
+        "ServiceId": 12,
+        "OptionName": "Thay thế dụng cụ máy",
+        "OptionePrice": 50000,
+        "Id": 10
       },
       {
-        ServiceId: 12,
-        OptionName: "Đấu nối tủ điện",
-        OptionePrice: 200000,
-        Id: 11,
+        "ServiceId": 12,
+        "OptionName": "Đấu nối tủ điện",
+        "OptionePrice": 200000,
+        "Id": 11
       },
       {
-        ServiceId: 12,
-        OptionName: "Các công việc khác",
-        OptionePrice: 500000,
-        Id: 12,
-      },
-    ],
+        "ServiceId": 12,
+        "OptionName": "Các công việc khác",
+        "OptionePrice": 500000,
+        "Id": 12
+      }
+    ]
   },
   {
-    ServiceId: 13,
-    ServiceCode: "DV-11062403175030",
-    ServiceName: "Sửa chữa điện máy",
-    ServiceTime: 3,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 13,
+    "ServiceCode": "DV-11062403175030",
+    "ServiceName": "Sửa chữa điện máy",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 13,
-        OptionName: "Thay lắp ống đồng",
-        OptionePrice: 1000000,
-        Id: 13,
+        "ServiceId": 13,
+        "OptionName": "Thay lắp ống đồng",
+        "OptionePrice": 1000000,
+        "Id": 13
       },
       {
-        ServiceId: 13,
-        OptionName: "Lắp đặt máy",
-        OptionePrice: 300000,
-        Id: 14,
+        "ServiceId": 13,
+        "OptionName": "Lắp đặt máy",
+        "OptionePrice": 300000,
+        "Id": 14
       },
       {
-        ServiceId: 13,
-        OptionName: "Thay thế dụng cụ máy",
-        OptionePrice: 200000,
-        Id: 15,
+        "ServiceId": 13,
+        "OptionName": "Thay thế dụng cụ máy",
+        "OptionePrice": 200000,
+        "Id": 15
       },
       {
-        ServiceId: 13,
-        OptionName: "Sửa điện + Ống nước",
-        OptionePrice: 250000,
-        Id: 16,
-      },
-    ],
+        "ServiceId": 13,
+        "OptionName": "Sửa điện + Ống nước",
+        "OptionePrice": 250000,
+        "Id": 16
+      }
+    ]
   },
   {
-    ServiceId: 14,
-    ServiceCode: "DV-11062403180719",
-    ServiceName: "Sửa chữa nước",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 14,
+    "ServiceCode": "DV-11062403180719",
+    "ServiceName": "Sửa chữa nước",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 14,
-        OptionName: "Thay van nước",
-        OptionePrice: 400000,
-        Id: 17,
+        "ServiceId": 14,
+        "OptionName": "Thay van nước",
+        "OptionePrice": 400000,
+        "Id": 17
       },
       {
-        ServiceId: 14,
-        OptionName: "Sửa van nước",
-        OptionePrice: 100000,
-        Id: 18,
+        "ServiceId": 14,
+        "OptionName": "Sửa van nước",
+        "OptionePrice": 100000,
+        "Id": 18
       },
       {
-        ServiceId: 14,
-        OptionName: "Thay - Sửa ống nước",
-        OptionePrice: 500000,
-        Id: 19,
+        "ServiceId": 14,
+        "OptionName": "Thay - Sửa ống nước",
+        "OptionePrice": 500000,
+        "Id": 19
       },
       {
-        ServiceId: 14,
-        OptionName: "Thay vòi nước",
-        OptionePrice: 400000,
-        Id: 20,
+        "ServiceId": 14,
+        "OptionName": "Thay vòi nước",
+        "OptionePrice": 400000,
+        "Id": 20
       },
       {
-        ServiceId: 14,
-        OptionName: "Thay đồng hồ điện",
-        OptionePrice: 300000,
-        Id: 21,
-      },
-    ],
+        "ServiceId": 14,
+        "OptionName": "Thay đồng hồ điện",
+        "OptionePrice": 300000,
+        "Id": 21
+      }
+    ]
   },
   {
-    ServiceId: 15,
-    ServiceCode: "DV-11062403182499",
-    ServiceName: "Sửa chữa camera",
-    ServiceTime: 3,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 15,
+    "ServiceCode": "DV-11062403182499",
+    "ServiceName": "Sửa chữa camera",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 15,
-        OptionName: "Thay ổ cứng",
-        OptionePrice: 100000,
-        Id: 22,
+        "ServiceId": 15,
+        "OptionName": "Thay ổ cứng",
+        "OptionePrice": 100000,
+        "Id": 22
       },
       {
-        ServiceId: 15,
-        OptionName: "Thay cam mới",
-        OptionePrice: 300000,
-        Id: 23,
+        "ServiceId": 15,
+        "OptionName": "Thay cam mới",
+        "OptionePrice": 300000,
+        "Id": 23
       },
       {
-        ServiceId: 15,
-        OptionName: "Đi lại dây camera",
-        OptionePrice: 1000000,
-        Id: 24,
+        "ServiceId": 15,
+        "OptionName": "Đi lại dây camera",
+        "OptionePrice": 1000000,
+        "Id": 24
       },
       {
-        ServiceId: 15,
-        OptionName: "Cài lại phần mềm",
-        OptionePrice: 500000,
-        Id: 25,
-      },
-    ],
+        "ServiceId": 15,
+        "OptionName": "Cài lại phần mềm",
+        "OptionePrice": 500000,
+        "Id": 25
+      }
+    ]
   },
   {
-    ServiceId: 16,
-    ServiceCode: "DV-11062403183245",
-    ServiceName: "Sửa chữa nội thất",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 16,
+    "ServiceCode": "DV-11062403183245",
+    "ServiceName": "Sửa chữa nội thất",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 16,
-        OptionName: "Sửa chửa lắp đặt",
-        OptionePrice: 200000,
-        Id: 26,
+        "ServiceId": 16,
+        "OptionName": "Sửa chửa lắp đặt",
+        "OptionePrice": 200000,
+        "Id": 26
       },
       {
-        ServiceId: 16,
-        OptionName: "Sửa tủ áo",
-        OptionePrice: 50000,
-        Id: 27,
+        "ServiceId": 16,
+        "OptionName": "Sửa tủ áo",
+        "OptionePrice": 50000,
+        "Id": 27
       },
       {
-        ServiceId: 16,
-        OptionName: "Sửa giường",
-        OptionePrice: 500000,
-        Id: 28,
-      },
-    ],
-  },
-];
+        "ServiceId": 16,
+        "OptionName": "Sửa giường",
+        "OptionePrice": 500000,
+        "Id": 28
+      }
+    ]
+  }
+]
 
 export const dataMenu = [
   {
-    ServiceId: 7,
-    ServiceCode: "DV-05062405025764",
-    ServiceName: "Giúp việc theo giờ",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [
+    "ServiceId": 7,
+    "ServiceCode": "DV-05062405025764",
+    "ServiceName": "Giúp việc theo giờ",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
       {
-        ServiceId: 7,
-        ServiceDetailName: "Mang theo dụng cụ",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 2,
+        "ServiceId": 7,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 2
       },
       {
-        ServiceId: 7,
-        ServiceDetailName: "Nấu ăn",
-        ServicePriceDetail: 60000,
-        ServiceDetailId: 3,
+        "ServiceId": 7,
+        "ServiceDetailName": "Nấu ăn",
+        "ServicePriceDetail": 60000,
+        "ServiceDetailId": 3
       },
       {
-        ServiceId: 7,
-        ServiceDetailName: "Ủi + Phơi quần áo",
-        ServicePriceDetail: 60000,
-        ServiceDetailId: 4,
+        "ServiceId": 7,
+        "ServiceDetailName": "Ủi + Phơi quần áo",
+        "ServicePriceDetail": 60000,
+        "ServiceDetailId": 4
       },
       {
-        ServiceId: 7,
-        ServiceDetailName: "Mang theo hoá chất tẩy rửa, nước lau kính",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 5,
-      },
+        "ServiceId": 7,
+        "ServiceDetailName": "Mang theo hoá chất tẩy rửa, nước lau kính",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 5
+      }
     ],
-    ServiceOption: [],
+    "ServiceOption": []
   },
   {
-    ServiceId: 8,
-    ServiceCode: "DV-06062403132645",
-    ServiceName: "Dọn dẹp buồng phòng",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [
+    "ServiceId": 8,
+    "ServiceCode": "DV-06062403132645",
+    "ServiceName": "Dọn dẹp buồng phòng",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
       {
-        ServiceId: 8,
-        ServiceDetailName: "Mang theo dụng cụ",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 6,
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 6
       },
       {
-        ServiceId: 8,
-        ServiceDetailName: "Mang theo máy hút bụi",
-        ServicePriceDetail: 60000,
-        ServiceDetailId: 7,
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo máy hút bụi",
+        "ServicePriceDetail": 60000,
+        "ServiceDetailId": 7
       },
       {
-        ServiceId: 8,
-        ServiceDetailName: "Mang theo máy trà sàn",
-        ServicePriceDetail: 90000,
-        ServiceDetailId: 8,
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo máy trà sàn",
+        "ServicePriceDetail": 90000,
+        "ServiceDetailId": 8
       },
       {
-        ServiceId: 8,
-        ServiceDetailName: "Mang theo hoá chất tẩy rửa, nước lau kính",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 9,
-      },
+        "ServiceId": 8,
+        "ServiceDetailName": "Mang theo hoá chất tẩy rửa, nước lau kính",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 9
+      }
     ],
-    ServiceOption: [],
+    "ServiceOption": []
   },
   {
-    ServiceId: 9,
-    ServiceCode: "DV-11062403162006",
-    ServiceName: "Dọn dẹp văn phòng",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [
+    "ServiceId": 9,
+    "ServiceCode": "DV-11062403162006",
+    "ServiceName": "Dọn dẹp văn phòng",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [
       {
-        ServiceId: 9,
-        ServiceDetailName: "Mang theo dụng cụ",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 11,
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo dụng cụ",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 11
       },
       {
-        ServiceId: 9,
-        ServiceDetailName: "Mang theo máy hút bụi",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 12,
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo máy hút bụi",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 12
       },
       {
-        ServiceId: 9,
-        ServiceDetailName: "Mang theo chất tẩy rửa",
-        ServicePriceDetail: 30000,
-        ServiceDetailId: 13,
-      },
+        "ServiceId": 9,
+        "ServiceDetailName": "Mang theo chất tẩy rửa",
+        "ServicePriceDetail": 30000,
+        "ServiceDetailId": 13
+      }
     ],
-    ServiceOption: [],
+    "ServiceOption": []
   },
   {
-    ServiceId: 10,
-    ServiceCode: "DV-11062403163572",
-    ServiceName: "Vệ sinh máy giặt",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 10,
+    "ServiceCode": "DV-11062403163572",
+    "ServiceName": "Vệ sinh máy giặt",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 10,
-        OptionName: "7 KG",
-        OptionePrice: 10000,
-        Id: 1,
+        "ServiceId": 10,
+        "OptionName": "7 KG",
+        "OptionePrice": 10000,
+        "Id": 1
       },
       {
-        ServiceId: 10,
-        OptionName: "9 Kg",
-        OptionePrice: 20000,
-        Id: 2,
+        "ServiceId": 10,
+        "OptionName": "9 Kg",
+        "OptionePrice": 20000,
+        "Id": 2
       },
       {
-        ServiceId: 10,
-        OptionName: "9Kg >",
-        OptionePrice: 30000,
-        Id: 3,
-      },
-    ],
+        "ServiceId": 10,
+        "OptionName": "9Kg >",
+        "OptionePrice": 30000,
+        "Id": 3
+      }
+    ]
   },
   {
-    ServiceId: 11,
-    ServiceCode: "DV-11062403165042",
-    ServiceName: "Vệ sinh máy lạnh",
-    ServiceTime: 3,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 11,
+    "ServiceCode": "DV-11062403165042",
+    "ServiceName": "Vệ sinh máy lạnh",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 11,
-        OptionName: "1 HP",
-        OptionePrice: 100000,
-        Id: 4,
+        "ServiceId": 11,
+        "OptionName": "1 HP",
+        "OptionePrice": 100000,
+        "Id": 4
       },
       {
-        ServiceId: 11,
-        OptionName: "2 HP",
-        OptionePrice: 200000,
-        Id: 5,
+        "ServiceId": 11,
+        "OptionName": "2 HP",
+        "OptionePrice": 200000,
+        "Id": 5
       },
       {
-        ServiceId: 11,
-        OptionName: "2 HP >",
-        OptionePrice: 300000,
-        Id: 6,
-      },
-    ],
+        "ServiceId": 11,
+        "OptionName": "2 HP >",
+        "OptionePrice": 300000,
+        "Id": 6
+      }
+    ]
   },
   {
-    ServiceId: 12,
-    ServiceCode: "DV-11062403174078",
-    ServiceName: "Sửa chữa điện",
-    ServiceTime: 4,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 12,
+    "ServiceCode": "DV-11062403174078",
+    "ServiceName": "Sửa chữa điện",
+    "ServiceTime": 4,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 12,
-        OptionName: "Thay bóng đèn",
-        OptionePrice: 150000,
-        Id: 7,
+        "ServiceId": 12,
+        "OptionName": "Thay bóng đèn",
+        "OptionePrice": 150000,
+        "Id": 7
       },
       {
-        ServiceId: 12,
-        OptionName: "Thay sabi",
-        OptionePrice: 300000,
-        Id: 8,
+        "ServiceId": 12,
+        "OptionName": "Thay sabi",
+        "OptionePrice": 300000,
+        "Id": 8
       },
       {
-        ServiceId: 12,
-        OptionName: "Thay ổ điện",
-        OptionePrice: 100000,
-        Id: 9,
+        "ServiceId": 12,
+        "OptionName": "Thay ổ điện",
+        "OptionePrice": 100000,
+        "Id": 9
       },
       {
-        ServiceId: 12,
-        OptionName: "Thay thế dụng cụ máy",
-        OptionePrice: 50000,
-        Id: 10,
+        "ServiceId": 12,
+        "OptionName": "Thay thế dụng cụ máy",
+        "OptionePrice": 50000,
+        "Id": 10
       },
       {
-        ServiceId: 12,
-        OptionName: "Đấu nối tủ điện",
-        OptionePrice: 200000,
-        Id: 11,
+        "ServiceId": 12,
+        "OptionName": "Đấu nối tủ điện",
+        "OptionePrice": 200000,
+        "Id": 11
       },
       {
-        ServiceId: 12,
-        OptionName: "Các công việc khác",
-        OptionePrice: 500000,
-        Id: 12,
-      },
-    ],
+        "ServiceId": 12,
+        "OptionName": "Các công việc khác",
+        "OptionePrice": 500000,
+        "Id": 12
+      }
+    ]
   },
   {
-    ServiceId: 13,
-    ServiceCode: "DV-11062403175030",
-    ServiceName: "Sửa chữa điện máy",
-    ServiceTime: 3,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 13,
+    "ServiceCode": "DV-11062403175030",
+    "ServiceName": "Sửa chữa điện máy",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 13,
-        OptionName: "Thay lắp ống đồng",
-        OptionePrice: 1000000,
-        Id: 13,
+        "ServiceId": 13,
+        "OptionName": "Thay lắp ống đồng",
+        "OptionePrice": 1000000,
+        "Id": 13
       },
       {
-        ServiceId: 13,
-        OptionName: "Lắp đặt máy",
-        OptionePrice: 300000,
-        Id: 14,
+        "ServiceId": 13,
+        "OptionName": "Lắp đặt máy",
+        "OptionePrice": 300000,
+        "Id": 14
       },
       {
-        ServiceId: 13,
-        OptionName: "Thay thế dụng cụ máy",
-        OptionePrice: 200000,
-        Id: 15,
+        "ServiceId": 13,
+        "OptionName": "Thay thế dụng cụ máy",
+        "OptionePrice": 200000,
+        "Id": 15
       },
       {
-        ServiceId: 13,
-        OptionName: "Sửa điện + Ống nước",
-        OptionePrice: 250000,
-        Id: 16,
-      },
-    ],
+        "ServiceId": 13,
+        "OptionName": "Sửa điện + Ống nước",
+        "OptionePrice": 250000,
+        "Id": 16
+      }
+    ]
   },
   {
-    ServiceId: 14,
-    ServiceCode: "DV-11062403180719",
-    ServiceName: "Sửa chữa nước",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 14,
+    "ServiceCode": "DV-11062403180719",
+    "ServiceName": "Sửa chữa nước",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 14,
-        OptionName: "Thay van nước",
-        OptionePrice: 400000,
-        Id: 17,
+        "ServiceId": 14,
+        "OptionName": "Thay van nước",
+        "OptionePrice": 400000,
+        "Id": 17
       },
       {
-        ServiceId: 14,
-        OptionName: "Sửa van nước",
-        OptionePrice: 100000,
-        Id: 18,
+        "ServiceId": 14,
+        "OptionName": "Sửa van nước",
+        "OptionePrice": 100000,
+        "Id": 18
       },
       {
-        ServiceId: 14,
-        OptionName: "Thay - Sửa ống nước",
-        OptionePrice: 500000,
-        Id: 19,
+        "ServiceId": 14,
+        "OptionName": "Thay - Sửa ống nước",
+        "OptionePrice": 500000,
+        "Id": 19
       },
       {
-        ServiceId: 14,
-        OptionName: "Thay vòi nước",
-        OptionePrice: 400000,
-        Id: 20,
+        "ServiceId": 14,
+        "OptionName": "Thay vòi nước",
+        "OptionePrice": 400000,
+        "Id": 20
       },
       {
-        ServiceId: 14,
-        OptionName: "Thay đồng hồ điện",
-        OptionePrice: 300000,
-        Id: 21,
-      },
-    ],
+        "ServiceId": 14,
+        "OptionName": "Thay đồng hồ điện",
+        "OptionePrice": 300000,
+        "Id": 21
+      }
+    ]
   },
   {
-    ServiceId: 15,
-    ServiceCode: "DV-11062403182499",
-    ServiceName: "Sửa chữa camera",
-    ServiceTime: 3,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 15,
+    "ServiceCode": "DV-11062403182499",
+    "ServiceName": "Sửa chữa camera",
+    "ServiceTime": 3,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 15,
-        OptionName: "Thay ổ cứng",
-        OptionePrice: 100000,
-        Id: 22,
+        "ServiceId": 15,
+        "OptionName": "Thay ổ cứng",
+        "OptionePrice": 100000,
+        "Id": 22
       },
       {
-        ServiceId: 15,
-        OptionName: "Thay cam mới",
-        OptionePrice: 300000,
-        Id: 23,
+        "ServiceId": 15,
+        "OptionName": "Thay cam mới",
+        "OptionePrice": 300000,
+        "Id": 23
       },
       {
-        ServiceId: 15,
-        OptionName: "Đi lại dây camera",
-        OptionePrice: 1000000,
-        Id: 24,
+        "ServiceId": 15,
+        "OptionName": "Đi lại dây camera",
+        "OptionePrice": 1000000,
+        "Id": 24
       },
       {
-        ServiceId: 15,
-        OptionName: "Cài lại phần mềm",
-        OptionePrice: 500000,
-        Id: 25,
-      },
-    ],
+        "ServiceId": 15,
+        "OptionName": "Cài lại phần mềm",
+        "OptionePrice": 500000,
+        "Id": 25
+      }
+    ]
   },
   {
-    ServiceId: 16,
-    ServiceCode: "DV-11062403183245",
-    ServiceName: "Sửa chữa nội thất",
-    ServiceTime: 2,
-    ServicePrice: 100000,
-    Detail: [],
-    ServiceOption: [
+    "ServiceId": 16,
+    "ServiceCode": "DV-11062403183245",
+    "ServiceName": "Sửa chữa nội thất",
+    "ServiceTime": 2,
+    "ServicePrice": 100000,
+    "Detail": [],
+    "ServiceOption": [
       {
-        ServiceId: 16,
-        OptionName: "Sửa chửa lắp đặt",
-        OptionePrice: 200000,
-        Id: 26,
+        "ServiceId": 16,
+        "OptionName": "Sửa chữa lắp đặt",
+        "OptionePrice": 200000,
+        "Id": 26
       },
       {
-        ServiceId: 16,
-        OptionName: "Sửa tủ áo",
-        OptionePrice: 50000,
-        Id: 27,
+        "ServiceId": 16,
+        "OptionName": "Sửa tủ áo",
+        "OptionePrice": 50000,
+        "Id": 27
       },
       {
-        ServiceId: 16,
-        OptionName: "Sửa giường",
-        OptionePrice: 500000,
-        Id: 28,
-      },
-    ],
-  },
-];
+        "ServiceId": 16,
+        "OptionName": "Sửa giường",
+        "OptionePrice": 500000,
+        "Id": 28
+      }
+    ]
+  }
+]

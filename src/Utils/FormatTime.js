@@ -32,10 +32,26 @@ export const FormatDateJsonPro = (date, type = 0) => {
   let d = new Date(date),
     month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),
+    dayNumber = "" + d.getUTCDay(),
     year = d.getFullYear(),
     h = d.getHours() - 7,
     m = d.getMinutes(),
     s = d.getSeconds();
+
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
   if (month.toString().length < 2) month = "0" + month;
   if (day.toString().length < 2) day = "0" + day;
@@ -149,6 +165,31 @@ export const parseTimeSql = (time, type) => {
   }
 };
 
+export const FormatDate = (datetime) => {
+  try {
+    // Chuyển chuỗi thời gian thành đối tượng Date mà không thay đổi múi giờ
+    const date = new Date(datetime);
+
+    // Kiểm tra xem đối tượng Date có hợp lệ không
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid date format");
+    }
+
+    // Lấy các phần của ngày và giờ theo giờ UTC để đảm bảo chính xác
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const year = date.getUTCFullYear();
+
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  } catch (error) {
+    console.error("Error converting date:", error.message);
+    return datetime;
+  }
+};
+
 export const FormatDateJson = (date, key = 0) => {
   if (date === undefined) {
     let data = "";
@@ -173,8 +214,7 @@ export const FormatDateJson = (date, key = 0) => {
   // 5 Lấy ngày/tháng/năm
   // 6 Lấy ngày/tháng
 
-  if (key === 0)
-    return [month, day, year].join("/") + " " + [h, m, s].join(":");
+  if (key === 0) return [month, day, year].join("/") + " " + [h, m].join(":");
   else if (key === 2) return [year, month].join("-");
   else if (key === 3)
     return [day, month, year].join("/") + " " + [h, m].join(":");

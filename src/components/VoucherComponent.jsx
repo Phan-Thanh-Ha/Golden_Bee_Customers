@@ -6,14 +6,12 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
-  Image,
 } from "react-native";
 import Modal from "react-native-modal";
 import { colors } from "../styles/Colors";
 import MainStyles, { SCREEN_WIDTH } from "../styles/MainStyle";
-import { parseTimeSql } from "../Utils";
 import { PropTypes } from "prop-types";
-import { ic_gift } from "../assets";
+import { FormatMoney } from "../Utils";
 
 const VoucherComponent = ({
   vouchers,
@@ -59,12 +57,6 @@ const VoucherComponent = ({
         disabled={isDisabled}
       >
         <View style={[MainStyles.flexRowFlexStart, { alignItems: "center" }]}>
-          {/* <Image
-            source={ic_gift}
-            width={30}
-            height={30}
-            marginRight={10}
-          /> */}
           <Text
             style={{
               marginRight: 10,
@@ -78,7 +70,7 @@ const VoucherComponent = ({
             <Text style={styles.voucherDiscount}>
               Giảm{" "}
               {item?.TypeDiscount === 2
-                ? `${item?.Discount} VND`
+                ? `${FormatMoney(item?.Discount || 0)} VND`
                 : `${item?.Discount}%`}
             </Text>
           </View>
@@ -219,7 +211,7 @@ const styles = StyleSheet.create({
   },
   voucherCode: {
     fontSize: 14,
-    color: "#555",
+    color: colors.BLACK,
   },
   voucherDiscount: {
     fontSize: 14,
@@ -243,7 +235,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   selectedVoucher: {
-    backgroundColor: "#fffacd", // Màu vàng nhạt
+    backgroundColor: "#fffacddd", // Màu vàng nhạt
     borderColor: "#ffd700", // Màu vàng
   },
   disabledVoucher: {

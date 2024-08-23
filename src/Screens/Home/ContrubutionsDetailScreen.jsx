@@ -197,6 +197,8 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "bold",
+    // marginTop: 16,
+    // marginBottom: 8,
     color: "#FF9900",
   },
   paragraph: {

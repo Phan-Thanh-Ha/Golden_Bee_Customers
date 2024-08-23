@@ -35,6 +35,7 @@ const ServiceRepairAirScreen = () => {
   useEffect(() => {
     OVG_spStepContent_Service();
   }, []);
+  console.log("service-------------", service);
   const OVG_spStepContent_Service = async () => {
     try {
       const pr = {

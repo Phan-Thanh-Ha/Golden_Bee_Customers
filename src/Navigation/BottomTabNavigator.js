@@ -16,9 +16,14 @@ import Welfare from "../Screens/Home/Welfare";
 import Account from "../Screens/Home/Account";
 import { colors } from "../styles/Colors";
 import { Icon } from "@ui-kitten/components";
-import { ScreenNames } from "../Constants";
+import { ScreenNames, StorageNames, USER_TEST } from "../Constants";
+import { getData } from "../Utils";
 
 export const BottomTabNavigator = () => {
+  const handleMainIconPress = async (navigate) => {
+    const user = await getData(StorageNames.USER_PROFILE);
+    if (user.Phone === USER_TEST) navigate(ScreenNames.VIEW_MY_MAP);
+  };
   const _renderIcon = (routeName, selectedTab) => {
     let iconName = "";
     let displayName = "";
@@ -99,7 +104,7 @@ export const BottomTabNavigator = () => {
         <Animated.View style={styles.btnCircleUp}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate(ScreenNames.VIEW_MY_MAP)}
+            onPress={async () => handleMainIconPress(navigate)}
           >
             <Image source={logo_bee_blue} style={styles.circleIcon} />
           </TouchableOpacity>

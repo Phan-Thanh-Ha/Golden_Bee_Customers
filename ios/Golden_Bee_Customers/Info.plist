@@ -38,21 +38,21 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>App muốn truy cập vào Camera của bạn , chụp ảnh, quay video và thay đổi hình đại diện.</string>
+	<string>Ong Vàng muốn truy cập vào Camera của bạn , chụp ảnh, quay video và thay đổi hình đại diện.</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>App requires Face ID cho phép bạn truy cập nhanh chóng và an toàn vào tài khoản của mình.</string>
+	<string>Ong Vàng requires Face ID cho phép bạn truy cập nhanh chóng và an toàn vào tài khoản của mình.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App muốn sử dụng vị trí của bạn để cung cấp dịch vụ tốt nhất.</string>
+	<string>Ong Vàng muốn sử dụng vị trí của bạn để cung cấp dịch vụ tốt nhất .</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>App muốn sử dụng vị trí của bạn để cung cấp dịch vụ tốt nhất.</string>
+	<string>Ong Vàng muốn sử dụng vị trí của bạn để cung cấp dịch vụ tốt nhất.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App sử dụng vị trí hiện tại của bạn sẽ được hiển thị trên bản đồ và hiển thị vị trí của bạn chính xác hơn.</string>
+	<string>Ong Vàng sử dụng vị trí hiện tại của bạn sẽ được hiển thị trên bản đồ và hiển thị vị trí của bạn chính xác hơn để giúp bạn đặt dịch vụ đúng vị trí hơn.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>App yêu cầu truy cập vào micro để bạn có thể sử dụng giọng nói của mình để tìm kiếm.</string>
+	<string>Ong Vàng yêu cầu truy cập vào micro để bạn có thể sử dụng giọng nói của mình để tìm kiếm.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App muốn truy cập Album của bạn để thực hiện chức năng thay đổi avatar.</string>
+	<string>Ong Vàng muốn truy cập Album của bạn để thực hiện chức năng thay đổi avatar.</string>
 	<key>NSUserNotificationUsageDescription</key>
-	<string>App muốn gửi thông báo để bạn không bỏ lỡ thông tin quan trọng.</string>
+	<string>Ong Vàng muốn gửi thông báo để bạn không bỏ lỡ thông tin quan trọng.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

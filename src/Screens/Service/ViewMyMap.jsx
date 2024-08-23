@@ -8,12 +8,9 @@ import {
   Text,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { CardLocation } from "../../components";
-import MainStyles, {
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-} from "../../styles/MainStyle";
+import MainStyles, { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../styles/MainStyle";
 import { colors } from "../../styles/Colors";
 import { pin_outline } from "../../assets";
 import Box from "../../components/Box";
@@ -44,7 +41,7 @@ const ViewMyMap = () => {
   const [region1, setRegion1] = useState({
     latitude: locationTime?.latitude || 0,
     longitude: locationTime?.longitude || 0,
-    address: locationTime.address,
+    address: locationTime.address
   });
 
   useEffect(() => {
@@ -67,10 +64,7 @@ const ViewMyMap = () => {
   const onRegionChangeComplete = async (newRegion) => {
     if (move) setMove(false);
     // lấy tên địa chỉ từ lat long nhận được
-    const locationTitle = await GetLocationTitle(
-      newRegion.latitude,
-      newRegion.longitude
-    );
+    const locationTitle = await GetLocationTitle(newRegion.latitude, newRegion.longitude);
     setRegion1(locationTitle);
   };
 
@@ -103,12 +97,15 @@ const ViewMyMap = () => {
     <SafeAreaView style={styles.container}>
       <BackButton color={colors.BLACK} />
       <View style={styles.fixedCenter}>
-        <Loading source={pin_outline} style={{ width: 64, height: 64 }} />
+        <Loading
+          source={pin_outline}
+          style={{ width: 64, height: 64 }}
+        />
       </View>
       <ScrollView>
         <View>
           <MapView
-            ref={mapRef} // ref điều khiển map
+            ref={mapRef}  // ref điều khiển map
             style={styles.map}
             region={region}
             onRegionChange={onRegionChangeStart}
@@ -137,7 +134,9 @@ const ViewMyMap = () => {
           </MapView>
           {/* Nút đưa màn hình focus về vị trí hiện tại */}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={goToCurrentLocation}>
+            <TouchableOpacity
+              onPress={goToCurrentLocation}
+            >
               <View style={styles.buttonNowLocation}>
                 <Icon
                   style={styles.icon}
@@ -150,12 +149,7 @@ const ViewMyMap = () => {
           </View>
         </View>
         <View style={MainStyles.flexRowCenter}>
-          <Text
-            style={[
-              MainStyles.titleCardJob,
-              { textAlign: "center", marginVertical: 10 },
-            ]}
-          >
+          <Text style={[MainStyles.titleCardJob, { textAlign: "center", marginVertical: 10 }]}>
             Xem vị trí
           </Text>
         </View>
@@ -186,14 +180,14 @@ const ViewMyMap = () => {
 
 const styles = StyleSheet.create({
   buttonNowLocation: {
-    backgroundColor: "rgba(51, 102, 255, 0.2)",
+    backgroundColor: 'rgba(51, 102, 255, 0.2)',
     padding: 10,
     borderRadius: 50,
   },
   fixedCenter: {
     position: "absolute",
-    top: "37%",
-    left: "50%",
+    top: '37%',
+    left: '50%',
     transform: [{ translateX: -50 }, { translateY: -50 }],
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -245,9 +239,9 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: "rgba(51, 102, 255, 0.2)",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: 'rgba(51, 102, 255, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   icon: {
     width: 24,
