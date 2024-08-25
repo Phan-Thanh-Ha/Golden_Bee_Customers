@@ -28,24 +28,13 @@ const ServiceCarouselDetail = () => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   };
 
-  const handleBooking = () => {
-    if (article?.ServiceId) {
-      const service = dataMenu.find((item) => item?.ServiceId === article?.ServiceId);
-      navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-        service: service,
-      });
-    } else {
-      const service = dataMenu.find((item) => item?.ServiceId === 7);
-      navi.navigate(ScreenNames.ADDRESS_SEARCH, {
-        service: service,
-      });
-    }
-  }
-
   return (
     <LayoutGradientBlue>
       <HeaderComp headerTitle={article?.NewsTitleEn} />
-      <ScrollView style={{ flex: 1, padding: 10, backgroundColor: colors.WHITE }} ref={scrollViewRef}>
+      <ScrollView
+        style={{ flex: 1, padding: 10, backgroundColor: colors.WHITE }}
+        ref={scrollViewRef}
+      >
         <RenderHTML
           contentWidth={SCREEN_WIDTH}
           source={{ html: article?.NewsContentEn }}
@@ -55,7 +44,9 @@ const ServiceCarouselDetail = () => {
           dataNewService={dataNewServiceDefault}
           onItemPress={(item) => {
             scrollToTop();
-            navi.navigate(ScreenNames.SERVICE_CAROUSEL_DETAIL, { article: item });
+            navi.navigate(ScreenNames.SERVICE_CAROUSEL_DETAIL, {
+              article: item,
+            });
           }}
         />
         <Box height={SCREEN_HEIGHT * 0.07} />
@@ -89,7 +80,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     paddingLeft: 8,
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },

@@ -5,7 +5,6 @@ import Header from "../../components/Header";
 import { colors } from "../../styles/Colors";
 import FormActiveAccount from "../../components/forms/FormActiveAccount";
 import { useEffect, useState } from "react";
-import Footer from "../../components/Footer";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { ScreenNames } from "../../Constants";
 import { PropTypes } from "prop-types";

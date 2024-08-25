@@ -1,11 +1,8 @@
-import { StyleSheet, Text } from "react-native";
+import { Text } from "react-native";
 import React from "react";
 import LayoutGradientBlue from "../../components/layouts/LayoutGradientBlue";
-import { themeColors } from "../../styles/Colors";
-import Footer from "../../components/Footer";
 import ForgotPasswordForm from "../../components/forms/ForgotPasswordForm";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
-import { PropTypes } from "prop-types";
 import MainStyles from "../../styles/MainStyle";
 
 const ForgotPasswordScreen = ({ navigation }) => {

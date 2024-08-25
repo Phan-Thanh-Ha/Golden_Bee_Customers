@@ -4,7 +4,6 @@ import LogoBee from "../../components/LogoBee";
 import { Text, View } from "react-native";
 import BtnAuth from "../../components/auth/BtnAuth";
 import { colors } from "../../styles/Colors";
-import Footer from "../../components/Footer";
 import { ScreenNames } from "../../Constants";
 import Box from "../../components/Box";
 import { PropTypes } from "prop-types";

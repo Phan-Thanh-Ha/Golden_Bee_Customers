@@ -73,6 +73,7 @@ const AddressSearch = () => {
         setDataAddressSearch([]);
       }
     } catch {
+      //
     }
   };
 
@@ -113,7 +114,7 @@ const AddressSearch = () => {
             },
           });
         }}
-        onLeftIconPress={() => { }}
+        onLeftIconPress={() => {}}
         onChangeText={handleChangeText}
       />
       <ItemAddress
