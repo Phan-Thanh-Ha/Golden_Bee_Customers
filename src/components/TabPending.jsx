@@ -9,18 +9,22 @@ import { GenerateStatusOrder } from "../Utils/GenerateStatusOrder";
 import { ScrollView } from "react-native-gesture-handler";
 import Box from "./Box";
 import { useNavigation } from "@react-navigation/native";
-import { ScreenNames } from "../Constants";
+import { ScreenNames, USER_TEST } from "../Constants";
+import { useSelector } from "react-redux";
+import { dataPendingDefault } from "../Screens/data";
 
 const TabPending = ({ dataPending = [] }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [StaffInformation, setStaffInformation] = useState(null);
   const navi = useNavigation();
+  const userLogin = useSelector((state) => state.main.userLogin);
+
   return (
     <View style={{ flex: 1 }}>
       {dataPending?.length > 0 ? (
         <FlatList
           style={MainStyles.mdBottom_flatList}
-          data={dataPending}
+          data={userLogin?.Phone === USER_TEST ? dataPendingDefault : dataPending}
           renderItem={({ item }) => (
             <CardNewJob data={item} setModalVisible={setModalVisible} setStaffInformation={setStaffInformation} />
           )}

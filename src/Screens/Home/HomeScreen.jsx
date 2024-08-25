@@ -14,7 +14,7 @@ import { SCREEN_WIDTH } from "@gorhom/bottom-sheet";
 import { ScreenNames, StorageNames, USER_TEST } from "../../Constants";
 import { mainAction } from "../../Redux/Action";
 import LayoutBottom from "../../components/layouts/LayoutBottom";
-import { getData, removeData, setData } from "../../Utils";
+import { getData, setData } from "../../Utils";
 import { dataNewServiceDefault, dataSliderDefault } from "../data";
 import { MenuComponent } from "./Menu/MenuComponent ";
 import AlertModalFaceId from "../../components/AlertModalFaceId";
@@ -31,9 +31,7 @@ const HomeScreen = () => {
   const acceptedOrder = useSelector((state) => state.main.acceptedOrder);
   const customerId = useSelector((state) => state.main.customerId);
 
-  const [dataNewService, setDataNewService] = useState(
-    dataNewServiceDefault
-  );
+  const [dataNewService, setDataNewService] = useState(dataNewServiceDefault);
 
   const [isVisiableModalFace, setIsVisiableModalFace] = useState(false);
   const [dataCarousel, setDataCarousel] = useState(dataSliderDefault);
@@ -68,15 +66,19 @@ const HomeScreen = () => {
             setModalVisible(false);
           }
         },
-        (error) => {
+        () => {
           if (userLogin?.Phone !== USER_TEST) {
-            setModalMessage("Không thể lấy được vị trí hiện tại, vui lòng kiểm tra quyền truy cập vị trí trên thiết bị.");
+            setModalMessage(
+              "Không thể lấy được vị trí hiện tại, vui lòng kiểm tra quyền truy cập vị trí trên thiết bị."
+            );
             setModalVisible(true);
           }
         },
         { enableHighAccuracy: false, timeout: 20000 }
       );
-    } catch (e) { }
+    } catch {
+      //
+    }
   };
 
   // Get total order
@@ -98,7 +100,7 @@ const HomeScreen = () => {
             : setIsVisiableModalFace(false);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         // Alert.alert("Face ID is not supported", error.message);
       });
   };
@@ -134,7 +136,9 @@ const HomeScreen = () => {
       if (result.length > 0) {
         setDataNewService(result);
       }
-    } catch { }
+    } catch {
+      //
+    }
   };
 
   const modalFaceId = async () => {
@@ -235,9 +239,8 @@ const HomeScreen = () => {
         title={modalMessage}
         isModalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        onConfirm={() => { }}
         onRetry={updateLocation}
-        isConfirmable={true}
+        isCheckLocation={true}
       />
     </View>
   );

@@ -1288,3 +1288,5 @@ export const dataMenu = [
     ]
   }
 ]
+
+export const dataPendingDefault = [{ "BookingCode": "OGV15082400068", "BookingId": 699, "ClientId": 789, "CreateAt": "2024-08-20 22:45:09", "DataService": { "Address": "75/78 B Đ.Lê Văn Lương, Tân Kiểng, Quận 7, Hồ Chí Minh, Vietnam", "BookingCode": "OGV15082400068", "BookingId": 699, "CustomerId": 789, "CustomerName": "Phan Thanh Hà", "CustomerPhone": "0977500553", "GroupUserId": 10060, "IsPremium": 0, "NoteBooking": "", "Payment": 0, "PriceAfterDiscount": 100000, "RoomTotal": 0, "ServiceCode": "DV-15082400068", "ServiceId": 15, "ServiceName": "Giúp việc theo giờ", "StaffTotal": 1, "TimeWorking": 2, "TotalStaff": 1 }, "LatitudeCustomer": 10.796343373132842, "LongitudeCustomer": 106.60784678533673, "StaffInformation": [[Object]] }]
